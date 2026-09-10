@@ -1,0 +1,62 @@
+---
+title: "Che cosa sta succedendo a OSF"
+---
+
+Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del
+*workflow* di OSF Projects. In pratica OSF smette di funzionare come spazio di
+collaborazione, archivio dati e gestione file.
+
+- **16 novembre 2026** — non è più possibile creare nuovi progetti né nuovi
+  componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.
+  
+- **19 febbraio 2027** — tutti i progetti, pubblici e privati, diventano di
+  **sola lettura**: non si possono più aggiungere, modificare o aggiornare contenuti.
+  
+- **In futuro** (data non annunciata) — COS prevede di **rimuovere i progetti
+  privati**, con almeno 12 mesi di preavviso.
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6 .panel-si}
+**Che cosa NON cambia**
+
+- **OSF Registrations** continua a funzionare
+- **OSF Preprints** (quindi PsyArXiv) continua a funzionare
+- DOI e link ai progetti
+- I progetti pubblici restano visibili, citabili e scaricabili
+- La ricerca interna al sito resta attiva
+:::
+::: {.g-col-12 .g-col-md-6 .panel-no}
+**Che cosa cambia**
+
+- Niente più **caricamento e aggiornamento file**
+- Niente più OSF come **spazio di lavoro condiviso** del gruppo
+- Niente più nuovi progetti dal 16/11/2026
+- I **progetti privati** non sono un posto sicuro dove lasciare l'unica copia dei dati
+:::
+:::
+
+
+<br/>
+
+## OSF a parte...
+
+::: {.callout-important title="Esercizio 1" collapse="true"}
+## Scambiatevi le cartelle
+
+Condivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell'ultimo lavoro che avete pubblicato (non condividete l'articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti?
+
+Poi provate a rispondere a 3 domande:
+
+**1.** **Quanti partecipanti** ci sono?
+
+**2.** Cosa rappresenta **una riga** del file di dati? 
+
+**3.** Prendete due colonne, una che pensiate essere la **DV** e una che potrebbe essere la **IV**: cosa contengono esattamente?
+:::
+
+
+
+
+
+
+

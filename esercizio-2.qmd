@@ -1,0 +1,225 @@
+---
+title: "Esercizio 2 — Psych-DS"
+subtitle: "Uno standard per i dati psicologici, come BIDS"
+---
+
+## Tre regole minime
+
+Un dataset Psych-DS valido richiede solo questo:
+
+1. **Una cartella `data/`** nella radice del progetto, che contiene i file di dati in CSV.
+2. **Un file `dataset_description.json`** nella radice, con esattamente questo
+   nome, accanto a `data/` e non dentro.
+3. **I file di dati nominati a coppie chiave-valore**, con suffisso `_data.csv`.
+
+
+### Il nome dei file
+
+
+::: {.filename-template}
+[chiave1]{.k}[-]{.sep}[valore1]{.v}[_]{.sep}[chiave2]{.k}[-]{.sep}[valore2]{.v}[_]{.sep}[suffisso]{.s}[.estensione]{.e}
+[Il trattino lega una chiave al suo valore; l'underscore separa le coppie fra loro
+e dal suffisso finale.]{.cap}
+:::
+
+In Psych-DS il suffisso è sempre `data` e l'estensione sempre `.csv`, quindi ogni
+file di dati finisce per `_data.csv`. Le coppie che stanno prima le scegliete voi:
+servono a dire *di chi* e *di cosa* sono quei dati.
+
+::: {.filename-template}
+[study]{.k}[-]{.sep}[stroop]{.v}[_]{.sep}[subject]{.k}[-]{.sep}[01]{.v}[_]{.sep}[data]{.s}[.csv]{.e}
+[Lo stesso schema, riempito: studio "stroop", partecipante 01.]{.cap}
+:::
+
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6 .panel-si}
+**Validi**
+
+```
+study-stroop_subject-01_data.csv
+participant-001_session-1_data.csv
+version-alltrials_participant-001_data.csv
+study-ZebraQuestionnaire_data.csv
+```
+:::
+::: {.g-col-12 .g-col-md-6 .panel-no}
+**Non validi**
+
+```
+participant-summary.csv
+  manca il suffisso _data.csv
+
+year2024_data.csv
+  manca il trattino fra chiave e valore
+
+participant_001_data.csv
+  underscore al posto del trattino
+
+Subject-01_data.csv
+  la chiave deve essere minuscola
+```
+:::
+:::
+
+
+### Il file dei metadati
+
+`dataset_description.json` usa il vocabolario di
+[schema.org](https://schema.org/Dataset), lo stesso che i motori di ricerca leggono
+per indicizzare i dataset. Nella versione minima servono tre campi:
+
+``` json
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Dataset title",
+  "description": "Description, of any length.",
+  "variableMeasured": ["participant_id", "trial", "condition", "rt_ms"]
+}
+```
+
+::: {.callout-tip title="Il punto interessante"}
+`variableMeasured` deve elencare **esattamente** tutti i nomi di colonna che
+compaiono nei **vostri** CSV. 
+
+È il data dictionary dell'esercizio 1, ma dentro i metadati e verificabile
+automaticamente. La documentazione smette di essere un file che si scrive alla fine
+e diventa qualcosa che **non può andare fuori sincrono con i dati**.
+:::
+
+## L'esempio da cui partire
+
+Nei materiali trovate un dataset minimo ma completo: due partecipanti, dodici prove
+ciascuno, compito Stroop.
+
+```
+stroop-attention/
+├── dataset_description.json          obbligatorio, questo nome esatto
+├── README.md
+├── LICENSE
+├── data/                             obbligatoria
+│   ├── study-stroop_subject-01_data.csv
+│   ├── study-stroop_subject-02_data.csv
+│   └── raw/                          export originali, ignorati dal validator
+│       └── subject-01_eprime_export.txt
+└── analysis/
+    └── 01_stroop_effect.R
+```
+
+- [dataset_description.json](materiali/esercizio-2/stroop-attention/dataset_description.json)
+- [un file di dati](materiali/esercizio-2/stroop-attention/data/study-stroop_subject-01_data.csv)
+- [tutto in materiali.zip](materiali.zip)
+
+La cartella `data/raw/` serve a conservare gli export originali nei formati
+prodotti dai software di acquisizione (`.txt`, `.edat3`, `.sav`, `.mat`): il
+validator ne ignora il contenuto.
+
+## Il validator
+
+**[psych-ds.github.io/validator](https://psych-ds.github.io/validator/)** — si
+trascina la cartella e si legge il verdetto.
+
+Va selezionata la **cartella radice** del progetto (`stroop-attention/`), non la
+sottocartella `data/`. 
+
+
+## Da fare
+
+Il punto di questo esercizio è che **non ricominciate da zero**: prendete il
+progetto che avete appena documentato e gli date una forma che anche una macchina
+sa leggere.
+
+::: {.callout-important title="Sul vostro progetto, in tre mosse"}
+1. **Sistemate la struttura.** Create una cartella `data/` nella radice e
+   metteteci dentro il file di dati. Rinominatelo secondo lo schema
+   chiave-valore: `study-qualcosa_data.csv`, o
+   `study-qualcosa_subject-01_data.csv` se avete un file per partecipante.
+2. **Scrivete `dataset_description.json`** nella radice, accanto a `data/` e non
+   dentro. Titolo, descrizione, e l'elenco esatto di tutti i nomi di colonna.
+3. **Validate.** Trascinate la cartella radice sul
+   [validator](https://psych-ds.github.io/validator/) e sistemate quello che
+   segnala, un errore per volta.
+:::
+
+
+### Se preferite fare pratica prima
+
+Sull'esempio già pronto, in cinque minuti:
+
+- **Validatelo.** Scaricate `stroop-attention/` e passatela al validator: deve
+  risultare valida.
+- **Rompetelo apposta** e guardate cosa dice. Rinominate un file in
+  `subject01_data.csv`; aggiungete una colonna a un CSV senza dichiararla in
+  `variableMeasured`; spostate `dataset_description.json` dentro `data/`.
+  Rimettete a posto una cosa per volta: capire i messaggi di errore è metà del
+  lavoro.
+
+### Un passo in più: la descrizione delle variabili
+
+Nella forma minima `variableMeasured` è un elenco di nomi. Schema.org permette però
+di sostituire ogni stringa con un oggetto `PropertyValue`, e a quel punto il data
+dictionary vero e proprio entra nei metadati:
+
+``` json
+"variableMeasured": [
+  {
+    "@type": "PropertyValue",
+    "name": "rt_ms",
+    "description": "Reaction time from stimulus onset to response",
+    "unitText": "milliseconds",
+    "minValue": 200,
+    "maxValue": 3000
+  },
+  {
+    "@type": "PropertyValue",
+    "name": "condition",
+    "description": "Congruency between word and ink colour",
+    "value": "congruent | incongruent"
+  }
+]
+```
+
+## Errori tipici
+
+| Sintomo | Causa |
+|:--|:--|
+| "No dataset_description.json found" | Il file è dentro `data/`, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un `.txt` nascosto in coda |
+| Un file di dati non viene riconosciuto | Il nome non segue lo schema chiave-valore, o manca il suffisso `_data.csv` |
+| "Column not found in variableMeasured" | Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti) |
+| Il JSON non viene letto | Virgola di troppo prima di una parentesi graffa |
+| Le colonne non corrispondono fra file diversi | `variableMeasured` deve contenere l'unione dei nomi di colonna di **tutti** i CSV |
+
+## Quando conviene, e quando no
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6 .panel-si}
+**Ha senso**
+
+- Dati sperimentali per singola prova, con molti partecipanti e file simili fra loro
+- Studi multi-sito o longitudinali, dove la struttura si ripete
+- Laboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti
+- Quando si prevede che i dati confluiscano in meta-analisi
+:::
+::: {.g-col-12 .g-col-md-6 .panel-no}
+**Non è la priorità**
+
+- Un dataset unico, piccolo, molto particolare
+- Dati di neuroimaging: usate **BIDS**, che è lo standard di quel campo
+- Interviste qualitative, materiali eterogenei, video
+- Quando non avete ancora un README e un data dictionary: **quelli vengono prima**
+:::
+:::
+
+::: {.callout-tip title="L'ordine delle priorità"}
+Un dataset con README e data dictionary ben fatti, ma senza standard, è
+**largamente più utile** di un dataset formalmente conforme a Psych-DS e privo di
+documentazione. 
+:::
+
+### E per il neuroimaging: BIDS
+
+Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è
+[BIDS](https://bids.neuroimaging.io/): molto più prescrittivo, 
+([validator](https://bids-standard.github.io/bids-validator/), BIDS Apps, fMRIPrep).
+Depositando su OpenNeuro è di fatto obbligatorio. 

@@ -1,0 +1,13 @@
+participant_id,trial,condition,word,ink_color,response,correct,rt_ms
+sub-02,1,congruent,BLUE,blue,blue,1,655
+sub-02,2,incongruent,RED,blue,blue,1,743
+sub-02,3,congruent,GREEN,green,green,1,638
+sub-02,4,incongruent,BLUE,green,blue,0,902
+sub-02,5,congruent,RED,red,red,1,621
+sub-02,6,incongruent,GREEN,red,red,1,759
+sub-02,7,congruent,BLUE,blue,blue,1,644
+sub-02,8,incongruent,RED,green,green,1,781
+sub-02,9,congruent,GREEN,green,green,1,610
+sub-02,10,incongruent,BLUE,red,red,1,768
+sub-02,11,congruent,RED,red,red,1,633
+sub-02,12,incongruent,GREEN,blue,blue,1,795

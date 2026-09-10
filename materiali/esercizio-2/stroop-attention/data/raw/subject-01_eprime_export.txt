@@ -1,0 +1,22 @@
+*** Header Start ***
+Experiment: StroopTraining_v2
+SessionDate: 09-05-2026
+Subject: 1
+Session: 1
+*** Header End ***
+
+Level: 3
+*** LogFrame Start ***
+Procedure: TrialProc
+Word: ROSSO
+InkColor: rosso
+Congruency: congruent
+Stimulus.RESP: rosso
+Stimulus.ACC: 1
+Stimulus.RT: 612
+*** LogFrame End ***
+
+NOTA: file di esempio. In data/raw/ si mettono gli export originali nei formati
+prodotti dai software di acquisizione (.txt, .edat3, .sav, .mat, .json...).
+Il validator Psych-DS ignora il contenuto di questa cartella: serve a conservare
+la fonte da cui derivano i CSV, non a essere letta dalle macchine.

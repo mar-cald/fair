@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Stroop effect and attentional training: trial-level data",
+  "description": "Teaching dataset, fictional, built for the seminar 'Hands-on Open Science' (University of Padua, 23 September 2026). Trial-level data from a colour Stroop task administered to adult participants assigned to an experimental group (four weeks of attentional training) or a control group. One row per trial. The data do not come from a real study and must not be used for scientific purposes.",
+  "variableMeasured": [
+    "participant_id",
+    "trial",
+    "condition",
+    "word",
+    "ink_color",
+    "response",
+    "correct",
+    "rt_ms"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Anna Rossi",
+      "identifier": "https://orcid.org/0000-0000-0000-0000",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Dipartimento di Psicologia Generale, Universita di Padova"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Luca Bianchi",
+      "identifier": "https://orcid.org/0000-0000-0000-0001"
+    }
+  ],
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "keywords": [
+    "Stroop effect",
+    "selective attention",
+    "cognitive control",
+    "teaching dataset"
+  ],
+  "datePublished": "2026-09-20",
+  "temporalCoverage": "2026-09-05/2026-09-17",
+  "spatialCoverage": "Padova, Italia",
+  "measurementTechnique": "Colour Stroop task, computerised, presented with E-Prime 3.0",
+  "citation": "Rossi, A., & Bianchi, L. (2026). Stroop effect and attentional training: trial-level data [Data set].",
+  "creativeWorkStatus": "Teaching dataset, fictional data"
+}

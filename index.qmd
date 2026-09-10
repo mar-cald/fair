@@ -1,0 +1,10 @@
+---
+title: "Strumenti per la gestione FAIR dei dati"
+subtitle: "Hands-on Open Science"
+author: "Margherita Calderan & Claude"
+---
+
+
+
+
+

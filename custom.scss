@@ -1,0 +1,337 @@
+/*-- scss:defaults --*/
+
+// ===========================================================================
+//  Aspetto del sito. Per cambiare tutto basta agire su questi cinque colori.
+// ===========================================================================
+$accento:    #8f1f27;   // rosso Unipd: link e pochi accenti, usato con parsimonia
+$inchiostro: #1b1a18;   // testo
+$attenuato:  #6d6862;   // testo secondario, didascalie
+$riga:       #e4dfd7;   // filetti e bordi
+$fondo:      #fdfcfa;   // sfondo della pagina
+
+$body-bg:      $fondo;
+$body-color:   $inchiostro;
+$primary:      $accento;
+$link-color:   $accento;
+$border-color: $riga;
+
+// --- Tipografia: titoli con grazie, testo senza. Nessun font da scaricare. --
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         Helvetica, Arial, sans-serif;
+$headings-font-family:   "Iowan Old Style", "Palatino Linotype", Palatino,
+                         Georgia, "Times New Roman", serif;
+$font-size-root:     16px;
+$line-height-base:   1.68;
+$headings-font-weight: 600;
+$h1-font-size: 2.05rem;
+$h2-font-size: 1.45rem;
+$h3-font-size: 1.12rem;
+$h4-font-size: 1rem;
+
+$code-bg:   #f4f2ee;
+$code-color: $inchiostro;
+
+$navbar-bg: #ffffff;
+$navbar-light-color:        $attenuato;
+$navbar-light-hover-color:  $inchiostro;
+$navbar-light-active-color: $accento;
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+//  Ritmo verticale: pochi valori, sempre gli stessi.
+// ---------------------------------------------------------------------------
+p, ul, ol      { margin-bottom: 1.15rem; }
+li             { margin-bottom: .35rem; }
+li > p         { margin-bottom: .5rem; }
+main           { padding-bottom: 4rem; }
+
+h1, h2, h3     { letter-spacing: -.005em; }
+h1             { margin-bottom: .35rem; line-height: 1.2; }
+h2 {
+  margin-top: 3.2rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: .45rem;
+  border-bottom: 1px solid $riga;
+}
+h3             { margin-top: 2.2rem; margin-bottom: .6rem; }
+h2 + h3        { margin-top: 1.4rem; }
+
+// Intestazione della pagina: titolo, sottotitolo, un filetto e via.
+#title-block-header {
+  margin-bottom: 2.4rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $riga;
+}
+#title-block-header .subtitle {
+  font-family: $headings-font-family;
+  font-style: italic;
+  font-size: 1.12rem;
+  color: $attenuato;
+  margin-top: .5rem;
+}
+#title-block-header .quarto-title-meta { display: none; }
+
+// ---------------------------------------------------------------------------
+//  Link: sottolineatura sottile, staccata dal testo.
+// ---------------------------------------------------------------------------
+a                { text-decoration-thickness: .5px; text-underline-offset: .18em; }
+a:hover          { text-decoration-thickness: 1.5px; }
+h1 a, h2 a, h3 a { text-decoration: none; }
+
+// ---------------------------------------------------------------------------
+//  Barra di navigazione
+// ---------------------------------------------------------------------------
+.navbar {
+  border-bottom: 1px solid $riga;
+  padding-top: .55rem;
+  padding-bottom: .55rem;
+  box-shadow: none;
+}
+.navbar-brand {
+  font-family: $headings-font-family;
+  font-weight: 600;
+  font-size: 1.06rem;
+  letter-spacing: -.01em;
+}
+.navbar .nav-link {
+  font-size: .89rem;
+  padding-left: .75rem !important;
+  padding-right: .75rem !important;
+}
+.navbar .nav-link.active { font-weight: 600; }
+.dropdown-menu {
+  border: 1px solid $riga;
+  border-radius: 5px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  font-size: .89rem;
+  padding: .35rem;
+}
+.dropdown-item { border-radius: 4px; padding: .4rem .7rem; }
+.dropdown-item:hover { background: $code-bg; }
+.dropdown-item.active { background: #f6eeee; color: $accento; font-weight: 600; }
+
+// ---------------------------------------------------------------------------
+//  Tabelle: filetti orizzontali, nessuna gabbia. Stile da manuale accademico.
+// ---------------------------------------------------------------------------
+table, .table {
+  --bs-table-bg: transparent;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: .91rem;
+}
+table thead tr {
+  border-top: 1.5px solid #45413b;
+  border-bottom: 1px solid $riga;
+}
+table thead th {
+  font-family: $headings-font-family;
+  font-weight: 600;
+  background: transparent;
+  vertical-align: bottom;
+}
+table tbody tr        { border-bottom: 1px solid #efebe4; }
+table tbody tr:last-child { border-bottom: 1.5px solid #45413b; }
+.table > :not(caption) > * > * {
+  padding: .62rem .8rem;
+  vertical-align: top;
+  border-bottom-width: 0;
+  box-shadow: none;
+  background: transparent;
+}
+table td > p:last-child, table th > p:last-child { margin-bottom: 0; }
+
+// ---------------------------------------------------------------------------
+//  Riquadri: piatti, un filetto colorato a sinistra, niente icone.
+// ---------------------------------------------------------------------------
+.callout {
+  border: 1px solid $riga;
+  border-left-width: 3px;
+  border-radius: 5px;
+  background: #fff;
+  margin: 1.7rem 0;
+}
+.callout .callout-icon-container { display: none !important; }
+.callout .callout-header {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  padding: .85rem 1.15rem .1rem 1.15rem;
+  font-family: $headings-font-family;
+  font-weight: 600;
+  font-size: 1.02rem;
+  opacity: 1;
+}
+.callout .callout-body-container { padding: .35rem 1.15rem 1.05rem 1.15rem; }
+.callout .callout-body > :last-child { margin-bottom: 0; }
+.callout .callout-body { font-size: .96rem; }
+
+.callout-note      { border-left-color: #2c5f86; }
+.callout-tip       { border-left-color: #2b6b45; }
+.callout-warning   { border-left-color: #8a6212; }
+.callout-important { border-left-color: $accento; }
+.callout-note      .callout-title-container { color: #2c5f86; }
+.callout-tip       .callout-title-container { color: #2b6b45; }
+.callout-warning   .callout-title-container { color: #8a6212; }
+.callout-important .callout-title-container { color: $accento; }
+.callout .callout-btn-toggle { color: $attenuato; }
+
+// ---------------------------------------------------------------------------
+//  Schede affiancate e pannelli di confronto: stessa scatola, stessa altezza.
+// ---------------------------------------------------------------------------
+.grid { row-gap: 1rem; }
+.scheda, .panel-si, .panel-no {
+  border: 1px solid $riga;
+  border-radius: 5px;
+  background: #fff;
+  padding: 1.05rem 1.2rem;
+  height: 100%;
+  font-size: .95rem;
+}
+.panel-si { border-left: 3px solid #2b6b45; }
+.panel-no { border-left: 3px solid $accento; }
+.scheda > p:first-child,
+.panel-si > p:first-child,
+.panel-no > p:first-child {
+  font-family: $headings-font-family;
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin-bottom: .5rem;
+}
+.panel-si > p:first-child { color: #2b6b45; }
+.panel-no > p:first-child { color: $accento; }
+.scheda > :last-child,
+.panel-si > :last-child,
+.panel-no > :last-child { margin-bottom: 0; }
+.scheda ul, .panel-si ul, .panel-no ul { padding-left: 1.1rem; margin-bottom: 0; }
+.panel-si pre, .panel-no pre, .scheda pre { margin-bottom: 0; }
+
+// ---------------------------------------------------------------------------
+//  Codice
+// ---------------------------------------------------------------------------
+div.sourceCode, pre {
+  background: $code-bg;
+  border: 1px solid $riga;
+  border-radius: 5px;
+  margin: 1.3rem 0;
+}
+pre {
+  padding: .9rem 1.1rem;
+  font-size: .845rem;
+  line-height: 1.6;
+}
+div.sourceCode pre { border: 0; margin: 0; background: transparent; }
+code:not(pre code) {
+  background: $code-bg;
+  padding: .12em .38em;
+  border-radius: 3px;
+  font-size: .875em;
+  color: $inchiostro;
+}
+.code-copy-button { color: $attenuato; }
+
+// ---------------------------------------------------------------------------
+//  Elenchi con caselle da spuntare
+// ---------------------------------------------------------------------------
+ul.task-list { padding-left: 1.35rem; }
+ul.task-list li { margin-bottom: .45rem; }
+ul.task-list input[type=checkbox] {
+  accent-color: $accento;
+  margin-right: .5rem;
+  transform: translateY(1px);
+}
+
+// ---------------------------------------------------------------------------
+//  Schema del nome file: rosso = quello che scegliete voi, grigio = fisso.
+// ---------------------------------------------------------------------------
+.filename-template {
+  border: 1px solid $riga;
+  border-radius: 5px;
+  background: #fff;
+  padding: 1.3rem 1rem 1.1rem;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.filename-template .k   { color: $accento;    font-weight: 600; }
+.filename-template .v   { color: $inchiostro; font-weight: 600; }
+.filename-template .s,
+.filename-template .e,
+.filename-template .sep { color: $attenuato;  font-weight: 400; }
+.filename-template .cap {
+  display: block;
+  margin-top: .75rem;
+  font-family: $font-family-sans-serif;
+  font-size: .8rem;
+  color: $attenuato;
+  white-space: normal;
+}
+
+// ---------------------------------------------------------------------------
+//  Indice laterale e piede
+// ---------------------------------------------------------------------------
+#quarto-margin-sidebar { font-size: .84rem; }
+nav[role=doc-toc] > h2, .sidebar nav[role=doc-toc] > h2 {
+  font-family: $font-family-sans-serif;
+  font-size: .74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: $attenuato;
+  border: 0;
+  margin-bottom: .6rem;
+}
+nav[role=doc-toc] ul > li > a { color: $attenuato; padding: .18rem 0 .18rem .6rem; }
+nav[role=doc-toc] ul > li > a:hover { color: $inchiostro; }
+nav[role=doc-toc] ul > li > a.active {
+  color: $accento;
+  border-left: 2px solid $accento;
+  font-weight: 600;
+}
+.nav-footer {
+  border-top: 1px solid $riga;
+  margin-top: 3rem;
+  padding: 1.4rem 0;
+  font-size: .84rem;
+  color: $attenuato;
+}
+.nav-footer a { color: $attenuato; }
+
+// ---------------------------------------------------------------------------
+//  Stampa
+// ---------------------------------------------------------------------------
+@media print {
+  .navbar, #quarto-margin-sidebar, .nav-footer, .code-copy-button { display: none !important; }
+  body { font-size: 10.5pt; }
+  .callout, .scheda, .panel-si, .panel-no, pre, table { break-inside: avoid; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .75em; color: #666; }
+}
+
+// ---------------------------------------------------------------------------
+//  Correzioni di specificita': queste regole devono battere quelle di Bootstrap
+//  e di Quarto, che altrimenti vincono perche' piu' specifiche.
+// ---------------------------------------------------------------------------
+
+// I titoli usano il serif: senza questo restano nel font del corpo.
+h1, h2, h3, h4, h5, h6,
+#title-block-header .subtitle,
+.navbar-brand,
+.callout .callout-header,
+.scheda > p:first-child,
+.panel-si > p:first-child,
+.panel-no > p:first-child,
+table thead th {
+  font-family: $headings-font-family;
+}
+
+// Riquadri: filetto sottile nel colore del tipo, non i 5px accesi di Bootstrap.
+div.callout.callout-style-default,
+div.callout.callout-style-simple      { border-left-width: 3px; }
+div.callout-note.callout              { border-left-color: #2c5f86; }
+div.callout-tip.callout               { border-left-color: #2b6b45; }
+div.callout-warning.callout           { border-left-color: #8a6212; }
+div.callout-important.callout         { border-left-color: $accento; }
+div.callout-caution.callout           { border-left-color: #8a6212; }

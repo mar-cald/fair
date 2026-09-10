@@ -1,0 +1,128 @@
+---
+title: "Licenze"
+subtitle: "Dati, codice e materiali hanno bisogno di licenze diverse"
+---
+
+Senza licenza, tutto quello che avete depositato è tecnicamente
+inutilizzabile.
+
+## Tre famiglie diverse, tre licenze diverse
+
+L'errore più comune è applicare una licenza sola a tutto il progetto. Dati, codice
+e testi sono oggetti giuridici differenti e chiedono strumenti differenti.
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-4 .scheda}
+**Dati**
+
+Creative Commons, preferibilmente **CC0** o **CC BY**.
+:::
+::: {.g-col-12 .g-col-md-4 .scheda}
+**Codice**
+
+Licenze software: **MIT**, **Apache-2.0**, **GPL-3.0**.
+:::
+::: {.g-col-12 .g-col-md-4 .scheda}
+**Testi e materiali**
+
+Creative Commons, di solito **CC BY**. Attenzione ai diritti di terzi.
+:::
+:::
+
+## Le licenze Creative Commons
+
+| Licenza | Che cosa consente | Uso consigliato |
+|:--|:--|:--|
+| **CC0 1.0** <br><small>rinuncia al diritto d'autore</small> | Tutto, senza obblighi legali.  | **Consigliata per i dati.** Richiesta obbligatoriamente da Dryad e raccomandata da molti repository. |
+| **CC BY 4.0** <br><small>attribuzione</small> | Qualsiasi riuso, anche commerciale e con modifiche, citando la fonte. | Lo standard per testi, materiali, questionari propri, figure.  |
+| **CC BY-SA 4.0** <br><small>condividi allo stesso modo</small> | Come CC BY, ma le opere derivate devono avere la stessa licenza. | Quando volete che il materiale resti aperto anche a valle. Può creare incompatibilità con altre licenze. |
+| **CC BY-NC 4.0** <br><small>non commerciale</small> | Riuso non commerciale. | **Da usare con cautela.** "Commerciale" non è definito con precisione: blocca usi legittimi (un corso a pagamento, una casa editrice, a volte un'azienda che finanzia ricerca) e rende il materiale incompatibile con Wikipedia e con molti dataset aggregati. Non rientra nella definizione di "open". |
+
+### Perché CC0 per i dati (e quando no)
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6 .panel-si}
+**Sì, per i dati**
+
+- Su fatti e misurazioni, che non sono opere dell'ingegno, l'obbligo di
+  attribuzione di CC BY è **giuridicamente inerte**: le licenze Creative Commons
+  dichiarano di non imporre condizioni sugli usi già leciti senza permesso.
+  Sembra che stiate chiedendo di essere citati, e legalmente non lo state
+  chiedendo.
+- Duecento dataset CC BY.. possono voler dire duecento clausole di attribuzione diverse da rispettare.
+
+:::
+::: {.g-col-12 .g-col-md-6 .panel-no}
+**No, se…**
+
+- il dataset contiene **materiale di terzi** su cui non avete i diritti: non si
+  può rinunciare a diritti che non sono vostri;
+- il **finanziatore, la rivista o il repository** impongono una licenza diversa;
+- In UE esiste il **diritto *sui generis* sulle banche
+ dati**: chi ha investito in modo rilevante nel costituire un database ha diritti
+ sulla banca dati *in quanto tale*, anche quando i singoli dati non sono tutelati.
+ Le licenze Creative Commons 4.0 coprono esplicitamente anche quel diritto.
+:::
+:::
+
+
+<small>Il primo argomento è ripreso da Katie Fortney,
+[*CC BY and data: not always a good fit*](https://osc.universityofcalifornia.edu/2016/09/cc-by-and-data-not-always-a-good-fit/),
+University of California Office of Scholarly Communication, 2016.</small>
+
+## Le licenze per solo uso scientifico {#uso-scientifico}
+
+**PsychArchives** dichiara esplicitamente che le licenze Creative Commons coprono
+l'uso pubblico dei dati e non quello scientifico, non distinguono fra chi rianalizza i vostri dati per scriverci un articolo e chi li incorpora in un prodotto commerciale. Per questo, affianca alle CC una **licenza per soli scopi scientifici**, che limita l'uso al contesto dell'analisi e del dibattito scientifico.
+
+Funziona attraverso quelli che chiamano *sharing level*, cioè il livello di
+condivisione che scegliete al momento del deposito:
+
+| Livello | Che cos'è | Cosa comporta |
+|:--|:--|:-----------|
+| **0** e **0+** | *Public Use File* | Accesso aperto e immediato, riuso libero. Nel livello 0+ chi scarica dichiara facoltativamente che uso intende farne |
+| **1** | *Scientific Use File* | L'uso è ristretto a scopi scientifici. Chi scarica deve accettare un contratto di licenza standardizzato prima di ottenere i file |
+| **2** | *Restricted Access File* | In preparazione |
+
+Le licenze fra cui si sceglie su PsychArchives sono, per testi e dati,
+**CC BY 4.0**, **CC BY-SA 4.0**, **CC0 1.0** e la **licenza per scopi
+scientifici**; per il codice, **LGPL-3.0**, **Apache-2.0** e **0BSD**.
+
+
+
+::: {.callout-warning title="Licenza PsychArchives" collapse="true"}
+La licenza per scopi scientifici non è uno standard come le Creative Commons:
+è uno strumento di PsychArchives. Chi si trova il file in mano fuori da PsychArchives non ha modo di sapere a quali condizioni l'avete rilasciato.
+
+Il controllo sta nel momento del download (l'accettazione del contratto) non
+in un'etichetta che viaggia col file. 
+:::
+
+
+## Come si applica una licenza, in pratica
+
+1. **Un file `LICENSE`** nella root del progetto, con il testo integrale della
+   licenza scelta (copiabile da [choosealicense.com](https://choosealicense.com/)
+   per il codice e da [creativecommons.org](https://creativecommons.org/choose/)
+   per il resto).
+2. **Una sezione nel README** che spieghi a parole cosa vale per cosa, soprattutto
+   se avete licenze diverse per componenti diversi.
+3. **Il campo licenza del repository** compilato al momento del deposito: è quello
+   che finisce nei metadati leggibili dalle macchine.
+
+Esempio di sezione da incollare nel README di un progetto misto:
+
+``` markdown
+## Licenza
+
+- Dati (`data/`): CC0 1.0 Universal (CC0-1.0)
+- Codice (`analysis/`): MIT
+- Testi e materiali propri (`docs/`, `materials/`): CC BY 4.0
+- Materiali di terzi: non ridistribuiti, soggetti alle
+  condizioni dei rispettivi titolari
+
+Se usate questi dati, citate:
+Cognome, N. (2026). Titolo del dataset (Version 1.0) [Data set].
+Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+```
+

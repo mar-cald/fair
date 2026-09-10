@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# cache di Quarto e anteprima locale
+/.quarto/
+.claude/
+
+# NOTA: la cartella docs/ NON va ignorata: e' il sito pubblicato da GitHub Pages

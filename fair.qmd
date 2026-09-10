@@ -1,0 +1,89 @@
+---
+title: "I principi FAIR"
+subtitle: "Findable, Accessible, Interoperable, Reusable"
+---
+
+I principi FAIR sono la risposta pratica
+alla domanda "*come faccio in modo che questo lavoro sia ancora utilizzabile fra
+dieci anni, da qualcuno che non può chiedermi niente?*". Quel qualcuno, molto
+spesso, siete voi stessi fra tre anni.
+
+## Quanto siete FAIR?
+
+::: {.callout-important title="Provate sull'ultimo studio che avete concluso"}
+- [ ] Esiste un identificatore persistente (DOI) per i dati/progetto, non solo per l'articolo?
+- [ ] Una persona esterna può scaricarlo?
+- [ ] Una persona esterna può capirlo?
+- [ ] I file sono in formati aperti (CSV, TXT, JSON) e non solo `.xlsx`?
+- [ ] Ogni colonna di ogni file è documentata da qualche parte?
+- [ ] C'è una licenza esplicita?
+- [ ] Si capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?
+- [ ] Dataset, codice, preregistrazione e articolo sono collegati l'uno all'altro?
+:::
+
+
+## Da dove vengono
+
+I principi FAIR nascono da un articolo del 2016 su *Scientific Data* (Wilkinson e
+colleghi, [10.1038/sdata.2016.18](https://doi.org/10.1038/sdata.2016.18)), scritto
+da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici.
+L'idea di partenza è che l'enorme quantità di dati prodotti dalla ricerca resta
+sostanzialmente inutilizzabile, non perché sia segreta, ma perché è
+**indescrivibile, introvabile e illeggibile** per chi non l'ha prodotta.
+
+Oggi sono il riferimento esplicito dei principali enti finanziatori: Horizon
+Europe richiede un Data Management Plan e dati "FAIR by design", i piani nazionali
+(PNRR compreso) e un numero crescente di riviste li richiamano nelle policy sui dati.
+
+
+## I principi
+
+### F — Findable, trovabile
+
+Prima di poter usare qualcosa, bisogna poterlo trovare. Vale per gli esseri umani
+e per i motori di ricerca.
+
+| | Principio |
+|:--|:-------------|
+| **F1** | (Meta)dati hanno un identificatore globale, univoco e persistente |
+| **F2** | I dati sono descritti da metadati ricchi |
+| **F3** | I metadati contengono l'identificatore dei dati che descrivono |
+| **F4** | (Meta)dati sono registrati o indicizzati in una risorsa ricercabile |
+
+
+### A — Accessible, accessibile
+
+**A non risponde alla domanda "i dati sono aperti?" ma a "come si fa, esattamente,
+a ottenerli?"**.
+
+| | Principio |
+|:--|:-------------|
+| **A1** | Una volta che avete l’identificatore, deve esistere un modo ordinario e documentato per arrivare ai file |
+| **A1.1** | Il protocollo è aperto, gratuito e implementabile da chiunque |
+| **A1.2** | Il protocollo consente autenticazione e autorizzazione dove servono. I principi FAIR non chiedono che chiunque scarichi i vostri dati: chiedono che il **meccanismo** per ottenerli sia standard e documentato (e.g, un dataset ad accesso controllato, DOI, licenza dichiarata, procedura di richiesta scritta, un responsabile che valuta le domande) |
+| **A2** | I metadati restano accessibili anche quando i dati non lo sono più |
+
+
+### I — Interoperable, interoperabile
+
+I dati devono potersi combinare con altri dati e essere letti da software diversi.
+
+| | Principio | In pratica, per voi |
+|:--|:-------------|:-------------|
+| **I1** | Si usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza | **Formati aperti**: CSV o TSV invece di `.xlsx`, `.sav`, `.mat`; JSON per i metadati; testo semplice per la documentazione. Se serve un software a pagamento per aprire il file, il file è un problema. |
+| **I2** | Si usano vocabolari che seguono a loro volta i principi FAIR | Usare termini standard invece di inventarli: schema.org, i vocabolari disciplinari (se ce ne sono). Gli standard **Psych-DS** e **BIDS**. |
+| **I3** | I (meta)dati contengono riferimenti qualificati ad altri (meta)dati. | Collegare esplicitamente le cose: "questo codice *analizza* quel dataset". |
+
+### R — Reusable, riusabile
+
+È il principio che riassume tutti gli altri.
+
+| | Principio | In pratica, per voi |
+|:--|:-------------|:-------------|
+| **R1** | I (meta)dati sono descritti con molti attributi accurati e pertinenti | Il **[data dictionary](esercizio-1.qmd)** e il **README**. Cosa c'è in ogni colonna, in che unità, come sono codificati i valori mancanti. |
+| **R1.1** | Sono rilasciati con una licenza d'uso chiara e accessibile | Un file `LICENSE` e un campo licenza compilato. [Senza licenza esplicita, per default nessuno può riusare legalmente niente.](licenze.qmd) |
+| **R1.2** | Sono associati a una provenienza dettagliata | Chi ha raccolto cosa, quando, come, con quale strumento e quale versione; cosa è stato fatto ai dati grezzi per arrivare a quelli analizzati. |
+| **R1.3** | Rispettano gli standard della comunità disciplinare | Se nel vostro ambito esiste uno standard, usatelo. |
+
+
+

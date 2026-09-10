@@ -1,0 +1,97 @@
+---
+title: "Risorse e checklist"
+subtitle: "Cosa controllare, dove cercare"
+---
+
+
+## Checklist prima di depositare
+
+### Contenuto
+
+- [ ] C'è un **README** che si capisce senza conoscere lo studio
+- [ ] C'è un **data dictionary** che copre tutte le colonne di tutti i file
+- [ ] I file sono in **formati aperti** (CSV, TXT, JSON, PNG), non solo `.sav`, `.xlsx`, `.docx`
+- [ ] Gli identificativi dei partecipanti sono **univoci**
+- [ ] Il codice gira **su un altro computer**, partendo da una cartella pulita
+
+### Diritti e riservatezza
+
+- [ ] C'è un file **LICENSE**, e il campo licenza del repository è compilato
+- [ ] Ho verificato di poter **ridistribuire** tutto ciò che sto depositando
+  (attenzione a test, questionari e stimoli di terzi)
+- [ ] Ho controllato i **campi di testo libero**, i **nomi dei file** e i
+  **metadati** dei file multimediali
+- [ ] Non ci sono date di nascita complete, indirizzi, o combinazioni di variabili
+  che identificano una persona
+- [ ] I coautori sanno che sto depositando e sono d'accordo su licenza e tempi
+
+### Collegamenti
+
+- [ ] Il deposito è collegato all'**articolo**, alla **preregistrazione** e al
+  **codice** 
+- [ ] Tutti gli autori hanno l'**ORCID** nei metadati
+- [ ] Il DOI del dataset/progetto è nella sezione **Data availability** dell'articolo
+
+## Link utili
+
+### Repository
+
+- [Zenodo](https://zenodo.org/) — generalista, CERN, la scelta predefinita
+- [Research Data Unipd](https://researchdata.cab.unipd.it/) — repository di ateneo, con supporto dei bibliotecari
+- [PsychArchives](https://www.psycharchives.org/) — disciplinare per la psicologia (ZPID)
+- [Harvard Dataverse](https://dataverse.harvard.edu/), [Dryad](https://datadryad.org/), [Figshare](https://figshare.com/), [B2SHARE](https://b2share.eudat.eu/)
+- [OpenNeuro](https://openneuro.org/), [NeuroVault](https://neurovault.org/), [Databrary](https://databrary.org/), [LDbase](https://www.ldbase.org/), [ICPSR](https://www.icpsr.umich.edu/)
+- [re3data.org](https://www.re3data.org/) — per cercare il repository giusto
+
+
+### OSF: cosa cambia
+
+- [COS — OSF Changes](https://www.cos.io/osf-changes) (pagina ufficiale)
+- [OSF Support — Projects Transition](https://help.osf.io/article/727-osf-projects-transition) e [le FAQ](https://help.osf.io/article/725-faqs)
+- [OSF Registries](https://osf.io/registries) e [PsyArXiv](https://osf.io/preprints/psyarxiv), che restano attivi
+
+### Standard e documentazione
+
+- [Psych-DS](https://psychds-docs.readthedocs.io/) e il suo [validator](https://psych-ds.github.io/validator/)
+- [BIDS](https://bids.neuroimaging.io/) per il neuroimaging
+- [GO FAIR — testo dei principi](https://www.go-fair.org/fair-principles/)
+- [Wilkinson et al. (2016)](https://doi.org/10.1038/sdata.2016.18) — l'articolo originale sui principi FAIR
+- [Citation File Format](https://citation-file-format.github.io/) — il file `CITATION.cff`
+- [FAIR-Aware](https://www.fairsfair.eu/fair-aware) e [F-UJI](https://www.f-uji.net/) — autovalutazione
+
+### Licenze
+
+- [Creative Commons Chooser](https://chooser-beta.creativecommons.org/) — per dati, testi e materiali
+- [choosealicense.com](https://choosealicense.com/) — per il codice
+
+
+
+### Supporto a Padova
+
+- [Open Science — Sistema Bibliotecario di Ateneo](https://bibliotecadigitale.cab.unipd.it/bd/openscience):
+  supporto su deposito dei dati, licenze e requisiti dei finanziatori
+
+## Glossario minimo
+
+| Termine | Significato |
+|:--|:--|
+| **DOI** | Identificatore persistente che punta a un oggetto digitale. Continua a funzionare anche se l'indirizzo cambia, perché è un sistema di reindirizzamento gestito. |
+| **Metadati** | Dati sui dati: titolo, autori, data, descrizione, licenza. Sono ciò che rende un dataset trovabile. |
+| **Data dictionary / codebook** | Documento che descrive ogni variabile: significato, tipo, unità, codifica, valori mancanti. |
+| **ORCID** | Identificatore univoco per le persone che fanno ricerca. Risolve il problema degli omonimi e dei cambi di cognome. |
+| **Embargo** | Periodo durante il quale i metadati sono pubblici ma i file non sono scaricabili. Si usa per attendere la pubblicazione dell'articolo. |
+| **Accesso ristretto** | I file si ottengono solo dopo una richiesta approvata, di solito con un accordo scritto (Data Use Agreement). |
+| **Pseudonimizzazione** | Sostituire gli identificativi con codici, mantenendo altrove la chiave di collegamento. Il dato resta personale. |
+| **Anonimizzazione** | Rendere impossibile risalire alla persona, in modo irreversibile.  |
+| **Versionamento** | Conservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi. |
+| **Riproducibilità** | Ottenere gli stessi risultati dagli stessi dati con lo stesso codice. |
+
+---
+
+**Questa dispensa.** Materiali per "Hands-on Open Science: alternative a
+OSF e strumenti per la gestione FAIR dei dati", Dipartimento di Psicologia
+Generale, Università di Padova, 23 settembre 2026. Testi a cura di Margherita
+Calderan & Claude, rilasciati con licenza
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it). I dataset di
+esempio sono fittizi e rilasciati in CC0.
+

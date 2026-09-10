@@ -1,0 +1,60 @@
+# Configurazione del sito.
+# Per aggiungere una pagina: crea il file .qmd, poi aggiungilo alla navbar qui sotto.
+project:
+  type: website
+  output-dir: docs          # cartella con il sito generato (per GitHub Pages)
+  render:
+    - "*.qmd"               # si renderizzano solo le pagine di questa cartella,
+                            # non i file dentro materiali/
+  resources:
+    - "materiali/**"        # i file delle esercitazioni finiscono nel sito cosi' come sono
+    - "materiali.zip"
+
+website:
+  title: "Hands-on Open Science"
+  navbar:
+    background: light
+    left:
+      - href: index.qmd
+        text: Home
+      - href: apertura.qmd
+        text: Intro
+      - href: fair.qmd
+        text: Principi FAIR
+      - text: Archiviare
+        menu:
+          - href: repository.qmd
+            text: Dove archiviare
+          - href: versioni.qmd
+            text: Versioni e correzioni
+          - href: riproducibilita.qmd
+            text: Riproducibilità
+      - href: licenze.qmd
+        text: Licenze
+      - text: Esercizi
+        menu:
+          - href: esercizio-1.qmd
+            text: Data dictionary e README
+          - href: esercizio-2.qmd
+            text: Psych-DS
+      - href: risorse.qmd
+        text: Risorse
+  page-footer:
+    border: true
+    left: "Seminario del 23 settembre 2026 — Margherita Calderan, Dipartimento di Psicologia Generale, Università di Padova"
+    right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it)"
+
+format:
+  html:
+    theme: [cosmo, custom.scss]
+    grid:
+      body-width: 860px
+      sidebar-width: 210px
+      margin-width: 230px
+    toc: true
+    toc-title: "In questa pagina"
+    toc-depth: 2
+    lang: it
+    smooth-scroll: true
+    code-copy: true
+    link-external-newwindow: true
