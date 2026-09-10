@@ -19,8 +19,6 @@ Generale, Università di Padova, 23 settembre 2026).
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
 | `custom.scss` | Grafica: i cinque colori sono nelle prime righe |
 
-Fuori dal sito, non renderizzato: `GUIDA-CONDUZIONE.md`, le note per chi conduce.
-
 
 ## Materiali per le esercitazioni
 
