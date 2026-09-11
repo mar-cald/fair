@@ -1,5 +1,5 @@
 ---
-title: "Esercizio 2 — Psych-DS"
+title: "Psych-DS"
 subtitle: "Uno standard per i dati psicologici, come BIDS"
 ---
 

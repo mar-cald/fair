@@ -4,7 +4,70 @@ subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
 
+Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli. Le scadenze della dismissione di OSF Projects sono nell'[introduzione](apertura.qmd).
+ 
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6 .scheda}
+**1. I dati**
+
+**Dove:** Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd
+
+**Licenza:** CC0, o CC BY 4.0 se volete l'obbligo di citazione
+
+**Con:** README e data dictionary
+:::
 
 
+::: {.g-col-12 .g-col-md-6 .scheda}
+**2. I materiali**
 
+**Dove:** nello stesso deposito dei dati
+
+**Licenza:** CC BY 4.0
+
+**Mai:** i test commerciali. Si citano, non si depositano
+:::
+
+::: {.g-col-12 .g-col-md-6 .scheda}
+**3. Il codice**
+
+**Dove:** GitHub per lavorare, una release archiviata su Zenodo per avere il DOI
+
+**Licenza:** GPL-3.0 per il copyleft, MIT per la massima libertà
+
+**Con:** un file `CITATION.cff`
+:::
+
+::: {.g-col-12 .g-col-md-6 .scheda}
+**4. I collegamenti**
+
+**Dove si dichiara:** preregistrazione su OSF Registries, preprint su PsyArXiv
+
+**Come:** i campi *related identifiers* del repository
+
+**E nell'articolo:** i DOI nella sezione *Data availability*
+:::
+
+::: {.g-col-12 .g-col-md-6 .scheda}
+**5. Il README**
+
+**Serve a:** far capire lo studio a chi non può chiedervi niente
+
+**Contiene:** disegno e numerosità, come si leggono i file, l'ordine degli script, come citare, le decisioni prese
+
+**Formato:** Markdown o .txt non Word
+:::
+
+::: {.g-col-12 .g-col-md-6 .scheda}
+**6. Il data dictionary**
+
+**Serve a:** rendere i dati leggibili invece che da indovinare
+
+**Contiene:** per ogni colonna, etichetta, tipo, unità di misura, valori ammessi, codifica, valori mancanti
+
+**Dove:** accanto ai dati, `nomedataset_dictionary.csv`
+:::
+
+:::
 

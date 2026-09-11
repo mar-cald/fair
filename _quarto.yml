@@ -31,10 +31,10 @@ website:
             text: Riproducibilità
       - href: licenze.qmd
         text: Licenze
-      - text: Esercizi
+      - text: Struttura
         menu:
           - href: esercizio-1.qmd
-            text: Data dictionary e README
+            text: README e Data dictionary
           - href: esercizio-2.qmd
             text: Psych-DS
       - href: risorse.qmd

@@ -203,6 +203,9 @@ table td > p:last-child, table th > p:last-child { margin-bottom: 0; }
 .scheda > :last-child,
 .panel-si > :last-child,
 .panel-no > :last-child { margin-bottom: 0; }
+// righe etichettate ravvicinate, cosi' la scheda resta compatta
+.scheda p { margin-bottom: .55rem; }
+.scheda > p:first-child { margin-bottom: .75rem; }
 .scheda ul, .panel-si ul, .panel-no ul { padding-left: 1.1rem; margin-bottom: 0; }
 .panel-si pre, .panel-no pre, .scheda pre { margin-bottom: 0; }
 

@@ -1,5 +1,5 @@
 ---
-title: "Esercizio 1"
+title: "README e Data dictionary"
 subtitle: "Prima come si fa. Poi lo fate su un progetto vostro."
 ---
 

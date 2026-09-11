@@ -15,7 +15,7 @@ Spazio modificabile, con versionamento e accesso condiviso, mentre lo studio è 
 
 :::
 ::: {.g-col-12 .g-col-md-4 .scheda}
-***2. Dove si archivia***
+**2. Dove si archivia**
 
 Deposito immutabile, citabile, conservato a lungo termine, con DOI e metadati.
 

@@ -63,6 +63,13 @@
     "text": "Le licenze per solo uso scientifico\nPsychArchives dichiara esplicitamente che le licenze Creative Commons coprono l’uso pubblico dei dati e non quello scientifico, non distinguono fra chi rianalizza i vostri dati per scriverci un articolo e chi li incorpora in un prodotto commerciale. Per questo, affianca alle CC una licenza per soli scopi scientifici, che limita l’uso al contesto dell’analisi e del dibattito scientifico.\nFunziona attraverso quelli che chiamano sharing level, cioè il livello di condivisione che scegliete al momento del deposito:\n\n\n\n\n\n\n\n\nLivello\nChe cos’è\nCosa comporta\n\n\n\n\n0 e 0+\nPublic Use File\nAccesso aperto e immediato, riuso libero. Nel livello 0+ chi scarica dichiara facoltativamente che uso intende farne\n\n\n1\nScientific Use File\nL’uso è ristretto a scopi scientifici. Chi scarica deve accettare un contratto di licenza standardizzato prima di ottenere i file\n\n\n2\nRestricted Access File\nIn preparazione\n\n\n\nLe licenze fra cui si sceglie su PsychArchives sono, per testi e dati, CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice, LGPL-3.0, Apache-2.0 e 0BSD.\n\n\n\n\n\n\nLicenza PsychArchives\n\n\n\n\n\nLa licenza per scopi scientifici non è uno standard come le Creative Commons: è uno strumento di PsychArchives. Chi si trova il file in mano fuori da PsychArchives non ha modo di sapere a quali condizioni l’avete rilasciato.\nIl controllo sta nel momento del download (l’accettazione del contratto) non in un’etichetta che viaggia col file."
   },
   {
+    "objectID": "licenze.html#licenze-per-il-codice",
+    "href": "licenze.html#licenze-per-il-codice",
+    "title": "Licenze",
+    "section": "Licenze per il codice",
+    "text": "Licenze per il codice\n\n\n\n\n\n\n\n\nLicenza\nIn sintesi\nQuando sceglierla\n\n\n\n\nMIT\nPermissiva e brevissima: fate quello che volete, mantenete l’avviso di copyright, nessuna garanzia\nScelta predefinita per script di analisi e pacchetti di ricerca. Se avete dubbi, questa\n\n\nBSD-3-Clause\nEquivalente a MIT, con in più il divieto di usare il vostro nome per promuovere prodotti derivati\nAlternativa a MIT, comune in ambito accademico\n\n\nApache-2.0\nPermissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche\nSoftware più strutturato, o quando ci sono aziende coinvolte\n\n\nGPL-3.0\nCopyleft: chi distribuisce opere derivate deve rilasciarle con la stessa licenza\nSe volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL\n\n\nAGPL-3.0\nCome GPL, estesa al software offerto come servizio web\nApplicazioni online, per esempio una piattaforma di somministrazione di esperimenti\n\n\n\n\n\n\n\n\n\nUn vincolo che si eredita senza accorgersene\n\n\n\nSe il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL, anche se voi avreste scelto MIT. Vale la pena dare un’occhiata alle licenze delle dipendenze principali prima di decidere: in R sono spesso GPL-2 o GPL-3, in Python più spesso BSD o MIT.\nÈ il motivo per cui molto codice di ricerca scritto in R finisce, di fatto, sotto GPL."
+  },
+  {
     "objectID": "licenze.html#come-si-applica-una-licenza-in-pratica",
     "href": "licenze.html#come-si-applica-una-licenza-in-pratica",
     "title": "Licenze",
@@ -100,42 +107,42 @@
   {
     "objectID": "esercizio-1.html",
     "href": "esercizio-1.html",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "",
     "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela."
   },
   {
     "objectID": "esercizio-1.html#come-si-chiamano-i-file",
     "href": "esercizio-1.html#come-si-chiamano-i-file",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "",
     "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela."
   },
   {
     "objectID": "esercizio-1.html#la-struttura",
     "href": "esercizio-1.html#la-struttura",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "La struttura",
     "text": "La struttura\nprogetto/\n├── README.md                       cosa c'è qui dentro e come si usa\n├── LICENSE                         a quali condizioni\n├── data/\n│   ├── raw/                        dati grezzi: SOLA LETTURA, mai modificati\n│   └── processed/\n│       ├── gonogo_data.csv         i dati puliti, prodotti dagli script\n│       └── gonogo_dictionary.csv   una riga per ogni colonna di gonogo_data.csv\n├── scripts/\n│   ├── 01_cleaning.R\n│   └── 02_analysis.R\n├── materials/                      stimoli, questionari, protocolli\n├── output/\n│   ├── figures/\n│   └── tables/\n└── docs/                           preregistrazione, preprint, ...\n\nChe cos’è un README\nÈ il file che risponde alle domande che una persona si fa prima di poter usare qualunque altra cosa ci sia nella cartella. Va scritto pensando a un destinatario preciso: qualcuno competente del vostro settore, che però non sa niente di questo studio e non può scrivervi.\nSta nella root del progetto/cartella, si chiama README.md ed è in Markdown o .txt\n\n\n\n\n\n\n\nSezione\nRisponde a\n\n\n\n\nTitolo e autori (con ORCID)\nDi chi è questo lavoro, e a chi scrivo se qualcosa non torna\n\n\nDi cosa si tratta\nChe studio è, che disegno, chi sono i partecipanti, quando sono stati raccolti i dati\n\n\nContenuto dei file\nCosa c’è nella cartella, file per file, e qual è l’unità di osservazione\n\n\nCome leggere i dati\nCosa mi serve per accedere ai dati?\n\n\nCome riprodurre\nIn che ordine girano gli script, con che software, cosa producono\n\n\nLicenza\nA quali condizioni si può riusare, e cosa vale per cosa\n\n\nCome citare\nC’è una citazione per il progetto?/un DOI?\n\n\nMateriali collegati\nDOI dell’articolo, della preregistrazione, del codice"
   },
   {
     "objectID": "esercizio-1.html#che-cosè-un-data-dictionary",
     "href": "esercizio-1.html#che-cosè-un-data-dictionary",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "Che cos’è un data dictionary",
     "text": "Che cos’è un data dictionary\nIl README descrive il progetto. Il data dictionary descrive ogni singola colonna dei vostri dati: una riga per variabile, in un file a parte (&lt;nome_dataset&gt;_dictionary.csv).\n\n\n\n\n\n\n\n\nColonna\nCosa ci va\nEsempio\n\n\n\n\nvariable_name\nIl nome esatto della colonna, carattere per carattere\nrt\n\n\nlabel\nChe cosa misura\nTempo di reazione\n\n\ntype\ninteger, numeric, string, categorical, date, boolean\nnumeric\n\n\nunit\nUnità di misura. Vuoto se non ne ha\nmilliseconds\n\n\nallowed_values\nIntervallo o elenco dei valori possibili\n200-2000\n\n\ncoding\nIl significato di ogni codice, per le categoriali\n1 = Psicologia; 2 = Economia\n\n\nmissing_values\nCome sono rappresentati, e se si sa perché mancano\ncella vuota\n\n\nsource\nDa dove viene il dato: strumento, questionario, calcolo\nPsychoPy\n\n\nnotes\nDecisioni prese, anomalie, avvertenze\n…"
   },
   {
     "objectID": "esercizio-1.html#la-licenza",
     "href": "esercizio-1.html#la-licenza",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "La licenza",
     "text": "La licenza\n\n\n\n\n\n\n\nComponente\nLicenza\n\n\n\n\nDati (data/)\nCC0-1.0, oppure CC-BY-4.0 se preferite l’obbligo di attribuzione\n\n\nCodice (scripts/)\nGPL-3.0\n\n\nTesti e materiali vostri\nCC-BY-4.0\n\n\nStrumenti di terzi (test, questionari commerciali)\nNessuna: non si depositano, si citano"
   },
   {
     "objectID": "esercizio-1.html#adesso-fatelo-sul-vostro-progetto",
     "href": "esercizio-1.html#adesso-fatelo-sul-vostro-progetto",
-    "title": "Esercizio 1",
+    "title": "README e Data dictionary",
     "section": "Adesso fatelo sul vostro progetto",
     "text": "Adesso fatelo sul vostro progetto"
   },
@@ -151,7 +158,7 @@
     "href": "apertura.html#osf-a-parte",
     "title": "Che cosa sta succedendo a OSF",
     "section": "OSF a parte…",
-    "text": "OSF a parte…\n\n\n\n\n\n\nEsercizio 1\n\n\n\n\n\nScambiatevi le cartelle\nCondivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell’ultimo lavoro che avete pubblicato (non condividete l’articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti?\nPoi provate a rispondere a 3 domande:\n1. Quanti partecipanti ci sono?\n2. Cosa rappresenta una riga del file di dati?\n3. Prendete due colonne, una che pensiate essere la DV e una che potrebbe essere la IV: cosa contengono esattamente?"
+    "text": "OSF a parte…\n\n\n\n\n\n\nMa cosa condividiamo?\n\n\n\n\n\nScambiatevi le cartelle\nCondivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell’ultimo lavoro che avete pubblicato (non condividete l’articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti?\nPoi provate a rispondere a 3 domande:\n1. Quanti partecipanti ci sono?\n2. Cosa rappresenta una riga del file di dati?\n3. Prendete due colonne, una che pensiate essere la DV e una che potrebbe essere la IV: cosa contengono esattamente?"
   },
   {
     "objectID": "apertura.html#scambiatevi-le-cartelle",
@@ -163,51 +170,58 @@
   {
     "objectID": "esercizio-2.html",
     "href": "esercizio-2.html",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "",
     "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nIl punto interessante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati."
   },
   {
     "objectID": "esercizio-2.html#tre-regole-minime",
     "href": "esercizio-2.html#tre-regole-minime",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "",
     "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nIl punto interessante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati."
   },
   {
     "objectID": "esercizio-2.html#lesempio-da-cui-partire",
     "href": "esercizio-2.html#lesempio-da-cui-partire",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "L’esempio da cui partire",
     "text": "L’esempio da cui partire\nNei materiali trovate un dataset minimo ma completo: due partecipanti, dodici prove ciascuno, compito Stroop.\nstroop-attention/\n├── dataset_description.json          obbligatorio, questo nome esatto\n├── README.md\n├── LICENSE\n├── data/                             obbligatoria\n│   ├── study-stroop_subject-01_data.csv\n│   ├── study-stroop_subject-02_data.csv\n│   └── raw/                          export originali, ignorati dal validator\n│       └── subject-01_eprime_export.txt\n└── analysis/\n    └── 01_stroop_effect.R\n\ndataset_description.json\nun file di dati\ntutto in materiali.zip\n\nLa cartella data/raw/ serve a conservare gli export originali nei formati prodotti dai software di acquisizione (.txt, .edat3, .sav, .mat): il validator ne ignora il contenuto."
   },
   {
     "objectID": "esercizio-2.html#il-validator",
     "href": "esercizio-2.html#il-validator",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "Il validator",
     "text": "Il validator\npsych-ds.github.io/validator — si trascina la cartella e si legge il verdetto.\nVa selezionata la cartella radice del progetto (stroop-attention/), non la sottocartella data/."
   },
   {
     "objectID": "esercizio-2.html#da-fare",
     "href": "esercizio-2.html#da-fare",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "Da fare",
     "text": "Da fare\nIl punto di questo esercizio è che non ricominciate da zero: prendete il progetto che avete appena documentato e gli date una forma che anche una macchina sa leggere.\n\n\n\n\n\n\nSul vostro progetto, in tre mosse\n\n\n\n\nSistemate la struttura. Create una cartella data/ nella radice e metteteci dentro il file di dati. Rinominatelo secondo lo schema chiave-valore: study-qualcosa_data.csv, o study-qualcosa_subject-01_data.csv se avete un file per partecipante.\nScrivete dataset_description.json nella radice, accanto a data/ e non dentro. Titolo, descrizione, e l’elenco esatto di tutti i nomi di colonna.\nValidate. Trascinate la cartella radice sul validator e sistemate quello che segnala, un errore per volta.\n\n\n\n\nSe preferite fare pratica prima\nSull’esempio già pronto, in cinque minuti:\n\nValidatelo. Scaricate stroop-attention/ e passatela al validator: deve risultare valida.\nRompetelo apposta e guardate cosa dice. Rinominate un file in subject01_data.csv; aggiungete una colonna a un CSV senza dichiararla in variableMeasured; spostate dataset_description.json dentro data/. Rimettete a posto una cosa per volta: capire i messaggi di errore è metà del lavoro.\n\n\n\nUn passo in più: la descrizione delle variabili\nNella forma minima variableMeasured è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto PropertyValue, e a quel punto il data dictionary vero e proprio entra nei metadati:\n\"variableMeasured\": [\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"rt_ms\",\n    \"description\": \"Reaction time from stimulus onset to response\",\n    \"unitText\": \"milliseconds\",\n    \"minValue\": 200,\n    \"maxValue\": 3000\n  },\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"condition\",\n    \"description\": \"Congruency between word and ink colour\",\n    \"value\": \"congruent | incongruent\"\n  }\n]"
   },
   {
     "objectID": "esercizio-2.html#errori-tipici",
     "href": "esercizio-2.html#errori-tipici",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "Errori tipici",
     "text": "Errori tipici\n\n\n\n\n\n\n\nSintomo\nCausa\n\n\n\n\n“No dataset_description.json found”\nIl file è dentro data/, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un .txt nascosto in coda\n\n\nUn file di dati non viene riconosciuto\nIl nome non segue lo schema chiave-valore, o manca il suffisso _data.csv\n\n\n“Column not found in variableMeasured”\nUna colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti)\n\n\nIl JSON non viene letto\nVirgola di troppo prima di una parentesi graffa\n\n\nLe colonne non corrispondono fra file diversi\nvariableMeasured deve contenere l’unione dei nomi di colonna di tutti i CSV"
   },
   {
     "objectID": "esercizio-2.html#quando-conviene-e-quando-no",
     "href": "esercizio-2.html#quando-conviene-e-quando-no",
-    "title": "Esercizio 2 — Psych-DS",
+    "title": "Psych-DS",
     "section": "Quando conviene, e quando no",
     "text": "Quando conviene, e quando no\n\n\nHa senso\n\nDati sperimentali per singola prova, con molti partecipanti e file simili fra loro\nStudi multi-sito o longitudinali, dove la struttura si ripete\nLaboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti\nQuando si prevede che i dati confluiscano in meta-analisi\n\n\n\nNon è la priorità\n\nUn dataset unico, piccolo, molto particolare\nDati di neuroimaging: usate BIDS, che è lo standard di quel campo\nInterviste qualitative, materiali eterogenei, video\nQuando non avete ancora un README e un data dictionary: quelli vengono prima\n\n\n\n\n\n\n\n\n\nL’ordine delle priorità\n\n\n\nUn dataset con README e data dictionary ben fatti, ma senza standard, è largamente più utile di un dataset formalmente conforme a Psych-DS e privo di documentazione.\n\n\n\nE per il neuroimaging: BIDS\nSe lavorate con MRI, EEG, MEG o fNIRS, lo standard è BIDS: molto più prescrittivo, (validator, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Strumenti per la gestione FAIR dei dati",
+    "section": "",
+    "text": "Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli. Le scadenze della dismissione di OSF Projects sono nell’introduzione.\n\n\n1. I dati\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo di citazione\nCon: README e data dictionary\n\n\n2. I materiali\nDove: nello stesso deposito dei dati\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. Il codice\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff\n\n\n4. I collegamenti\nDove si dichiara: preregistrazione su OSF Registries, preprint su PsyArXiv\nCome: i campi related identifiers del repository\nE nell’articolo: i DOI nella sezione Data availability\n\n\n5. Il README\nServe a: far capire lo studio a chi non può chiedervi niente\nContiene: disegno e numerosità, come si leggono i file, l’ordine degli script, come citare, le decisioni prese\nFormato: Markdown o .txt non Word\n\n\n6. Il data dictionary\nServe a: rendere i dati leggibili invece che da indovinare\nContiene: per ogni colonna, etichetta, tipo, unità di misura, valori ammessi, codifica, valori mancanti\nDove: accanto ai dati, nomedataset_dictionary.csv"
   },
   {
     "objectID": "repository.html",
