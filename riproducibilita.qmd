@@ -37,7 +37,7 @@ al posto giusto, percorsi già risolti, pronto da eseguire.
 
 **Il primo non produce il secondo.** Un revisore che segue il vostro link scarica
 l'oggetto dei dati, poi quello del codice, poi il preprint — separatamente — e si
-ricostruisce le cartelle a mano. I percorsi non si risolvono da soli.
+ricostruisce le cartelle a mano. Gli script che usano percorsi relativi non trovano i dati finché la struttura delle cartelle non viene ricreata.
 
 
 | | Download unico con struttura intatta |

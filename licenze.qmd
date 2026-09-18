@@ -103,7 +103,7 @@ in un'etichetta che viaggia col file.
 
 | Licenza | In sintesi | Quando sceglierla |
 |:--|:--|:--|
-| **MIT** | Permissiva e brevissima: fate quello che volete, mantenete l'avviso di copyright, nessuna garanzia | Scelta predefinita per script di analisi e pacchetti di ricerca. Se avete dubbi, questa |
+| **MIT** | Permissiva e brevissima: fate quello che volete, mantenete l'avviso di copyright, nessuna garanzia | La scelta più diffusa per script di analisi e pacchetti di ricerca |
 | **BSD-3-Clause** | Equivalente a MIT, con in più il divieto di usare il vostro nome per promuovere prodotti derivati | Alternativa a MIT, comune in ambito accademico |
 | **Apache-2.0** | Permissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche | Software più strutturato, o quando ci sono aziende coinvolte |
 | **GPL-3.0** | *Copyleft*: chi distribuisce opere derivate deve rilasciarle con la stessa licenza | Se volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL |

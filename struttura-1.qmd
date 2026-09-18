@@ -1,4 +1,6 @@
 ---
+aliases:
+  - esercizio-1.html
 title: "README e Data dictionary"
 subtitle: "Prima come si fa. Poi lo fate su un progetto vostro."
 ---

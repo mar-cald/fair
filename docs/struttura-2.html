@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Dove archiviare – Hands-on Open Science</title>
+<title>Psych-DS – Hands-on Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -159,11 +194,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul class="collapse">
-  <li><a href="#repository-generalisti" id="toc-repository-generalisti" class="nav-link active" data-scroll-target="#repository-generalisti">Repository generalisti</a></li>
-  <li><a href="#repository-disciplinari-per-la-psicologia" id="toc-repository-disciplinari-per-la-psicologia" class="nav-link" data-scroll-target="#repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</a></li>
-  <li><a href="#come-si-sceglie-una-repository" id="toc-come-si-sceglie-una-repository" class="nav-link" data-scroll-target="#come-si-sceglie-una-repository">Come si sceglie una repository</a></li>
-  <li><a href="#stack" id="toc-stack" class="nav-link" data-scroll-target="#stack">Il flusso di lavoro dopo OSF</a></li>
-  <li><a href="#dati-che-non-si-possono-aprire" id="toc-dati-che-non-si-possono-aprire" class="nav-link" data-scroll-target="#dati-che-non-si-possono-aprire">Dati che non si possono aprire</a></li>
+  <li><a href="#tre-regole-minime" id="toc-tre-regole-minime" class="nav-link active" data-scroll-target="#tre-regole-minime">Tre regole minime</a></li>
+  <li><a href="#lesempio-da-cui-partire" id="toc-lesempio-da-cui-partire" class="nav-link" data-scroll-target="#lesempio-da-cui-partire">L’esempio da cui partire</a></li>
+  <li><a href="#il-validator" id="toc-il-validator" class="nav-link" data-scroll-target="#il-validator">Il validator</a></li>
+  <li><a href="#da-fare" id="toc-da-fare" class="nav-link" data-scroll-target="#da-fare">Da fare</a></li>
+  <li><a href="#errori-tipici" id="toc-errori-tipici" class="nav-link" data-scroll-target="#errori-tipici">Errori tipici</a></li>
+  <li><a href="#quando-conviene-e-quando-no" id="toc-quando-conviene-e-quando-no" class="nav-link" data-scroll-target="#quando-conviene-e-quando-no">Quando conviene, e quando no</a></li>
   </ul>
 </nav>
     </div>
@@ -172,8 +208,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Dove archiviare</h1>
-<p class="subtitle lead">Repository e alternative a OSF</p>
+<h1 class="title">Psych-DS</h1>
+<p class="subtitle lead">Uno standard per i dati psicologici, come BIDS</p>
 </div>
 
 
@@ -190,206 +226,226 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Nessun singolo servizio sostituisce OSF, perché OSF faceva tre mestieri diversi.</p>
-<div class="grid">
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>1. Dove si lavora</strong></p>
-<p>Spazio modificabile, con versionamento e accesso condiviso, mentre lo studio è in corso.</p>
-<p><strong><em>Strumenti:</em></strong> GitHub/GitLab, OneDrive o Drive di ateneo, server di dipartimento.</p>
-</div>
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>2. Dove si archivia</strong></p>
-<p>Deposito immutabile, citabile, conservato a lungo termine, con DOI e metadati.</p>
-<p><strong><em>Strumenti:</em></strong> Zenodo, PsychArchives, Research Data Unipd, Dataverse, Dryad…</p>
-</div>
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>3. Dove si dichiara</strong></p>
-<p>Il piano di studio, registrato prima di raccogliere i dati e congelato con un DOI.</p>
-<p><strong><em>Strumenti:</em></strong> <a href="https://osf.io/registries">OSF Registries</a>, che resta attivo anche dopo la chiusura dei Projects; PsychArchives accetta anche preregistrazioni.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Come si collegano fra loro i materiali">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Come si collegano fra loro i materiali
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Nessuno strumento, OSF compreso, collega automaticamente preregistrazione, dati, codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri:</p>
-<ul>
-<li>il deposito dei dati riporta i DOI di articolo, preregistrazione e codice nei campi <em>related identifiers</em>;</li>
-<li>il README li elenca in una sezione dedicata;</li>
-<li>l’articolo e il preprint li citano nella sezione <em>Data availability</em>;</li>
-<li>la release del codice indica il DOI dei dati che analizza.</li>
-</ul>
-<p>Un documento che non riporta questi riferimenti resta isolato: chi lo trova non ha modo di risalire agli altri.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Importante">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Importante
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>GitHub non è un archivio</strong> (i repository si possono cancellare o riscrivere in qualsiasi momento, non c’è DOI, non c’è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository vero.</p>
-</div>
-</div>
-<section id="repository-generalisti" class="level2">
-<h2 class="anchored" data-anchor-id="repository-generalisti">Repository generalisti</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Servizio</th>
-<th style="text-align: left;">Gestito da</th>
-<th style="text-align: left;">Spazio</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong><a href="https://zenodo.org/">Zenodo</a></strong></td>
-<td style="text-align: left;">CERN, con finanziamenti UE</td>
-<td style="text-align: left;"><strong>50 GB per record</strong>, di più su richiesta. <a href="https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo">Altre info</a></td>
-<td style="text-align: left;">Accetta qualsiasi tipo di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong><a href="https://researchdata.cab.unipd.it/">Research Data Unipd</a></strong></td>
-<td style="text-align: left;">Università di Padova (Sistema Bibliotecario)</td>
-<td style="text-align: left;">Non pubblicato: si concorda con i bibliotecari, che seguono il deposito.</td>
-<td style="text-align: left;">Requisiti dei finanziatori. C’è supporto umano, ed è la sede naturale per i dati dei progetti Unipd.</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong><a href="https://dataverse.harvard.edu/">Harvard Dataverse</a></strong></td>
-<td style="text-align: left;">Infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>2,5 GB per singolo file</strong> caricato da web, <strong>fino a 1 TB per record</strong>. <a href="https://support.dataverse.harvard.edu/researchers">Altre info</a></td>
-<td style="text-align: left;">Dati tabellari: riconosce i formati statistici, estrae automaticamente le variabili e genera un codebook. Molto usato nelle scienze sociali.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong><a href="https://datadryad.org/">Dryad</a></strong></td>
-<td style="text-align: left;">Non profit, infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>10GB per file</strong>, <strong>2T per record</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
-<td style="text-align: left;">Quando serve <strong>curation umana</strong>: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivist</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong><a href="https://figshare.com/">Figshare</a></strong></td>
-<td style="text-align: left;">Digital Science (commerciale)</td>
-<td style="text-align: left;"><strong>20 GB</strong> per record; <a href="https://info.figshare.com/user-guide/account-limits/">altre info</a></td>
-<td style="text-align: left;">Infrastrutture statunitensi, europee nel caso di accordi con l’università.</td>
-</tr>
-</tbody>
-</table>
-<p>Le quote cambiano: quelle qui sopra sono verificate a settembre 2026, ma prima di pianificare un deposito grosso conviene ricontrollarle sul sito del servizio.</p>
-</section>
-<section id="repository-disciplinari-per-la-psicologia" class="level2">
-<h2 class="anchored" data-anchor-id="repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Servizio</th>
-<th style="text-align: left;">Cosa accetta</th>
-<th style="text-align: left;">Spazio</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong><a href="https://www.psycharchives.org/">PsychArchives</a></strong> (ZPID, Leibniz Institute for Psychology)</td>
-<td style="text-align: left;">Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali</td>
-<td style="text-align: left;"><strong>1 GB per oggetto</strong>, gratuito.</td>
-<td style="text-align: left;">Gratuito, non commerciale, DOI DataCite più Handle, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong><a href="https://openneuro.org/">OpenNeuro</a></strong></td>
-<td style="text-align: left;">Dati di neuroimaging (MRI, MEG, EEG, iEEG, PET)</td>
-<td style="text-align: left;">Nessun tetto pubblicato.</td>
-<td style="text-align: left;">Gratuito. Richiede il formato <a href="https://bids.neuroimaging.io/">BIDS</a>, che viene validato automaticamente al caricamento.</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="come-si-sceglie-una-repository" class="level2">
-<h2 class="anchored" data-anchor-id="come-si-sceglie-una-repository">Come si sceglie una repository</h2>
-<p>Domande da porsi, in ordine di importanza:</p>
+<section id="tre-regole-minime" class="level2">
+<h2 class="anchored" data-anchor-id="tre-regole-minime">Tre regole minime</h2>
+<p>Un dataset Psych-DS valido richiede solo questo:</p>
 <ol type="1">
-<li><strong>Il mio finanziatore o la mia rivista impongono qualcosa?</strong></li>
-<li><strong>Esiste un repository disciplinare per questo tipo di dato?</strong> Se sì, di solito è preferibile a uno generalista.</li>
-<li><strong>Rilascia un identificatore persistente</strong> e garantisce conservazione a lungo termine?</li>
-<li><strong>Supporta il livello di accesso che mi serve?</strong> Aperto, embargo, ristretto con approvazione.</li>
-<li><strong>Consente il versionamento?</strong> Perché i dati cambiano anche dopo la pubblicazione.</li>
-<li><strong>Dove sono fisicamente i dati?</strong> Rilevante per dati personali e GDPR.</li>
-<li><strong>Quanto costa, e chi paga?</strong></li>
+<li><strong>Una cartella <code>data/</code></strong> nella radice del progetto, che contiene i file di dati in CSV.</li>
+<li><strong>Un file <code>dataset_description.json</code></strong> nella radice, con esattamente questo nome, accanto a <code>data/</code> e non dentro.</li>
+<li><strong>I file di dati nominati a coppie chiave-valore</strong>, con suffisso <code>_data.csv</code>.</li>
 </ol>
-<p>Per cercare in modo sistematico: <a href="https://www.re3data.org/">re3data.org</a> è il registro internazionale dei repository di dati.</p>
+<section id="il-nome-dei-file" class="level3">
+<h3 class="anchored" data-anchor-id="il-nome-dei-file">Il nome dei file</h3>
+<div class="filename-template">
+<p><span class="k">chiave1</span><span class="sep">-</span><span class="v">valore1</span><span class="sep">_</span><span class="k">chiave2</span><span class="sep">-</span><span class="v">valore2</span><span class="sep">_</span><span class="s">suffisso</span><span class="e">.estensione</span> <span class="cap">Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.</span></p>
+</div>
+<p>In Psych-DS il suffisso è sempre <code>data</code> e l’estensione sempre <code>.csv</code>, quindi ogni file di dati finisce per <code>_data.csv</code>. Le coppie che stanno prima le scegliete voi: servono a dire <em>di chi</em> e <em>di cosa</em> sono quei dati.</p>
+<div class="filename-template">
+<p><span class="k">study</span><span class="sep">-</span><span class="v">stroop</span><span class="sep">_</span><span class="k">subject</span><span class="sep">-</span><span class="v">01</span><span class="sep">_</span><span class="s">data</span><span class="e">.csv</span> <span class="cap">Lo stesso schema, riempito: studio “stroop”, partecipante 01.</span></p>
+</div>
+<div class="grid">
+<div class="g-col-12 g-col-md-6 panel-si">
+<p><strong>Validi</strong></p>
+<pre><code>study-stroop_subject-01_data.csv
+participant-001_session-1_data.csv
+version-alltrials_participant-001_data.csv
+study-ZebraQuestionnaire_data.csv</code></pre>
+</div>
+<div class="g-col-12 g-col-md-6 panel-no">
+<p><strong>Non validi</strong></p>
+<pre><code>participant-summary.csv
+  manca il suffisso _data.csv
+
+year2024_data.csv
+  manca il trattino fra chiave e valore
+
+participant_001_data.csv
+  underscore al posto del trattino
+
+Subject-01_data.csv
+  la chiave deve essere minuscola</code></pre>
+</div>
+</div>
 </section>
-<section id="stack" class="level2">
-<h2 class="anchored" data-anchor-id="stack">Il flusso di lavoro dopo OSF</h2>
+<section id="il-file-dei-metadati" class="level3">
+<h3 class="anchored" data-anchor-id="il-file-dei-metadati">Il file dei metadati</h3>
+<p><code>dataset_description.json</code> usa il vocabolario di <a href="https://schema.org/Dataset">schema.org</a>, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="st">"https://schema.org/"</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"Dataset"</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Dataset title"</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Description, of any length."</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"variableMeasured"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"participant_id"</span><span class="ot">,</span> <span class="st">"trial"</span><span class="ot">,</span> <span class="st">"condition"</span><span class="ot">,</span> <span class="st">"rt_ms"</span><span class="ot">]</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Il punto interessante">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Il punto interessante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>variableMeasured</code> deve elencare <strong>esattamente</strong> tutti i nomi di colonna che compaiono nei <strong>vostri</strong> CSV.</p>
+<p>È il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che <strong>non può andare fuori sincrono con i dati</strong>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="lesempio-da-cui-partire" class="level2">
+<h2 class="anchored" data-anchor-id="lesempio-da-cui-partire">L’esempio da cui partire</h2>
+<p>Nei materiali trovate un dataset minimo ma completo: due partecipanti, dodici prove ciascuno, compito Stroop.</p>
+<pre><code>stroop-attention/
+├── dataset_description.json          obbligatorio, questo nome esatto
+├── README.md
+├── LICENSE
+├── data/                             obbligatoria
+│   ├── study-stroop_subject-01_data.csv
+│   ├── study-stroop_subject-02_data.csv
+│   └── raw/                          export originali, ignorati dal validator
+│       └── subject-01_eprime_export.txt
+└── analysis/
+    └── 01_stroop_effect.R</code></pre>
+<ul>
+<li><a href="materiali/struttura-2/stroop-attention/dataset_description.json">dataset_description.json</a></li>
+<li><a href="materiali/struttura-2/stroop-attention/data/study-stroop_subject-01_data.csv">un file di dati</a></li>
+<li><a href="materiali.zip">tutto in materiali.zip</a></li>
+</ul>
+<p>La cartella <code>data/raw/</code> serve a conservare gli export originali nei formati prodotti dai software di acquisizione (<code>.txt</code>, <code>.edat3</code>, <code>.sav</code>, <code>.mat</code>): il validator ne ignora il contenuto.</p>
+</section>
+<section id="il-validator" class="level2">
+<h2 class="anchored" data-anchor-id="il-validator">Il validator</h2>
+<p><strong><a href="https://psych-ds.github.io/validator/">psych-ds.github.io/validator</a></strong> — si trascina la cartella e si legge il verdetto.</p>
+<p>Va selezionata la <strong>cartella radice</strong> del progetto (<code>stroop-attention/</code>), non la sottocartella <code>data/</code>.</p>
+</section>
+<section id="da-fare" class="level2">
+<h2 class="anchored" data-anchor-id="da-fare">Da fare</h2>
+<p>Il punto di questo esercizio è che <strong>non ricominciate da zero</strong>: prendete il progetto che avete appena documentato e gli date una forma che anche una macchina sa leggere.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Sul vostro progetto, in tre mosse">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Sul vostro progetto, in tre mosse
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Sistemate la struttura.</strong> Create una cartella <code>data/</code> nella radice e metteteci dentro il file di dati. Rinominatelo secondo lo schema chiave-valore: <code>study-qualcosa_data.csv</code>, o <code>study-qualcosa_subject-01_data.csv</code> se avete un file per partecipante.</li>
+<li><strong>Scrivete <code>dataset_description.json</code></strong> nella radice, accanto a <code>data/</code> e non dentro. Titolo, descrizione, e l’elenco esatto di tutti i nomi di colonna.</li>
+<li><strong>Validate.</strong> Trascinate la cartella radice sul <a href="https://psych-ds.github.io/validator/">validator</a> e sistemate quello che segnala, un errore per volta.</li>
+</ol>
+</div>
+</div>
+<section id="se-preferite-fare-pratica-prima" class="level3">
+<h3 class="anchored" data-anchor-id="se-preferite-fare-pratica-prima">Se preferite fare pratica prima</h3>
+<p>Sull’esempio già pronto:</p>
+<ul>
+<li><strong>Validatelo.</strong> Scaricate <code>stroop-attention/</code> e passatela al validator: deve risultare valida.</li>
+<li><strong>Rompetelo apposta</strong> e guardate cosa dice. Rinominate un file in <code>subject01_data.csv</code>; aggiungete una colonna a un CSV senza dichiararla in <code>variableMeasured</code>; spostate <code>dataset_description.json</code> dentro <code>data/</code>. Rimettete a posto una cosa per volta: capire i messaggi di errore è metà del lavoro.</li>
+</ul>
+</section>
+<section id="un-passo-in-più-la-descrizione-delle-variabili" class="level3">
+<h3 class="anchored" data-anchor-id="un-passo-in-più-la-descrizione-delle-variabili">Un passo in più: la descrizione delle variabili</h3>
+<p>Nella forma minima <code>variableMeasured</code> è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto <code>PropertyValue</code>, e a quel punto il data dictionary vero e proprio entra nei metadati:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">"variableMeasured":</span> <span class="ot">[</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"rt_ms"</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Reaction time from stimulus onset to response"</span><span class="fu">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"unitText"</span><span class="fu">:</span> <span class="st">"milliseconds"</span><span class="fu">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"minValue"</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"maxValue"</span><span class="fu">:</span> <span class="dv">3000</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"condition"</span><span class="fu">,</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Congruency between word and ink colour"</span><span class="fu">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"congruent | incongruent"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="errori-tipici" class="level2">
+<h2 class="anchored" data-anchor-id="errori-tipici">Errori tipici</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Fase</th>
-<th style="text-align: left;">Dove</th>
-<th style="text-align: left;">Cosa producete</th>
+<th style="text-align: left;">Sintomo</th>
+<th style="text-align: left;">Causa</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Progettazione</td>
-<td style="text-align: left;">OSF Registrations</td>
-<td style="text-align: left;">Preregistrazione con DOI</td>
+<td style="text-align: left;">“No dataset_description.json found”</td>
+<td style="text-align: left;">Il file è dentro <code>data/</code>, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un <code>.txt</code> nascosto in coda</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Raccolta dati</td>
-<td style="text-align: left;">Server o cloud di ateneo, cartelle strutturate</td>
-<td style="text-align: left;">Dati grezzi + documentazione in corso d’opera</td>
+<td style="text-align: left;">Un file di dati non viene riconosciuto</td>
+<td style="text-align: left;">Il nome non segue lo schema chiave-valore, o manca il suffisso <code>_data.csv</code></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Analisi</td>
-<td style="text-align: left;">GitHub/GitLab privato</td>
-<td style="text-align: left;">Script versionati</td>
+<td style="text-align: left;">“Column not found in variableMeasured”</td>
+<td style="text-align: left;">Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Pubblicazione</td>
-<td style="text-align: left;">Zenodo, PsychArchives, … (dati e materiali) + release GitHub archiviata su Zenodo (codice)</td>
-<td style="text-align: left;">Uno o più DOI</td>
+<td style="text-align: left;">Il JSON non viene letto</td>
+<td style="text-align: left;">Virgola di troppo prima di una parentesi graffa</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Diffusione</td>
-<td style="text-align: left;">Preprint su PsyArXiv, articolo, ORCID</td>
-<td style="text-align: left;">Sezione <em>Data availability</em> con tutti i DOI</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Collegamento</td>
-<td style="text-align: left;">Campi <em>related identifiers</em> di ogni deposito</td>
-<td style="text-align: left;">Rete di link fra preregistrazione, dati, codice e articolo</td>
+<td style="text-align: left;">Le colonne non corrispondono fra file diversi</td>
+<td style="text-align: left;"><code>variableMeasured</code> deve contenere l’unione dei nomi di colonna di <strong>tutti</strong> i CSV</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="dati-che-non-si-possono-aprire" class="level2">
-<h2 class="anchored" data-anchor-id="dati-che-non-si-possono-aprire">Dati che non si possono aprire</h2>
-<p>Se i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili, in ordine di preferenza:</p>
-<ol type="1">
-<li><strong>Deposito ad accesso ristretto</strong> con procedura di richiesta documentata (Zenodo <em>restricted</em>).</li>
-<li><strong>Metadati pubblici e dati su richiesta formalizzata</strong>.</li>
-<li><strong>Dataset derivato</strong>: pubblicare aggregati, summary statistics.</li>
-<li><strong>Dati sintetici</strong> che riproducono la struttura del dataset reale.</li>
-</ol>
-<hr>
-<p>Due domande che arrivano subito dopo aver scelto dove depositare: <a href="./versioni.html">cosa si può correggere dopo la pubblicazione</a> e <a href="./riproducibilita.html">come si rende il nostro lavoro riproducibile</a>.</p>
+<section id="quando-conviene-e-quando-no" class="level2">
+<h2 class="anchored" data-anchor-id="quando-conviene-e-quando-no">Quando conviene, e quando no</h2>
+<div class="grid">
+<div class="g-col-12 g-col-md-6 panel-si">
+<p><strong>Ha senso</strong></p>
+<ul>
+<li>Dati sperimentali per singola prova, con molti partecipanti e file simili fra loro</li>
+<li>Studi multi-sito o longitudinali, dove la struttura si ripete</li>
+<li>Laboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti</li>
+<li>Quando si prevede che i dati confluiscano in meta-analisi</li>
+</ul>
+</div>
+<div class="g-col-12 g-col-md-6 panel-no">
+<p><strong>Non è la priorità</strong></p>
+<ul>
+<li>Un dataset unico, piccolo, molto particolare</li>
+<li>Dati di neuroimaging: usate <strong>BIDS</strong>, che è lo standard di quel campo</li>
+<li>Interviste qualitative, materiali eterogenei, video</li>
+<li>Quando non avete ancora un README e un data dictionary: <strong>quelli vengono prima</strong></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="L'ordine delle priorità">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+L’ordine delle priorità
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un dataset con README e data dictionary ben fatti, ma senza standard, è <strong>largamente più utile</strong> di un dataset formalmente conforme a Psych-DS e privo di documentazione.</p>
+</div>
+</div>
+<section id="e-per-il-neuroimaging-bids" class="level3">
+<h3 class="anchored" data-anchor-id="e-per-il-neuroimaging-bids">E per il neuroimaging: BIDS</h3>
+<p>Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è <a href="https://bids.neuroimaging.io/">BIDS</a>: molto più prescrittivo, (<a href="https://bids-standard.github.io/bids-validator/">validator</a>, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

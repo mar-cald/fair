@@ -4,70 +4,42 @@ subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
 
-Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli. Le scadenze della dismissione di OSF Projects sono nell'[introduzione](apertura.qmd).
+Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli. 
  
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-6 .scheda}
-**1. I dati**
+::: {.g-col-12 .g-col-md-4 .scheda}
+**1. DATI**
 
-**Dove:** Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd
+**Dove:** [Zenodo](https://zenodo.org/) (50 GB per record) · [PsychArchives](https://www.psycharchives.org/) (1 GB per oggetto) · [Research Data Unipd](https://researchdata.cab.unipd.it/)
 
-**Licenza:** CC0, o CC BY 4.0 se volete l'obbligo di citazione
+**Licenza:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.it), o [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) se volete l'obbligo attribuzione.
 
-**Con:** README e data dictionary
+**Con:** [README e data dictionary](struttura-1.qmd)
 :::
 
 
-::: {.g-col-12 .g-col-md-6 .scheda}
-**2. I materiali**
+::: {.g-col-12 .g-col-md-4 .scheda}
+**2. MATERIALI**
 
-**Dove:** nello stesso deposito dei dati
+**Dove:** nello stesso deposito dei dati. Oppure su [GitHub](https://github.com/) o [GitLab](https://gitlab.com/) (es. task sviluppati su PsychoPy/Pavlovia)
 
-**Licenza:** CC BY 4.0
+**Licenza:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it)
 
 **Mai:** i test commerciali. Si citano, non si depositano
 :::
 
-::: {.g-col-12 .g-col-md-6 .scheda}
-**3. Il codice**
+::: {.g-col-12 .g-col-md-4 .scheda}
+**3. CODICE**
 
-**Dove:** GitHub per lavorare, una release archiviata su Zenodo per avere il DOI
+**Dove:** [GitHub](https://github.com/) per lavorare, una release archiviata su [Zenodo](https://zenodo.org/) per avere il DOI
 
-**Licenza:** GPL-3.0 per il copyleft, MIT per la massima libertà
+**Licenza:** [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html) per il copyleft, [MIT](https://opensource.org/license/mit) per la massima libertà
 
-**Con:** un file `CITATION.cff`
+**Con:** un file [`CITATION.cff`](https://citation-file-format.github.io/)
 :::
 
-::: {.g-col-12 .g-col-md-6 .scheda}
-**4. I collegamenti**
 
-**Dove si dichiara:** preregistrazione su OSF Registries, preprint su PsyArXiv
-
-**Come:** i campi *related identifiers* del repository
-
-**E nell'articolo:** i DOI nella sezione *Data availability*
-:::
-
-::: {.g-col-12 .g-col-md-6 .scheda}
-**5. Il README**
-
-**Serve a:** far capire lo studio a chi non può chiedervi niente
-
-**Contiene:** disegno e numerosità, come si leggono i file, l'ordine degli script, come citare, le decisioni prese
-
-**Formato:** Markdown o .txt non Word
-:::
-
-::: {.g-col-12 .g-col-md-6 .scheda}
-**6. Il data dictionary**
-
-**Serve a:** rendere i dati leggibili invece che da indovinare
-
-**Contiene:** per ogni colonna, etichetta, tipo, unità di misura, valori ammessi, codifica, valori mancanti
-
-**Dove:** accanto ai dati, `nomedataset_dictionary.csv`
-:::
 
 :::
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Dove archiviare – Hands-on Open Science</title>
+<title>README e Data dictionary – Hands-on Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,11 +159,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul class="collapse">
-  <li><a href="#repository-generalisti" id="toc-repository-generalisti" class="nav-link active" data-scroll-target="#repository-generalisti">Repository generalisti</a></li>
-  <li><a href="#repository-disciplinari-per-la-psicologia" id="toc-repository-disciplinari-per-la-psicologia" class="nav-link" data-scroll-target="#repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</a></li>
-  <li><a href="#come-si-sceglie-una-repository" id="toc-come-si-sceglie-una-repository" class="nav-link" data-scroll-target="#come-si-sceglie-una-repository">Come si sceglie una repository</a></li>
-  <li><a href="#stack" id="toc-stack" class="nav-link" data-scroll-target="#stack">Il flusso di lavoro dopo OSF</a></li>
-  <li><a href="#dati-che-non-si-possono-aprire" id="toc-dati-che-non-si-possono-aprire" class="nav-link" data-scroll-target="#dati-che-non-si-possono-aprire">Dati che non si possono aprire</a></li>
+  <li><a href="#come-si-chiamano-i-file" id="toc-come-si-chiamano-i-file" class="nav-link active" data-scroll-target="#come-si-chiamano-i-file">Come si chiamano i file</a></li>
+  <li><a href="#la-struttura" id="toc-la-struttura" class="nav-link" data-scroll-target="#la-struttura">La struttura</a></li>
+  <li><a href="#che-cosè-un-data-dictionary" id="toc-che-cosè-un-data-dictionary" class="nav-link" data-scroll-target="#che-cosè-un-data-dictionary">Che cos’è un data dictionary</a></li>
+  <li><a href="#la-licenza" id="toc-la-licenza" class="nav-link" data-scroll-target="#la-licenza">La licenza</a></li>
+  <li><a href="#adesso-fatelo-sul-vostro-progetto" id="toc-adesso-fatelo-sul-vostro-progetto" class="nav-link" data-scroll-target="#adesso-fatelo-sul-vostro-progetto">Adesso fatelo sul vostro progetto</a></li>
   </ul>
 </nav>
     </div>
@@ -172,8 +172,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Dove archiviare</h1>
-<p class="subtitle lead">Repository e alternative a OSF</p>
+<h1 class="title">README e Data dictionary</h1>
+<p class="subtitle lead">Prima come si fa. Poi lo fate su un progetto vostro.</p>
 </div>
 
 
@@ -190,146 +190,106 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Nessun singolo servizio sostituisce OSF, perché OSF faceva tre mestieri diversi.</p>
+<section id="come-si-chiamano-i-file" class="level2">
+<h2 class="anchored" data-anchor-id="come-si-chiamano-i-file">Come si chiamano i file</h2>
 <div class="grid">
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>1. Dove si lavora</strong></p>
-<p>Spazio modificabile, con versionamento e accesso condiviso, mentre lo studio è in corso.</p>
-<p><strong><em>Strumenti:</em></strong> GitHub/GitLab, OneDrive o Drive di ateneo, server di dipartimento.</p>
+<div class="g-col-12 g-col-md-6 panel-no">
+<p><strong>No</strong></p>
+<pre><code>Dati definitivi (2).xlsx
+analisi finale.R
+questionarioEtà.csv</code></pre>
 </div>
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>2. Dove si archivia</strong></p>
-<p>Deposito immutabile, citabile, conservato a lungo termine, con DOI e metadati.</p>
-<p><strong><em>Strumenti:</em></strong> Zenodo, PsychArchives, Research Data Unipd, Dataverse, Dryad…</p>
-</div>
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>3. Dove si dichiara</strong></p>
-<p>Il piano di studio, registrato prima di raccogliere i dati e congelato con un DOI.</p>
-<p><strong><em>Strumenti:</em></strong> <a href="https://osf.io/registries">OSF Registries</a>, che resta attivo anche dopo la chiusura dei Projects; PsychArchives accetta anche preregistrazioni.</p>
+<div class="g-col-12 g-col-md-6 panel-si">
+<p><strong>Sì</strong></p>
+<pre><code>gonogo_data.csv
+02_analysis_gonogo.R
+demographics.csv</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Come si collegano fra loro i materiali">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Come si collegano fra loro i materiali
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Nessuno strumento, OSF compreso, collega automaticamente preregistrazione, dati, codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri:</p>
+<section id="regole-generali" class="level3">
+<h3 class="anchored" data-anchor-id="regole-generali">Regole generali</h3>
 <ul>
-<li>il deposito dei dati riporta i DOI di articolo, preregistrazione e codice nei campi <em>related identifiers</em>;</li>
-<li>il README li elenca in una sezione dedicata;</li>
-<li>l’articolo e il preprint li citano nella sezione <em>Data availability</em>;</li>
-<li>la release del codice indica il DOI dei dati che analizza.</li>
+<li><strong>Niente spazi, accenti o caratteri speciali</strong> nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.</li>
+<li><strong>Numeri con lo zero davanti</strong> (<code>01_</code>, <code>02_</code>): altrimenti <code>10_</code> viene prima di <code>2_</code>.</li>
+<li><strong>Il nome dice cosa contiene</strong>.</li>
+<li>Se serve una versione, usate <code>_v1</code>, <code>_v2</code>, o meglio ancora usate git.</li>
+<li><strong>Usare separatori e maiuscole in modo sistematico e significativo</strong>, non a caso: <code>questo_e_snake_case</code>, <code>questoInveceECamelCase</code>. Scegliete una convenzione e tenetela.</li>
 </ul>
-<p>Un documento che non riporta questi riferimenti resta isolato: chi lo trova non ha modo di risalire agli altri.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Importante">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Importante
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>GitHub non è un archivio</strong> (i repository si possono cancellare o riscrivere in qualsiasi momento, non c’è DOI, non c’è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository vero.</p>
-</div>
-</div>
-<section id="repository-generalisti" class="level2">
-<h2 class="anchored" data-anchor-id="repository-generalisti">Repository generalisti</h2>
+</section>
+</section>
+<section id="la-struttura" class="level2">
+<h2 class="anchored" data-anchor-id="la-struttura">La struttura</h2>
+<pre><code>progetto/
+├── README.md                       cosa c'è qui dentro e come si usa
+├── LICENSE                         a quali condizioni
+├── data/
+│   ├── raw/                        dati grezzi: SOLA LETTURA, mai modificati
+│   └── processed/
+│       ├── gonogo_data.csv         i dati puliti, prodotti dagli script
+│       └── gonogo_dictionary.csv   una riga per ogni colonna di gonogo_data.csv
+├── scripts/
+│   ├── 01_cleaning.R
+│   └── 02_analysis.R
+├── materials/                      stimoli, questionari, protocolli
+├── output/
+│   ├── figures/
+│   └── tables/
+└── docs/                           preregistrazione, preprint, ...</code></pre>
+<section id="che-cosè-un-readme" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosè-un-readme">Che cos’è un README</h3>
+<p>È il file che risponde alle domande che una persona si fa <strong>prima</strong> di poter usare qualunque altra cosa ci sia nella cartella. Va scritto pensando a un destinatario preciso: qualcuno competente del vostro settore, che però non sa niente di questo studio e non può scrivervi.</p>
+<p>Sta nella root del progetto/cartella, si chiama <code>README.md</code> ed è in <a href="https://www.markdownguide.org/basic-syntax/">Markdown</a> o <code>.txt</code></p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Servizio</th>
-<th style="text-align: left;">Gestito da</th>
-<th style="text-align: left;">Spazio</th>
-<th style="text-align: left;">Note</th>
+<th style="text-align: left;">Sezione</th>
+<th style="text-align: left;">Risponde a</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong><a href="https://zenodo.org/">Zenodo</a></strong></td>
-<td style="text-align: left;">CERN, con finanziamenti UE</td>
-<td style="text-align: left;"><strong>50 GB per record</strong>, di più su richiesta. <a href="https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo">Altre info</a></td>
-<td style="text-align: left;">Accetta qualsiasi tipo di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.</td>
+<td style="text-align: left;">Titolo e autori (con ORCID)</td>
+<td style="text-align: left;">Di chi è questo lavoro, e a chi scrivo se qualcosa non torna</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong><a href="https://researchdata.cab.unipd.it/">Research Data Unipd</a></strong></td>
-<td style="text-align: left;">Università di Padova (Sistema Bibliotecario)</td>
-<td style="text-align: left;">Non pubblicato: si concorda con i bibliotecari, che seguono il deposito.</td>
-<td style="text-align: left;">Requisiti dei finanziatori. C’è supporto umano, ed è la sede naturale per i dati dei progetti Unipd.</td>
+<td style="text-align: left;">Di cosa si tratta</td>
+<td style="text-align: left;">Che studio è, che disegno, chi sono i partecipanti, quando sono stati raccolti i dati</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong><a href="https://dataverse.harvard.edu/">Harvard Dataverse</a></strong></td>
-<td style="text-align: left;">Infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>2,5 GB per singolo file</strong> caricato da web, <strong>fino a 1 TB per record</strong>. <a href="https://support.dataverse.harvard.edu/researchers">Altre info</a></td>
-<td style="text-align: left;">Dati tabellari: riconosce i formati statistici, estrae automaticamente le variabili e genera un codebook. Molto usato nelle scienze sociali.</td>
+<td style="text-align: left;">Contenuto dei file</td>
+<td style="text-align: left;">Cosa c’è nella cartella, file per file, e qual è l’unità di osservazione</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong><a href="https://datadryad.org/">Dryad</a></strong></td>
-<td style="text-align: left;">Non profit, infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>10GB per file</strong>, <strong>2T per record</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
-<td style="text-align: left;">Quando serve <strong>curation umana</strong>: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivist</td>
+<td style="text-align: left;">Come leggere i dati</td>
+<td style="text-align: left;">Cosa mi serve per accedere ai dati?</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong><a href="https://figshare.com/">Figshare</a></strong></td>
-<td style="text-align: left;">Digital Science (commerciale)</td>
-<td style="text-align: left;"><strong>20 GB</strong> per record; <a href="https://info.figshare.com/user-guide/account-limits/">altre info</a></td>
-<td style="text-align: left;">Infrastrutture statunitensi, europee nel caso di accordi con l’università.</td>
-</tr>
-</tbody>
-</table>
-<p>Le quote cambiano: quelle qui sopra sono verificate a settembre 2026, ma prima di pianificare un deposito grosso conviene ricontrollarle sul sito del servizio.</p>
-</section>
-<section id="repository-disciplinari-per-la-psicologia" class="level2">
-<h2 class="anchored" data-anchor-id="repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Servizio</th>
-<th style="text-align: left;">Cosa accetta</th>
-<th style="text-align: left;">Spazio</th>
-<th style="text-align: left;">Note</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong><a href="https://www.psycharchives.org/">PsychArchives</a></strong> (ZPID, Leibniz Institute for Psychology)</td>
-<td style="text-align: left;">Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali</td>
-<td style="text-align: left;"><strong>1 GB per oggetto</strong>, gratuito.</td>
-<td style="text-align: left;">Gratuito, non commerciale, DOI DataCite più Handle, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
+<td style="text-align: left;">Come riprodurre</td>
+<td style="text-align: left;">In che ordine girano gli script, con che software, cosa producono</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong><a href="https://openneuro.org/">OpenNeuro</a></strong></td>
-<td style="text-align: left;">Dati di neuroimaging (MRI, MEG, EEG, iEEG, PET)</td>
-<td style="text-align: left;">Nessun tetto pubblicato.</td>
-<td style="text-align: left;">Gratuito. Richiede il formato <a href="https://bids.neuroimaging.io/">BIDS</a>, che viene validato automaticamente al caricamento.</td>
+<td style="text-align: left;">Licenza</td>
+<td style="text-align: left;">A quali condizioni si può riusare, e cosa vale per cosa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Come citare</td>
+<td style="text-align: left;">C’è una citazione per il progetto?/un DOI?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Materiali collegati</td>
+<td style="text-align: left;">DOI dell’articolo, della preregistrazione, del codice</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="come-si-sceglie-una-repository" class="level2">
-<h2 class="anchored" data-anchor-id="come-si-sceglie-una-repository">Come si sceglie una repository</h2>
-<p>Domande da porsi, in ordine di importanza:</p>
-<ol type="1">
-<li><strong>Il mio finanziatore o la mia rivista impongono qualcosa?</strong></li>
-<li><strong>Esiste un repository disciplinare per questo tipo di dato?</strong> Se sì, di solito è preferibile a uno generalista.</li>
-<li><strong>Rilascia un identificatore persistente</strong> e garantisce conservazione a lungo termine?</li>
-<li><strong>Supporta il livello di accesso che mi serve?</strong> Aperto, embargo, ristretto con approvazione.</li>
-<li><strong>Consente il versionamento?</strong> Perché i dati cambiano anche dopo la pubblicazione.</li>
-<li><strong>Dove sono fisicamente i dati?</strong> Rilevante per dati personali e GDPR.</li>
-<li><strong>Quanto costa, e chi paga?</strong></li>
-</ol>
-<p>Per cercare in modo sistematico: <a href="https://www.re3data.org/">re3data.org</a> è il registro internazionale dei repository di dati.</p>
 </section>
-<section id="stack" class="level2">
-<h2 class="anchored" data-anchor-id="stack">Il flusso di lavoro dopo OSF</h2>
+<section id="che-cosè-un-data-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="che-cosè-un-data-dictionary">Che cos’è un data dictionary</h2>
+<p>Il README descrive il progetto. Il data dictionary descrive <strong>ogni singola colonna</strong> dei vostri dati: una riga per variabile, in un file a parte (<code>&lt;nome_dataset&gt;_dictionary.csv</code>).</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -338,56 +298,95 @@ Importante
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Fase</th>
-<th style="text-align: left;">Dove</th>
-<th style="text-align: left;">Cosa producete</th>
+<th style="text-align: left;">Colonna</th>
+<th style="text-align: left;">Cosa ci va</th>
+<th style="text-align: left;">Esempio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Progettazione</td>
-<td style="text-align: left;">OSF Registrations</td>
-<td style="text-align: left;">Preregistrazione con DOI</td>
+<td style="text-align: left;"><code>variable_name</code></td>
+<td style="text-align: left;">Il nome esatto della colonna, carattere per carattere</td>
+<td style="text-align: left;"><code>rt</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Raccolta dati</td>
-<td style="text-align: left;">Server o cloud di ateneo, cartelle strutturate</td>
-<td style="text-align: left;">Dati grezzi + documentazione in corso d’opera</td>
+<td style="text-align: left;"><code>label</code></td>
+<td style="text-align: left;">Che cosa misura</td>
+<td style="text-align: left;">Tempo di reazione</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Analisi</td>
-<td style="text-align: left;">GitHub/GitLab privato</td>
-<td style="text-align: left;">Script versionati</td>
+<td style="text-align: left;"><code>type</code></td>
+<td style="text-align: left;">integer, numeric, string, categorical, date, boolean</td>
+<td style="text-align: left;">numeric</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Pubblicazione</td>
-<td style="text-align: left;">Zenodo, PsychArchives, … (dati e materiali) + release GitHub archiviata su Zenodo (codice)</td>
-<td style="text-align: left;">Uno o più DOI</td>
+<td style="text-align: left;"><code>unit</code></td>
+<td style="text-align: left;">Unità di misura. Vuoto se non ne ha</td>
+<td style="text-align: left;">milliseconds</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Diffusione</td>
-<td style="text-align: left;">Preprint su PsyArXiv, articolo, ORCID</td>
-<td style="text-align: left;">Sezione <em>Data availability</em> con tutti i DOI</td>
+<td style="text-align: left;"><code>allowed_values</code></td>
+<td style="text-align: left;">Intervallo o elenco dei valori possibili</td>
+<td style="text-align: left;">200-2000</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Collegamento</td>
-<td style="text-align: left;">Campi <em>related identifiers</em> di ogni deposito</td>
-<td style="text-align: left;">Rete di link fra preregistrazione, dati, codice e articolo</td>
+<td style="text-align: left;"><code>coding</code></td>
+<td style="text-align: left;">Il significato di ogni codice, per le categoriali</td>
+<td style="text-align: left;">1 = Psicologia; 2 = Economia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>missing_values</code></td>
+<td style="text-align: left;">Come sono rappresentati, e se si sa perché mancano</td>
+<td style="text-align: left;">cella vuota</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>source</code></td>
+<td style="text-align: left;">Da dove viene il dato: strumento, questionario, calcolo</td>
+<td style="text-align: left;">PsychoPy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>notes</code></td>
+<td style="text-align: left;">Decisioni prese, anomalie, avvertenze</td>
+<td style="text-align: left;">…</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="dati-che-non-si-possono-aprire" class="level2">
-<h2 class="anchored" data-anchor-id="dati-che-non-si-possono-aprire">Dati che non si possono aprire</h2>
-<p>Se i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili, in ordine di preferenza:</p>
-<ol type="1">
-<li><strong>Deposito ad accesso ristretto</strong> con procedura di richiesta documentata (Zenodo <em>restricted</em>).</li>
-<li><strong>Metadati pubblici e dati su richiesta formalizzata</strong>.</li>
-<li><strong>Dataset derivato</strong>: pubblicare aggregati, summary statistics.</li>
-<li><strong>Dati sintetici</strong> che riproducono la struttura del dataset reale.</li>
-</ol>
-<hr>
-<p>Due domande che arrivano subito dopo aver scelto dove depositare: <a href="./versioni.html">cosa si può correggere dopo la pubblicazione</a> e <a href="./riproducibilita.html">come si rende il nostro lavoro riproducibile</a>.</p>
+<section id="la-licenza" class="level2">
+<h2 class="anchored" data-anchor-id="la-licenza">La licenza</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Componente</th>
+<th style="text-align: left;">Licenza</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dati (<code>data/</code>)</td>
+<td style="text-align: left;"><strong>CC0-1.0</strong>, oppure CC-BY-4.0 se preferite l’obbligo di attribuzione</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Codice (<code>scripts/</code>)</td>
+<td style="text-align: left;"><strong>GPL-3.0</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Testi e materiali vostri</td>
+<td style="text-align: left;"><strong>CC-BY-4.0</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Strumenti di terzi (test, questionari commerciali)</td>
+<td style="text-align: left;">Nessuna: <strong>non si depositano</strong>, si citano</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="adesso-fatelo-sul-vostro-progetto" class="level2">
+<h2 class="anchored" data-anchor-id="adesso-fatelo-sul-vostro-progetto">Adesso fatelo sul vostro progetto</h2>
 
 
 </section>

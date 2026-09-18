@@ -4,10 +4,10 @@
 //  Aspetto del sito. Per cambiare tutto basta agire su questi cinque colori.
 // ===========================================================================
 $accento:    #8f1f27;   // rosso Unipd: link e pochi accenti, usato con parsimonia
-$inchiostro: #1b1a18;   // testo
-$attenuato:  #6d6862;   // testo secondario, didascalie
-$riga:       #e4dfd7;   // filetti e bordi
-$fondo:      #fdfcfa;   // sfondo della pagina
+$inchiostro: #000000;   // testo: nero, per la proiezione
+$attenuato:  #454039;   // testo secondario: scuro abbastanza da reggere un proiettore
+$riga:       #c8c1b6;   // filetti e bordi: visibili anche proiettati
+$fondo:      #ffffff;   // sfondo della pagina: bianco
 
 $body-bg:      $fondo;
 $body-color:   $inchiostro;
@@ -20,7 +20,7 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                          Helvetica, Arial, sans-serif;
 $headings-font-family:   "Iowan Old Style", "Palatino Linotype", Palatino,
                          Georgia, "Times New Roman", serif;
-$font-size-root:     16px;
+$font-size-root:     19px;   // tutto il resto scala da qui
 $line-height-base:   1.68;
 $headings-font-weight: 600;
 $h1-font-size: 2.05rem;
@@ -75,8 +75,8 @@ h2 + h3        { margin-top: 1.4rem; }
 // ---------------------------------------------------------------------------
 //  Link: sottolineatura sottile, staccata dal testo.
 // ---------------------------------------------------------------------------
-a                { text-decoration-thickness: .5px; text-underline-offset: .18em; }
-a:hover          { text-decoration-thickness: 1.5px; }
+a                { text-decoration-thickness: 1px; text-underline-offset: .18em; }
+a:hover          { text-decoration-thickness: 2px; }
 h1 a, h2 a, h3 a { text-decoration: none; }
 
 // ---------------------------------------------------------------------------
@@ -338,3 +338,28 @@ div.callout-tip.callout               { border-left-color: #2b6b45; }
 div.callout-warning.callout           { border-left-color: #8a6212; }
 div.callout-important.callout         { border-left-color: $accento; }
 div.callout-caution.callout           { border-left-color: #8a6212; }
+
+// ---------------------------------------------------------------------------
+//  Etichette "chi lo fa" nella pagina dei principi FAIR
+// ---------------------------------------------------------------------------
+.chi-repo, .chi-voi {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  margin: 0 .3rem .15rem 0;
+  white-space: nowrap;
+  vertical-align: .1em;
+}
+.chi-repo { background: #e3efe7; color: #1f5a37; }   // verde: lo fa il repository
+.chi-voi  { background: #f6e9ea; color: $accento; }   // rosso: tocca a voi
+
+// Le quattro tabelle dei principi: stesse colonne, cosi' i bordi non saltano
+// da una tabella all'altra mentre si scorre.
+.principi table { table-layout: fixed; width: 100%; }
+.principi col:nth-child(1), .principi th:nth-child(1) { width: 8%  !important; }
+.principi col:nth-child(2), .principi th:nth-child(2) { width: 37% !important; }
+.principi col:nth-child(3), .principi th:nth-child(3) { width: 55% !important; }

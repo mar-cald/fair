@@ -35,23 +35,19 @@ collaborazione, archivio dati e gestione file.
 :::
 :::
 
+<br/>
 
 <br/>
 
-## OSF a parte...
+<br/>
+
+### OSF a parte...
 
 ::: {.callout-important title="Ma cosa condividiamo?" collapse="true"}
 ## Scambiatevi le cartelle
 
-Condivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell'ultimo lavoro che avete pubblicato (non condividete l'articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti?
-
-Poi provate a rispondere a 3 domande:
-
-**1.** **Quanti partecipanti** ci sono?
-
-**2.** Cosa rappresenta **una riga** del file di dati? 
-
-**3.** Prendete due colonne, una che pensiate essere la **DV** e una che potrebbe essere la **IV**: cosa contengono esattamente?
+Condivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell'ultimo lavoro che avete pubblicato (non condividete l'articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti? 
+Cosa rappresenta **una riga** del file di dati? Cosa contiene esttamente? 
 :::
 
 

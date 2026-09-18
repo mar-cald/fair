@@ -23,13 +23,28 @@ Deposito immutabile, citabile, conservato a lungo termine, con DOI e metadati.
 
 :::
 ::: {.g-col-12 .g-col-md-4 .scheda}
-**3. Dove si dichiara e si collega**
+**3. Dove si dichiara**
 
-Il punto che tiene insieme piano di studio, dati, codice e pubblicazione.
+Il piano di studio, registrato prima di raccogliere i dati e congelato con un DOI.
 
-***Strumenti:*** OSF
+***Strumenti:*** [OSF Registries](https://osf.io/registries), che resta attivo anche dopo la chiusura dei Projects; PsychArchives accetta anche preregistrazioni.
 
 :::
+:::
+
+::: {.callout-note title="Come si collegano fra loro i materiali"}
+Nessuno strumento, OSF compreso, collega automaticamente preregistrazione, dati,
+codice e articolo. I collegamenti esistono solo se ogni documento indica dove si
+trovano gli altri:
+
+- il deposito dei dati riporta i DOI di articolo, preregistrazione e codice nei
+  campi *related identifiers*;
+- il README li elenca in una sezione dedicata;
+- l'articolo e il preprint li citano nella sezione *Data availability*;
+- la release del codice indica il DOI dei dati che analizza.
+
+Un documento che non riporta questi riferimenti resta isolato: chi lo trova non ha
+modo di risalire agli altri.
 :::
 
 ::: {.callout-note title="Importante"}

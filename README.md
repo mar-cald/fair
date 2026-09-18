@@ -13,8 +13,8 @@ Generale, Università di Padova, 23 settembre 2026).
 | `versioni.qmd` | Cosa si può correggere dopo aver depositato |
 | `riproducibilita.qmd` | Il pacchetto riproducibile: le due varianti |
 | `licenze.qmd` | Licenze per dati, codice e materiali |
-| `esercizio-1.qmd` | Esercitazione base: data dictionary, README, revisione |
-| `esercizio-2.qmd` | Esercitazione avanzata: Psych-DS |
+| `struttura-1.qmd` | README, data dictionary, licenza, struttura delle cartelle |
+| `struttura-2.qmd` | Psych-DS, uno standard per organizzare i dati |
 | `risorse.qmd` | Checklist, link, glossario |
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
 | `custom.scss` | Grafica: i cinque colori sono nelle prime righe |
@@ -24,7 +24,7 @@ Generale, Università di Padova, 23 settembre 2026).
 
 ```
 materiali/
-└── esercizio-2/
+└── struttura-2/
     └── stroop-attention/   dataset di esempio conforme a Psych-DS
 ```
 

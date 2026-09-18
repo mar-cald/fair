@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d9c19313b616063d51297c34bb3a63df.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -130,11 +130,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-struttura">    
         <li>
-    <a class="dropdown-item" href="./esercizio-1.html">
+    <a class="dropdown-item" href="./struttura-1.html">
  <span class="dropdown-text">README e Data dictionary</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./esercizio-2.html">
+    <a class="dropdown-item" href="./struttura-2.html">
  <span class="dropdown-text">Psych-DS</span></a>
   </li>  
     </ul>
@@ -162,6 +162,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#quanto-siete-fair" id="toc-quanto-siete-fair" class="nav-link active" data-scroll-target="#quanto-siete-fair">Quanto siete FAIR?</a></li>
   <li><a href="#da-dove-vengono" id="toc-da-dove-vengono" class="nav-link" data-scroll-target="#da-dove-vengono">Da dove vengono</a></li>
   <li><a href="#i-principi" id="toc-i-principi" class="nav-link" data-scroll-target="#i-principi">I principi</a></li>
+  <li><a href="#da-dove-si-comincia-il-data-management-plan" id="toc-da-dove-si-comincia-il-data-management-plan" class="nav-link" data-scroll-target="#da-dove-si-comincia-il-data-management-plan">Da dove si comincia: il Data Management Plan</a></li>
   </ul>
 </nav>
     </div>
@@ -217,150 +218,220 @@ Provate sull’ultimo studio che avete concluso
 <section id="da-dove-vengono" class="level2">
 <h2 class="anchored" data-anchor-id="da-dove-vengono">Da dove vengono</h2>
 <p>I principi FAIR nascono da un articolo del 2016 su <em>Scientific Data</em> (Wilkinson e colleghi, <a href="https://doi.org/10.1038/sdata.2016.18">10.1038/sdata.2016.18</a>), scritto da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici. L’idea di partenza è che l’enorme quantità di dati prodotti dalla ricerca resta sostanzialmente inutilizzabile, non perché sia segreta, ma perché è <strong>indescrivibile, introvabile e illeggibile</strong> per chi non l’ha prodotta.</p>
-<p>Oggi sono il riferimento esplicito dei principali enti finanziatori: Horizon Europe richiede un Data Management Plan e dati “FAIR by design”, i piani nazionali (PNRR compreso) e un numero crescente di riviste li richiamano nelle policy sui dati.</p>
+<p>Oggi sono il riferimento esplicito dei principali enti finanziatori. <a href="https://www.openaire.eu/how-to-comply-with-horizon-europe-mandate-for-rdm">Horizon Europe</a> chiede dati gestiti secondo i principi FAIR e un Data Management Plan entro il sesto mese di progetto; l’<a href="https://erc.europa.eu/manage-your-project/open-science">ERC</a> chiede lo stesso DMP e incoraggia il deposito dei dati secondo i principi FAIR. In Italia il MUR li ha adottati nel <a href="https://www.mur.gov.it/sites/default/files/2022-06/Piano_Nazionale_per_la_Scienza_Aperta.pdf">Piano Nazionale per la Scienza Aperta 2021-2027</a>, e le <a href="https://www.mur.gov.it/sites/default/files/2026-04/D.D.%202298%20All.%203%20Linee%20Guida%20di%20valutazione.pdf">linee guida di valutazione del PRIN 2026</a> scrivono che <em>«la gestione dei dati di ricerca deve essere responsabile e conforme ai principi FAIR»</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="FAIR parla anche alle macchine">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+FAIR parla anche alle macchine
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La parte meno intuitiva dell’articolo originale è l’insistenza sulla <em>machine-actionability</em>: non basta che una persona, leggendo, capisca — deve poterlo fare anche un programma, senza intervento umano. È per questo che i principi chiedono identificatori persistenti, formati aperti, vocabolari condivisi e metadati indicizzati: sono le condizioni perché motori di ricerca, aggregatori e meta-analisi automatizzate trovino e combinino i vostri dati.</p>
+<p>“Nella colonna 3 c’è il tempo di reazione in millisecondi” scritto in una mail non è FAIR. La stessa informazione nel data dictionary, sì.</p>
+</div>
+</div>
 </section>
 <section id="i-principi" class="level2">
 <h2 class="anchored" data-anchor-id="i-principi">I principi</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Più facile di quanto sembri">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Più facile di quanto sembri
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Scritti così, i principi sembrano un’impresa. Nella pratica <strong>circa metà li soddisfa il repository nel momento in cui pubblicate il deposito</strong>. L’altra metà richiede di compilare i metadati del deposito, salvare i dati in formato CSV, scegliere una licenza, indicare il DOI dell’articolo collegato, e scrivere il README e il data dictionary.</p>
+<p>Gli esempi seguono tutti lo stesso deposito: i dati di uno studio Stroop caricati su Zenodo. Nelle tabelle, <span class="chi-repo">Repository</span> indica ciò che il repository fa automaticamente, <span class="chi-voi">Voi</span> ciò che deve fare chi deposita.</p>
+</div>
+</div>
 <section id="f-findable-trovabile" class="level3">
 <h3 class="anchored" data-anchor-id="f-findable-trovabile">F — Findable, trovabile</h3>
-<p>Prima di poter usare qualcosa, bisogna poterlo trovare. Vale per gli esseri umani e per i motori di ricerca.</p>
+<p>Prima di poter usare qualcosa, bisogna poterlo trovare.</p>
+<div class="principi">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
+<col style="width: 8%">
+<col style="width: 37%">
+<col style="width: 54%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: left;">Principio</th>
+<th style="text-align: left;">Nell’esempio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>F1</strong></td>
 <td style="text-align: left;">(Meta)dati hanno un identificatore globale, univoco e persistente</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> Premete “Pubblica” e Zenodo assegna un DOI, tipo <code>10.5281/zenodo.XXXXXXX</code>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>F2</strong></td>
 <td style="text-align: left;">I dati sono descritti da metadati ricchi</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Al momento del caricamento Zenodo chiede di compilare i metadati del deposito: titolo, autori con ORCID, descrizione e parole chiave, per esempio “Stroop”, “attenzione selettiva”, “controllo cognitivo”.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>F3</strong></td>
 <td style="text-align: left;">I metadati contengono l’identificatore dei dati che descrivono</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> La pagina del deposito mostra il DOI accanto ai file. A voi resta solo scriverlo nell’articolo.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>F4</strong></td>
 <td style="text-align: left;">(Meta)dati sono registrati o indicizzati in una risorsa ricercabile</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> Zenodo rende disponibili i metadati tramite il protocollo OAI-PMH; OpenAIRE e gli altri aggregatori li raccolgono e li indicizzano automaticamente.</td>
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="a-accessible-accessibile" class="level3">
 <h3 class="anchored" data-anchor-id="a-accessible-accessibile">A — Accessible, accessibile</h3>
-<p><strong>A non risponde alla domanda “i dati sono aperti?” ma a “come si fa, esattamente, a ottenerli?”</strong>.</p>
+<p>A non risponde alla domanda “i dati sono aperti?” ma a “come si fa, esattamente, a ottenerli?”.</p>
+<div class="principi">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
+<col style="width: 8%">
+<col style="width: 37%">
+<col style="width: 54%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: left;">Principio</th>
+<th style="text-align: left;">Nell’esempio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>A1</strong></td>
 <td style="text-align: left;">Una volta che avete l’identificatore, deve esistere un modo ordinario e documentato per arrivare ai file</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> Chiunque apra <code>https://doi.org/10.5281/zenodo.XXXXXXX</code> arriva alla pagina e scarica i file.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>A1.1</strong></td>
 <td style="text-align: left;">Il protocollo è aperto, gratuito e implementabile da chiunque</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> I file si scaricano tramite HTTPS, lo stesso protocollo delle normali pagine web: si usa un qualunque browser, senza software aggiuntivo né abbonamenti.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>A1.2</strong></td>
-<td style="text-align: left;">Il protocollo consente autenticazione e autorizzazione dove servono. I principi FAIR non chiedono che chiunque scarichi i vostri dati: chiedono che il <strong>meccanismo</strong> per ottenerli sia standard e documentato (e.g, un dataset ad accesso controllato, DOI, licenza dichiarata, procedura di richiesta scritta, un responsabile che valuta le domande)</td>
+<td style="text-align: left;">Il protocollo consente autenticazione e autorizzazione dove servono</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> <span class="chi-voi">Voi</span> Se i dati sono sensibili si caricano con accesso <em>restricted</em>: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L’accesso può quindi essere limitato, purché la procedura per richiederlo sia pubblica e uguale per tutti.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>A2</strong></td>
 <td style="text-align: left;">I metadati restano accessibili anche quando i dati non lo sono più</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> Se un deposito va ritirato, Zenodo mantiene il DOI e al posto dei file mostra una pagina con il motivo del ritiro.</td>
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="i-interoperable-interoperabile" class="level3">
 <h3 class="anchored" data-anchor-id="i-interoperable-interoperabile">I — Interoperable, interoperabile</h3>
-<p>I dati devono potersi combinare con altri dati e essere letti da software diversi.</p>
+<p>I dati devono potersi combinare con altri dati ed essere letti da software diversi.</p>
+<div class="principi">
 <table class="caption-top table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 45%">
-<col style="width: 45%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: left;">Principio</th>
-<th style="text-align: left;">In pratica, per voi</th>
+<th style="text-align: left;">Nell’esempio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>I1</strong></td>
 <td style="text-align: left;">Si usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza</td>
-<td style="text-align: left;"><strong>Formati aperti</strong>: CSV o TSV invece di <code>.xlsx</code>, <code>.sav</code>, <code>.mat</code>; JSON per i metadati; testo semplice per la documentazione. Se serve un software a pagamento per aprire il file, il file è un problema.</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> I dati sono salvati in <code>stroop_trials.csv</code> anziché in <code>stroop.xlsx</code>; in Excel si usa <em>File → Salva con nome → CSV UTF-8</em>. Un file che si apre solo con un software a pagamento non è interoperabile.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>I2</strong></td>
 <td style="text-align: left;">Si usano vocabolari che seguono a loro volta i principi FAIR</td>
-<td style="text-align: left;">Usare termini standard invece di inventarli: schema.org, i vocabolari disciplinari (se ce ne sono). Gli standard <strong>Psych-DS</strong> e <strong>BIDS</strong>.</td>
+<td style="text-align: left;"><span class="chi-repo">Repository</span> <span class="chi-voi">Voi</span> Zenodo pubblica i metadati negli schemi standard <a href="https://www.dublincore.org/">Dublin Core</a> e DataCite. Nei dati, chi deposita scrive le date nel formato ISO 8601 (<code>2026-09-23</code>) invece che come <code>05/09/2026</code>, che in Italia indica il 5 settembre e negli Stati Uniti il 9 maggio.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>I3</strong></td>
-<td style="text-align: left;">I (meta)dati contengono riferimenti qualificati ad altri (meta)dati.</td>
-<td style="text-align: left;">Collegare esplicitamente le cose: “questo codice <em>analizza</em> quel dataset”.</td>
+<td style="text-align: left;">I (meta)dati contengono riferimenti qualificati ad altri (meta)dati</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Nel campo <em>Related works</em> di Zenodo si inserisce il DOI dell’articolo e si sceglie la relazione “is supplement to”. Nei metadati del dataset compare così il collegamento all’articolo; il collegamento inverso si crea citando il DOI del dataset nella sezione <em>Data availability</em> dell’articolo.</td>
 </tr>
 </tbody>
 </table>
+</div>
 </section>
 <section id="r-reusable-riusabile" class="level3">
 <h3 class="anchored" data-anchor-id="r-reusable-riusabile">R — Reusable, riusabile</h3>
 <p>È il principio che riassume tutti gli altri.</p>
+<div class="principi">
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
 <th style="text-align: left;">Principio</th>
-<th style="text-align: left;">In pratica, per voi</th>
+<th style="text-align: left;">Nell’esempio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>R1</strong></td>
 <td style="text-align: left;">I (meta)dati sono descritti con molti attributi accurati e pertinenti</td>
-<td style="text-align: left;">Il <strong><a href="./esercizio-1.html">data dictionary</a></strong> e il <strong>README</strong>. Cosa c’è in ogni colonna, in che unità, come sono codificati i valori mancanti.</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Si scrivono un <a href="./struttura-1.html">README</a> che descrive lo studio e un <a href="./struttura-1.html">data dictionary</a> con una riga per ogni colonna dei dati, per esempio: <code>rt_ms</code>, tempo di reazione, in millisecondi, cella vuota se il valore manca.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>R1.1</strong></td>
 <td style="text-align: left;">Sono rilasciati con una licenza d’uso chiara e accessibile</td>
-<td style="text-align: left;">Un file <code>LICENSE</code> e un campo licenza compilato. <a href="./licenze.html">Senza licenza esplicita, per default nessuno può riusare legalmente niente.</a></td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Nel campo <em>License</em> del deposito si sceglie la licenza, per esempio CC0. <a href="./licenze.html">In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>R1.2</strong></td>
 <td style="text-align: left;">Sono associati a una provenienza dettagliata</td>
-<td style="text-align: left;">Chi ha raccolto cosa, quando, come, con quale strumento e quale versione; cosa è stato fatto ai dati grezzi per arrivare a quelli analizzati.</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Nel README si indica come sono stati raccolti e trattati i dati, per esempio: “Raccolti in laboratorio fra marzo e aprile 2026 con PsychoPy, ripuliti con <code>scripts/01_cleaning.R</code>”.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>R1.3</strong></td>
 <td style="text-align: left;">Rispettano gli standard della comunità disciplinare</td>
-<td style="text-align: left;">Se nel vostro ambito esiste uno standard, usatelo.</td>
+<td style="text-align: left;"><span class="chi-voi">Voi</span> Se per quel tipo di dati esiste uno standard, lo si adotta: <a href="https://bids.neuroimaging.io/">BIDS</a> per il neuroimaging, <a href="./struttura-2.html">Psych-DS</a> per i dati comportamentali, <a href="https://ddialliance.org/">DDI</a> per i questionari nelle scienze sociali. Se non esiste, si usano gli stessi nomi, formati e codifiche in tutti i file.</td>
 </tr>
 </tbody>
 </table>
-
-
+</div>
+<p>Esiste anche una versione dei principi per il software, <strong>FAIR4RS</strong> (<a href="https://doi.org/10.1038/s41597-022-01710-x">Barker et al., 2022</a>): identificatore e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo. In pratica vuol dire una release archiviata su Zenodo con il suo DOI, un file <code>CITATION.cff</code> e un file <code>LICENSE</code>.</p>
 </section>
+</section>
+<section id="da-dove-si-comincia-il-data-management-plan" class="level2">
+<h2 class="anchored" data-anchor-id="da-dove-si-comincia-il-data-management-plan">Da dove si comincia: il Data Management Plan</h2>
+<p>Il <strong>DMP</strong> è un documento che si scrive <strong>all’inizio</strong> di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. Nei progetti Horizon Europe è obbligatorio: va consegnato come deliverable <strong>entro il sesto mese</strong> e rivisto verso la fine.</p>
+<p>Vale la pena scriverlo anche quando nessuno lo chiede, perché è il momento in cui si decidono le cose che dopo non si possono più correggere: la formula del consenso informato, i formati, il repository, la licenza.</p>
+<p>Il modo più rapido per capire cosa chiede un DMP è aprire il template:</p>
+<ul>
+<li><a href="https://dmponline.rivm.nl/template_export/5992485.pdf"><strong>Il template ufficiale di Horizon Europe</strong></a> — quattro pagine, una cinquantina di domande, nessun commento. Sette sezioni: dati prodotti, dati FAIR, altri output, risorse, sicurezza, etica, altro.</li>
+<li><a href="https://biblio.unipd.it/biblioteca-digitale/per-chi-pubblica/documenti-e-materiali/unipd_dmp-guidelines_18-09-2024_v4-3.pdf"><strong>Lo stesso template, annotato da Unipd</strong></a> — con spiegazioni ed esempi per ogni domanda. Si compilano solo le sezioni pertinenti al progetto.</li>
+<li><a href="https://dmponline.rivm.nl/public_templates"><strong>Il catalogo dei template</strong></a> — se il vostro finanziatore non è Horizon Europe (ERC, DFG, i consigli di ricerca britannici…), cercate lì il suo.</li>
+<li><a href="https://argos.openaire.eu/"><strong>Argos</strong></a> (OpenAIRE) e <a href="https://dmponline.dcc.ac.uk/"><strong>DMPonline</strong></a>: strumenti online che guidano la compilazione domanda per domanda.</li>
+<li>Per un supporto diretto c’è il <a href="https://biblio.unipd.it/en/digital-library/about-publishing/open-research-data">Sistema Bibliotecario di Ateneo</a>.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Un DMP sono i principi FAIR trasformati in domande">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Un DMP sono i principi FAIR trasformati in domande
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nel template la sezione 2 si chiama <em>FAIR data</em>, e ha quattro sottosezioni: <em>findable</em>, <em>accessible</em>, <em>interoperable</em>, <em>re-use</em>. Sono le quattro lettere di questa pagina, riscritte come domande a cui rispondere <strong>prima</strong> di raccogliere il primo dato. Chi ha capito i principi ha già capito metà del DMP.</p>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

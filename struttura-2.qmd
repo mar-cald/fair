@@ -1,4 +1,6 @@
 ---
+aliases:
+  - esercizio-2.html
 title: "Psych-DS"
 subtitle: "Uno standard per i dati psicologici, come BIDS"
 ---
@@ -107,8 +109,8 @@ stroop-attention/
     └── 01_stroop_effect.R
 ```
 
-- [dataset_description.json](materiali/esercizio-2/stroop-attention/dataset_description.json)
-- [un file di dati](materiali/esercizio-2/stroop-attention/data/study-stroop_subject-01_data.csv)
+- [dataset_description.json](materiali/struttura-2/stroop-attention/dataset_description.json)
+- [un file di dati](materiali/struttura-2/stroop-attention/data/study-stroop_subject-01_data.csv)
 - [tutto in materiali.zip](materiali.zip)
 
 La cartella `data/raw/` serve a conservare gli export originali nei formati
@@ -145,7 +147,7 @@ sa leggere.
 
 ### Se preferite fare pratica prima
 
-Sull'esempio già pronto, in cinque minuti:
+Sull'esempio già pronto:
 
 - **Validatelo.** Scaricate `stroop-attention/` e passatela al validator: deve
   risultare valida.

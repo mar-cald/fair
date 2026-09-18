@@ -33,9 +33,9 @@ website:
         text: Licenze
       - text: Struttura
         menu:
-          - href: esercizio-1.qmd
+          - href: struttura-1.qmd
             text: README e Data dictionary
-          - href: esercizio-2.qmd
+          - href: struttura-2.qmd
             text: Psych-DS
       - href: risorse.qmd
         text: Risorse
@@ -48,7 +48,7 @@ format:
   html:
     theme: [cosmo, custom.scss]
     grid:
-      body-width: 860px
+      body-width: 940px
       sidebar-width: 210px
       margin-width: 230px
     toc: true
