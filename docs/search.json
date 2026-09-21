@@ -4,14 +4,14 @@
     "href": "zenodo.html",
     "title": "Depositare su Zenodo",
     "section": "",
-    "text": "Questa pagina segue le decisioni da prendere mentre si carica un progetto su Zenodo, nell’ordine in cui si presentano."
+    "text": "Zenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (data/, scripts/, output/) si carica un unico archivio .zip, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.\nPrima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più."
   },
   {
     "objectID": "zenodo.html#caricare-unintera-cartella",
     "href": "zenodo.html#caricare-unintera-cartella",
     "title": "Depositare su Zenodo",
-    "section": "Caricare un’intera cartella",
-    "text": "Caricare un’intera cartella\nZenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (data/, scripts/, output/) si carica un unico archivio .zip, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.\nPrima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più."
+    "section": "",
+    "text": "Zenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (data/, scripts/, output/) si carica un unico archivio .zip, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.\nPrima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più."
   },
   {
     "objectID": "zenodo.html#il-tipo-di-risorsa",
@@ -214,7 +214,7 @@
     "href": "fair.html#quanto-siete-fair",
     "title": "I principi FAIR",
     "section": "Quanto siete FAIR?",
-    "text": "Quanto siete FAIR?\n\n\n\n\n\n\nProvate sull’ultimo studio che avete concluso\n\n\n\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricare i vostri dati/materiali/script?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
+    "text": "Quanto siete FAIR?\n\n\n\n\n\n\nProvate sull’ultimo studio che avete concluso\n\n\n\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricare i vostri dati/materiali/script?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita? E differenziata per dati, script e materiali?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
   },
   {
     "objectID": "fair.html#da-dove-vengono",
@@ -256,14 +256,21 @@
     "href": "index.html",
     "title": "Strumenti per una gestione FAIR",
     "section": "",
-    "text": "Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff\n\n\n\n  Hai un dubbio?\n  Scrivi cosa ti serve (o scegli un tema).\n  \n  \n  \n  Nessun risultato. Prova con un'altra parola, oppure usa la ricerca in alto a destra."
+    "text": "Dove mettere dati, codice e materiali, e cosa allegarci.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff\n\n\n\n  Hai un dubbio?\n  Scrivi cosa ti serve (o scegli un tema).\n  \n  \n  \n  Nessun risultato. Prova con un'altra parola, oppure usa la ricerca in alto a destra."
   },
   {
     "objectID": "ma.html",
     "href": "ma.html",
     "title": "OSF a parte: che cosa condividiamo?",
     "section": "",
-    "text": "Cartella A\nstroop_study/\n  ├── data-stroop.xlsx\n  └── analysis.R\n\n\ndata-stroop.xlsx\n\n\n\nSogg\ntrial\nparola\ncolore\nrisposta\nRT\nacc\n\n\n\n\n1\n1\nrosso\nrosso\nrosso\n523\ngiusto\n\n\n1\n2\nverde\nrosso\nRosso\n0,7\n1\n\n\n1\n3\nBLU\nblu\nblu\n480 ms\nok\n\n\n1\n4\nrosso\nverde\nrosso\nNA\nsbagliato\n\n\n\n\n\n \n\n\nCartella B\nstroop-anxiety/\n  ├── README.md\n  ├── LICENSE_scripts\n  ├── LICENSE_data\n  ├── data/\n  │   ├── stroop_data.csv\n  │   └── stroop_dictionary.csv\n  └── scripts/\n      ├── 01_preprocessing.R\n      └── 02_analysis.R\n\n\nREADME.md\n# Stroop-anxiety — data and code\n\nDoes trait anxiety increase Stroop\ninterference? 100 adults completed a \ncolour-word Stroop task (PsychoPy, March 2026). \nWe investigated the impact of trait anxiety \non Stroop task performance in terms of \nreaction times and accuracy.\n\n## Files\n- data/stroop_data.csv — trial-level data\n- data/stroop_dictionary.csv — data descrption\n- scripts/01_preprocessing.R — cleans data\n- scripts/02_analysis.R — runs the analysis\n\n## Reproduce\nRun 01 then 02 in R (&gt;= 4.3).\n\n## License\nData CC0-1.0, code GPL-3.0 (see LICENSE).\n\n\n\n\n\nCon quale dei due preferireste collaborare?\nQuale assomiglia di più alla cartella del vostro ultimo lavoro?\nE allora, come vi sentireste ora se doveste passarla alla vostra collega, che cosa ne capirebbe senza chiedervi niente?"
+    "text": "Ve la sentireste?\n\n\n\nImmaginate di passare a chi vi siede accanto la cartella dell’ultimo lavoro che avete pubblicato, non l’articolo, la cartella dei dati e del codice. Ve la sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?\nSe avete una cartella a portata provate davvero:"
+  },
+  {
+    "objectID": "ma.html#una-cartella-che-si-può-riusare",
+    "href": "ma.html#una-cartella-che-si-può-riusare",
+    "title": "OSF a parte: che cosa condividiamo?",
+    "section": "Una cartella che si può riusare",
+    "text": "Una cartella che si può riusare\nstroop-anxiety/\n├── README.md                 cos'è lo studio\n├── LICENSE                   a quali condizioni si riusa\n├── data/\n│   ├── stroop_data.csv       i dati, un trial per riga\n│   └── stroop_dictionary.csv descrive ogni colonna\n└── scripts/\n    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti\n    └── 02_analysis.R         riproduce l'analisi\nOgni file dice che cosa contiene: il README spiega il progetto, il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a quali condizioni si può riusare."
   },
   {
     "objectID": "repository.html",
@@ -341,13 +348,6 @@
     "title": "README e Data dictionary",
     "section": "La licenza",
     "text": "La licenza\n\n\n\n\n\n\n\nComponente\nLicenza\n\n\n\n\nDati (data/)\nCC0-1.0, oppure CC-BY-4.0 se preferite l’obbligo di attribuzione\n\n\nCodice (scripts/)\nGPL-3.0\n\n\nTesti e materiali vostri\nCC-BY-4.0\n\n\nStrumenti di terzi (test, questionari commerciali)\nNessuna: non si depositano, si citano"
-  },
-  {
-    "objectID": "struttura-1.html#adesso-fatelo-sul-vostro-progetto",
-    "href": "struttura-1.html#adesso-fatelo-sul-vostro-progetto",
-    "title": "README e Data dictionary",
-    "section": "Adesso fatelo sul vostro progetto",
-    "text": "Adesso fatelo sul vostro progetto"
   },
   {
     "objectID": "versioni.html",

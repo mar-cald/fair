@@ -142,6 +142,5 @@ colonna** dei vostri dati: una riga per variabile, in un file a parte
 
 
 
-## Adesso fatelo sul vostro progetto
 
 

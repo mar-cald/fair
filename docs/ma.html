@@ -158,8 +158,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In questa pagina</h2>
+   
+  <ul class="collapse">
+  <li><a href="#una-cartella-che-si-può-riusare" id="toc-una-cartella-che-si-può-riusare" class="nav-link active" data-scroll-target="#una-cartella-che-si-può-riusare">Una cartella che si può riusare</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -183,117 +189,41 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="progetti">
-<div class="grid">
-<div class="g-col-12 g-col-md-4 scheda">
-<p><strong>Cartella A</strong></p>
-<pre><code>stroop_study/
-  ├── data-stroop.xlsx
-  └── analysis.R</code></pre>
+<div class="callout callout-style-default callout-important callout-titled" title="Ve la sentireste?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="g-col-12 g-col-md-8 scheda">
-<p><strong>data-stroop.xlsx</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Sogg</th>
-<th style="text-align: left;">trial</th>
-<th style="text-align: left;">parola</th>
-<th style="text-align: left;">colore</th>
-<th style="text-align: left;">risposta</th>
-<th style="text-align: left;">RT</th>
-<th style="text-align: left;">acc</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">523</td>
-<td style="text-align: left;">giusto</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">verde</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">Rosso</td>
-<td style="text-align: left;">0,7</td>
-<td style="text-align: left;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">BLU</td>
-<td style="text-align: left;">blu</td>
-<td style="text-align: left;">blu</td>
-<td style="text-align: left;">480 ms</td>
-<td style="text-align: left;">ok</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">verde</td>
-<td style="text-align: left;">rosso</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">sbagliato</td>
-</tr>
-</tbody>
-</table>
+<div class="callout-title-container flex-fill">
+Ve la sentireste?
 </div>
 </div>
-<p><br> <br></p>
-<div class="grid">
-<div class="g-col-12 g-col-md-5 scheda">
-<p><strong>Cartella B</strong></p>
-<pre><code>stroop-anxiety/
-  ├── README.md
-  ├── LICENSE_scripts
-  ├── LICENSE_data
-  ├── data/
-  │   ├── stroop_data.csv
-  │   └── stroop_dictionary.csv
-  └── scripts/
-      ├── 01_preprocessing.R
-      └── 02_analysis.R</code></pre>
-</div>
-<div class="g-col-12 g-col-md-7 scheda">
-<p><strong>README.md</strong></p>
-<pre><code># Stroop-anxiety — data and code
-
-Does trait anxiety increase Stroop
-interference? 100 adults completed a 
-colour-word Stroop task (PsychoPy, March 2026). 
-We investigated the impact of trait anxiety 
-on Stroop task performance in terms of 
-reaction times and accuracy.
-
-## Files
-- data/stroop_data.csv — trial-level data
-- data/stroop_dictionary.csv — data descrption
-- scripts/01_preprocessing.R — cleans data
-- scripts/02_analysis.R — runs the analysis
-
-## Reproduce
-Run 01 then 02 in R (&gt;= 4.3).
-
-## License
-Data CC0-1.0, code GPL-3.0 (see LICENSE).
-</code></pre>
+<div class="callout-body-container callout-body">
+<p>Immaginate di passare a chi vi siede accanto la cartella dell’ultimo lavoro che avete pubblicato, non l’articolo, la cartella dei dati e del codice. Ve la sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?</p>
 </div>
 </div>
-</div>
+<p>Se avete una cartella a portata provate davvero:</p>
 <ol type="1">
-<li><p>Con quale dei due preferireste collaborare?</p></li>
-<li><p>Quale assomiglia di più alla cartella del vostro ultimo lavoro?</p></li>
-<li><p>E allora, come vi sentireste ora se doveste passarla alla vostra collega, che cosa ne capirebbe senza chiedervi niente?</p></li>
+<li>Di che cosa tratta lo studio?</li>
+<li>Prendete una colonna a caso del dataset utilizzato per le analisi (uno a caso se ce n’è più di uno), che cosa sapreste dire delle informazioni che sono riportate nella decima riga?</li>
+<li>Potete riusare i dati di questo studio?</li>
 </ol>
+<p><br> <br></p>
+<section id="una-cartella-che-si-può-riusare" class="level2">
+<h2 class="anchored" data-anchor-id="una-cartella-che-si-può-riusare">Una cartella che si può riusare</h2>
+<pre><code>stroop-anxiety/
+├── README.md                 cos'è lo studio
+├── LICENSE                   a quali condizioni si riusa
+├── data/
+│   ├── stroop_data.csv       i dati, un trial per riga
+│   └── stroop_dictionary.csv descrive ogni colonna
+└── scripts/
+    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti
+    └── 02_analysis.R         riproduce l'analisi</code></pre>
+<p>Ogni file dice che cosa contiene: il README spiega il progetto, il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a quali condizioni si può riusare.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

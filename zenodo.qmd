@@ -3,9 +3,6 @@ title: "Depositare su Zenodo"
 subtitle: "Le scelte da fare durante il deposito"
 ---
 
-Questa pagina segue le decisioni da prendere mentre si carica un progetto su
-[Zenodo](https://zenodo.org/), nell'ordine in cui si presentano.
-
 ## Caricare un'intera cartella
 
 Zenodo non gestisce cartelle: i file di un record sono un elenco senza

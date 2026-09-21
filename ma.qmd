@@ -2,88 +2,39 @@
 title: "OSF a parte: che cosa condividiamo?"
 ---
 
-
-::: {.progetti}
-
-::: {.grid}
-::: {.g-col-12 .g-col-md-4 .scheda}
-**Cartella A**
-
-```
-stroop_study/
-  ├── data-stroop.xlsx
-  └── analysis.R
-```
+::: {.callout-important title="Ve la sentireste?"}
+Immaginate di passare a chi vi siede accanto la cartella dell'ultimo lavoro che
+avete pubblicato, non l'articolo, la cartella dei dati e del codice. Ve la
+sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?
 :::
-::: {.g-col-12 .g-col-md-8 .scheda}
-**data-stroop.xlsx**
 
-| Sogg | trial | parola | colore | risposta | RT | acc |
-|:--|:--|:--|:--|:--|:--|:--|
-| 1 | 1 | rosso | rosso | rosso | 523 | giusto |
-| 1 | 2 | verde | rosso | Rosso | 0,7 | 1 |
-| 1 | 3 | BLU | blu | blu | 480 ms | ok |
-| 1 | 4 | rosso | verde | rosso | NA | sbagliato |
-:::
-:::
+Se avete una cartella a portata provate davvero:
+
+1. Di che cosa tratta lo studio?
+2. Prendete una colonna a caso del dataset utilizzato per le analisi (uno a caso se ce n'è più di uno), che cosa sapreste dire delle informazioni che sono riportate nella decima riga?
+3. Potete riusare i dati di questo studio?
+
 
 <br/>
 <br/>
 
-::: {.grid}
-::: {.g-col-12 .g-col-md-5 .scheda}
-**Cartella B**
+## Una cartella che si può riusare
+
 
 ```
 stroop-anxiety/
-  ├── README.md
-  ├── LICENSE_scripts
-  ├── LICENSE_data
-  ├── data/
-  │   ├── stroop_data.csv
-  │   └── stroop_dictionary.csv
-  └── scripts/
-      ├── 01_preprocessing.R
-      └── 02_analysis.R
+├── README.md                 cos'è lo studio
+├── LICENSE                   a quali condizioni si riusa
+├── data/
+│   ├── stroop_data.csv       i dati, un trial per riga
+│   └── stroop_dictionary.csv descrive ogni colonna
+└── scripts/
+    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti
+    └── 02_analysis.R         riproduce l'analisi
 ```
-:::
-::: {.g-col-12 .g-col-md-7 .scheda}
-**README.md**
 
-```
-# Stroop-anxiety — data and code
-
-Does trait anxiety increase Stroop
-interference? 100 adults completed a 
-colour-word Stroop task (PsychoPy, March 2026). 
-We investigated the impact of trait anxiety 
-on Stroop task performance in terms of 
-reaction times and accuracy.
-
-## Files
-- data/stroop_data.csv — trial-level data
-- data/stroop_dictionary.csv — data descrption
-- scripts/01_preprocessing.R — cleans data
-- scripts/02_analysis.R — runs the analysis
-
-## Reproduce
-Run 01 then 02 in R (>= 4.3).
-
-## License
-Data CC0-1.0, code GPL-3.0 (see LICENSE).
-
-```
-:::
-:::
-
-:::
-
-
-1. Con quale dei due preferireste collaborare?
-
-2. Quale assomiglia di più alla cartella del vostro ultimo lavoro? 
-
-3. E allora, come vi sentireste ora se doveste passarla alla vostra collega, che cosa ne capirebbe senza chiedervi niente?
-
+Ogni file dice che cosa contiene: il README spiega il progetto,
+il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a
+quali condizioni si può riusare. 
 
 

@@ -13,7 +13,7 @@ subtitle: "Findable, Accessible, Interoperable, Reusable"
 - [ ] Una persona esterna può scaricare i vostri dati/materiali/script?
 - [ ] I file sono in formati aperti (CSV, TXT, JSON) e non solo `.xlsx`?
 - [ ] Ogni colonna di ogni file è documentata da qualche parte?
-- [ ] C'è una licenza esplicita?
+- [ ] C'è una licenza esplicita? E differenziata per dati, script e materiali?
 - [ ] Si capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?
 - [ ] Dataset, codice, preregistrazione e articolo sono collegati l'uno all'altro?
 :::

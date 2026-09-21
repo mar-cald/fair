@@ -4,7 +4,7 @@ subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
 
-Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli. 
+Dove mettere dati, codice e materiali, e cosa allegarci. 
  
 ::: {.grid}
 
@@ -76,31 +76,32 @@ Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perc
 <script>
 (function(){
   var DATA=[
-    {q:"OSF chiude: e adesso? Cosa cambia e cosa no",cat:"Dati",tags:"osf chiude dismissione migrare alternativa scadenze",url:"apertura.html"},
-    {q:"Dove deposito i miei dati?",cat:"Dati",tags:"repository archivio deposito zenodo psycharchives dataverse dryad",url:"repository.html"},
-    {q:"I dati sono personali o sensibili: dove e come li metto?",cat:"Dati",tags:"gdpr personali sensibili anonimizzare accesso ristretto restricted privacy",url:"repository.html#dati-che-non-si-possono-aprire"},
-    {q:"Zenodo o PsychArchives? Quale scelgo",cat:"Dati",tags:"confronto differenze scelta zenodo psycharchives",url:"psycharchives.html#psycharchives-e-zenodo-a-confronto"},
-    {q:"Come carico un'intera cartella/progetto su Zenodo",cat:"Dati",tags:"zenodo caricare upload zip archivio cartella progetto",url:"zenodo.html#caricare-unintera-cartella"},
+    {q:"OSF chiude: e adesso? Cosa cambia e cosa no",cat:"Dati",tags:"osf chiude chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura cosa cambia futuro",url:"apertura.html"},
+    {q:"Dove deposito i miei dati?",cat:"Dati",tags:"repository archivio deposito depositare caricare pubblicare mettere zenodo psycharchives dataverse dryad figshare osf",url:"repository.html"},
+    {q:"I dati sono personali o sensibili: dove e come li metto?",cat:"Dati",tags:"gdpr personali sensibili anonimizzare anonimizzazione accesso ristretto restricted riservati privacy identificabili consenso",url:"repository.html#dati-che-non-si-possono-aprire"},
+    {q:"Quanto spazio ho? I limiti dei repository",cat:"Dati",tags:"limiti limite spazio quota dimensione dimensioni peso gb quanto grande capienza massimo numero file troppo grande",url:"repository.html#repository-generalisti"},
+    {q:"Zenodo o PsychArchives? Quale scelgo",cat:"Dati",tags:"confronto confrontare differenze differenza scelta scegliere quale zenodo psycharchives",url:"psycharchives.html#psycharchives-e-zenodo-a-confronto"},
+    {q:"Come carico un'intera cartella/progetto su Zenodo",cat:"Dati",tags:"zenodo caricare caricamento upload zip archivio cartella progetto intera",url:"zenodo.html#caricare-unintera-cartella"},
     {q:"Che tipo di risorsa scelgo su Zenodo?",cat:"Dati",tags:"zenodo resource type dataset software tipo risorsa",url:"zenodo.html#il-tipo-di-risorsa"},
-    {q:"Condividere una bozza per la peer review anonima",cat:"Condividere",tags:"peer review revisione anonimo bozza reviewer secret link zenodo",url:"zenodo.html#condividere-una-bozza-prima-di-pubblicare"},
-    {q:"Reviewer link su PsychArchives",cat:"Condividere",tags:"peer review revisione anonimo reviewer link psycharchives",url:"psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link"},
-    {q:"Lavorare in più persone su un deposito",cat:"Condividere",tags:"collaborare gruppo community insieme condiviso zenodo",url:"zenodo.html#lavorare-in-più-persone"},
-    {q:"Correzioni e nuove versioni dopo la pubblicazione",cat:"Condividere",tags:"versione correzione aggiornare doi errata modifica",url:"versioni.html"},
-    {q:"Che licenza scelgo per i dati? (CC0, CC BY)",cat:"Licenze",tags:"licenza dati cc0 cc by creative commons",url:"licenze.html#le-licenze-creative-commons"},
-    {q:"Che licenza per il codice? (MIT, Apache, GPL)",cat:"Licenze",tags:"licenza codice software mit apache gpl copyleft",url:"licenze.html#licenze-per-il-codice"},
-    {q:"Licenza per solo uso scientifico (PsychArchives)",cat:"Licenze",tags:"scientific use file licenza scientifica psycharchives sharing level",url:"licenze.html#uso-scientifico"},
-    {q:"Come applico una licenza, in pratica",cat:"Licenze",tags:"license file readme come fare applicare",url:"licenze.html#come-si-applica-una-licenza-in-pratica"},
-    {q:"Come nomino file e cartelle?",cat:"Struttura",tags:"nomi file cartelle naming spazi convenzione",url:"struttura-1.html#come-si-chiamano-i-file"},
-    {q:"In che formato salvo i dati? (CSV o xlsx)",cat:"Struttura",tags:"formato csv xlsx sav proprietario aperto txt json",url:"struttura-1.html#in-che-formato-salvarli"},
-    {q:"Come organizzo le cartelle del progetto",cat:"Struttura",tags:"struttura cartelle organizzazione data raw scripts output",url:"struttura-1.html#la-struttura"},
-    {q:"Cos'è e come scrivo un README",cat:"Struttura",tags:"readme documentazione descrizione",url:"struttura-1.html#che-cosè-un-readme"},
-    {q:"Cos'è un data dictionary?",cat:"Struttura",tags:"data dictionary dizionario colonne variabili codebook unita codifica",url:"struttura-1.html#che-cosè-un-data-dictionary"},
+    {q:"Condividere una bozza per la peer review anonima",cat:"Condividere",tags:"peer review revisione anonima anonimo bozza reviewer secret link condividere prima pubblicare zenodo revisori",url:"zenodo.html#condividere-una-bozza-prima-di-pubblicare"},
+    {q:"Reviewer link su PsychArchives",cat:"Condividere",tags:"peer review revisione anonima reviewer link condividere prima revisori psycharchives",url:"psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link"},
+    {q:"Lavorare in più persone su un deposito",cat:"Condividere",tags:"collaborare collaborazione collaboratori coautori co-autori insieme altri condividere accesso gruppo community team lavorare persone colleghi",url:"zenodo.html#lavorare-in-più-persone"},
+    {q:"Correzioni e nuove versioni dopo la pubblicazione",cat:"Condividere",tags:"versione versioni correzione correggere aggiornare modificare doi errata sbaglio nuova",url:"versioni.html"},
+    {q:"Che licenza scelgo per i dati? (CC0, CC BY)",cat:"Licenze",tags:"licenza licenze dati cc0 cc by creative commons commerciale nc non commerciale attribuzione limiti",url:"licenze.html#le-licenze-creative-commons"},
+    {q:"Che licenza per il codice? (MIT, Apache, GPL)",cat:"Licenze",tags:"licenza licenze codice software mit apache gpl agpl lgpl copyleft brevetto",url:"licenze.html#licenze-per-il-codice"},
+    {q:"Licenza per solo uso scientifico (PsychArchives)",cat:"Licenze",tags:"scientific use file licenza scientifica psycharchives sharing level solo scienza ricerca",url:"licenze.html#uso-scientifico"},
+    {q:"Come applico una licenza, in pratica",cat:"Licenze",tags:"license file applicare applico come fare citare citazione cff",url:"licenze.html#come-si-applica-una-licenza-in-pratica"},
+    {q:"Come nomino file e cartelle?",cat:"Struttura",tags:"nomi nome file cartelle naming spazi accenti convenzione rinominare",url:"struttura-1.html#come-si-chiamano-i-file"},
+    {q:"In che formato salvo i dati? (CSV o xlsx)",cat:"Struttura",tags:"formato formati csv xlsx excel sav spss mat proprietario proprietari aperto aperti txt json",url:"struttura-1.html#in-che-formato-salvarli"},
+    {q:"Come organizzo le cartelle del progetto",cat:"Struttura",tags:"struttura cartelle organizzare organizzazione data raw grezzi scripts output alberatura",url:"struttura-1.html#la-struttura"},
+    {q:"Cos'è e come scrivo un README",cat:"Struttura",tags:"readme documentazione descrizione leggimi documentare",url:"struttura-1.html#che-cosè-un-readme"},
+    {q:"Cos'è un data dictionary?",cat:"Struttura",tags:"data dictionary dizionario colonne variabili codebook unita codifica significato descrivere",url:"struttura-1.html#che-cosè-un-data-dictionary"},
     {q:"Strutturare i dati comportamentali (Psych-DS)",cat:"Struttura",tags:"psych-ds psychds standard comportamentali metadati",url:"struttura-2.html"},
-    {q:"Cosa sono i principi FAIR?",cat:"FAIR",tags:"fair findable accessible interoperable reusable principi",url:"fair.html"},
-    {q:"FAIR e dati personali (GDPR)",cat:"FAIR",tags:"fair gdpr privacy personali anonimizzazione conservazione",url:"fair.html#fair-e-gdpr"},
-    {q:"Devo scrivere un DMP (Data Management Plan)",cat:"FAIR",tags:"dmp data management plan piano gestione dati horizon",url:"fair.html#data-management-plan-dmp"},
-    {q:"Checklist prima di depositare",cat:"FAIR",tags:"checklist verifica controllo prima depositare pronto",url:"risorse.html#checklist-prima-di-depositare"},
-    {q:"Glossario e sigle (DOI, ORCID, …)",cat:"FAIR",tags:"glossario sigle doi orcid termini definizioni",url:"risorse.html#glossario-minimo"}
+    {q:"Cosa sono i principi FAIR?",cat:"FAIR",tags:"fair findable accessible interoperable reusable principi trovabile accessibile interoperabile riusabile",url:"fair.html"},
+    {q:"FAIR e dati personali (GDPR)",cat:"FAIR",tags:"fair gdpr privacy personali anonimizzazione conservazione limiti tensione",url:"fair.html#fair-e-gdpr"},
+    {q:"Devo scrivere un DMP (Data Management Plan)",cat:"FAIR",tags:"dmp data management plan piano gestione dati horizon europe finanziamento template",url:"fair.html#data-management-plan-dmp"},
+    {q:"Checklist prima di depositare",cat:"FAIR",tags:"checklist verifica controllo controllare prima depositare pronto lista",url:"risorse.html#checklist-prima-di-depositare"},
+    {q:"Glossario e sigle (DOI, ORCID, …)",cat:"FAIR",tags:"glossario sigle acronimi doi orcid termini definizioni significato",url:"risorse.html#glossario-minimo"}
   ];
   var CATS=["Tutte","Dati","Condividere","Licenze","Struttura","FAIR"];
   var norm=function(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");};
@@ -123,14 +124,23 @@ Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perc
     });
     chipsBox.appendChild(b);
   });
+  var STOP={come:1,cosa:1,che:1,chi:1,quale:1,quali:1,dove:1,quando:1,quanto:1,qual:1,i:1,il:1,lo:1,la:1,le:1,gli:1,un:1,uno:1,una:1,di:1,del:1,dei:1,delle:1,della:1,degli:1,a:1,al:1,ai:1,alla:1,agli:1,da:1,in:1,nel:1,nella:1,con:1,su:1,sul:1,sulla:1,per:1,tra:1,fra:1,e:1,o:1,ed:1,od:1,mi:1,si:1,ci:1,vi:1,ne:1,ho:1,hai:1,ha:1,sono:1,me:1,noi:1,voi:1,voglio:1,vorrei:1,posso:1,devo:1,fare:1,faccio:1,se:1,ma:1,piu:1,molto:1,miei:1,mie:1,mio:1,mia:1,questo:1,questa:1};
+  function pref(a,b){var n=Math.min(a.length,b.length),i=0;while(i<n&&a.charCodeAt(i)===b.charCodeAt(i)){i++;}return i;}
+  function matchTerm(t,hay,words){
+    if(hay.indexOf(t)>-1){return true;}
+    if(t.length<4){return false;}
+    for(var i=0;i<words.length;i++){if(pref(t,words[i])>=4){return true;}}
+    return false;
+  }
   function render(){
-    var terms=norm(input.value).split(/\s+/).filter(Boolean);
+    var terms=norm(input.value).split(/\s+/).filter(function(t){return t&&t.length>=2&&!STOP[t];});
     var n=0;
     list.innerHTML="";
     DATA.forEach(function(it){
       if(active!=="Tutte" && it.cat!==active){return;}
       var hay=norm(it.q+" "+it.tags+" "+it.cat);
-      var ok=terms.every(function(t){return hay.indexOf(t)>-1;});
+      var words=hay.split(/[^a-z0-9]+/).filter(Boolean);
+      var ok=terms.every(function(t){return matchTerm(t,hay,words);});
       if(!ok){return;}
       n++;
       var li=document.createElement("li");
