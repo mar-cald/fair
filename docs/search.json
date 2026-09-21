@@ -1,24 +1,325 @@
 [
   {
-    "objectID": "versioni.html",
-    "href": "versioni.html",
-    "title": "Versioni e correzioni",
+    "objectID": "zenodo.html",
+    "href": "zenodo.html",
+    "title": "Depositare su Zenodo",
     "section": "",
-    "text": "È la domanda che arriva sempre per seconda, subito dopo “dove lo metto”: e se poi mi accorgo di un errore? La risposta cambia molto da un repository all’altro, e conviene saperla prima di depositare, non dopo.\n\n\n\n\n\n\n\n\n\nDopo la pubblicazione potete…\nCome\n\n\n\n\nZenodo\nmodificare i file entro 30 giorni, stesso DOI, nessuna nuova versione\nin autonomia, dall’interfaccia\n\n\nZenodo, dopo i 30 giorni\nsolo casi giustificati: violazione di copyright, dati personali esposti. Per tutto il resto si crea una nuova versione\nrichiesta motivata\n\n\nPsychArchives\nniente modifica in autonomia: si genera una nuova versione\nsi manda alla mail delle submission il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri\n\n\n\n\n\n\n\n\n\nInfo generali\n\n\n\nI metadati sono sempre modificabili.\nUna nuova versione non raddoppia lo spazio occupato, la piattaforma sottostante salva solo la differenza. Quello che sì spreca spazio davvero è un’altra cosa: depositare gli stessi byte in due record distinti con due DOI diversi."
+    "text": "Questa pagina segue le decisioni da prendere mentre si carica un progetto su Zenodo, nell’ordine in cui si presentano."
+  },
+  {
+    "objectID": "zenodo.html#caricare-unintera-cartella",
+    "href": "zenodo.html#caricare-unintera-cartella",
+    "title": "Depositare su Zenodo",
+    "section": "Caricare un’intera cartella",
+    "text": "Caricare un’intera cartella\nZenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (data/, scripts/, output/) si carica un unico archivio .zip, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.\nPrima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più."
+  },
+  {
+    "objectID": "zenodo.html#il-tipo-di-risorsa",
+    "href": "zenodo.html#il-tipo-di-risorsa",
+    "title": "Depositare su Zenodo",
+    "section": "Il tipo di risorsa",
+    "text": "Il tipo di risorsa\nIl campo Resource type è obbligatorio e incide sulla reperibilità: alcuni sistemi di ricerca indicizzano da Zenodo solo pubblicazioni, dataset e software. Per un’intera cartella di progetto Zenodo indica due strade:\n\nun solo record, con il tipo che descrive il contributo principale: di solito Dataset, quando gli script servono solo a elaborare i dati;\npiù record, uno per tipo, quando dati e codice sono ciascuno un contributo a sé: un record Dataset per i dati e uno Software per il codice, collegati fra loro nel campo Related works.\n\nIl tipo Other non dice che cosa contiene il record, e i sistemi che raccolgono solo alcuni tipi non lo indicizzano."
+  },
+  {
+    "objectID": "zenodo.html#licenza-e-copyright",
+    "href": "zenodo.html#licenza-e-copyright",
+    "title": "Depositare su Zenodo",
+    "section": "Licenza e copyright",
+    "text": "Licenza e copyright\nIl campo License è obbligatorio e di default è impostato su CC BY 4.0: se per i dati avete scelto CC0, va cambiato. Nello stesso record si possono indicare più licenze, per esempio CC0 per i dati e MIT per il codice.\nIl campo Copyright ha un’altra funzione: dichiara chi detiene i diritti, mentre la licenza dice che cosa possono farne gli altri. Si compila con una riga come “© 2026 Nome Cognome”, o con il nome dell’ente quando i diritti appartengono all’università o a un editore."
+  },
+  {
+    "objectID": "zenodo.html#condividere-una-bozza-prima-di-pubblicare",
+    "href": "zenodo.html#condividere-una-bozza-prima-di-pubblicare",
+    "title": "Depositare su Zenodo",
+    "section": "Condividere una bozza prima di pubblicare",
+    "text": "Condividere una bozza prima di pubblicare\nUna bozza su Zenodo non è pubblica e si può modificare fino alla pubblicazione. Si può però condividere, per esempio con i revisori di una rivista:\n\nSalvate la bozza con i metadati minimi: il pulsante Share si attiva solo dopo.\nCliccate Share e aprite la scheda Links.\nCreate un link con il permesso Can preview draft. Il permesso Can view non va bene, perché vale solo per i record già pubblicati.\nSe serve, impostate una data di scadenza del link.\n\nIl link funziona anche per chi non ha un account Zenodo, e non rivela a nessuno chi lo apre (documentazione).\n\n\n\n\n\n\nPer una revisione in cieco l’anonimizzazione è a carico vostro\n\n\n\nIl link protegge l’identità di chi revisiona, non la vostra: l’anteprima mostra la pagina del record come sarà pubblicata, autori compresi. Se i revisori non devono sapere chi siete, sostituite gli autori della bozza con “un nome segnaposto”anonymous” e togliete i riferimenti a voi dal contenuto dei file (README, intestazioni degli script, percorsi come /Users/nome/...). Prima di pubblicare, rimettete i nomi."
+  },
+  {
+    "objectID": "zenodo.html#lavorare-in-più-persone",
+    "href": "zenodo.html#lavorare-in-più-persone",
+    "title": "Depositare su Zenodo",
+    "section": "Lavorare in più persone",
+    "text": "Lavorare in più persone\nSulla stessa bozza. Con Share si può condividere la bozza con un altro utente Zenodo. Con il permesso Can edit può compilare i metadati e aggiungere file insieme a voi.\nSu un intero progetto: le community. Una community è uno spazio che raccoglie i record di un progetto, di un laboratorio o di un convegno. Ha membri con ruoli diversi (Reader, Curator, Manager, Owner): i curatori esaminano i record proposti, possono modificarne i metadati e decidono se accettarli.\n\nCommunity e progetti OSF\n\n\n\n\n\n\n\n\n\nProgetto OSF\nCommunity Zenodo\n\n\n\n\nContenuto\nFile di lavoro\nRecord pubblicati, ciascuno con il suo DOI\n\n\nScopo\nLavorare insieme mentre lo studio è in corso\nRaccogliere in una pagina gli output di un progetto o di un gruppo\n\n\nPartecipanti\nCollaboratori con permesso di lettura o di scrittura\nMembri con ruolo di lettore, curatore, gestore o proprietario\n\n\nModifiche ai file\nIn qualsiasi momento\nEntro 30 giorni dalla pubblicazione; poi si crea una nuova versione\n\n\n\nUna community somiglia a un progetto OSF come pagina indice: un unico posto dove trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio di lavoro, perché raccoglie solo record già depositati; per lavorare insieme restano GitHub o le cartelle condivise di ateneo.\nInoltre, far parte della stessa community non collega i record fra loro nei metadati: per quello servono sempre i campi related identifiers di ciascun record."
+  },
+  {
+    "objectID": "struttura-2.html",
+    "href": "struttura-2.html",
+    "title": "Psych-DS",
+    "section": "",
+    "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nImportante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati.\n\n\n\n\n\nNella forma minima variableMeasured è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto PropertyValue, e a quel punto il data dictionary vero e proprio entra nei metadati:\n\"variableMeasured\": [\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"rt_ms\",\n    \"description\": \"Reaction time from stimulus onset to response\",\n    \"unitText\": \"milliseconds\",\n    \"minValue\": 200,\n    \"maxValue\": 3000\n  },\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"condition\",\n    \"description\": \"Congruency between word and ink colour\",\n    \"value\": \"congruent | incongruent\"\n  }\n]"
+  },
+  {
+    "objectID": "struttura-2.html#tre-regole-minime",
+    "href": "struttura-2.html#tre-regole-minime",
+    "title": "Psych-DS",
+    "section": "",
+    "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nImportante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati.\n\n\n\n\n\nNella forma minima variableMeasured è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto PropertyValue, e a quel punto il data dictionary vero e proprio entra nei metadati:\n\"variableMeasured\": [\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"rt_ms\",\n    \"description\": \"Reaction time from stimulus onset to response\",\n    \"unitText\": \"milliseconds\",\n    \"minValue\": 200,\n    \"maxValue\": 3000\n  },\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"condition\",\n    \"description\": \"Congruency between word and ink colour\",\n    \"value\": \"congruent | incongruent\"\n  }\n]"
+  },
+  {
+    "objectID": "struttura-2.html#il-validator",
+    "href": "struttura-2.html#il-validator",
+    "title": "Psych-DS",
+    "section": "Il validator",
+    "text": "Il validator\npsych-ds.github.io/validator — si trascina la cartella e si legge il verdetto.\nVa selezionata la cartella radice del progetto (stroop-attention/), non la sottocartella data/."
+  },
+  {
+    "objectID": "struttura-2.html#errori-tipici",
+    "href": "struttura-2.html#errori-tipici",
+    "title": "Psych-DS",
+    "section": "Errori tipici",
+    "text": "Errori tipici\n\n\n\n\n\n\n\nSintomo\nCausa\n\n\n\n\n“No dataset_description.json found”\nIl file è dentro data/, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un .txt nascosto in coda\n\n\nUn file di dati non viene riconosciuto\nIl nome non segue lo schema chiave-valore, o manca il suffisso _data.csv\n\n\n“Column not found in variableMeasured”\nUna colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti)\n\n\nIl JSON non viene letto\nVirgola di troppo prima di una parentesi graffa\n\n\nLe colonne non corrispondono fra file diversi\nvariableMeasured deve contenere l’unione dei nomi di colonna di tutti i CSV"
+  },
+  {
+    "objectID": "struttura-2.html#quando-conviene-e-quando-no",
+    "href": "struttura-2.html#quando-conviene-e-quando-no",
+    "title": "Psych-DS",
+    "section": "Quando conviene, e quando no",
+    "text": "Quando conviene, e quando no\n\n\nHa senso\n\nDati sperimentali per singola prova, con molti partecipanti e file simili fra loro\nStudi multi-sito o longitudinali, dove la struttura si ripete\nLaboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti\nQuando si prevede che i dati confluiscano in meta-analisi\n\n\n\nNon è la priorità\n\nUn dataset unico, piccolo, molto particolare\nDati di neuroimaging: usate BIDS, che è lo standard di quel campo\nInterviste qualitative, materiali eterogenei, video\nQuando non avete ancora un README e un data dictionary: quelli vengono prima\n\n\n\n\n\n\n\n\n\nPriorità\n\n\n\nUn dataset con README e data dictionary ben fatti, ma senza standard, è largamente più utile di un dataset formalmente conforme a Psych-DS ma privo di documentazione.\n\n\n\nEsempio\nDue partecipanti, dodici prove ciascuno, compito Stroop.\nstroop-attention/\n├── dataset_description.json          obbligatorio, questo nome esatto\n├── README.md\n├── LICENSE\n├── data/                             obbligatoria\n│   ├── study-stroop_subject-01_data.csv\n│   ├── study-stroop_subject-02_data.csv\n│   └── raw/                          export originali, ignorati dal validator\n│       └── subject-01_eprime_export.txt\n└── analysis/\n    └── 01_stroop_effect.R\n\ndataset_description.json\nun file di dati\ntutto in materiali.zip\n\nLa cartella data/raw/ serve a conservare gli export originali nei formati prodotti dai software di acquisizione (.txt, .edat3, .sav, .mat): il validator ne ignora il contenuto."
+  },
+  {
+    "objectID": "struttura-2.html#neuroimaging-bids",
+    "href": "struttura-2.html#neuroimaging-bids",
+    "title": "Psych-DS",
+    "section": "Neuroimaging: BIDS",
+    "text": "Neuroimaging: BIDS\nSe lavorate con MRI, EEG, MEG o fNIRS, lo standard è BIDS: molto più prescrittivo, (validator, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.\nSchema dei nomi dei file adattato dal sito di BIDS; regole ed esempio di dataset_description.json adattati dalla documentazione di Psych-DS."
+  },
+  {
+    "objectID": "risorse.html",
+    "href": "risorse.html",
+    "title": "Risorse e checklist",
+    "section": "",
+    "text": "C’è un README chiaro\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nGli identificativi dei partecipanti sono univoci\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\n\n\nC’è un file LICENSE, e il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nHo controllato i campi di testo libero, i nomi dei file e i metadati dei file multimediali\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo su licenza e tempi\n\n\n\n\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
+  },
+  {
+    "objectID": "risorse.html#checklist-prima-di-depositare",
+    "href": "risorse.html#checklist-prima-di-depositare",
+    "title": "Risorse e checklist",
+    "section": "",
+    "text": "C’è un README chiaro\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nGli identificativi dei partecipanti sono univoci\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\n\n\nC’è un file LICENSE, e il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nHo controllato i campi di testo libero, i nomi dei file e i metadati dei file multimediali\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo su licenza e tempi\n\n\n\n\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
+  },
+  {
+    "objectID": "risorse.html#link-utili",
+    "href": "risorse.html#link-utili",
+    "title": "Risorse e checklist",
+    "section": "Link utili",
+    "text": "Link utili\n\nRepository\n\nZenodo — generalista, CERN, la scelta predefinita\nResearch Data Unipd — repository di ateneo, con supporto dei bibliotecari\nPsychArchives — disciplinare per la psicologia (ZPID)\nHarvard Dataverse, Dryad, Figshare, B2SHARE\nOpenNeuro, NeuroVault, Databrary, LDbase,\nre3data.org — per cercare il repository giusto\n\n\n\nOSF: cosa cambia\n\nCOS — OSF Changes (pagina ufficiale)\nOSF Support — Projects Transition e le FAQ\nOSF Registries e PsyArXiv, che restano attivi\n\n\n\nStandard e documentazione\n\nPsych-DS e il suo validator\nBIDS per il neuroimaging\nGO FAIR — testo dei principi\nWilkinson et al. (2016) — l’articolo originale sui principi FAIR\nCitation File Format — il file CITATION.cff\nFAIR-Aware e F-UJI — autovalutazione\n\n\n\nLicenze\n\nCreative Commons Chooser — per dati, testi e materiali\nchoosealicense.com — per il codice\n\n\n\nSupporto a Padova\n\nOpen Science — Sistema Bibliotecario di Ateneo: supporto su deposito dei dati, licenze e requisiti dei finanziatori"
+  },
+  {
+    "objectID": "risorse.html#glossario-minimo",
+    "href": "risorse.html#glossario-minimo",
+    "title": "Risorse e checklist",
+    "section": "Glossario minimo",
+    "text": "Glossario minimo\n\n\n\n\n\n\n\nTermine\nSignificato\n\n\n\n\nDOI\nIdentificatore persistente che punta a un oggetto digitale. Continua a funzionare anche se l’indirizzo cambia, perché è un sistema di reindirizzamento gestito.\n\n\nMetadati\nDati sui dati: titolo, autori, data, descrizione, licenza. Sono ciò che rende un dataset trovabile.\n\n\nData dictionary / codebook\nDocumento che descrive ogni variabile: significato, tipo, unità, codifica, valori mancanti.\n\n\nORCID\nIdentificatore univoco per le persone che fanno ricerca. Risolve il problema degli omonimi e dei cambi di cognome.\n\n\nEmbargo\nPeriodo durante il quale i metadati sono pubblici ma i file non sono scaricabili. Si usa per attendere la pubblicazione dell’articolo.\n\n\nAccesso ristretto\nI file si ottengono solo dopo una richiesta approvata, di solito con un accordo scritto (Data Use Agreement).\n\n\nPseudonimizzazione\nSostituire gli identificativi con codici, mantenendo altrove la chiave di collegamento. Il dato resta personale.\n\n\nAnonimizzazione\nRendere impossibile risalire alla persona, in modo irreversibile.\n\n\nVersionamento\nConservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi.\n\n\nRiproducibilità\nOttenere gli stessi risultati dagli stessi dati con lo stesso codice."
+  },
+  {
+    "objectID": "risorse.html#fonti",
+    "href": "risorse.html#fonti",
+    "title": "Risorse e checklist",
+    "section": "Fonti",
+    "text": "Fonti\nAlcune parti del sito sono tradotte e adattate dalle fonti qui sotto, tutte rilasciate con licenza CC BY 4.0.\n\nWilkinson, M. D. et al. (2016). The FAIR Guiding Principles for scientific data management and stewardship. Scientific Data, 3. doi:10.1038/sdata.2016.18 — i principi in Principi FAIR.\nVipavc Brvar, I. e Gogl, S. (2025). Balancing FAIR Data Principles with GDPR Compliance: A Guide for Researchers. IASSIST 2025. doi:10.5281/zenodo.15696827 — la tabella FAIR e GDPR in Principi FAIR.\nSito di BIDS e corso di Research Data Management di DataLad — le regole sui nomi dei file in README e data dictionary e lo schema dei nomi in Psych-DS.\nDocumentazione di Psych-DS — regole ed esempio di dataset_description.json in Psych-DS.\n\n\nQuesta dispensa. Materiali per “Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati”, Dipartimento di Psicologia Generale, Università di Padova, 23 settembre 2026. Testi a cura di Margherita Calderan & Claude, rilasciati con licenza CC BY 4.0. I dataset di esempio sono fittizi e rilasciati in CC0."
+  },
+  {
+    "objectID": "psycharchives.html",
+    "href": "psycharchives.html",
+    "title": "Depositare su PsychArchives",
+    "section": "",
+    "text": "PsychArchives è il repository disciplinare della psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita tramite il PsychArchives Submission Assistant, accedendo con ORCID o con un account Leibniz Psychology. Deposito e download sono gratuiti fino a 1 GB per oggetto; per oggetti più grandi si chiede il servizio dedicato scrivendo a psycharchives-submission@leibniz-psychology.org."
+  },
+  {
+    "objectID": "psycharchives.html#un-progetto-più-oggetti",
+    "href": "psycharchives.html#un-progetto-più-oggetti",
+    "title": "Depositare su PsychArchives",
+    "section": "Un progetto, più oggetti",
+    "text": "Un progetto, più oggetti\nPsychArchives chiama ogni deposito digital research object (DRO) e ne distingue una ventina di tipi, fra cui Research Data, Code, Preprint, Article, Preregistration, Test, Course Material, Report, Image, Sound e Moving Image.\nUn progetto non si deposita come un’unica cartella compressa, ma come più oggetti, uno per tipo: i dati come Research Data, gli script come Code, un questionario costruito da voi come Test, la preregistrazione come Preregistration. Ogni oggetto è un invio separato, con il suo tipo; gli oggetti dello stesso studio vengono poi collegati fra loro nel repository. Chi li scarica li ottiene però uno alla volta.\nLe linee guida chiedono formati aperti e adatti alla conservazione a lungo termine, come CSV per i dati e PDF/A per i documenti. Sugli archivi zip non dicono nulla: prima di depositare una cartella compressa conviene chiedere alla mail delle submission."
+  },
+  {
+    "objectID": "psycharchives.html#livello-di-condivisione-e-licenza",
+    "href": "psycharchives.html#livello-di-condivisione-e-licenza",
+    "title": "Depositare su PsychArchives",
+    "section": "Livello di condivisione e licenza",
+    "text": "Livello di condivisione e licenza\nDurante l’invio si scelgono il livello di condivisione e la licenza:\n\nlivello 0 e 0+ (Public Use File): accesso aperto;\nlivello 1 (Scientific Use File): uso solo scientifico, e chi scarica deve accettare un contratto di licenza.\n\nPer testi e dati le licenze disponibili sono CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice LGPL-3.0, Apache-2.0 e 0BSD. Come scegliere, e cosa comporta la licenza per scopi scientifici, è spiegato nella pagina sulle licenze."
+  },
+  {
+    "objectID": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
+    "href": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
+    "title": "Depositare su PsychArchives",
+    "section": "Condividere prima di pubblicare: il reviewer link",
+    "text": "Condividere prima di pubblicare: il reviewer link\nDurante l’invio si può chiedere un reviewer link, da dare per esempio ai revisori di una rivista:\n\nil deposito è anonimizzato di default: i metadati che identificano gli autori vengono nascosti, e l’anonimizzazione si può disattivare;\nchiunque abbia il link può vedere il deposito;\nfinché non lo pubblicate, potete modificarlo, cancellarlo o pubblicarlo;\nil reviewer link non è un DOI: il DOI viene assegnato solo alla pubblicazione.\n\nL’anonimizzazione riguarda i metadati: i riferimenti a voi dentro i file (README, intestazioni degli script, percorsi come /Users/nome/...) vanno tolti."
+  },
+  {
+    "objectID": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
+    "href": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
+    "title": "Depositare su PsychArchives",
+    "section": "Pubblicazione, correzioni e nuove versioni",
+    "text": "Pubblicazione, correzioni e nuove versioni\nDopo l’invio lo staff di PsychArchives fa un controllo formale: verifica che il contenuto sia adatto al repository e che i metadati siano completi. Di solito richiede uno o due giorni lavorativi. Alla pubblicazione il deposito riceve un DOI .\n\nEntro una settimana dalla pubblicazione, file e metadati si possono correggere su richiesta.\nDopo, si crea una nuova versione: si manda a psycharchives-submission@leibniz-psychology.org il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.\nI riferimenti dell’articolo collegato si possono aggiungere ai metadati in qualsiasi momento, senza creare una nuova versione."
+  },
+  {
+    "objectID": "psycharchives.html#psycharchives-e-zenodo-a-confronto",
+    "href": "psycharchives.html#psycharchives-e-zenodo-a-confronto",
+    "title": "Depositare su PsychArchives",
+    "section": "PsychArchives e Zenodo a confronto",
+    "text": "PsychArchives e Zenodo a confronto\n\n\n\n\n\n\n\n\n\nZenodo\nPsychArchives\n\n\n\n\nAmbito\nGeneralista\nPsicologia e discipline vicine\n\n\nSpazio\n50 GB per record\n1 GB per oggetto\n\n\nUn progetto si deposita come\nUno zip, oppure più record collegati\nPiù oggetti, uno per tipo, collegati fra loro\n\n\nControllo prima della pubblicazione\nNessuno sul contenuto, salvo nelle community con revisione\nControllo formale dello staff, di solito entro due giorni lavorativi\n\n\nCondividere prima di pubblicare\nLink segreto sulla bozza; l’anonimizzazione è a mano\nReviewer link, anonimizzato di default\n\n\nCorrezioni dopo la pubblicazione\nIn autonomia, entro 30 giorni\nSu richiesta, entro una settimana\n\n\nLicenze\nQualsiasi; di default CC BY 4.0\nCC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD\n\n\nDati personali\nAnonimizzati o con consenso esplicito alla diffusione\nSempre anonimizzati"
+  },
+  {
+    "objectID": "licenze.html",
+    "href": "licenze.html",
+    "title": "Licenze",
+    "section": "",
+    "text": "Senza licenza, tutto quello che avete depositato è tecnicamente inutilizzabile."
+  },
+  {
+    "objectID": "licenze.html#tre-famiglie-diverse-tre-licenze-diverse",
+    "href": "licenze.html#tre-famiglie-diverse-tre-licenze-diverse",
+    "title": "Licenze",
+    "section": "Tre famiglie diverse, tre licenze diverse",
+    "text": "Tre famiglie diverse, tre licenze diverse\nL’errore più comune è applicare una licenza sola a tutto il progetto. Dati, codice e testi sono oggetti giuridici differenti e chiedono strumenti differenti.\n\n\nDati\nCreative Commons, preferibilmente CC0 o CC BY.\n\n\nCodice\nLicenze software: MIT, Apache-2.0, GPL-3.0.\n\n\nTesti e materiali\nCreative Commons, di solito CC BY. Attenzione ai diritti di terzi."
+  },
+  {
+    "objectID": "licenze.html#le-licenze-creative-commons",
+    "href": "licenze.html#le-licenze-creative-commons",
+    "title": "Licenze",
+    "section": "Le licenze Creative Commons",
+    "text": "Le licenze Creative Commons\n\n\n\n\n\n\n\n\nLicenza\nChe cosa consente\nUso consigliato\n\n\n\n\nCC0 1.0 rinuncia al diritto d’autore\nTutto, senza obblighi legali.\nConsigliata per i dati. Richiesta obbligatoriamente da Dryad e raccomandata da molti repository.\n\n\nCC BY 4.0 attribuzione\nQualsiasi riuso, anche commerciale e con modifiche, citando la fonte.\nLo standard per testi, materiali, questionari propri, figure.\n\n\nCC BY-SA 4.0 condividi allo stesso modo\nCome CC BY, ma le opere derivate devono avere la stessa licenza.\nQuando volete che il materiale resti aperto anche a valle. Può creare incompatibilità con altre licenze.\n\n\nCC BY-NC 4.0 non commerciale\nRiuso non commerciale.\nDa usare con cautela. “Commerciale” non è definito con precisione: blocca usi legittimi (un corso a pagamento, una casa editrice, a volte un’azienda che finanzia ricerca) e rende il materiale incompatibile con Wikipedia e con molti dataset aggregati. Non rientra nella definizione di “open”.\n\n\n\n\nPerché CC0 per i dati (e quando no)\n\n\nSì, per i dati\n\nSu fatti e misurazioni, che non sono opere dell’ingegno, l’obbligo di attribuzione di CC BY è giuridicamente inerte: le licenze Creative Commons dichiarano di non imporre condizioni sugli usi già leciti senza permesso. Sembra che stiate chiedendo di essere citati, e legalmente non lo state chiedendo.\nDuecento dataset CC BY.. possono voler dire duecento clausole di attribuzione diverse da rispettare.\n\n\n\nNo, se…\n\nil dataset contiene materiale di terzi su cui non avete i diritti: non si può rinunciare a diritti che non sono vostri;\nil finanziatore, la rivista o il repository impongono una licenza diversa;\nIn UE esiste il diritto sui generis sulle banche dati: chi ha investito in modo rilevante nel costituire un database ha diritti sulla banca dati in quanto tale, anche quando i singoli dati non sono tutelati. Le licenze Creative Commons 4.0 coprono esplicitamente anche quel diritto.\n\n\n\nIl primo argomento è ripreso da Katie Fortney, CC BY and data: not always a good fit, University of California Office of Scholarly Communication, 2016."
+  },
+  {
+    "objectID": "licenze.html#uso-scientifico",
+    "href": "licenze.html#uso-scientifico",
+    "title": "Licenze",
+    "section": "Le licenze per solo uso scientifico",
+    "text": "Le licenze per solo uso scientifico\nPsychArchives dichiara esplicitamente che le licenze Creative Commons coprono l’uso pubblico dei dati e non quello scientifico, non distinguono fra chi rianalizza i vostri dati per scriverci un articolo e chi li incorpora in un prodotto commerciale. Per questo, affianca alle CC una licenza per soli scopi scientifici, che limita l’uso al contesto dell’analisi e del dibattito scientifico.\nFunziona attraverso quelli che chiamano sharing level, cioè il livello di condivisione che scegliete al momento del deposito:\n\n\n\n\n\n\n\n\nLivello\nChe cos’è\nCosa comporta\n\n\n\n\n0 e 0+\nPublic Use File\nAccesso aperto e immediato, riuso libero. Nel livello 0+ chi scarica dichiara facoltativamente che uso intende farne\n\n\n1\nScientific Use File\nL’uso è ristretto a scopi scientifici. Chi scarica deve accettare un contratto di licenza standardizzato prima di ottenere i file\n\n\n2\nRestricted Access File\nIn preparazione\n\n\n\nIn tutti i livelli, compreso il livello 1, i dati devono essere anonimizzati: la licenza per scopi scientifici limita l’uso di dati anonimi, non permette di condividere dati personali.\nLe licenze fra cui si sceglie su PsychArchives sono, per testi e dati, CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice, LGPL-3.0, Apache-2.0 e 0BSD.\n\n\n\n\n\n\nLicenza PsychArchives\n\n\n\n\n\nLa licenza per scopi scientifici non è uno standard come le Creative Commons: è uno strumento di PsychArchives. Chi si trova il file in mano fuori da PsychArchives non ha modo di sapere a quali condizioni l’avete rilasciato.\nIl controllo sta nel momento del download (l’accettazione del contratto) non in un’etichetta che viaggia col file."
+  },
+  {
+    "objectID": "licenze.html#licenze-per-il-codice",
+    "href": "licenze.html#licenze-per-il-codice",
+    "title": "Licenze",
+    "section": "Licenze per il codice",
+    "text": "Licenze per il codice\n\n\n\n\n\n\n\n\nLicenza\nIn sintesi\nQuando sceglierla\n\n\n\n\nGPL-3.0\nCopyleft: chi distribuisce opere derivate deve rilasciarle con la stessa licenza\nSe volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL\n\n\nAGPL-3.0\nCome GPL, estesa al software offerto come servizio web\nApplicazioni online, per esempio una piattaforma di somministrazione di esperimenti\n\n\nMIT\nPermissiva: fate quello che volete, mantenete l’avviso di copyright, nessuna garanzia\nScelta molto diffusa\n\n\nApache-2.0\nPermissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche\nSoftware più strutturato, o quando ci sono aziende coinvolte\n\n\n\n\n\n\n\n\n\nGLP –&gt; GPL\n\n\n\nSe il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL, anche se voi avreste scelto MIT."
+  },
+  {
+    "objectID": "licenze.html#come-si-applica-una-licenza-in-pratica",
+    "href": "licenze.html#come-si-applica-una-licenza-in-pratica",
+    "title": "Licenze",
+    "section": "Come si applica una licenza, in pratica",
+    "text": "Come si applica una licenza, in pratica\n\nUn file LICENSE nella root del progetto, con il testo integrale della licenza scelta (copiabile da choosealicense.com per il codice e da creativecommons.org per il resto).\nUna sezione nel README che spieghi a parole cosa vale per cosa, soprattutto se avete licenze diverse per componenti diversi.\nIl campo licenza del repository compilato al momento del deposito: è quello che finisce nei metadati leggibili dalle macchine.\n\nEsempio di sezione da incollare nel README di un progetto misto:\n## Licenza\n\n- Dati (`data/`): CC0 1.0 Universal (CC0-1.0)\n- Codice (`analysis/`): MIT\n- Testi e materiali propri (`docs/`, `materials/`): CC BY 4.0\n- Materiali di terzi: non ridistribuiti, soggetti alle\n  condizioni dei rispettivi titolari\n\nSe usate questi dati, citate:\nCognome, N. (2026). Titolo del dataset (Version 1.0) [Data set].\nZenodo. https://doi.org/10.5281/zenodo.XXXXXXX"
+  },
+  {
+    "objectID": "fair.html",
+    "href": "fair.html",
+    "title": "I principi FAIR",
+    "section": "",
+    "text": "Come faccio in modo che questo lavoro sia utilizzabile da qualcuno che non può chiedermi niente?"
+  },
+  {
+    "objectID": "fair.html#quanto-siete-fair",
+    "href": "fair.html#quanto-siete-fair",
+    "title": "I principi FAIR",
+    "section": "Quanto siete FAIR?",
+    "text": "Quanto siete FAIR?\n\n\n\n\n\n\nProvate sull’ultimo studio che avete concluso\n\n\n\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricare i vostri dati/materiali/script?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
+  },
+  {
+    "objectID": "fair.html#da-dove-vengono",
+    "href": "fair.html#da-dove-vengono",
+    "title": "I principi FAIR",
+    "section": "Da dove vengono",
+    "text": "Da dove vengono\nI principi FAIR nascono da un articolo del 2016 su Scientific Data (Wilkinson e colleghi, 10.1038/sdata.2016.18), scritto da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici. L’idea di partenza è che l’enorme quantità di dati prodotti dalla ricerca resta sostanzialmente inutilizzabile, non perché sia segreta, ma perché è indescrivibile, introvabile e illeggibile per chi non l’ha prodotta.\nOggi sono il riferimento esplicito per Horizon Europe, ERC e PRIN. In Italia il MUR li ha adottati nel Piano Nazionale per la Scienza Aperta 2021-2027, dove si legge che “Occorre promuovere la gestione FAIR quale standard di riferimento nel processo di produzione dei risultati della ricerca finanziata con risorse pubbliche”."
+  },
+  {
+    "objectID": "fair.html#i-principi",
+    "href": "fair.html#i-principi",
+    "title": "I principi FAIR",
+    "section": "I principi",
+    "text": "I principi\n\n\n\n\n\n\nRepository Noi\n\n\n\nCirca metà li soddisfa il repository nel momento in cui si pubblica il deposito.\nGli esempi seguono tutti lo stesso deposito: i dati di uno studio Stroop caricati su Zenodo. Nelle tabelle, Repository indica ciò che il repository fa automaticamente, Noi ciò che deve fare chi deposita.\n\n\n\nF — Findable, trovabile\nPrima di poter usare qualcosa, bisogna poterlo trovare.\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nF1\n(Meta)dati hanno un identificatore globale, univoco e persistente\nRepository Alla pubblicazione Zenodo assegna un DOI, per esempio 10.5281/zenodo.XXXXXXX.\n\n\nF2\nI dati sono descritti da metadati ricchi\nNoi Al momento del caricamento viene richiesto di compilare i metadati del deposito: titolo, autori con ORCID, descrizione e parole chiave, per esempio “Stroop”, “cognitive control”.\n\n\nF3\nI metadati contengono l’identificatore dei dati che descrivono\nRepository Nel record di metadati il DOI del dataset è riportato come identificatore esplicito del deposito stesso: chi legge i metadati sa senza ambiguità a quali file si riferiscono, e può ritrovarli cercando quel DOI.\n\n\nF4\n(Meta)dati sono registrati o indicizzati in una risorsa ricercabile\nRepository I repository rendono disponibili i metadati tramite il protocollo OAI-PMH; OpenAIRE e gli altri aggregatori li raccolgono e li indicizzano automaticamente.\n\n\n\n\n\n\nA — Accessible, accessibile\nA non risponde alla domanda “i dati sono aperti?” ma a “come si fa, esattamente, a ottenerli?”.\n\n\n\n\n\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nA1\nUna volta noto l’identificatore, deve esistere un modo ordinario e documentato per arrivare ai file\nRepository Chiunque apra https://doi.org/10.5281/zenodo.XXXXXXX arriva alla pagina e scarica i file.\n\n\nA1.1\nIl protocollo è aperto, gratuito e implementabile da chiunque\nRepository I file si scaricano tramite HTTPS, lo stesso protocollo delle normali pagine web: si usa un qualunque browser, senza software aggiuntivo né abbonamenti.\n\n\nA1.2\nIl protocollo consente autenticazione e autorizzazione dove servono\nRepository Noi Se i dati sono sensibili si caricano con accesso restricted: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L’accesso può quindi essere limitato, purché la procedura per richiederlo sia pubblica.\n\n\nA2\nI metadati restano accessibili anche quando i dati non lo sono più\nRepository Se un deposito va ritirato, il DOI continua a funzionare e porta a una pagina che indica il motivo del ritiro, al posto dei file.\n\n\n\n\n\n\nI — Interoperable, interoperabile\nI dati devono potersi combinare con altri dati ed essere letti da software diversi.\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nI1\nSi usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza\nNoi Una tabella di soli numeri non dice a un programma/o un umano che cosa contiene: una colonna temperature può essere corporea o dell’aria, score un’accuratezza o il punteggio a un test. I1 chiede di rappresentare il significato dei dati in una forma condivisa e leggibile dalle macchine e/o dagli esseri umani.\n\n\nI2\nSi usano vocabolari che seguono a loro volta i principi FAIR\nRepository I metadati del deposito seguono schemi standard e documentati (DataCite, Dublin Core), pubblici e citabili a loro volta. Noi Dove è possibile, i valori si codificano con termini presi da un vocabolario condiviso invece che con sigle inventate, così che un termine come incongruent rimandi a un significato definito e uguale per tutti, e non a un’etichetta valida solo nel nostro file.\n\n\nI3\nI (meta)dati contengono riferimenti qualificati ad altri (meta)dati\nNoi Su Zenodo, nel campo Related works, si inserisce il DOI dell’articolo e si sceglie la relazione “is supplement to”: nei metadati del dataset compare così il collegamento all’articolo. Il collegamento inverso si crea citando il DOI del dataset nella sezione Data availability dell’articolo. Anche PsychArchives permette di collegare fra loro gli oggetti dello stesso studio.\n\n\n\n\n\n\nR — Reusable, riusabile\nÈ il principio che riassume tutti gli altri.\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nR1\nI (meta)dati sono descritti con molti attributi accurati e pertinenti\nNoi Si scrivono un README che descrive lo studio e un data dictionary con una riga per ogni colonna dei dati, per esempio: rt_ms, tempo di reazione, in millisecondi, cella vuota se il valore manca.\n\n\nR1.1\nSono rilasciati con una licenza d’uso chiara e accessibile\nNoi Nel campo License del deposito si sceglie la licenza, per esempio CC0. In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.\n\n\nR1.2\nSono associati a una provenienza dettagliata\nNoi Nel README si indica come sono stati raccolti e trattati i dati, per esempio: “Raccolti in laboratorio fra marzo e aprile 2026 con PsychoPy, ripuliti con scripts/01_cleaning.R”.\n\n\nR1.3\nRispettano gli standard della comunità disciplinare\nNoi Se per quel tipo di dati esiste uno standard, lo si adotta: BIDS per il neuroimaging, Psych-DS per i dati comportamentali, DDI per i questionari nelle scienze sociali. Se non esiste, si usano gli stessi nomi, formati e codifiche in tutti i file.\n\n\n\n\nEsiste anche una versione dei principi per il software, FAIR4RS (Barker et al., 2022): identificatore e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo."
+  },
+  {
+    "objectID": "fair.html#fair-e-gdpr",
+    "href": "fair.html#fair-e-gdpr",
+    "title": "I principi FAIR",
+    "section": "FAIR e GDPR",
+    "text": "FAIR e GDPR\nTradotto e adattato da Vipavc Brvar, I., & Gogl, S. (2025, June 5). Balancing FAIR Data Principles with GDPR Compliance: A Guide for Researchers. Zenodo. IASSIST 2025, Bristol, UK. https://doi.org/10.5281/zenodo.15696827.\n\n\n\nDove si scontrano\nPerché\nCome si risolve\n\n\n\n\nAccesso aperto e riservatezza\nI principi FAIR spingono verso l’apertura; il GDPR vieta di rendere accessibili dati personali senza una base giuridica\nSi pubblicano dati anonimizzati, oppure si usa l’accesso controllato (A1.2)\n\n\nMetadati ricchi e re-identificazione\nUna descrizione dettagliata del campione (F2) può bastare a riconoscere le persone: “12 pazienti afasici ricoverati nel reparto X nel 2025”\nSi descrive il campione con il dettaglio che serve al riuso, e non di più\n\n\nConservazione a lungo termine e limitazione della conservazione\nI principi FAIR chiedono che i dati restino disponibili per anni; il GDPR vieta di conservare dati personali più del necessario\nIl GDPR ammette una conservazione più lunga per la ricerca scientifica, con garanzie adeguate (art. 5, par. 1, lett. e); l’anonimizzazione elimina il problema"
+  },
+  {
+    "objectID": "fair.html#data-management-plan-dmp",
+    "href": "fair.html#data-management-plan-dmp",
+    "title": "I principi FAIR",
+    "section": "Data Management Plan (DMP)",
+    "text": "Data Management Plan (DMP)\nIl DMP è un documento che si scrive all’inizio di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. È un documento vivo: va aggiornato man mano che il progetto procede, e gli scostamenti dal piano iniziale vanno documentati e motivati.\n\nCatalogo dei template\nIl template ufficiale di Horizon Europe\nHorizon Europe, annotato da Unipd, con spiegazioni ed esempi per ogni domanda.\nArgos (OpenAIRE), DMPonline e DMPTool: strumenti online che guidano la compilazione."
+  },
+  {
+    "objectID": "apertura.html",
+    "href": "apertura.html",
+    "title": "Che cosa sta succedendo a OSF",
+    "section": "",
+    "text": "Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n\nosf a parte …"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Strumenti per una gestione FAIR",
+    "section": "",
+    "text": "Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff\n\n\n\n  Hai un dubbio?\n  Scrivi cosa ti serve (o scegli un tema).\n  \n  \n  \n  Nessun risultato. Prova con un'altra parola, oppure usa la ricerca in alto a destra."
+  },
+  {
+    "objectID": "ma.html",
+    "href": "ma.html",
+    "title": "OSF a parte: che cosa condividiamo?",
+    "section": "",
+    "text": "Cartella A\nstroop_study/\n  ├── data-stroop.xlsx\n  └── analysis.R\n\n\ndata-stroop.xlsx\n\n\n\nSogg\ntrial\nparola\ncolore\nrisposta\nRT\nacc\n\n\n\n\n1\n1\nrosso\nrosso\nrosso\n523\ngiusto\n\n\n1\n2\nverde\nrosso\nRosso\n0,7\n1\n\n\n1\n3\nBLU\nblu\nblu\n480 ms\nok\n\n\n1\n4\nrosso\nverde\nrosso\nNA\nsbagliato\n\n\n\n\n\n \n\n\nCartella B\nstroop-anxiety/\n  ├── README.md\n  ├── LICENSE_scripts\n  ├── LICENSE_data\n  ├── data/\n  │   ├── stroop_data.csv\n  │   └── stroop_dictionary.csv\n  └── scripts/\n      ├── 01_preprocessing.R\n      └── 02_analysis.R\n\n\nREADME.md\n# Stroop-anxiety — data and code\n\nDoes trait anxiety increase Stroop\ninterference? 100 adults completed a \ncolour-word Stroop task (PsychoPy, March 2026). \nWe investigated the impact of trait anxiety \non Stroop task performance in terms of \nreaction times and accuracy.\n\n## Files\n- data/stroop_data.csv — trial-level data\n- data/stroop_dictionary.csv — data descrption\n- scripts/01_preprocessing.R — cleans data\n- scripts/02_analysis.R — runs the analysis\n\n## Reproduce\nRun 01 then 02 in R (&gt;= 4.3).\n\n## License\nData CC0-1.0, code GPL-3.0 (see LICENSE).\n\n\n\n\n\nCon quale dei due preferireste collaborare?\nQuale assomiglia di più alla cartella del vostro ultimo lavoro?\nE allora, come vi sentireste ora se doveste passarla alla vostra collega, che cosa ne capirebbe senza chiedervi niente?"
+  },
+  {
+    "objectID": "repository.html",
+    "href": "repository.html",
+    "title": "Dove archiviare",
+    "section": "",
+    "text": "Nessun singolo servizio sostituisce OSF, perché OSF faceva tre mestieri diversi."
+  },
+  {
+    "objectID": "repository.html#repository-generalisti",
+    "href": "repository.html#repository-generalisti",
+    "title": "Dove archiviare",
+    "section": "Repository generalisti",
+    "text": "Repository generalisti\n\n\n\nServizio\nGestito da\nSpazio\nNote\n\n\n\n\nZenodo\nCERN, con finanziamenti UE\n50 GB per singolo record (max 100 files) Altre info\nAccetta diversi tipi di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.\n\n\nResearch Data Unipd\nUniversità di Padova (Sistema Bibliotecario)\n2,5 GB per singolo file\nRequisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd\n\n\nHarvard Dataverse\nInfrastrutture statunitensi\n2,5 GB per singolo file Altre info\nEstrae automaticamente le variabili e genera un codebook.\n\n\nDryad\nNon profit, infrastrutture statunitensi\n10GB per file, di più su richiesta. Altre info\nQuando serve curation umana: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista\n\n\nFigshare\nDigital Science (commerciale)\n20 GB per record; altre info\nInfrastrutture statunitensi, europee nel caso di accordi con l’università.\n\n\n\nLe quote cambiano: quelle qui sopra sono verificate a settembre 2026."
+  },
+  {
+    "objectID": "repository.html#repository-disciplinari-per-la-psicologia",
+    "href": "repository.html#repository-disciplinari-per-la-psicologia",
+    "title": "Dove archiviare",
+    "section": "Repository disciplinari per la psicologia",
+    "text": "Repository disciplinari per la psicologia\n\n\n\nServizio\nCosa accetta\nSpazio\nNote\n\n\n\n\nPsychArchives (ZPID, Leibniz Institute for Psychology)\nCirca venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali\n1 GB per oggetto, gratuito.\nGratuito, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche licenze per solo uso scientifico.\n\n\nOpenNeuro\nDati di neuroimaging (MRI, MEG, EEG, iEEG, PET)\nNessun tetto pubblicato.\nGratuito. Richiede il formato BIDS, che viene validato automaticamente al caricamento."
+  },
+  {
+    "objectID": "repository.html#dati-che-non-si-possono-aprire",
+    "href": "repository.html#dati-che-non-si-possono-aprire",
+    "title": "Dove archiviare",
+    "section": "Dati che non si possono aprire",
+    "text": "Dati che non si possono aprire\nSe i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili, in ordine di preferenza:\n\nDeposito ad accesso ristretto con procedura di richiesta documentata (Zenodo restricted).\nMetadati pubblici e dati su richiesta formalizzata.\nDataset derivato: pubblicare aggregati, summary statistics.\nDati sintetici che riproducono la struttura del dataset reale."
+  },
+  {
+    "objectID": "repository.html#come-si-sceglie-una-repository",
+    "href": "repository.html#come-si-sceglie-una-repository",
+    "title": "Dove archiviare",
+    "section": "Come si sceglie una repository",
+    "text": "Come si sceglie una repository\nDomande da porsi, in ordine di importanza:\n\nIl mio finanziatore o la mia rivista impongono qualcosa?\nEsiste un repository disciplinare per questo tipo di dato? Se sì, di solito è preferibile a uno generalista.\nRilascia un identificatore persistente e garantisce conservazione a lungo termine?\nSupporta il livello di accesso che mi serve? Aperto, embargo, ristretto con approvazione.\nConsente il versionamento? Perché i dati possono cambiare anche dopo la pubblicazione.\nDove sono fisicamente i dati? Rilevante per dati personali e GDPR.\nQuanto costa, e chi paga?\n\nPer cercare in modo sistematico: re3data.org è il registro internazionale dei repository di dati.\n\nDue domande che arrivano subito dopo aver scelto dove depositare: cosa si può correggere dopo la pubblicazione e come si rende il nostro lavoro riproducibile."
   },
   {
     "objectID": "struttura-1.html",
     "href": "struttura-1.html",
     "title": "README e Data dictionary",
     "section": "",
-    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela."
+    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad."
   },
   {
     "objectID": "struttura-1.html#come-si-chiamano-i-file",
     "href": "struttura-1.html#come-si-chiamano-i-file",
     "title": "README e Data dictionary",
     "section": "",
-    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela."
+    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad."
+  },
+  {
+    "objectID": "struttura-1.html#in-che-formato-salvarli",
+    "href": "struttura-1.html#in-che-formato-salvarli",
+    "title": "README e Data dictionary",
+    "section": "In che formato salvarli",
+    "text": "In che formato salvarli\nUn formato proprietario (.xlsx, .sav di SPSS, .mat di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato aperto e testuale (.csv, .tsv, .txt, .json) si apre con qualunque strumento e si legge anche a occhio.\n\n\nNo\n\ndati.xlsx (Excel)\ndati.sav (SPSS)\ncodebook.docx\n\n\n\nSì\n\ndati.csv\ndati.csv + dati_dictionary.csv\ncodebook.txt o README.md\n\n\n\nL’export originale dello strumento (per esempio il .sav che esce dal software del questionario) si tiene in data/raw/ come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita."
   },
   {
     "objectID": "struttura-1.html#la-struttura",
@@ -49,248 +350,10 @@
     "text": "Adesso fatelo sul vostro progetto"
   },
   {
-    "objectID": "riproducibilita.html",
-    "href": "riproducibilita.html",
-    "title": "Riproducibilità",
+    "objectID": "versioni.html",
+    "href": "versioni.html",
+    "title": "Versioni e correzioni",
     "section": "",
-    "text": "Depositare i dati e depositare qualcosa che funziona sono due cose diverse. Il secondo pezzo non ve lo dà il repository: lo preparate voi, e si fa in due modi."
-  },
-  {
-    "objectID": "riproducibilita.html#collegati-vuol-dire-due-cose-diverse",
-    "href": "riproducibilita.html#collegati-vuol-dire-due-cose-diverse",
-    "title": "Riproducibilità",
-    "section": "“Collegati” vuol dire due cose diverse",
-    "text": "“Collegati” vuol dire due cose diverse\nPsychArchives separa i materiali in oggetti distinti e tipizzati — dati, codice, preprint — e poi li collega fra loro. È una scelta esplicita: sostengono che impacchettare tutto insieme produca un ammasso disordinato e difficile da riusare, e che tenere gli oggetti separati serva a renderli citabili singolarmente.\nAttenzione però a cosa significa “collegati”, perché ci sono due cose diverse sotto la stessa parola:\n\n\nCollegamento fra metadati\nOgni record punta agli altri: “questo codice è supplemento a quel dataset”. Chi arriva su un record vede che gli altri esistono e ci clicca sopra.\nÈ quello che PsychArchives offre.\n\n\nDownload unico\nUn clic, un archivio, l’albero del progetto con data/, scripts/ e output/ al posto giusto, percorsi già risolti, pronto da eseguire.\nÈ quello che serve a chi deve riprodurre.\n\n\nIl primo non produce il secondo. Un revisore che segue il vostro link scarica l’oggetto dei dati, poi quello del codice, poi il preprint — separatamente — e si ricostruisce le cartelle a mano. Gli script che usano percorsi relativi non trovano i dati finché la struttura delle cartelle non viene ricreata.\n\n\n\n\n\n\n\n\nDownload unico con struttura intatta\n\n\n\n\nOSF, release GitHub\nnativo: “scarica come zip” restituisce l’albero completo\n\n\nZenodo\npotete depositare l’intero albero come un archivio unico, oppure separare in record collegati: non vi obbliga\n\n\nPsychArchives\nil più atomizzato, per scelta. Fortissimo sulla citabilità del singolo oggetto, debole qui\n\n\n\nSe la piattaforma non monta la cartella al posto vostro, la montate voi. Si fa in due modi."
-  },
-  {
-    "objectID": "riproducibilita.html#secondo-deposito",
-    "href": "riproducibilita.html#secondo-deposito",
-    "title": "Riproducibilità",
-    "section": "Secondo deposito",
-    "text": "Secondo deposito\nUn oggetto del deposito è uno zip che è la vostra cartella di progetto: lo create comprimendo la cartella così com’è.\nLa portabilità non ve la dà il repository: è una proprietà della cartella, che viaggia dentro lo zip. Il revisore scarica un file, lo apre ed esegue.\nIl costo: i dati esistono due volte, una nel loro oggetto e una dentro lo zip."
-  },
-  {
-    "objectID": "riproducibilita.html#codice-più-script-che-scarica-i-dati",
-    "href": "riproducibilita.html#codice-più-script-che-scarica-i-dati",
-    "title": "Riproducibilità",
-    "section": "Codice più script che scarica i dati",
-    "text": "Codice più script che scarica i dati\nIl pacchetto contiene solo gli script, il README e un piccolo script che va a prendere i dati. I dati restano una volta sola, nel loro oggetto.\nUn DOI risolve, cioè rimanda alla pagina del repository per quell’oggetto, e quella pagina espone il file a un URL di download stabile. Qualunque cosa sappia fare una richiesta HTTP può andarselo a prendere.\ndir.create(\"data\", showWarnings = FALSE)\ndownload.file(\n  \"https://.../records/XXXXXXX/files/sonno.csv\",   # URL stabile del dataset\n  destfile = \"data/sonno.csv\"\n)\nQuando il revisore lo esegue, il dataset viene scaricato dalla sua sede canonica e scritto dentro data/, cioè esattamente dove i vostri script lo cercano. Da lì in poi è identico alla variante 1.\nIl costo: presuppone che il dataset sia già pubblicato e raggiungibile.\n\n\n\n\n\n\nRevisione\n\n\n\nDurante la revisione anonima il dataset spesso non è ancora pubblicato: su PsychArchives può stare dietro un reviewer link, senza DOI. Uno script puntato a un DOI che non esiste ancora semplicemente fallisce, e puntarlo all’indirizzo del reviewer link è goffo e rischia di rivelare la vostra identità, rompendo l’anonimato.\nDurante la revisione:, lo zip autosufficiente dietro un unico link, proprio perché non c’è ancora niente di pubblico da scaricare.\nDopo la pubblicazione:, leggera e senza duplicazioni, ora che il dataset ha un DOI vero."
-  },
-  {
-    "objectID": "licenze.html",
-    "href": "licenze.html",
-    "title": "Licenze",
-    "section": "",
-    "text": "Senza licenza, tutto quello che avete depositato è tecnicamente inutilizzabile."
-  },
-  {
-    "objectID": "licenze.html#tre-famiglie-diverse-tre-licenze-diverse",
-    "href": "licenze.html#tre-famiglie-diverse-tre-licenze-diverse",
-    "title": "Licenze",
-    "section": "Tre famiglie diverse, tre licenze diverse",
-    "text": "Tre famiglie diverse, tre licenze diverse\nL’errore più comune è applicare una licenza sola a tutto il progetto. Dati, codice e testi sono oggetti giuridici differenti e chiedono strumenti differenti.\n\n\nDati\nCreative Commons, preferibilmente CC0 o CC BY.\n\n\nCodice\nLicenze software: MIT, Apache-2.0, GPL-3.0.\n\n\nTesti e materiali\nCreative Commons, di solito CC BY. Attenzione ai diritti di terzi."
-  },
-  {
-    "objectID": "licenze.html#le-licenze-creative-commons",
-    "href": "licenze.html#le-licenze-creative-commons",
-    "title": "Licenze",
-    "section": "Le licenze Creative Commons",
-    "text": "Le licenze Creative Commons\n\n\n\n\n\n\n\n\nLicenza\nChe cosa consente\nUso consigliato\n\n\n\n\nCC0 1.0 rinuncia al diritto d’autore\nTutto, senza obblighi legali.\nConsigliata per i dati. Richiesta obbligatoriamente da Dryad e raccomandata da molti repository.\n\n\nCC BY 4.0 attribuzione\nQualsiasi riuso, anche commerciale e con modifiche, citando la fonte.\nLo standard per testi, materiali, questionari propri, figure.\n\n\nCC BY-SA 4.0 condividi allo stesso modo\nCome CC BY, ma le opere derivate devono avere la stessa licenza.\nQuando volete che il materiale resti aperto anche a valle. Può creare incompatibilità con altre licenze.\n\n\nCC BY-NC 4.0 non commerciale\nRiuso non commerciale.\nDa usare con cautela. “Commerciale” non è definito con precisione: blocca usi legittimi (un corso a pagamento, una casa editrice, a volte un’azienda che finanzia ricerca) e rende il materiale incompatibile con Wikipedia e con molti dataset aggregati. Non rientra nella definizione di “open”.\n\n\n\n\nPerché CC0 per i dati (e quando no)\n\n\nSì, per i dati\n\nSu fatti e misurazioni, che non sono opere dell’ingegno, l’obbligo di attribuzione di CC BY è giuridicamente inerte: le licenze Creative Commons dichiarano di non imporre condizioni sugli usi già leciti senza permesso. Sembra che stiate chiedendo di essere citati, e legalmente non lo state chiedendo.\nDuecento dataset CC BY.. possono voler dire duecento clausole di attribuzione diverse da rispettare.\n\n\n\nNo, se…\n\nil dataset contiene materiale di terzi su cui non avete i diritti: non si può rinunciare a diritti che non sono vostri;\nil finanziatore, la rivista o il repository impongono una licenza diversa;\nIn UE esiste il diritto sui generis sulle banche dati: chi ha investito in modo rilevante nel costituire un database ha diritti sulla banca dati in quanto tale, anche quando i singoli dati non sono tutelati. Le licenze Creative Commons 4.0 coprono esplicitamente anche quel diritto.\n\n\n\nIl primo argomento è ripreso da Katie Fortney, CC BY and data: not always a good fit, University of California Office of Scholarly Communication, 2016."
-  },
-  {
-    "objectID": "licenze.html#uso-scientifico",
-    "href": "licenze.html#uso-scientifico",
-    "title": "Licenze",
-    "section": "Le licenze per solo uso scientifico",
-    "text": "Le licenze per solo uso scientifico\nPsychArchives dichiara esplicitamente che le licenze Creative Commons coprono l’uso pubblico dei dati e non quello scientifico, non distinguono fra chi rianalizza i vostri dati per scriverci un articolo e chi li incorpora in un prodotto commerciale. Per questo, affianca alle CC una licenza per soli scopi scientifici, che limita l’uso al contesto dell’analisi e del dibattito scientifico.\nFunziona attraverso quelli che chiamano sharing level, cioè il livello di condivisione che scegliete al momento del deposito:\n\n\n\n\n\n\n\n\nLivello\nChe cos’è\nCosa comporta\n\n\n\n\n0 e 0+\nPublic Use File\nAccesso aperto e immediato, riuso libero. Nel livello 0+ chi scarica dichiara facoltativamente che uso intende farne\n\n\n1\nScientific Use File\nL’uso è ristretto a scopi scientifici. Chi scarica deve accettare un contratto di licenza standardizzato prima di ottenere i file\n\n\n2\nRestricted Access File\nIn preparazione\n\n\n\nLe licenze fra cui si sceglie su PsychArchives sono, per testi e dati, CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice, LGPL-3.0, Apache-2.0 e 0BSD.\n\n\n\n\n\n\nLicenza PsychArchives\n\n\n\n\n\nLa licenza per scopi scientifici non è uno standard come le Creative Commons: è uno strumento di PsychArchives. Chi si trova il file in mano fuori da PsychArchives non ha modo di sapere a quali condizioni l’avete rilasciato.\nIl controllo sta nel momento del download (l’accettazione del contratto) non in un’etichetta che viaggia col file."
-  },
-  {
-    "objectID": "licenze.html#licenze-per-il-codice",
-    "href": "licenze.html#licenze-per-il-codice",
-    "title": "Licenze",
-    "section": "Licenze per il codice",
-    "text": "Licenze per il codice\n\n\n\n\n\n\n\n\nLicenza\nIn sintesi\nQuando sceglierla\n\n\n\n\nMIT\nPermissiva e brevissima: fate quello che volete, mantenete l’avviso di copyright, nessuna garanzia\nLa scelta più diffusa per script di analisi e pacchetti di ricerca\n\n\nBSD-3-Clause\nEquivalente a MIT, con in più il divieto di usare il vostro nome per promuovere prodotti derivati\nAlternativa a MIT, comune in ambito accademico\n\n\nApache-2.0\nPermissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche\nSoftware più strutturato, o quando ci sono aziende coinvolte\n\n\nGPL-3.0\nCopyleft: chi distribuisce opere derivate deve rilasciarle con la stessa licenza\nSe volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL\n\n\nAGPL-3.0\nCome GPL, estesa al software offerto come servizio web\nApplicazioni online, per esempio una piattaforma di somministrazione di esperimenti\n\n\n\n\n\n\n\n\n\nUn vincolo che si eredita senza accorgersene\n\n\n\nSe il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL, anche se voi avreste scelto MIT. Vale la pena dare un’occhiata alle licenze delle dipendenze principali prima di decidere: in R sono spesso GPL-2 o GPL-3, in Python più spesso BSD o MIT.\nÈ il motivo per cui molto codice di ricerca scritto in R finisce, di fatto, sotto GPL."
-  },
-  {
-    "objectID": "licenze.html#come-si-applica-una-licenza-in-pratica",
-    "href": "licenze.html#come-si-applica-una-licenza-in-pratica",
-    "title": "Licenze",
-    "section": "Come si applica una licenza, in pratica",
-    "text": "Come si applica una licenza, in pratica\n\nUn file LICENSE nella root del progetto, con il testo integrale della licenza scelta (copiabile da choosealicense.com per il codice e da creativecommons.org per il resto).\nUna sezione nel README che spieghi a parole cosa vale per cosa, soprattutto se avete licenze diverse per componenti diversi.\nIl campo licenza del repository compilato al momento del deposito: è quello che finisce nei metadati leggibili dalle macchine.\n\nEsempio di sezione da incollare nel README di un progetto misto:\n## Licenza\n\n- Dati (`data/`): CC0 1.0 Universal (CC0-1.0)\n- Codice (`analysis/`): MIT\n- Testi e materiali propri (`docs/`, `materials/`): CC BY 4.0\n- Materiali di terzi: non ridistribuiti, soggetti alle\n  condizioni dei rispettivi titolari\n\nSe usate questi dati, citate:\nCognome, N. (2026). Titolo del dataset (Version 1.0) [Data set].\nZenodo. https://doi.org/10.5281/zenodo.XXXXXXX"
-  },
-  {
-    "objectID": "fair.html",
-    "href": "fair.html",
-    "title": "I principi FAIR",
-    "section": "",
-    "text": "I principi FAIR sono la risposta pratica alla domanda “come faccio in modo che questo lavoro sia ancora utilizzabile fra dieci anni, da qualcuno che non può chiedermi niente?”. Quel qualcuno, molto spesso, siete voi stessi fra tre anni."
-  },
-  {
-    "objectID": "fair.html#quanto-siete-fair",
-    "href": "fair.html#quanto-siete-fair",
-    "title": "I principi FAIR",
-    "section": "Quanto siete FAIR?",
-    "text": "Quanto siete FAIR?\n\n\n\n\n\n\nProvate sull’ultimo studio che avete concluso\n\n\n\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricarlo?\nUna persona esterna può capirlo?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
-  },
-  {
-    "objectID": "fair.html#da-dove-vengono",
-    "href": "fair.html#da-dove-vengono",
-    "title": "I principi FAIR",
-    "section": "Da dove vengono",
-    "text": "Da dove vengono\nI principi FAIR nascono da un articolo del 2016 su Scientific Data (Wilkinson e colleghi, 10.1038/sdata.2016.18), scritto da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici. L’idea di partenza è che l’enorme quantità di dati prodotti dalla ricerca resta sostanzialmente inutilizzabile, non perché sia segreta, ma perché è indescrivibile, introvabile e illeggibile per chi non l’ha prodotta.\nOggi sono il riferimento esplicito dei principali enti finanziatori. Horizon Europe chiede dati gestiti secondo i principi FAIR e un Data Management Plan entro il sesto mese di progetto; l’ERC chiede lo stesso DMP e incoraggia il deposito dei dati secondo i principi FAIR. In Italia il MUR li ha adottati nel Piano Nazionale per la Scienza Aperta 2021-2027, e le linee guida di valutazione del PRIN 2026 scrivono che «la gestione dei dati di ricerca deve essere responsabile e conforme ai principi FAIR».\n\n\n\n\n\n\nFAIR parla anche alle macchine\n\n\n\nLa parte meno intuitiva dell’articolo originale è l’insistenza sulla machine-actionability: non basta che una persona, leggendo, capisca — deve poterlo fare anche un programma, senza intervento umano. È per questo che i principi chiedono identificatori persistenti, formati aperti, vocabolari condivisi e metadati indicizzati: sono le condizioni perché motori di ricerca, aggregatori e meta-analisi automatizzate trovino e combinino i vostri dati.\n“Nella colonna 3 c’è il tempo di reazione in millisecondi” scritto in una mail non è FAIR. La stessa informazione nel data dictionary, sì."
-  },
-  {
-    "objectID": "fair.html#i-principi",
-    "href": "fair.html#i-principi",
-    "title": "I principi FAIR",
-    "section": "I principi",
-    "text": "I principi\n\n\n\n\n\n\nPiù facile di quanto sembri\n\n\n\nScritti così, i principi sembrano un’impresa. Nella pratica circa metà li soddisfa il repository nel momento in cui pubblicate il deposito. L’altra metà richiede di compilare i metadati del deposito, salvare i dati in formato CSV, scegliere una licenza, indicare il DOI dell’articolo collegato, e scrivere il README e il data dictionary.\nGli esempi seguono tutti lo stesso deposito: i dati di uno studio Stroop caricati su Zenodo. Nelle tabelle, Repository indica ciò che il repository fa automaticamente, Voi ciò che deve fare chi deposita.\n\n\n\nF — Findable, trovabile\nPrima di poter usare qualcosa, bisogna poterlo trovare.\n\n\n\n\n\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nF1\n(Meta)dati hanno un identificatore globale, univoco e persistente\nRepository Premete “Pubblica” e Zenodo assegna un DOI, tipo 10.5281/zenodo.XXXXXXX.\n\n\nF2\nI dati sono descritti da metadati ricchi\nVoi Al momento del caricamento Zenodo chiede di compilare i metadati del deposito: titolo, autori con ORCID, descrizione e parole chiave, per esempio “Stroop”, “attenzione selettiva”, “controllo cognitivo”.\n\n\nF3\nI metadati contengono l’identificatore dei dati che descrivono\nRepository La pagina del deposito mostra il DOI accanto ai file. A voi resta solo scriverlo nell’articolo.\n\n\nF4\n(Meta)dati sono registrati o indicizzati in una risorsa ricercabile\nRepository Zenodo rende disponibili i metadati tramite il protocollo OAI-PMH; OpenAIRE e gli altri aggregatori li raccolgono e li indicizzano automaticamente.\n\n\n\n\n\n\nA — Accessible, accessibile\nA non risponde alla domanda “i dati sono aperti?” ma a “come si fa, esattamente, a ottenerli?”.\n\n\n\n\n\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nA1\nUna volta che avete l’identificatore, deve esistere un modo ordinario e documentato per arrivare ai file\nRepository Chiunque apra https://doi.org/10.5281/zenodo.XXXXXXX arriva alla pagina e scarica i file.\n\n\nA1.1\nIl protocollo è aperto, gratuito e implementabile da chiunque\nRepository I file si scaricano tramite HTTPS, lo stesso protocollo delle normali pagine web: si usa un qualunque browser, senza software aggiuntivo né abbonamenti.\n\n\nA1.2\nIl protocollo consente autenticazione e autorizzazione dove servono\nRepository Voi Se i dati sono sensibili si caricano con accesso restricted: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L’accesso può quindi essere limitato, purché la procedura per richiederlo sia pubblica e uguale per tutti.\n\n\nA2\nI metadati restano accessibili anche quando i dati non lo sono più\nRepository Se un deposito va ritirato, Zenodo mantiene il DOI e al posto dei file mostra una pagina con il motivo del ritiro.\n\n\n\n\n\n\nI — Interoperable, interoperabile\nI dati devono potersi combinare con altri dati ed essere letti da software diversi.\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nI1\nSi usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza\nVoi I dati sono salvati in stroop_trials.csv anziché in stroop.xlsx; in Excel si usa File → Salva con nome → CSV UTF-8. Un file che si apre solo con un software a pagamento non è interoperabile.\n\n\nI2\nSi usano vocabolari che seguono a loro volta i principi FAIR\nRepository Voi Zenodo pubblica i metadati negli schemi standard Dublin Core e DataCite. Nei dati, chi deposita scrive le date nel formato ISO 8601 (2026-09-23) invece che come 05/09/2026, che in Italia indica il 5 settembre e negli Stati Uniti il 9 maggio.\n\n\nI3\nI (meta)dati contengono riferimenti qualificati ad altri (meta)dati\nVoi Nel campo Related works di Zenodo si inserisce il DOI dell’articolo e si sceglie la relazione “is supplement to”. Nei metadati del dataset compare così il collegamento all’articolo; il collegamento inverso si crea citando il DOI del dataset nella sezione Data availability dell’articolo.\n\n\n\n\n\n\nR — Reusable, riusabile\nÈ il principio che riassume tutti gli altri.\n\n\n\n\n\nPrincipio\nNell’esempio\n\n\n\n\nR1\nI (meta)dati sono descritti con molti attributi accurati e pertinenti\nVoi Si scrivono un README che descrive lo studio e un data dictionary con una riga per ogni colonna dei dati, per esempio: rt_ms, tempo di reazione, in millisecondi, cella vuota se il valore manca.\n\n\nR1.1\nSono rilasciati con una licenza d’uso chiara e accessibile\nVoi Nel campo License del deposito si sceglie la licenza, per esempio CC0. In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.\n\n\nR1.2\nSono associati a una provenienza dettagliata\nVoi Nel README si indica come sono stati raccolti e trattati i dati, per esempio: “Raccolti in laboratorio fra marzo e aprile 2026 con PsychoPy, ripuliti con scripts/01_cleaning.R”.\n\n\nR1.3\nRispettano gli standard della comunità disciplinare\nVoi Se per quel tipo di dati esiste uno standard, lo si adotta: BIDS per il neuroimaging, Psych-DS per i dati comportamentali, DDI per i questionari nelle scienze sociali. Se non esiste, si usano gli stessi nomi, formati e codifiche in tutti i file.\n\n\n\n\nEsiste anche una versione dei principi per il software, FAIR4RS (Barker et al., 2022): identificatore e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo. In pratica vuol dire una release archiviata su Zenodo con il suo DOI, un file CITATION.cff e un file LICENSE."
-  },
-  {
-    "objectID": "fair.html#da-dove-si-comincia-il-data-management-plan",
-    "href": "fair.html#da-dove-si-comincia-il-data-management-plan",
-    "title": "I principi FAIR",
-    "section": "Da dove si comincia: il Data Management Plan",
-    "text": "Da dove si comincia: il Data Management Plan\nIl DMP è un documento che si scrive all’inizio di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. Nei progetti Horizon Europe è obbligatorio: va consegnato come deliverable entro il sesto mese e rivisto verso la fine.\nVale la pena scriverlo anche quando nessuno lo chiede, perché è il momento in cui si decidono le cose che dopo non si possono più correggere: la formula del consenso informato, i formati, il repository, la licenza.\nIl modo più rapido per capire cosa chiede un DMP è aprire il template:\n\nIl template ufficiale di Horizon Europe — quattro pagine, una cinquantina di domande, nessun commento. Sette sezioni: dati prodotti, dati FAIR, altri output, risorse, sicurezza, etica, altro.\nLo stesso template, annotato da Unipd — con spiegazioni ed esempi per ogni domanda. Si compilano solo le sezioni pertinenti al progetto.\nIl catalogo dei template — se il vostro finanziatore non è Horizon Europe (ERC, DFG, i consigli di ricerca britannici…), cercate lì il suo.\nArgos (OpenAIRE) e DMPonline: strumenti online che guidano la compilazione domanda per domanda.\nPer un supporto diretto c’è il Sistema Bibliotecario di Ateneo.\n\n\n\n\n\n\n\nUn DMP sono i principi FAIR trasformati in domande\n\n\n\nNel template la sezione 2 si chiama FAIR data, e ha quattro sottosezioni: findable, accessible, interoperable, re-use. Sono le quattro lettere di questa pagina, riscritte come domande a cui rispondere prima di raccogliere il primo dato. Chi ha capito i principi ha già capito metà del DMP."
-  },
-  {
-    "objectID": "apertura.html",
-    "href": "apertura.html",
-    "title": "Che cosa sta succedendo a OSF",
-    "section": "",
-    "text": "Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file."
-  },
-  {
-    "objectID": "apertura.html#scambiatevi-le-cartelle",
-    "href": "apertura.html#scambiatevi-le-cartelle",
-    "title": "Che cosa sta succedendo a OSF",
-    "section": "Scambiatevi le cartelle",
-    "text": "Scambiatevi le cartelle\nCondivitede, con la persona seduta accanto a voi, la cartella in cui ci sono i materili ecc., dell’ultimo lavoro che avete pubblicato (non condividete l’articolo), cosa riuscireste ad estrapolare senza dover fare domande? Di cosa tratta lo studio? Che tipo di dati sono stati raccolti? Cosa rappresenta una riga del file di dati? Cosa contiene esttamente?"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Strumenti per la gestione FAIR dei dati",
-    "section": "",
-    "text": "Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perché qualcun altro possa usarli.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff"
-  },
-  {
-    "objectID": "repository.html",
-    "href": "repository.html",
-    "title": "Dove archiviare",
-    "section": "",
-    "text": "Nessun singolo servizio sostituisce OSF, perché OSF faceva tre mestieri diversi."
-  },
-  {
-    "objectID": "repository.html#repository-generalisti",
-    "href": "repository.html#repository-generalisti",
-    "title": "Dove archiviare",
-    "section": "Repository generalisti",
-    "text": "Repository generalisti\n\n\n\nServizio\nGestito da\nSpazio\nNote\n\n\n\n\nZenodo\nCERN, con finanziamenti UE\n50 GB per record, di più su richiesta. Altre info\nAccetta qualsiasi tipo di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.\n\n\nResearch Data Unipd\nUniversità di Padova (Sistema Bibliotecario)\nNon pubblicato: si concorda con i bibliotecari, che seguono il deposito.\nRequisiti dei finanziatori. C’è supporto umano, ed è la sede naturale per i dati dei progetti Unipd.\n\n\nHarvard Dataverse\nInfrastrutture statunitensi\n2,5 GB per singolo file caricato da web, fino a 1 TB per record. Altre info\nDati tabellari: riconosce i formati statistici, estrae automaticamente le variabili e genera un codebook. Molto usato nelle scienze sociali.\n\n\nDryad\nNon profit, infrastrutture statunitensi\n10GB per file, 2T per record, di più su richiesta. Altre info\nQuando serve curation umana: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivist\n\n\nFigshare\nDigital Science (commerciale)\n20 GB per record; altre info\nInfrastrutture statunitensi, europee nel caso di accordi con l’università.\n\n\n\nLe quote cambiano: quelle qui sopra sono verificate a settembre 2026, ma prima di pianificare un deposito grosso conviene ricontrollarle sul sito del servizio."
-  },
-  {
-    "objectID": "repository.html#repository-disciplinari-per-la-psicologia",
-    "href": "repository.html#repository-disciplinari-per-la-psicologia",
-    "title": "Dove archiviare",
-    "section": "Repository disciplinari per la psicologia",
-    "text": "Repository disciplinari per la psicologia\n\n\n\nServizio\nCosa accetta\nSpazio\nNote\n\n\n\n\nPsychArchives (ZPID, Leibniz Institute for Psychology)\nCirca venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali\n1 GB per oggetto, gratuito.\nGratuito, non commerciale, DOI DataCite più Handle, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche licenze per solo uso scientifico.\n\n\nOpenNeuro\nDati di neuroimaging (MRI, MEG, EEG, iEEG, PET)\nNessun tetto pubblicato.\nGratuito. Richiede il formato BIDS, che viene validato automaticamente al caricamento."
-  },
-  {
-    "objectID": "repository.html#come-si-sceglie-una-repository",
-    "href": "repository.html#come-si-sceglie-una-repository",
-    "title": "Dove archiviare",
-    "section": "Come si sceglie una repository",
-    "text": "Come si sceglie una repository\nDomande da porsi, in ordine di importanza:\n\nIl mio finanziatore o la mia rivista impongono qualcosa?\nEsiste un repository disciplinare per questo tipo di dato? Se sì, di solito è preferibile a uno generalista.\nRilascia un identificatore persistente e garantisce conservazione a lungo termine?\nSupporta il livello di accesso che mi serve? Aperto, embargo, ristretto con approvazione.\nConsente il versionamento? Perché i dati cambiano anche dopo la pubblicazione.\nDove sono fisicamente i dati? Rilevante per dati personali e GDPR.\nQuanto costa, e chi paga?\n\nPer cercare in modo sistematico: re3data.org è il registro internazionale dei repository di dati."
-  },
-  {
-    "objectID": "repository.html#stack",
-    "href": "repository.html#stack",
-    "title": "Dove archiviare",
-    "section": "Il flusso di lavoro dopo OSF",
-    "text": "Il flusso di lavoro dopo OSF\n\n\n\n\n\n\n\n\nFase\nDove\nCosa producete\n\n\n\n\nProgettazione\nOSF Registrations\nPreregistrazione con DOI\n\n\nRaccolta dati\nServer o cloud di ateneo, cartelle strutturate\nDati grezzi + documentazione in corso d’opera\n\n\nAnalisi\nGitHub/GitLab privato\nScript versionati\n\n\nPubblicazione\nZenodo, PsychArchives, … (dati e materiali) + release GitHub archiviata su Zenodo (codice)\nUno o più DOI\n\n\nDiffusione\nPreprint su PsyArXiv, articolo, ORCID\nSezione Data availability con tutti i DOI\n\n\nCollegamento\nCampi related identifiers di ogni deposito\nRete di link fra preregistrazione, dati, codice e articolo"
-  },
-  {
-    "objectID": "repository.html#dati-che-non-si-possono-aprire",
-    "href": "repository.html#dati-che-non-si-possono-aprire",
-    "title": "Dove archiviare",
-    "section": "Dati che non si possono aprire",
-    "text": "Dati che non si possono aprire\nSe i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili, in ordine di preferenza:\n\nDeposito ad accesso ristretto con procedura di richiesta documentata (Zenodo restricted).\nMetadati pubblici e dati su richiesta formalizzata.\nDataset derivato: pubblicare aggregati, summary statistics.\nDati sintetici che riproducono la struttura del dataset reale.\n\n\nDue domande che arrivano subito dopo aver scelto dove depositare: cosa si può correggere dopo la pubblicazione e come si rende il nostro lavoro riproducibile."
-  },
-  {
-    "objectID": "risorse.html",
-    "href": "risorse.html",
-    "title": "Risorse e checklist",
-    "section": "",
-    "text": "C’è un README che si capisce senza conoscere lo studio\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nGli identificativi dei partecipanti sono univoci\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\n\n\nC’è un file LICENSE, e il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nHo controllato i campi di testo libero, i nomi dei file e i metadati dei file multimediali\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo su licenza e tempi\n\n\n\n\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
-  },
-  {
-    "objectID": "risorse.html#checklist-prima-di-depositare",
-    "href": "risorse.html#checklist-prima-di-depositare",
-    "title": "Risorse e checklist",
-    "section": "",
-    "text": "C’è un README che si capisce senza conoscere lo studio\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nGli identificativi dei partecipanti sono univoci\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\n\n\nC’è un file LICENSE, e il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nHo controllato i campi di testo libero, i nomi dei file e i metadati dei file multimediali\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo su licenza e tempi\n\n\n\n\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
-  },
-  {
-    "objectID": "risorse.html#link-utili",
-    "href": "risorse.html#link-utili",
-    "title": "Risorse e checklist",
-    "section": "Link utili",
-    "text": "Link utili\n\nRepository\n\nZenodo — generalista, CERN, la scelta predefinita\nResearch Data Unipd — repository di ateneo, con supporto dei bibliotecari\nPsychArchives — disciplinare per la psicologia (ZPID)\nHarvard Dataverse, Dryad, Figshare, B2SHARE\nOpenNeuro, NeuroVault, Databrary, LDbase, ICPSR\nre3data.org — per cercare il repository giusto\n\n\n\nOSF: cosa cambia\n\nCOS — OSF Changes (pagina ufficiale)\nOSF Support — Projects Transition e le FAQ\nOSF Registries e PsyArXiv, che restano attivi\n\n\n\nStandard e documentazione\n\nPsych-DS e il suo validator\nBIDS per il neuroimaging\nGO FAIR — testo dei principi\nWilkinson et al. (2016) — l’articolo originale sui principi FAIR\nCitation File Format — il file CITATION.cff\nFAIR-Aware e F-UJI — autovalutazione\n\n\n\nLicenze\n\nCreative Commons Chooser — per dati, testi e materiali\nchoosealicense.com — per il codice\n\n\n\nSupporto a Padova\n\nOpen Science — Sistema Bibliotecario di Ateneo: supporto su deposito dei dati, licenze e requisiti dei finanziatori"
-  },
-  {
-    "objectID": "risorse.html#glossario-minimo",
-    "href": "risorse.html#glossario-minimo",
-    "title": "Risorse e checklist",
-    "section": "Glossario minimo",
-    "text": "Glossario minimo\n\n\n\n\n\n\n\nTermine\nSignificato\n\n\n\n\nDOI\nIdentificatore persistente che punta a un oggetto digitale. Continua a funzionare anche se l’indirizzo cambia, perché è un sistema di reindirizzamento gestito.\n\n\nMetadati\nDati sui dati: titolo, autori, data, descrizione, licenza. Sono ciò che rende un dataset trovabile.\n\n\nData dictionary / codebook\nDocumento che descrive ogni variabile: significato, tipo, unità, codifica, valori mancanti.\n\n\nORCID\nIdentificatore univoco per le persone che fanno ricerca. Risolve il problema degli omonimi e dei cambi di cognome.\n\n\nEmbargo\nPeriodo durante il quale i metadati sono pubblici ma i file non sono scaricabili. Si usa per attendere la pubblicazione dell’articolo.\n\n\nAccesso ristretto\nI file si ottengono solo dopo una richiesta approvata, di solito con un accordo scritto (Data Use Agreement).\n\n\nPseudonimizzazione\nSostituire gli identificativi con codici, mantenendo altrove la chiave di collegamento. Il dato resta personale.\n\n\nAnonimizzazione\nRendere impossibile risalire alla persona, in modo irreversibile.\n\n\nVersionamento\nConservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi.\n\n\nRiproducibilità\nOttenere gli stessi risultati dagli stessi dati con lo stesso codice.\n\n\n\n\nQuesta dispensa. Materiali per “Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati”, Dipartimento di Psicologia Generale, Università di Padova, 23 settembre 2026. Testi a cura di Margherita Calderan & Claude, rilasciati con licenza CC BY 4.0. I dataset di esempio sono fittizi e rilasciati in CC0."
-  },
-  {
-    "objectID": "struttura-2.html",
-    "href": "struttura-2.html",
-    "title": "Psych-DS",
-    "section": "",
-    "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nIl punto interessante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati."
-  },
-  {
-    "objectID": "struttura-2.html#tre-regole-minime",
-    "href": "struttura-2.html#tre-regole-minime",
-    "title": "Psych-DS",
-    "section": "",
-    "text": "Un dataset Psych-DS valido richiede solo questo:\n\nUna cartella data/ nella radice del progetto, che contiene i file di dati in CSV.\nUn file dataset_description.json nella radice, con esattamente questo nome, accanto a data/ e non dentro.\nI file di dati nominati a coppie chiave-valore, con suffisso _data.csv.\n\n\n\n\nchiave1-valore1_chiave2-valore2_suffisso.estensione Il trattino lega una chiave al suo valore; l’underscore separa le coppie fra loro e dal suffisso finale.\n\nIn Psych-DS il suffisso è sempre data e l’estensione sempre .csv, quindi ogni file di dati finisce per _data.csv. Le coppie che stanno prima le scegliete voi: servono a dire di chi e di cosa sono quei dati.\n\nstudy-stroop_subject-01_data.csv Lo stesso schema, riempito: studio “stroop”, partecipante 01.\n\n\n\nValidi\nstudy-stroop_subject-01_data.csv\nparticipant-001_session-1_data.csv\nversion-alltrials_participant-001_data.csv\nstudy-ZebraQuestionnaire_data.csv\n\n\nNon validi\nparticipant-summary.csv\n  manca il suffisso _data.csv\n\nyear2024_data.csv\n  manca il trattino fra chiave e valore\n\nparticipant_001_data.csv\n  underscore al posto del trattino\n\nSubject-01_data.csv\n  la chiave deve essere minuscola\n\n\n\n\n\ndataset_description.json usa il vocabolario di schema.org, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"Dataset\",\n  \"name\": \"Dataset title\",\n  \"description\": \"Description, of any length.\",\n  \"variableMeasured\": [\"participant_id\", \"trial\", \"condition\", \"rt_ms\"]\n}\n\n\n\n\n\n\nIl punto interessante\n\n\n\nvariableMeasured deve elencare esattamente tutti i nomi di colonna che compaiono nei vostri CSV.\nÈ il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che non può andare fuori sincrono con i dati."
-  },
-  {
-    "objectID": "struttura-2.html#lesempio-da-cui-partire",
-    "href": "struttura-2.html#lesempio-da-cui-partire",
-    "title": "Psych-DS",
-    "section": "L’esempio da cui partire",
-    "text": "L’esempio da cui partire\nNei materiali trovate un dataset minimo ma completo: due partecipanti, dodici prove ciascuno, compito Stroop.\nstroop-attention/\n├── dataset_description.json          obbligatorio, questo nome esatto\n├── README.md\n├── LICENSE\n├── data/                             obbligatoria\n│   ├── study-stroop_subject-01_data.csv\n│   ├── study-stroop_subject-02_data.csv\n│   └── raw/                          export originali, ignorati dal validator\n│       └── subject-01_eprime_export.txt\n└── analysis/\n    └── 01_stroop_effect.R\n\ndataset_description.json\nun file di dati\ntutto in materiali.zip\n\nLa cartella data/raw/ serve a conservare gli export originali nei formati prodotti dai software di acquisizione (.txt, .edat3, .sav, .mat): il validator ne ignora il contenuto."
-  },
-  {
-    "objectID": "struttura-2.html#il-validator",
-    "href": "struttura-2.html#il-validator",
-    "title": "Psych-DS",
-    "section": "Il validator",
-    "text": "Il validator\npsych-ds.github.io/validator — si trascina la cartella e si legge il verdetto.\nVa selezionata la cartella radice del progetto (stroop-attention/), non la sottocartella data/."
-  },
-  {
-    "objectID": "struttura-2.html#da-fare",
-    "href": "struttura-2.html#da-fare",
-    "title": "Psych-DS",
-    "section": "Da fare",
-    "text": "Da fare\nIl punto di questo esercizio è che non ricominciate da zero: prendete il progetto che avete appena documentato e gli date una forma che anche una macchina sa leggere.\n\n\n\n\n\n\nSul vostro progetto, in tre mosse\n\n\n\n\nSistemate la struttura. Create una cartella data/ nella radice e metteteci dentro il file di dati. Rinominatelo secondo lo schema chiave-valore: study-qualcosa_data.csv, o study-qualcosa_subject-01_data.csv se avete un file per partecipante.\nScrivete dataset_description.json nella radice, accanto a data/ e non dentro. Titolo, descrizione, e l’elenco esatto di tutti i nomi di colonna.\nValidate. Trascinate la cartella radice sul validator e sistemate quello che segnala, un errore per volta.\n\n\n\n\nSe preferite fare pratica prima\nSull’esempio già pronto:\n\nValidatelo. Scaricate stroop-attention/ e passatela al validator: deve risultare valida.\nRompetelo apposta e guardate cosa dice. Rinominate un file in subject01_data.csv; aggiungete una colonna a un CSV senza dichiararla in variableMeasured; spostate dataset_description.json dentro data/. Rimettete a posto una cosa per volta: capire i messaggi di errore è metà del lavoro.\n\n\n\nUn passo in più: la descrizione delle variabili\nNella forma minima variableMeasured è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto PropertyValue, e a quel punto il data dictionary vero e proprio entra nei metadati:\n\"variableMeasured\": [\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"rt_ms\",\n    \"description\": \"Reaction time from stimulus onset to response\",\n    \"unitText\": \"milliseconds\",\n    \"minValue\": 200,\n    \"maxValue\": 3000\n  },\n  {\n    \"@type\": \"PropertyValue\",\n    \"name\": \"condition\",\n    \"description\": \"Congruency between word and ink colour\",\n    \"value\": \"congruent | incongruent\"\n  }\n]"
-  },
-  {
-    "objectID": "struttura-2.html#errori-tipici",
-    "href": "struttura-2.html#errori-tipici",
-    "title": "Psych-DS",
-    "section": "Errori tipici",
-    "text": "Errori tipici\n\n\n\n\n\n\n\nSintomo\nCausa\n\n\n\n\n“No dataset_description.json found”\nIl file è dentro data/, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un .txt nascosto in coda\n\n\nUn file di dati non viene riconosciuto\nIl nome non segue lo schema chiave-valore, o manca il suffisso _data.csv\n\n\n“Column not found in variableMeasured”\nUna colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti)\n\n\nIl JSON non viene letto\nVirgola di troppo prima di una parentesi graffa\n\n\nLe colonne non corrispondono fra file diversi\nvariableMeasured deve contenere l’unione dei nomi di colonna di tutti i CSV"
-  },
-  {
-    "objectID": "struttura-2.html#quando-conviene-e-quando-no",
-    "href": "struttura-2.html#quando-conviene-e-quando-no",
-    "title": "Psych-DS",
-    "section": "Quando conviene, e quando no",
-    "text": "Quando conviene, e quando no\n\n\nHa senso\n\nDati sperimentali per singola prova, con molti partecipanti e file simili fra loro\nStudi multi-sito o longitudinali, dove la struttura si ripete\nLaboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti\nQuando si prevede che i dati confluiscano in meta-analisi\n\n\n\nNon è la priorità\n\nUn dataset unico, piccolo, molto particolare\nDati di neuroimaging: usate BIDS, che è lo standard di quel campo\nInterviste qualitative, materiali eterogenei, video\nQuando non avete ancora un README e un data dictionary: quelli vengono prima\n\n\n\n\n\n\n\n\n\nL’ordine delle priorità\n\n\n\nUn dataset con README e data dictionary ben fatti, ma senza standard, è largamente più utile di un dataset formalmente conforme a Psych-DS e privo di documentazione.\n\n\n\nE per il neuroimaging: BIDS\nSe lavorate con MRI, EEG, MEG o fNIRS, lo standard è BIDS: molto più prescrittivo, (validator, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio."
+    "text": "È la domanda che arriva sempre per seconda, subito dopo “dove lo metto”: e se poi mi accorgo di un errore? La risposta cambia molto da un repository all’altro.\n\n\n\n\n\n\n\n\n\nDopo la pubblicazione potete…\nCome\n\n\n\n\nZenodo\nmodificare i file entro 30 giorni, stesso DOI, nessuna nuova versione\nin autonomia, dall’interfaccia\n\n\nZenodo, dopo i 30 giorni\nsolo casi giustificati: violazione di copyright, dati personali esposti. Per tutto il resto si crea una nuova versione\nrichiesta motivata\n\n\nPsychArchives\nmodificare file e metadati entro una settimana\nsu richiesta a PsychArchives\n\n\nPsychArchives, dopo la prima settimana\nsi genera una nuova versione; la precedente resta, collegata nella cronologia pubblica\nsi manda alla mail delle submission il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri\n\n\n\n\n\n\n\n\n\nEco\n\n\n\nUna nuova versione non raddoppia lo spazio occupato, la piattaforma sottostante salva solo la differenza."
   }
 ]

@@ -1,8 +1,5 @@
 ---
-aliases:
-  - esercizio-1.html
 title: "README e Data dictionary"
-subtitle: "Prima come si fa. Poi lo fate su un progetto vostro."
 ---
 
 
@@ -39,6 +36,37 @@ demographics.csv
 - **Usare separatori e maiuscole in modo sistematico e significativo**, non a
    caso: `questo_e_snake_case`, `questoInveceECamelCase`. Scegliete una
    convenzione e tenetela.
+
+<small>Regole tradotte e adattate dal [sito di BIDS](https://bids.neuroimaging.io/) e dal [corso di Research Data Management di DataLad](https://psychoinformatics-de.github.io/rdm-course/).</small>
+
+## In che formato salvarli
+
+Un formato **proprietario** (`.xlsx`, `.sav` di SPSS, `.mat` di MATLAB) si apre
+solo con il programma che l'ha creato: bisogna averlo, spesso a pagamento, e non
+è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato
+**aperto** e testuale (`.csv`, `.tsv`, `.txt`, `.json`) si apre con qualunque
+strumento e si legge anche a occhio.
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6 .panel-no}
+**No**
+
+- `dati.xlsx` (Excel)
+- `dati.sav` (SPSS)
+- `codebook.docx`
+:::
+::: {.g-col-12 .g-col-md-6 .panel-si}
+**Sì**
+
+- `dati.csv`
+- `dati.csv` + `dati_dictionary.csv`
+- `codebook.txt` o `README.md`
+:::
+:::
+
+L'export originale dello strumento (per esempio il `.sav` che esce dal software
+del questionario) si tiene in `data/raw/` come sola lettura; accanto si salva la
+versione in formato aperto, che è quella che si documenta e si deposita.
 
 ## La struttura
 

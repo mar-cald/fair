@@ -23,82 +23,37 @@ Deposito immutabile, citabile, conservato a lungo termine, con DOI e metadati.
 
 :::
 ::: {.g-col-12 .g-col-md-4 .scheda}
-**3. Dove si dichiara**
+**3. Dove si collega**
 
-Il piano di studio, registrato prima di raccogliere i dati e congelato con un DOI.
-
-***Strumenti:*** [OSF Registries](https://osf.io/registries), che resta attivo anche dopo la chiusura dei Projects; PsychArchives accetta anche preregistrazioni.
+Nessuno strumento, collega automaticamente preregistrazione, dati,
+codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri.
 
 :::
 :::
 
-::: {.callout-note title="Come si collegano fra loro i materiali"}
-Nessuno strumento, OSF compreso, collega automaticamente preregistrazione, dati,
-codice e articolo. I collegamenti esistono solo se ogni documento indica dove si
-trovano gli altri:
-
-- il deposito dei dati riporta i DOI di articolo, preregistrazione e codice nei
-  campi *related identifiers*;
-- il README li elenca in una sezione dedicata;
-- l'articolo e il preprint li citano nella sezione *Data availability*;
-- la release del codice indica il DOI dei dati che analizza.
-
-Un documento che non riporta questi riferimenti resta isolato: chi lo trova non ha
-modo di risalire agli altri.
-:::
 
 ::: {.callout-note title="Importante"}
-**GitHub non è un archivio** (i repository si possono cancellare o riscrivere in qualsiasi momento, non c'è DOI, non c'è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository vero.
+**GitHub non è un archivio** (i repository si possono cancellare o riscrivere in qualsiasi momento, non c'è DOI, non c'è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository "vero".
 :::
 
 ## Repository generalisti
 
 | Servizio | Gestito da | Spazio  | Note |
 |:--|:--|:--------|:--|
-| **[Zenodo](https://zenodo.org/)** | CERN, con finanziamenti UE | **50 GB per record**, di più su richiesta. [Altre info](https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo)|  Accetta qualsiasi tipo di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, "communities" per raccogliere i prodotti di un progetto o di un laboratorio. |
-| **[Research Data Unipd](https://researchdata.cab.unipd.it/)** | Università di Padova (Sistema Bibliotecario) | Non pubblicato: si concorda con i bibliotecari, che seguono il deposito. |  Requisiti dei finanziatori. C'è supporto umano, ed è la sede naturale per i dati dei progetti Unipd. |
-| **[Harvard Dataverse](https://dataverse.harvard.edu/)** | Infrastrutture statunitensi | **2,5 GB per singolo file** caricato da web, **fino a 1 TB per record**. [Altre info](https://support.dataverse.harvard.edu/researchers)|  Dati tabellari: riconosce i formati statistici, estrae automaticamente le variabili e genera un codebook. Molto usato nelle scienze sociali. |
-| **[Dryad](https://datadryad.org/)** | Non profit, infrastrutture statunitensi | **10GB per file**,  **2T per record**, di più su richiesta. [Altre info](https://datadryad.org/help/requirements/files) |  Quando serve **curation umana**: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivist |
+| **[Zenodo](https://zenodo.org/)** | CERN, con finanziamenti UE | **50 GB** per singolo record (max 100 files) [Altre info](https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo)|  Accetta diversi tipi di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, ["communities"](https://help.zenodo.org/docs/communities/about-communities/) per raccogliere i prodotti di un progetto o di un laboratorio. |
+| **[Research Data Unipd](https://researchdata.cab.unipd.it/)** | Università di Padova (Sistema Bibliotecario) | **2,5 GB per singolo file**  |  Requisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd |
+| **[Harvard Dataverse](https://dataverse.harvard.edu/)** | Infrastrutture statunitensi | **2,5 GB per singolo file** [Altre info](https://support.dataverse.harvard.edu/researchers)|  Estrae automaticamente le variabili e genera un codebook.  |
+| **[Dryad](https://datadryad.org/)** | Non profit, infrastrutture statunitensi | **10GB per file**, di più su richiesta. [Altre info](https://datadryad.org/help/requirements/files) |  Quando serve **curation umana**: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista |
 | **[Figshare](https://figshare.com/)** | Digital Science (commerciale) | **20 GB** per record; [altre info](https://info.figshare.com/user-guide/account-limits/) | Infrastrutture statunitensi, europee nel caso di accordi con l'università. |
 
-Le quote cambiano: quelle qui sopra sono verificate a settembre 2026, ma prima di
-pianificare un deposito grosso conviene ricontrollarle sul sito del servizio.
+Le quote cambiano: quelle qui sopra sono verificate a settembre 2026.
 
 ## Repository disciplinari per la psicologia
 
 | Servizio | Cosa accetta | Spazio | Note |
 |:----|:--|:--|:--|
-| **[PsychArchives](https://www.psycharchives.org/)** (ZPID, Leibniz Institute for Psychology) | Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali | **1 GB per oggetto**, gratuito. | Gratuito, non commerciale, DOI DataCite più Handle, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche [licenze per solo uso scientifico](licenze.qmd#uso-scientifico). |
-| **[OpenNeuro](https://openneuro.org/)** | Dati di neuroimaging (MRI, MEG, EEG, iEEG, PET) | Nessun tetto pubblicato. | Gratuito. Richiede il formato [BIDS](https://bids.neuroimaging.io/), che viene validato automaticamente al caricamento. |
-
-## Come si sceglie una repository
-
-Domande da porsi, in ordine di importanza:
-
-1. **Il mio finanziatore o la mia rivista impongono qualcosa?** 
-2. **Esiste un repository disciplinare per questo tipo di dato?** Se sì, di solito
-   è preferibile a uno generalista.
-3. **Rilascia un identificatore persistente** e garantisce conservazione a lungo
-   termine?
-4. **Supporta il livello di accesso che mi serve?** Aperto, embargo, ristretto con approvazione.
-5. **Consente il versionamento?** Perché i dati cambiano anche dopo la pubblicazione.
-6. **Dove sono fisicamente i dati?** Rilevante per dati personali e GDPR.
-7. **Quanto costa, e chi paga?** 
-
-Per cercare in modo sistematico: [re3data.org](https://www.re3data.org/) è il
-registro internazionale dei repository di dati.
-
-## Il flusso di lavoro dopo OSF {#stack}
-
-| Fase | Dove | Cosa producete |
-|:--|:--|:--|
-| Progettazione | OSF Registrations | Preregistrazione con DOI |
-| Raccolta dati | Server o cloud di ateneo, cartelle strutturate | Dati grezzi + documentazione in corso d'opera |
-| Analisi | GitHub/GitLab privato | Script versionati |
-| Pubblicazione | Zenodo, PsychArchives, ... (dati e materiali) + release GitHub archiviata su Zenodo (codice) | Uno o più DOI |
-| Diffusione | Preprint su PsyArXiv, articolo, ORCID | Sezione *Data availability* con tutti i DOI |
-| Collegamento | Campi *related identifiers* di ogni deposito | Rete di link fra preregistrazione, dati, codice e articolo |
-
+| **[PsychArchives](https://www.psycharchives.org/)** (ZPID, Leibniz Institute for Psychology) | Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali | **1 GB per oggetto**, gratuito. | Gratuito, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche [licenze per solo uso scientifico](licenze.qmd#uso-scientifico). |
+| **[OpenNeuro](https://openneuro.org/)** | Dati di neuroimaging (MRI, MEG, EEG, iEEG, PET) | Nessun tetto pubblicato. | Gratuito. Richiede il formato [BIDS](https://bids.neuroimaging.io/), che viene validato automaticamente al caricamento.  |
 
 ## Dati che non si possono aprire
 
@@ -110,6 +65,24 @@ alcune strade praticabili, in ordine di preferenza:
 2. **Metadati pubblici e dati su richiesta formalizzata**.
 3. **Dataset derivato**: pubblicare aggregati, summary statistics.
 4. **Dati sintetici** che riproducono la struttura del dataset reale.
+
+
+## Come si sceglie una repository
+
+Domande da porsi, in ordine di importanza:
+
+1. **Il mio finanziatore o la mia rivista impongono qualcosa?** 
+2. **Esiste un repository disciplinare per questo tipo di dato?** Se sì, di solito
+   è preferibile a uno generalista.
+3. **Rilascia un identificatore persistente** e garantisce conservazione a lungo
+   termine?
+4. **Supporta il livello di accesso che mi serve?** Aperto, embargo, ristretto con approvazione.
+5. **Consente il versionamento?** Perché i dati possono cambiare anche dopo la pubblicazione.
+6. **Dove sono fisicamente i dati?** Rilevante per dati personali e GDPR.
+7. **Quanto costa, e chi paga?** 
+
+Per cercare in modo sistematico: [re3data.org](https://www.re3data.org/) è il
+registro internazionale dei repository di dati.
 
 ---
 

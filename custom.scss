@@ -70,7 +70,6 @@ h2 + h3        { margin-top: 1.4rem; }
   color: $attenuato;
   margin-top: .5rem;
 }
-#title-block-header .quarto-title-meta { display: none; }
 
 // ---------------------------------------------------------------------------
 //  Link: sottolineatura sottile, staccata dal testo.
@@ -208,6 +207,21 @@ table td > p:last-child, table th > p:last-child { margin-bottom: 0; }
 .scheda > p:first-child { margin-bottom: .75rem; }
 .scheda ul, .panel-si ul, .panel-no ul { padding-left: 1.1rem; margin-bottom: 0; }
 .panel-si pre, .panel-no pre, .scheda pre { margin-bottom: 0; }
+
+// Due cartelle a confronto (pagina Intro): l'albero dei file sta dentro la
+// scheda senza il riquadro grigio del codice, cosi' resta leggibile a proiettore.
+.progetti pre {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: .1rem 0 .7rem;
+  font-size: .84rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+.nota { font-size: .9rem; color: $attenuato; }
+.progetti .nota { margin-bottom: 0; }
 
 // ---------------------------------------------------------------------------
 //  Codice

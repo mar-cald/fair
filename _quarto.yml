@@ -7,8 +7,8 @@ project:
     - "*.qmd"               # si renderizzano solo le pagine di questa cartella,
                             # non i file dentro materiali/
   resources:
-    - "materiali/**"        # i file delle esercitazioni finiscono nel sito cosi' come sono
-    - "materiali.zip"
+    - "materiali/struttura-2/**"  # i file dell'esempio Psych-DS finiscono nel sito cosi' come sono
+    - "materiali.zip"             # esempio Psych-DS (pagina Struttura)
 
 website:
   title: "Hands-on Open Science"
@@ -25,10 +25,12 @@ website:
         menu:
           - href: repository.qmd
             text: Dove archiviare
+          - href: zenodo.qmd
+            text: Depositare su Zenodo
+          - href: psycharchives.qmd
+            text: Depositare su PsychArchives
           - href: versioni.qmd
             text: Versioni e correzioni
-          - href: riproducibilita.qmd
-            text: Riproducibilità
       - href: licenze.qmd
         text: Licenze
       - text: Struttura
@@ -42,7 +44,7 @@ website:
   page-footer:
     border: true
     left: "Seminario del 23 settembre 2026 — Margherita Calderan, Dipartimento di Psicologia Generale, Università di Padova"
-    right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it)"
+    right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) · [Fonti](risorse.qmd#fonti)"
 
 format:
   html:

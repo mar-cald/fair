@@ -8,7 +8,7 @@ subtitle: "Cosa controllare, dove cercare"
 
 ### Contenuto
 
-- [ ] C'è un **README** che si capisce senza conoscere lo studio
+- [ ] C'è un **README** chiaro
 - [ ] C'è un **data dictionary** che copre tutte le colonne di tutti i file
 - [ ] I file sono in **formati aperti** (CSV, TXT, JSON, PNG), non solo `.sav`, `.xlsx`, `.docx`
 - [ ] Gli identificativi dei partecipanti sono **univoci**
@@ -40,7 +40,7 @@ subtitle: "Cosa controllare, dove cercare"
 - [Research Data Unipd](https://researchdata.cab.unipd.it/) — repository di ateneo, con supporto dei bibliotecari
 - [PsychArchives](https://www.psycharchives.org/) — disciplinare per la psicologia (ZPID)
 - [Harvard Dataverse](https://dataverse.harvard.edu/), [Dryad](https://datadryad.org/), [Figshare](https://figshare.com/), [B2SHARE](https://b2share.eudat.eu/)
-- [OpenNeuro](https://openneuro.org/), [NeuroVault](https://neurovault.org/), [Databrary](https://databrary.org/), [LDbase](https://www.ldbase.org/), [ICPSR](https://www.icpsr.umich.edu/)
+- [OpenNeuro](https://openneuro.org/), [NeuroVault](https://neurovault.org/), [Databrary](https://databrary.org/), [LDbase](https://www.ldbase.org/), 
 - [re3data.org](https://www.re3data.org/) — per cercare il repository giusto
 
 
@@ -85,6 +85,26 @@ subtitle: "Cosa controllare, dove cercare"
 | **Anonimizzazione** | Rendere impossibile risalire alla persona, in modo irreversibile.  |
 | **Versionamento** | Conservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi. |
 | **Riproducibilità** | Ottenere gli stessi risultati dagli stessi dati con lo stesso codice. |
+
+## Fonti {#fonti}
+
+Alcune parti del sito sono tradotte e adattate dalle fonti qui sotto, tutte
+rilasciate con licenza [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it).
+
+- Wilkinson, M. D. et al. (2016). The FAIR Guiding Principles for scientific data
+  management and stewardship. *Scientific Data*, 3.
+  [doi:10.1038/sdata.2016.18](https://doi.org/10.1038/sdata.2016.18) — i principi
+  in [Principi FAIR](fair.qmd).
+- Vipavc Brvar, I. e Gogl, S. (2025). Balancing FAIR Data Principles with GDPR
+  Compliance: A Guide for Researchers. IASSIST 2025.
+  [doi:10.5281/zenodo.15696827](https://doi.org/10.5281/zenodo.15696827) — la
+  tabella FAIR e GDPR in [Principi FAIR](fair.qmd).
+- [Sito di BIDS](https://bids.neuroimaging.io/) e
+  [corso di Research Data Management di DataLad](https://psychoinformatics-de.github.io/rdm-course/) —
+  le regole sui nomi dei file in [README e data dictionary](struttura-1.qmd) e lo
+  schema dei nomi in [Psych-DS](struttura-2.qmd).
+- [Documentazione di Psych-DS](https://psychds-docs.readthedocs.io/) — regole ed
+  esempio di `dataset_description.json` in [Psych-DS](struttura-2.qmd).
 
 ---
 

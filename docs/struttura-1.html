@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,12 +111,16 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Dove archiviare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./riproducibilita.html">
- <span class="dropdown-text">Riproducibilità</span></a>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./versioni.html">
+ <span class="dropdown-text">Versioni e correzioni</span></a>
   </li>  
     </ul>
   </li>
@@ -160,6 +164,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#come-si-chiamano-i-file" id="toc-come-si-chiamano-i-file" class="nav-link active" data-scroll-target="#come-si-chiamano-i-file">Come si chiamano i file</a></li>
+  <li><a href="#in-che-formato-salvarli" id="toc-in-che-formato-salvarli" class="nav-link" data-scroll-target="#in-che-formato-salvarli">In che formato salvarli</a></li>
   <li><a href="#la-struttura" id="toc-la-struttura" class="nav-link" data-scroll-target="#la-struttura">La struttura</a></li>
   <li><a href="#che-cosè-un-data-dictionary" id="toc-che-cosè-un-data-dictionary" class="nav-link" data-scroll-target="#che-cosè-un-data-dictionary">Che cos’è un data dictionary</a></li>
   <li><a href="#la-licenza" id="toc-la-licenza" class="nav-link" data-scroll-target="#la-licenza">La licenza</a></li>
@@ -173,7 +178,6 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">README e Data dictionary</h1>
-<p class="subtitle lead">Prima come si fa. Poi lo fate su un progetto vostro.</p>
 </div>
 
 
@@ -215,7 +219,31 @@ demographics.csv</code></pre>
 <li>Se serve una versione, usate <code>_v1</code>, <code>_v2</code>, o meglio ancora usate git.</li>
 <li><strong>Usare separatori e maiuscole in modo sistematico e significativo</strong>, non a caso: <code>questo_e_snake_case</code>, <code>questoInveceECamelCase</code>. Scegliete una convenzione e tenetela.</li>
 </ul>
+<p><small>Regole tradotte e adattate dal <a href="https://bids.neuroimaging.io/">sito di BIDS</a> e dal <a href="https://psychoinformatics-de.github.io/rdm-course/">corso di Research Data Management di DataLad</a>.</small></p>
 </section>
+</section>
+<section id="in-che-formato-salvarli" class="level2">
+<h2 class="anchored" data-anchor-id="in-che-formato-salvarli">In che formato salvarli</h2>
+<p>Un formato <strong>proprietario</strong> (<code>.xlsx</code>, <code>.sav</code> di SPSS, <code>.mat</code> di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato <strong>aperto</strong> e testuale (<code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, <code>.json</code>) si apre con qualunque strumento e si legge anche a occhio.</p>
+<div class="grid">
+<div class="g-col-12 g-col-md-6 panel-no">
+<p><strong>No</strong></p>
+<ul>
+<li><code>dati.xlsx</code> (Excel)</li>
+<li><code>dati.sav</code> (SPSS)</li>
+<li><code>codebook.docx</code></li>
+</ul>
+</div>
+<div class="g-col-12 g-col-md-6 panel-si">
+<p><strong>Sì</strong></p>
+<ul>
+<li><code>dati.csv</code></li>
+<li><code>dati.csv</code> + <code>dati_dictionary.csv</code></li>
+<li><code>codebook.txt</code> o <code>README.md</code></li>
+</ul>
+</div>
+</div>
+<p>L’export originale dello strumento (per esempio il <code>.sav</code> che esce dal software del questionario) si tiene in <code>data/raw/</code> come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita.</p>
 </section>
 <section id="la-struttura" class="level2">
 <h2 class="anchored" data-anchor-id="la-struttura">La struttura</h2>
@@ -806,7 +834,7 @@ demographics.csv</code></pre>
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a></p>
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a></p>
 </div>
   </div>
 </footer>

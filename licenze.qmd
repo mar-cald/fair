@@ -84,6 +84,10 @@ condivisione che scegliete al momento del deposito:
 | **1** | *Scientific Use File* | L'uso è ristretto a scopi scientifici. Chi scarica deve accettare un contratto di licenza standardizzato prima di ottenere i file |
 | **2** | *Restricted Access File* | In preparazione |
 
+In tutti i livelli, compreso il livello 1, **i dati devono essere anonimizzati**:
+la licenza per scopi scientifici limita l'uso di dati anonimi, non permette di
+condividere dati personali.
+
 Le licenze fra cui si sceglie su PsychArchives sono, per testi e dati,
 **CC BY 4.0**, **CC BY-SA 4.0**, **CC0 1.0** e la **licenza per scopi
 scientifici**; per il codice, **LGPL-3.0**, **Apache-2.0** e **0BSD**.
@@ -103,20 +107,14 @@ in un'etichetta che viaggia col file.
 
 | Licenza | In sintesi | Quando sceglierla |
 |:--|:--|:--|
-| **MIT** | Permissiva e brevissima: fate quello che volete, mantenete l'avviso di copyright, nessuna garanzia | La scelta più diffusa per script di analisi e pacchetti di ricerca |
-| **BSD-3-Clause** | Equivalente a MIT, con in più il divieto di usare il vostro nome per promuovere prodotti derivati | Alternativa a MIT, comune in ambito accademico |
-| **Apache-2.0** | Permissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche | Software più strutturato, o quando ci sono aziende coinvolte |
 | **GPL-3.0** | *Copyleft*: chi distribuisce opere derivate deve rilasciarle con la stessa licenza | Se volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL |
 | **AGPL-3.0** | Come GPL, estesa al software offerto come servizio web | Applicazioni online, per esempio una piattaforma di somministrazione di esperimenti |
+| **MIT** | Permissiva: fate quello che volete, mantenete l'avviso di copyright, nessuna garanzia | Scelta molto diffusa |
+| **Apache-2.0** | Permissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche | Software più strutturato, o quando ci sono aziende coinvolte |
 
-::: {.callout-note title="Un vincolo che si eredita senza accorgersene"}
+::: {.callout-important title="GLP --> GPL"}
 Se il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL,
-anche se voi avreste scelto MIT. Vale la pena dare un'occhiata alle licenze delle
-dipendenze principali prima di decidere: in R sono spesso GPL-2 o GPL-3, in Python
-più spesso BSD o MIT.
-
-È il motivo per cui molto codice di ricerca scritto in R finisce, di fatto, sotto
-GPL.
+anche se voi avreste scelto MIT. 
 :::
 
 ## Come si applica una licenza, in pratica

@@ -1,5 +1,5 @@
 ---
-title: "Strumenti per la gestione FAIR dei dati"
+title: "Strumenti per una gestione FAIR"
 subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
@@ -42,4 +42,112 @@ Dove mettere dati, codice e materiali, a quali condizioni, e cosa allegarci perc
 
 
 :::
+
+```{=html}
+<div id="finder">
+  <p class="finder-h">Hai un dubbio?</p>
+  <p class="finder-sub">Scrivi cosa ti serve (o scegli un tema).</p>
+  <input type="text" id="finder-q" autocomplete="off" aria-label="Cerca un argomento"
+         placeholder="es. licenza per i dati, README, dati personali, Zenodo, DMP…">
+  <div class="finder-chips" id="finder-chips" role="group" aria-label="Filtra per tema"></div>
+  <ul id="finder-list"></ul>
+  <p class="finder-none" id="finder-none" hidden>Nessun risultato. Prova con un'altra parola, oppure usa la ricerca in alto a destra.</p>
+</div>
+
+<style>
+#finder{border:1px solid #c8c1b6;border-radius:6px;padding:1.2rem 1.3rem 1rem;margin-top:1.6rem;background:#fff}
+#finder .finder-h{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;font-size:1.2rem;margin:0 0 .15rem;color:#000}
+#finder .finder-sub{color:#454039;font-size:.92rem;margin:0 0 .9rem}
+#finder input{width:100%;box-sizing:border-box;padding:.6rem .8rem;font-size:1rem;border:1px solid #c8c1b6;border-radius:5px;background:#fff;color:#000}
+#finder input:focus{outline:2px solid #8f1f27;outline-offset:1px;border-color:#8f1f27}
+#finder .finder-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0 .1rem}
+#finder .finder-chip{font-family:inherit;font-size:.82rem;padding:.28rem .72rem;border:1px solid #c8c1b6;border-radius:999px;background:#fff;color:#454039;cursor:pointer}
+#finder .finder-chip:hover{border-color:#8f1f27;color:#8f1f27}
+#finder .finder-chip[aria-pressed="true"]{background:#8f1f27;border-color:#8f1f27;color:#fff}
+#finder ul{list-style:none;margin:.9rem 0 0;padding:0}
+#finder li a{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem;padding:.6rem .2rem;border-top:1px solid #ece8e1;color:#000;text-decoration:none}
+#finder li:first-child a{border-top:0}
+#finder li a:hover,#finder li a:focus{color:#8f1f27}
+#finder li a .cat{flex:none;font-size:.72rem;color:#454039;text-transform:uppercase;letter-spacing:.05em}
+#finder li a:hover .cat{color:#8f1f27}
+#finder .finder-none{color:#454039;font-size:.92rem;padding:.7rem .2rem 0}
+</style>
+
+<script>
+(function(){
+  var DATA=[
+    {q:"OSF chiude: e adesso? Cosa cambia e cosa no",cat:"Dati",tags:"osf chiude dismissione migrare alternativa scadenze",url:"apertura.html"},
+    {q:"Dove deposito i miei dati?",cat:"Dati",tags:"repository archivio deposito zenodo psycharchives dataverse dryad",url:"repository.html"},
+    {q:"I dati sono personali o sensibili: dove e come li metto?",cat:"Dati",tags:"gdpr personali sensibili anonimizzare accesso ristretto restricted privacy",url:"repository.html#dati-che-non-si-possono-aprire"},
+    {q:"Zenodo o PsychArchives? Quale scelgo",cat:"Dati",tags:"confronto differenze scelta zenodo psycharchives",url:"psycharchives.html#psycharchives-e-zenodo-a-confronto"},
+    {q:"Come carico un'intera cartella/progetto su Zenodo",cat:"Dati",tags:"zenodo caricare upload zip archivio cartella progetto",url:"zenodo.html#caricare-unintera-cartella"},
+    {q:"Che tipo di risorsa scelgo su Zenodo?",cat:"Dati",tags:"zenodo resource type dataset software tipo risorsa",url:"zenodo.html#il-tipo-di-risorsa"},
+    {q:"Condividere una bozza per la peer review anonima",cat:"Condividere",tags:"peer review revisione anonimo bozza reviewer secret link zenodo",url:"zenodo.html#condividere-una-bozza-prima-di-pubblicare"},
+    {q:"Reviewer link su PsychArchives",cat:"Condividere",tags:"peer review revisione anonimo reviewer link psycharchives",url:"psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link"},
+    {q:"Lavorare in più persone su un deposito",cat:"Condividere",tags:"collaborare gruppo community insieme condiviso zenodo",url:"zenodo.html#lavorare-in-più-persone"},
+    {q:"Correzioni e nuove versioni dopo la pubblicazione",cat:"Condividere",tags:"versione correzione aggiornare doi errata modifica",url:"versioni.html"},
+    {q:"Che licenza scelgo per i dati? (CC0, CC BY)",cat:"Licenze",tags:"licenza dati cc0 cc by creative commons",url:"licenze.html#le-licenze-creative-commons"},
+    {q:"Che licenza per il codice? (MIT, Apache, GPL)",cat:"Licenze",tags:"licenza codice software mit apache gpl copyleft",url:"licenze.html#licenze-per-il-codice"},
+    {q:"Licenza per solo uso scientifico (PsychArchives)",cat:"Licenze",tags:"scientific use file licenza scientifica psycharchives sharing level",url:"licenze.html#uso-scientifico"},
+    {q:"Come applico una licenza, in pratica",cat:"Licenze",tags:"license file readme come fare applicare",url:"licenze.html#come-si-applica-una-licenza-in-pratica"},
+    {q:"Come nomino file e cartelle?",cat:"Struttura",tags:"nomi file cartelle naming spazi convenzione",url:"struttura-1.html#come-si-chiamano-i-file"},
+    {q:"In che formato salvo i dati? (CSV o xlsx)",cat:"Struttura",tags:"formato csv xlsx sav proprietario aperto txt json",url:"struttura-1.html#in-che-formato-salvarli"},
+    {q:"Come organizzo le cartelle del progetto",cat:"Struttura",tags:"struttura cartelle organizzazione data raw scripts output",url:"struttura-1.html#la-struttura"},
+    {q:"Cos'è e come scrivo un README",cat:"Struttura",tags:"readme documentazione descrizione",url:"struttura-1.html#che-cosè-un-readme"},
+    {q:"Cos'è un data dictionary?",cat:"Struttura",tags:"data dictionary dizionario colonne variabili codebook unita codifica",url:"struttura-1.html#che-cosè-un-data-dictionary"},
+    {q:"Strutturare i dati comportamentali (Psych-DS)",cat:"Struttura",tags:"psych-ds psychds standard comportamentali metadati",url:"struttura-2.html"},
+    {q:"Cosa sono i principi FAIR?",cat:"FAIR",tags:"fair findable accessible interoperable reusable principi",url:"fair.html"},
+    {q:"FAIR e dati personali (GDPR)",cat:"FAIR",tags:"fair gdpr privacy personali anonimizzazione conservazione",url:"fair.html#fair-e-gdpr"},
+    {q:"Devo scrivere un DMP (Data Management Plan)",cat:"FAIR",tags:"dmp data management plan piano gestione dati horizon",url:"fair.html#data-management-plan-dmp"},
+    {q:"Checklist prima di depositare",cat:"FAIR",tags:"checklist verifica controllo prima depositare pronto",url:"risorse.html#checklist-prima-di-depositare"},
+    {q:"Glossario e sigle (DOI, ORCID, …)",cat:"FAIR",tags:"glossario sigle doi orcid termini definizioni",url:"risorse.html#glossario-minimo"}
+  ];
+  var CATS=["Tutte","Dati","Condividere","Licenze","Struttura","FAIR"];
+  var norm=function(s){return (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");};
+  var input=document.getElementById("finder-q");
+  var list=document.getElementById("finder-list");
+  var none=document.getElementById("finder-none");
+  var chipsBox=document.getElementById("finder-chips");
+  if(!input||!list||!chipsBox){return;}
+  var active="Tutte";
+  CATS.forEach(function(c){
+    var b=document.createElement("button");
+    b.type="button"; b.className="finder-chip"; b.textContent=c;
+    b.setAttribute("aria-pressed", c===active?"true":"false");
+    b.addEventListener("click",function(){
+      active=c;
+      Array.prototype.forEach.call(chipsBox.children,function(x){
+        x.setAttribute("aria-pressed", x.textContent===c?"true":"false");
+      });
+      render();
+    });
+    chipsBox.appendChild(b);
+  });
+  function render(){
+    var terms=norm(input.value).split(/\s+/).filter(Boolean);
+    var n=0;
+    list.innerHTML="";
+    DATA.forEach(function(it){
+      if(active!=="Tutte" && it.cat!==active){return;}
+      var hay=norm(it.q+" "+it.tags+" "+it.cat);
+      var ok=terms.every(function(t){return hay.indexOf(t)>-1;});
+      if(!ok){return;}
+      n++;
+      var li=document.createElement("li");
+      var a=document.createElement("a");
+      a.href=it.url;
+      a.appendChild(document.createTextNode(it.q));
+      var span=document.createElement("span");
+      span.className="cat"; span.textContent=it.cat;
+      a.appendChild(span);
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    none.hidden = n>0;
+  }
+  input.addEventListener("input",render);
+  render();
+})();
+</script>
+```
 

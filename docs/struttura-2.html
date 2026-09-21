@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,12 +146,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Dove archiviare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./riproducibilita.html">
- <span class="dropdown-text">Riproducibilità</span></a>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./versioni.html">
+ <span class="dropdown-text">Versioni e correzioni</span></a>
   </li>  
     </ul>
   </li>
@@ -195,11 +199,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul class="collapse">
   <li><a href="#tre-regole-minime" id="toc-tre-regole-minime" class="nav-link active" data-scroll-target="#tre-regole-minime">Tre regole minime</a></li>
-  <li><a href="#lesempio-da-cui-partire" id="toc-lesempio-da-cui-partire" class="nav-link" data-scroll-target="#lesempio-da-cui-partire">L’esempio da cui partire</a></li>
   <li><a href="#il-validator" id="toc-il-validator" class="nav-link" data-scroll-target="#il-validator">Il validator</a></li>
-  <li><a href="#da-fare" id="toc-da-fare" class="nav-link" data-scroll-target="#da-fare">Da fare</a></li>
   <li><a href="#errori-tipici" id="toc-errori-tipici" class="nav-link" data-scroll-target="#errori-tipici">Errori tipici</a></li>
   <li><a href="#quando-conviene-e-quando-no" id="toc-quando-conviene-e-quando-no" class="nav-link" data-scroll-target="#quando-conviene-e-quando-no">Quando conviene, e quando no</a></li>
+  <li><a href="#neuroimaging-bids" id="toc-neuroimaging-bids" class="nav-link" data-scroll-target="#neuroimaging-bids">Neuroimaging: BIDS</a></li>
   </ul>
 </nav>
     </div>
@@ -267,8 +270,8 @@ Subject-01_data.csv
 </div>
 </div>
 </section>
-<section id="il-file-dei-metadati" class="level3">
-<h3 class="anchored" data-anchor-id="il-file-dei-metadati">Il file dei metadati</h3>
+<section id="il-file-dei-metadati---minimi" class="level3">
+<h3 class="anchored" data-anchor-id="il-file-dei-metadati---minimi">Il file dei metadati - minimi</h3>
 <p><code>dataset_description.json</code> usa il vocabolario di <a href="https://schema.org/Dataset">schema.org</a>, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="st">"https://schema.org/"</span><span class="fu">,</span></span>
@@ -277,96 +280,46 @@ Subject-01_data.csv
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Description, of any length."</span><span class="fu">,</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"variableMeasured"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"participant_id"</span><span class="ot">,</span> <span class="st">"trial"</span><span class="ot">,</span> <span class="st">"condition"</span><span class="ot">,</span> <span class="st">"rt_ms"</span><span class="ot">]</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Il punto interessante">
+<div class="callout callout-style-default callout-important callout-titled" title="Importante">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Il punto interessante
+Importante
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><code>variableMeasured</code> deve elencare <strong>esattamente</strong> tutti i nomi di colonna che compaiono nei <strong>vostri</strong> CSV.</p>
-<p>È il data dictionary dell’esercizio 1, ma dentro i metadati e verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che <strong>non può andare fuori sincrono con i dati</strong>.</p>
+<p>È il data dictionary dell’esercizio 1, ma verificabile automaticamente. La documentazione smette di essere un file che si scrive alla fine e diventa qualcosa che <strong>non può andare fuori sincrono con i dati</strong>.</p>
 </div>
 </div>
 </section>
+<section id="un-passo-in-più-la-descrizione-delle-variabili" class="level3">
+<h3 class="anchored" data-anchor-id="un-passo-in-più-la-descrizione-delle-variabili">Un passo in più: la descrizione delle variabili</h3>
+<p>Nella forma minima <code>variableMeasured</code> è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto <code>PropertyValue</code>, e a quel punto il data dictionary vero e proprio entra nei metadati:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="er">"variableMeasured":</span> <span class="ot">[</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"rt_ms"</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Reaction time from stimulus onset to response"</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"unitText"</span><span class="fu">:</span> <span class="st">"milliseconds"</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"minValue"</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"maxValue"</span><span class="fu">:</span> <span class="dv">3000</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"condition"</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Congruency between word and ink colour"</span><span class="fu">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"congruent | incongruent"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="lesempio-da-cui-partire" class="level2">
-<h2 class="anchored" data-anchor-id="lesempio-da-cui-partire">L’esempio da cui partire</h2>
-<p>Nei materiali trovate un dataset minimo ma completo: due partecipanti, dodici prove ciascuno, compito Stroop.</p>
-<pre><code>stroop-attention/
-├── dataset_description.json          obbligatorio, questo nome esatto
-├── README.md
-├── LICENSE
-├── data/                             obbligatoria
-│   ├── study-stroop_subject-01_data.csv
-│   ├── study-stroop_subject-02_data.csv
-│   └── raw/                          export originali, ignorati dal validator
-│       └── subject-01_eprime_export.txt
-└── analysis/
-    └── 01_stroop_effect.R</code></pre>
-<ul>
-<li><a href="materiali/struttura-2/stroop-attention/dataset_description.json">dataset_description.json</a></li>
-<li><a href="materiali/struttura-2/stroop-attention/data/study-stroop_subject-01_data.csv">un file di dati</a></li>
-<li><a href="materiali.zip">tutto in materiali.zip</a></li>
-</ul>
-<p>La cartella <code>data/raw/</code> serve a conservare gli export originali nei formati prodotti dai software di acquisizione (<code>.txt</code>, <code>.edat3</code>, <code>.sav</code>, <code>.mat</code>): il validator ne ignora il contenuto.</p>
 </section>
 <section id="il-validator" class="level2">
 <h2 class="anchored" data-anchor-id="il-validator">Il validator</h2>
 <p><strong><a href="https://psych-ds.github.io/validator/">psych-ds.github.io/validator</a></strong> — si trascina la cartella e si legge il verdetto.</p>
 <p>Va selezionata la <strong>cartella radice</strong> del progetto (<code>stroop-attention/</code>), non la sottocartella <code>data/</code>.</p>
-</section>
-<section id="da-fare" class="level2">
-<h2 class="anchored" data-anchor-id="da-fare">Da fare</h2>
-<p>Il punto di questo esercizio è che <strong>non ricominciate da zero</strong>: prendete il progetto che avete appena documentato e gli date una forma che anche una macchina sa leggere.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Sul vostro progetto, in tre mosse">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Sul vostro progetto, in tre mosse
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>Sistemate la struttura.</strong> Create una cartella <code>data/</code> nella radice e metteteci dentro il file di dati. Rinominatelo secondo lo schema chiave-valore: <code>study-qualcosa_data.csv</code>, o <code>study-qualcosa_subject-01_data.csv</code> se avete un file per partecipante.</li>
-<li><strong>Scrivete <code>dataset_description.json</code></strong> nella radice, accanto a <code>data/</code> e non dentro. Titolo, descrizione, e l’elenco esatto di tutti i nomi di colonna.</li>
-<li><strong>Validate.</strong> Trascinate la cartella radice sul <a href="https://psych-ds.github.io/validator/">validator</a> e sistemate quello che segnala, un errore per volta.</li>
-</ol>
-</div>
-</div>
-<section id="se-preferite-fare-pratica-prima" class="level3">
-<h3 class="anchored" data-anchor-id="se-preferite-fare-pratica-prima">Se preferite fare pratica prima</h3>
-<p>Sull’esempio già pronto:</p>
-<ul>
-<li><strong>Validatelo.</strong> Scaricate <code>stroop-attention/</code> e passatela al validator: deve risultare valida.</li>
-<li><strong>Rompetelo apposta</strong> e guardate cosa dice. Rinominate un file in <code>subject01_data.csv</code>; aggiungete una colonna a un CSV senza dichiararla in <code>variableMeasured</code>; spostate <code>dataset_description.json</code> dentro <code>data/</code>. Rimettete a posto una cosa per volta: capire i messaggi di errore è metà del lavoro.</li>
-</ul>
-</section>
-<section id="un-passo-in-più-la-descrizione-delle-variabili" class="level3">
-<h3 class="anchored" data-anchor-id="un-passo-in-più-la-descrizione-delle-variabili">Un passo in più: la descrizione delle variabili</h3>
-<p>Nella forma minima <code>variableMeasured</code> è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto <code>PropertyValue</code>, e a quel punto il data dictionary vero e proprio entra nei metadati:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">"variableMeasured":</span> <span class="ot">[</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"rt_ms"</span><span class="fu">,</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Reaction time from stimulus onset to response"</span><span class="fu">,</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"unitText"</span><span class="fu">:</span> <span class="st">"milliseconds"</span><span class="fu">,</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"minValue"</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"maxValue"</span><span class="fu">:</span> <span class="dv">3000</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"@type"</span><span class="fu">:</span> <span class="st">"PropertyValue"</span><span class="fu">,</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"condition"</span><span class="fu">,</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Congruency between word and ink colour"</span><span class="fu">,</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"congruent | incongruent"</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
 </section>
 <section id="errori-tipici" class="level2">
 <h2 class="anchored" data-anchor-id="errori-tipici">Errori tipici</h2>
@@ -427,25 +380,47 @@ Sul vostro progetto, in tre mosse
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="L'ordine delle priorità">
+<div class="callout callout-style-default callout-important callout-titled" title="Priorità">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-L’ordine delle priorità
+Priorità
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Un dataset con README e data dictionary ben fatti, ma senza standard, è <strong>largamente più utile</strong> di un dataset formalmente conforme a Psych-DS e privo di documentazione.</p>
+<p>Un dataset con README e data dictionary ben fatti, ma senza standard, è <strong>largamente più utile</strong> di un dataset formalmente conforme a Psych-DS ma privo di documentazione.</p>
 </div>
 </div>
-<section id="e-per-il-neuroimaging-bids" class="level3">
-<h3 class="anchored" data-anchor-id="e-per-il-neuroimaging-bids">E per il neuroimaging: BIDS</h3>
-<p>Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è <a href="https://bids.neuroimaging.io/">BIDS</a>: molto più prescrittivo, (<a href="https://bids-standard.github.io/bids-validator/">validator</a>, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.</p>
-
-
+<section id="esempio" class="level3">
+<h3 class="anchored" data-anchor-id="esempio">Esempio</h3>
+<p>Due partecipanti, dodici prove ciascuno, compito Stroop.</p>
+<pre><code>stroop-attention/
+├── dataset_description.json          obbligatorio, questo nome esatto
+├── README.md
+├── LICENSE
+├── data/                             obbligatoria
+│   ├── study-stroop_subject-01_data.csv
+│   ├── study-stroop_subject-02_data.csv
+│   └── raw/                          export originali, ignorati dal validator
+│       └── subject-01_eprime_export.txt
+└── analysis/
+    └── 01_stroop_effect.R</code></pre>
+<ul>
+<li><a href="materiali/struttura-2/stroop-attention/dataset_description.json">dataset_description.json</a></li>
+<li><a href="materiali/struttura-2/stroop-attention/data/study-stroop_subject-01_data.csv">un file di dati</a></li>
+<li><a href="materiali.zip">tutto in materiali.zip</a></li>
+</ul>
+<p>La cartella <code>data/raw/</code> serve a conservare gli export originali nei formati prodotti dai software di acquisizione (<code>.txt</code>, <code>.edat3</code>, <code>.sav</code>, <code>.mat</code>): il validator ne ignora il contenuto.</p>
 </section>
+</section>
+<section id="neuroimaging-bids" class="level2">
+<h2 class="anchored" data-anchor-id="neuroimaging-bids">Neuroimaging: BIDS</h2>
+<p>Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è <a href="https://bids.neuroimaging.io/">BIDS</a>: molto più prescrittivo, (<a href="https://bids-standard.github.io/bids-validator/">validator</a>, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.</p>
+<p><small>Schema dei nomi dei file adattato dal <a href="https://bids.neuroimaging.io/">sito di BIDS</a>; regole ed esempio di <code>dataset_description.json</code> adattati dalla <a href="https://psychds-docs.readthedocs.io/">documentazione di Psych-DS</a>.</small></p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -863,7 +838,7 @@ L’ordine delle priorità
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a></p>
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a></p>
 </div>
   </div>
 </footer>

@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,12 +146,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Dove archiviare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./riproducibilita.html">
- <span class="dropdown-text">Riproducibilità</span></a>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./versioni.html">
+ <span class="dropdown-text">Versioni e correzioni</span></a>
   </li>  
     </ul>
   </li>
@@ -339,6 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>In tutti i livelli, compreso il livello 1, <strong>i dati devono essere anonimizzati</strong>: la licenza per scopi scientifici limita l’uso di dati anonimi, non permette di condividere dati personali.</p>
 <p>Le licenze fra cui si sceglie su PsychArchives sono, per testi e dati, <strong>CC BY 4.0</strong>, <strong>CC BY-SA 4.0</strong>, <strong>CC0 1.0</strong> e la <strong>licenza per scopi scientifici</strong>; per il codice, <strong>LGPL-3.0</strong>, <strong>Apache-2.0</strong> e <strong>0BSD</strong>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Licenza PsychArchives">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -375,44 +380,38 @@ Licenza PsychArchives
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>MIT</strong></td>
-<td style="text-align: left;">Permissiva e brevissima: fate quello che volete, mantenete l’avviso di copyright, nessuna garanzia</td>
-<td style="text-align: left;">La scelta più diffusa per script di analisi e pacchetti di ricerca</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>BSD-3-Clause</strong></td>
-<td style="text-align: left;">Equivalente a MIT, con in più il divieto di usare il vostro nome per promuovere prodotti derivati</td>
-<td style="text-align: left;">Alternativa a MIT, comune in ambito accademico</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Apache-2.0</strong></td>
-<td style="text-align: left;">Permissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche</td>
-<td style="text-align: left;">Software più strutturato, o quando ci sono aziende coinvolte</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;"><strong>GPL-3.0</strong></td>
 <td style="text-align: left;"><em>Copyleft</em>: chi distribuisce opere derivate deve rilasciarle con la stessa licenza</td>
 <td style="text-align: left;">Se volete che i miglioramenti restino aperti. Obbligatoria se includete codice già GPL</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><strong>AGPL-3.0</strong></td>
 <td style="text-align: left;">Come GPL, estesa al software offerto come servizio web</td>
 <td style="text-align: left;">Applicazioni online, per esempio una piattaforma di somministrazione di esperimenti</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>MIT</strong></td>
+<td style="text-align: left;">Permissiva: fate quello che volete, mantenete l’avviso di copyright, nessuna garanzia</td>
+<td style="text-align: left;">Scelta molto diffusa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Apache-2.0</strong></td>
+<td style="text-align: left;">Permissiva, con concessione esplicita di brevetto e obbligo di segnalare le modifiche</td>
+<td style="text-align: left;">Software più strutturato, o quando ci sono aziende coinvolte</td>
+</tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-note callout-titled" title="Un vincolo che si eredita senza accorgersene">
+<div class="callout callout-style-default callout-important callout-titled" title="GLP --> GPL">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Un vincolo che si eredita senza accorgersene
+GLP –&gt; GPL
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Se il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL, anche se voi avreste scelto MIT. Vale la pena dare un’occhiata alle licenze delle dipendenze principali prima di decidere: in R sono spesso GPL-2 o GPL-3, in Python più spesso BSD o MIT.</p>
-<p>È il motivo per cui molto codice di ricerca scritto in R finisce, di fatto, sotto GPL.</p>
+<p>Se il vostro script usa una libreria GPL, il risultato è vincolato dalla GPL, anche se voi avreste scelto MIT.</p>
 </div>
 </div>
 </section>
@@ -854,7 +853,7 @@ Un vincolo che si eredita senza accorgersene
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a></p>
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a></p>
 </div>
   </div>
 </footer>

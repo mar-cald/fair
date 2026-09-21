@@ -1,0 +1,98 @@
+---
+title: "Depositare su Zenodo"
+subtitle: "Le scelte da fare durante il deposito"
+---
+
+Questa pagina segue le decisioni da prendere mentre si carica un progetto su
+[Zenodo](https://zenodo.org/), nell'ordine in cui si presentano.
+
+## Caricare un'intera cartella
+
+Zenodo non gestisce cartelle: i file di un record sono un elenco senza
+sottocartelle. Per conservare la struttura del progetto (`data/`, `scripts/`,
+`output/`) si carica un unico archivio `.zip`, di cui Zenodo mostra il contenuto
+nell'anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo
+consiglia comunque di raccoglierli in uno zip.
+
+Prima di caricarlo, aprite lo zip e controllate che contenga solo i file del
+progetto: alcuni sistemi operativi aggiungono all'archivio file nascosti, che
+su Zenodo compaiono come file in più.
+
+## Il tipo di risorsa
+
+Il campo *Resource type* è obbligatorio e incide sulla reperibilità: alcuni
+sistemi di ricerca indicizzano da Zenodo solo pubblicazioni, dataset e software.
+Per un'intera cartella di progetto Zenodo indica
+[due strade](https://help.zenodo.org/docs/deposit/describe-records/resource-type):
+
+- **un solo record**, con il tipo che descrive il contributo principale: di
+  solito *Dataset*, quando gli script servono solo a elaborare i dati;
+- **più record, uno per tipo**, quando dati e codice sono ciascuno un contributo
+  a sé: un record *Dataset* per i dati e uno *Software* per il codice, collegati
+  fra loro nel campo *Related works*.
+
+Il tipo *Other* non dice che cosa contiene il record, e i sistemi che raccolgono
+solo alcuni tipi non lo indicizzano. 
+
+## Licenza e copyright
+
+Il campo *License* è obbligatorio e **di default è impostato su CC BY 4.0**: se per
+i dati avete scelto [CC0](licenze.qmd), va cambiato. Nello stesso record si possono
+indicare più licenze, per esempio CC0 per i dati e MIT per il codice.
+
+Il campo *Copyright* ha un'altra funzione: dichiara **chi detiene i diritti**,
+mentre la licenza dice **che cosa possono farne gli altri**. Si compila con una
+riga come "© 2026 Nome Cognome", o con il nome dell'ente quando i diritti
+appartengono all'università o a un editore.
+
+
+## Condividere una bozza prima di pubblicare
+
+Una bozza su Zenodo non è pubblica e si può modificare fino alla pubblicazione.
+Si può però condividere, per esempio con i revisori di una rivista:
+
+1. Salvate la bozza con i metadati minimi: il pulsante *Share* si attiva solo dopo.
+2. Cliccate *Share* e aprite la scheda *Links*.
+3. Create un link con il permesso **Can preview draft**. Il permesso *Can view*
+   non va bene, perché vale solo per i record già pubblicati.
+4. Se serve, impostate una data di scadenza del link.
+
+Il link funziona anche per chi non ha un account Zenodo, e non rivela a nessuno
+chi lo apre ([documentazione](https://help.zenodo.org/docs/share/link-sharing)).
+
+::: {.callout-important title="Per una revisione in cieco l'anonimizzazione è a carico vostro"}
+Il link protegge l'identità di chi revisiona, non la vostra: l'anteprima mostra la
+pagina del record come sarà pubblicata, autori compresi. Se i revisori non devono
+sapere chi siete, sostituite gli autori della bozza con "un nome segnaposto"anonymous" e
+togliete i riferimenti a voi dal contenuto dei file (README, intestazioni degli
+script, percorsi come `/Users/nome/...`). Prima di pubblicare, rimettete i nomi.
+:::
+
+## Lavorare in più persone
+
+**Sulla stessa bozza.** Con *Share* si può condividere la bozza con un altro
+utente Zenodo. Con il permesso *Can edit* può compilare i metadati e aggiungere
+file insieme a voi.
+
+**Su un intero progetto: le community.** Una
+[community](https://help.zenodo.org/docs/communities/about-communities) è uno
+spazio che raccoglie i record di un progetto, di un laboratorio o di un convegno.
+Ha membri con ruoli diversi (*Reader*, *Curator*, *Manager*, *Owner*): i curatori
+esaminano i record proposti, possono modificarne i metadati e decidono se
+accettarli.
+
+### Community e progetti OSF
+
+| | Progetto OSF | Community Zenodo |
+|:--|:--|:--|
+| **Contenuto** | File di lavoro | Record pubblicati, ciascuno con il suo DOI |
+| **Scopo** | Lavorare insieme mentre lo studio è in corso | Raccogliere in una pagina gli output di un progetto o di un gruppo |
+| **Partecipanti** | Collaboratori con permesso di lettura o di scrittura | Membri con ruolo di lettore, curatore, gestore o proprietario |
+| **Modifiche ai file** | In qualsiasi momento | Entro 30 giorni dalla pubblicazione; poi si crea una nuova versione |
+
+Una community somiglia a un progetto OSF come pagina indice: un unico posto dove
+trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio di lavoro, perché raccoglie solo record già depositati; per lavorare insieme restano GitHub o le cartelle condivise di ateneo.
+
+Inoltre, far parte della stessa community non collega i record fra loro nei
+metadati: per quello servono sempre i campi *related identifiers* di ciascun
+record.

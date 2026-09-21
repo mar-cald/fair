@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Versioni e correzioni – Hands-on Open Science</title>
+<title>OSF a parte: che cosa condividiamo? – Hands-on Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -166,8 +166,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Versioni e correzioni</h1>
-<p class="subtitle lead">Cosa succede quando devi correggere qualcosa dopo aver depositato</p>
+<h1 class="title">OSF a parte: che cosa condividiamo?</h1>
 </div>
 
 
@@ -184,56 +183,115 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>È la domanda che arriva sempre per seconda, subito dopo “dove lo metto”: <em>e se poi mi accorgo di un errore?</em> La risposta cambia molto da un repository all’altro.</p>
+<div class="progetti">
+<div class="grid">
+<div class="g-col-12 g-col-md-4 scheda">
+<p><strong>Cartella A</strong></p>
+<pre><code>stroop_study/
+  ├── data-stroop.xlsx
+  └── analysis.R</code></pre>
+</div>
+<div class="g-col-12 g-col-md-8 scheda">
+<p><strong>data-stroop.xlsx</strong></p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">Dopo la pubblicazione potete…</th>
-<th style="text-align: left;">Come</th>
+<th style="text-align: left;">Sogg</th>
+<th style="text-align: left;">trial</th>
+<th style="text-align: left;">parola</th>
+<th style="text-align: left;">colore</th>
+<th style="text-align: left;">risposta</th>
+<th style="text-align: left;">RT</th>
+<th style="text-align: left;">acc</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Zenodo</strong></td>
-<td style="text-align: left;">modificare i file <strong>entro 30 giorni</strong>, stesso DOI, nessuna nuova versione</td>
-<td style="text-align: left;">in autonomia, dall’interfaccia</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">523</td>
+<td style="text-align: left;">giusto</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Zenodo</strong>, dopo i 30 giorni</td>
-<td style="text-align: left;">solo casi giustificati: violazione di copyright, dati personali esposti. Per tutto il resto si crea una nuova versione</td>
-<td style="text-align: left;">richiesta motivata</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">verde</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">Rosso</td>
+<td style="text-align: left;">0,7</td>
+<td style="text-align: left;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>PsychArchives</strong></td>
-<td style="text-align: left;">modificare file e metadati <strong>entro una settimana</strong></td>
-<td style="text-align: left;">su richiesta a PsychArchives</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">BLU</td>
+<td style="text-align: left;">blu</td>
+<td style="text-align: left;">blu</td>
+<td style="text-align: left;">480 ms</td>
+<td style="text-align: left;">ok</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>PsychArchives</strong>, dopo la prima settimana</td>
-<td style="text-align: left;">si genera una nuova versione; la precedente resta, collegata nella cronologia pubblica</td>
-<td style="text-align: left;">si manda alla mail delle submission il DOI dell’oggetto, i file aggiornati e un changelog di <strong>massimo 255 caratteri</strong></td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">verde</td>
+<td style="text-align: left;">rosso</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">sbagliato</td>
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-tip callout-titled" title="Eco">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Eco
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Una nuova versione non raddoppia lo spazio occupato, la piattaforma sottostante salva solo la differenza.</p>
+<p><br> <br></p>
+<div class="grid">
+<div class="g-col-12 g-col-md-5 scheda">
+<p><strong>Cartella B</strong></p>
+<pre><code>stroop-anxiety/
+  ├── README.md
+  ├── LICENSE_scripts
+  ├── LICENSE_data
+  ├── data/
+  │   ├── stroop_data.csv
+  │   └── stroop_dictionary.csv
+  └── scripts/
+      ├── 01_preprocessing.R
+      └── 02_analysis.R</code></pre>
+</div>
+<div class="g-col-12 g-col-md-7 scheda">
+<p><strong>README.md</strong></p>
+<pre><code># Stroop-anxiety — data and code
+
+Does trait anxiety increase Stroop
+interference? 100 adults completed a 
+colour-word Stroop task (PsychoPy, March 2026). 
+We investigated the impact of trait anxiety 
+on Stroop task performance in terms of 
+reaction times and accuracy.
+
+## Files
+- data/stroop_data.csv — trial-level data
+- data/stroop_dictionary.csv — data descrption
+- scripts/01_preprocessing.R — cleans data
+- scripts/02_analysis.R — runs the analysis
+
+## Reproduce
+Run 01 then 02 in R (&gt;= 4.3).
+
+## License
+Data CC0-1.0, code GPL-3.0 (see LICENSE).
+</code></pre>
 </div>
 </div>
+</div>
+<ol type="1">
+<li><p>Con quale dei due preferireste collaborare?</p></li>
+<li><p>Quale assomiglia di più alla cartella del vostro ultimo lavoro?</p></li>
+<li><p>E allora, come vi sentireste ora se doveste passarla alla vostra collega, che cosa ne capirebbe senza chiedervi niente?</p></li>
+</ol>
 
 
 

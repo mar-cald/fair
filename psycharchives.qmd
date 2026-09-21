@@ -1,0 +1,84 @@
+---
+title: "Depositare su PsychArchives"
+subtitle: "Le scelte da fare durante il deposito"
+---
+
+[PsychArchives](https://www.psycharchives.org/) è il repository disciplinare della
+psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita
+tramite il [PsychArchives Submission Assistant](https://pasa.psycharchives.org),
+accedendo con ORCID o con un account Leibniz Psychology. Deposito e download sono
+gratuiti fino a 1 GB per oggetto; per oggetti più grandi si chiede il servizio
+dedicato scrivendo a psycharchives-submission@leibniz-psychology.org.
+
+## Un progetto, più oggetti
+
+PsychArchives chiama ogni deposito *digital research object* (DRO) e ne distingue
+una ventina di tipi, fra cui *Research Data*, *Code*, *Preprint*, *Article*,
+*Preregistration*, *Test*, *Course Material*, *Report*, *Image*, *Sound* e
+*Moving Image*.
+
+Un progetto non si deposita come un'unica cartella compressa, ma come più
+oggetti, uno per tipo: i dati come *Research Data*, gli script come *Code*, un
+questionario costruito da voi come *Test*, la preregistrazione come
+*Preregistration*. Ogni oggetto è un invio separato, con il suo tipo; gli
+oggetti dello stesso studio vengono poi collegati fra loro nel repository. Chi li scarica li ottiene però uno alla volta.
+
+Le linee guida chiedono formati aperti e adatti alla conservazione a lungo
+termine, come CSV per i dati e PDF/A per i documenti. Sugli archivi zip non
+dicono nulla: prima di depositare una cartella compressa conviene chiedere alla
+mail delle submission.
+
+## Livello di condivisione e licenza
+
+Durante l'invio si scelgono il livello di condivisione e la licenza:
+
+- **livello 0 e 0+** (*Public Use File*): accesso aperto;
+- **livello 1** (*Scientific Use File*): uso solo scientifico, e chi scarica
+  deve accettare un contratto di licenza.
+
+Per testi e dati le licenze disponibili sono CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e
+la licenza per scopi scientifici; per il codice LGPL-3.0, Apache-2.0 e 0BSD.
+Come scegliere, e cosa comporta la licenza per scopi scientifici, è spiegato
+nella [pagina sulle licenze](licenze.qmd#uso-scientifico).
+
+
+## Condividere prima di pubblicare: il reviewer link
+
+Durante l'invio si può chiedere un *reviewer link*, da dare per esempio ai
+revisori di una rivista:
+
+- il deposito è **anonimizzato di default**: i metadati che identificano gli
+  autori vengono nascosti, e l'anonimizzazione si può disattivare;
+- chiunque abbia il link può vedere il deposito;
+- finché non lo pubblicate, potete modificarlo, cancellarlo o pubblicarlo;
+- il reviewer link non è un DOI: il DOI viene assegnato solo alla pubblicazione.
+
+L'anonimizzazione riguarda i metadati: i riferimenti a voi dentro i file (README, intestazioni degli script, percorsi come `/Users/nome/...`) vanno tolti.
+
+
+## Pubblicazione, correzioni e nuove versioni
+
+Dopo l'invio lo staff di PsychArchives fa un **controllo formale**: verifica che
+il contenuto sia adatto al repository e che i metadati siano completi. Di solito richiede uno o due giorni lavorativi. Alla pubblicazione il deposito riceve un DOI .
+
+- **Entro una settimana** dalla pubblicazione, file e metadati si possono
+  correggere su richiesta.
+- **Dopo**, si crea una nuova versione: si manda a
+  psycharchives-submission@leibniz-psychology.org il DOI dell'oggetto, i file
+  aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.
+- I **riferimenti dell'articolo** collegato si possono aggiungere ai metadati in
+  qualsiasi momento, senza creare una nuova versione.
+
+## PsychArchives e Zenodo a confronto
+
+| | Zenodo | PsychArchives |
+|:--|:--|:--|
+| **Ambito** | Generalista | Psicologia e discipline vicine |
+| **Spazio** | 50 GB per record | 1 GB per oggetto |
+| **Un progetto si deposita come** | Uno zip, oppure più record collegati | Più oggetti, uno per tipo, collegati fra loro |
+| **Controllo prima della pubblicazione** | Nessuno sul contenuto, salvo nelle community con revisione | Controllo formale dello staff, di solito entro due giorni lavorativi |
+| **Condividere prima di pubblicare** | Link segreto sulla bozza; l'anonimizzazione è a mano | Reviewer link, anonimizzato di default |
+| **Correzioni dopo la pubblicazione** | In autonomia, entro 30 giorni | Su richiesta, entro una settimana |
+| **Licenze** | Qualsiasi; di default CC BY 4.0 | CC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD |
+| **Dati personali** | Anonimizzati o con consenso esplicito alla diffusione | Sempre anonimizzati |
+

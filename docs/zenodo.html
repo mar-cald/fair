@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Riproducibilità – Hands-on Open Science</title>
+<title>Depositare su Zenodo – Hands-on Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -74,7 +39,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,12 +111,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Dove archiviare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./riproducibilita.html">
- <span class="dropdown-text">Riproducibilità</span></a>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./versioni.html">
+ <span class="dropdown-text">Versioni e correzioni</span></a>
   </li>  
     </ul>
   </li>
@@ -194,9 +163,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul class="collapse">
-  <li><a href="#collegati-vuol-dire-due-cose-diverse" id="toc-collegati-vuol-dire-due-cose-diverse" class="nav-link active" data-scroll-target="#collegati-vuol-dire-due-cose-diverse">“Collegati” vuol dire due cose diverse</a></li>
-  <li><a href="#secondo-deposito" id="toc-secondo-deposito" class="nav-link" data-scroll-target="#secondo-deposito">Secondo deposito</a></li>
-  <li><a href="#codice-più-script-che-scarica-i-dati" id="toc-codice-più-script-che-scarica-i-dati" class="nav-link" data-scroll-target="#codice-più-script-che-scarica-i-dati">Codice più script che scarica i dati</a></li>
+  <li><a href="#caricare-unintera-cartella" id="toc-caricare-unintera-cartella" class="nav-link active" data-scroll-target="#caricare-unintera-cartella">Caricare un’intera cartella</a></li>
+  <li><a href="#il-tipo-di-risorsa" id="toc-il-tipo-di-risorsa" class="nav-link" data-scroll-target="#il-tipo-di-risorsa">Il tipo di risorsa</a></li>
+  <li><a href="#licenza-e-copyright" id="toc-licenza-e-copyright" class="nav-link" data-scroll-target="#licenza-e-copyright">Licenza e copyright</a></li>
+  <li><a href="#condividere-una-bozza-prima-di-pubblicare" id="toc-condividere-una-bozza-prima-di-pubblicare" class="nav-link" data-scroll-target="#condividere-una-bozza-prima-di-pubblicare">Condividere una bozza prima di pubblicare</a></li>
+  <li><a href="#lavorare-in-più-persone" id="toc-lavorare-in-più-persone" class="nav-link" data-scroll-target="#lavorare-in-più-persone">Lavorare in più persone</a></li>
   </ul>
 </nav>
     </div>
@@ -205,8 +176,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Riproducibilità</h1>
-<p class="subtitle lead">Come si consegna una cartella che gira davvero sul computer di un altro</p>
+<h1 class="title">Depositare su Zenodo</h1>
+<p class="subtitle lead">Le scelte da fare durante il deposito</p>
 </div>
 
 
@@ -223,86 +194,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Depositare i dati e depositare qualcosa che <em>funziona</em> sono due cose diverse. Il secondo pezzo non ve lo dà il repository: lo preparate voi, e si fa in due modi.</p>
-<section id="collegati-vuol-dire-due-cose-diverse" class="level2">
-<h2 class="anchored" data-anchor-id="collegati-vuol-dire-due-cose-diverse">“Collegati” vuol dire due cose diverse</h2>
-<p>PsychArchives separa i materiali in oggetti distinti e tipizzati — dati, codice, preprint — e poi li <strong>collega</strong> fra loro. È una scelta esplicita: sostengono che impacchettare tutto insieme produca un ammasso disordinato e difficile da riusare, e che tenere gli oggetti separati serva a renderli citabili singolarmente.</p>
-<p>Attenzione però a cosa significa “collegati”, perché ci sono due cose diverse sotto la stessa parola:</p>
-<div class="grid">
-<div class="g-col-12 g-col-md-6 scheda">
-<p><strong>Collegamento fra metadati</strong></p>
-<p>Ogni record punta agli altri: “questo codice <em>è supplemento a</em> quel dataset”. Chi arriva su un record vede che gli altri esistono e ci clicca sopra.</p>
-<p>È quello che PsychArchives offre.</p>
-</div>
-<div class="g-col-12 g-col-md-6 scheda">
-<p><strong>Download unico</strong></p>
-<p>Un clic, un archivio, l’albero del progetto con <code>data/</code>, <code>scripts/</code> e <code>output/</code> al posto giusto, percorsi già risolti, pronto da eseguire.</p>
-<p>È quello che serve a chi deve riprodurre.</p>
-</div>
-</div>
-<p><strong>Il primo non produce il secondo.</strong> Un revisore che segue il vostro link scarica l’oggetto dei dati, poi quello del codice, poi il preprint — separatamente — e si ricostruisce le cartelle a mano. Gli script che usano percorsi relativi non trovano i dati finché la struttura delle cartelle non viene ricreata.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">Download unico con struttura intatta</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>OSF</strong>, release <strong>GitHub</strong></td>
-<td style="text-align: left;">nativo: “scarica come zip” restituisce l’albero completo</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Zenodo</strong></td>
-<td style="text-align: left;">potete depositare l’intero albero come un archivio unico, oppure separare in record collegati: non vi obbliga</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>PsychArchives</strong></td>
-<td style="text-align: left;">il più atomizzato, per scelta. Fortissimo sulla citabilità del singolo oggetto, debole qui</td>
-</tr>
-</tbody>
-</table>
-<p>Se la piattaforma non monta la cartella al posto vostro, la montate voi. Si fa in due modi.</p>
+<p>Questa pagina segue le decisioni da prendere mentre si carica un progetto su <a href="https://zenodo.org/">Zenodo</a>, nell’ordine in cui si presentano.</p>
+<section id="caricare-unintera-cartella" class="level2">
+<h2 class="anchored" data-anchor-id="caricare-unintera-cartella">Caricare un’intera cartella</h2>
+<p>Zenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (<code>data/</code>, <code>scripts/</code>, <code>output/</code>) si carica un unico archivio <code>.zip</code>, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.</p>
+<p>Prima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più.</p>
 </section>
-<section id="secondo-deposito" class="level2">
-<h2 class="anchored" data-anchor-id="secondo-deposito">Secondo deposito</h2>
-<p>Un oggetto del deposito è uno <strong>zip che è la vostra cartella di progetto</strong>: lo create comprimendo la cartella così com’è.</p>
-<p>La portabilità non ve la dà il repository: è una proprietà della cartella, che viaggia dentro lo zip. Il revisore scarica un file, lo apre ed esegue.</p>
-<p><strong>Il costo:</strong> i dati esistono due volte, una nel loro oggetto e una dentro lo zip.</p>
+<section id="il-tipo-di-risorsa" class="level2">
+<h2 class="anchored" data-anchor-id="il-tipo-di-risorsa">Il tipo di risorsa</h2>
+<p>Il campo <em>Resource type</em> è obbligatorio e incide sulla reperibilità: alcuni sistemi di ricerca indicizzano da Zenodo solo pubblicazioni, dataset e software. Per un’intera cartella di progetto Zenodo indica <a href="https://help.zenodo.org/docs/deposit/describe-records/resource-type">due strade</a>:</p>
+<ul>
+<li><strong>un solo record</strong>, con il tipo che descrive il contributo principale: di solito <em>Dataset</em>, quando gli script servono solo a elaborare i dati;</li>
+<li><strong>più record, uno per tipo</strong>, quando dati e codice sono ciascuno un contributo a sé: un record <em>Dataset</em> per i dati e uno <em>Software</em> per il codice, collegati fra loro nel campo <em>Related works</em>.</li>
+</ul>
+<p>Il tipo <em>Other</em> non dice che cosa contiene il record, e i sistemi che raccolgono solo alcuni tipi non lo indicizzano.</p>
 </section>
-<section id="codice-più-script-che-scarica-i-dati" class="level2">
-<h2 class="anchored" data-anchor-id="codice-più-script-che-scarica-i-dati">Codice più script che scarica i dati</h2>
-<p>Il pacchetto contiene solo gli script, il README e un piccolo script che va a prendere i dati. I dati restano una volta sola, nel loro oggetto.</p>
-<p>Un DOI <strong>risolve</strong>, cioè rimanda alla pagina del repository per quell’oggetto, e quella pagina espone il file a un URL di download stabile. Qualunque cosa sappia fare una richiesta HTTP può andarselo a prendere.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"data"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://.../records/XXXXXXX/files/sonno.csv"</span>,   <span class="co"># URL stabile del dataset</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">destfile =</span> <span class="st">"data/sonno.csv"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Quando il revisore lo esegue, il dataset viene scaricato dalla sua sede canonica e scritto dentro <code>data/</code>, cioè esattamente dove i vostri script lo cercano. Da lì in poi è identico alla variante 1.</p>
-<p><strong>Il costo:</strong> presuppone che il dataset sia <strong>già pubblicato</strong> e raggiungibile.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Revisione">
+<section id="licenza-e-copyright" class="level2">
+<h2 class="anchored" data-anchor-id="licenza-e-copyright">Licenza e copyright</h2>
+<p>Il campo <em>License</em> è obbligatorio e <strong>di default è impostato su CC BY 4.0</strong>: se per i dati avete scelto <a href="./licenze.html">CC0</a>, va cambiato. Nello stesso record si possono indicare più licenze, per esempio CC0 per i dati e MIT per il codice.</p>
+<p>Il campo <em>Copyright</em> ha un’altra funzione: dichiara <strong>chi detiene i diritti</strong>, mentre la licenza dice <strong>che cosa possono farne gli altri</strong>. Si compila con una riga come “© 2026 Nome Cognome”, o con il nome dell’ente quando i diritti appartengono all’università o a un editore.</p>
+</section>
+<section id="condividere-una-bozza-prima-di-pubblicare" class="level2">
+<h2 class="anchored" data-anchor-id="condividere-una-bozza-prima-di-pubblicare">Condividere una bozza prima di pubblicare</h2>
+<p>Una bozza su Zenodo non è pubblica e si può modificare fino alla pubblicazione. Si può però condividere, per esempio con i revisori di una rivista:</p>
+<ol type="1">
+<li>Salvate la bozza con i metadati minimi: il pulsante <em>Share</em> si attiva solo dopo.</li>
+<li>Cliccate <em>Share</em> e aprite la scheda <em>Links</em>.</li>
+<li>Create un link con il permesso <strong>Can preview draft</strong>. Il permesso <em>Can view</em> non va bene, perché vale solo per i record già pubblicati.</li>
+<li>Se serve, impostate una data di scadenza del link.</li>
+</ol>
+<p>Il link funziona anche per chi non ha un account Zenodo, e non rivela a nessuno chi lo apre (<a href="https://help.zenodo.org/docs/share/link-sharing">documentazione</a>).</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Per una revisione in cieco l'anonimizzazione è a carico vostro">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Revisione
+Per una revisione in cieco l’anonimizzazione è a carico vostro
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Durante la revisione anonima il dataset spesso non è ancora pubblicato: su PsychArchives può stare dietro un reviewer link, senza DOI. Uno script puntato a un DOI che non esiste ancora semplicemente fallisce, e puntarlo all’indirizzo del reviewer link è goffo e rischia di rivelare la vostra identità, rompendo l’anonimato.</p>
-<p><strong>Durante la revisione:</strong>, lo zip autosufficiente dietro un unico link, proprio perché non c’è ancora niente di pubblico da scaricare.</p>
-<p><strong>Dopo la pubblicazione:</strong>, leggera e senza duplicazioni, ora che il dataset ha un DOI vero.</p>
+<p>Il link protegge l’identità di chi revisiona, non la vostra: l’anteprima mostra la pagina del record come sarà pubblicata, autori compresi. Se i revisori non devono sapere chi siete, sostituite gli autori della bozza con “un nome segnaposto”anonymous” e togliete i riferimenti a voi dal contenuto dei file (README, intestazioni degli script, percorsi come <code>/Users/nome/...</code>). Prima di pubblicare, rimettete i nomi.</p>
 </div>
 </div>
+</section>
+<section id="lavorare-in-più-persone" class="level2">
+<h2 class="anchored" data-anchor-id="lavorare-in-più-persone">Lavorare in più persone</h2>
+<p><strong>Sulla stessa bozza.</strong> Con <em>Share</em> si può condividere la bozza con un altro utente Zenodo. Con il permesso <em>Can edit</em> può compilare i metadati e aggiungere file insieme a voi.</p>
+<p><strong>Su un intero progetto: le community.</strong> Una <a href="https://help.zenodo.org/docs/communities/about-communities">community</a> è uno spazio che raccoglie i record di un progetto, di un laboratorio o di un convegno. Ha membri con ruoli diversi (<em>Reader</em>, <em>Curator</em>, <em>Manager</em>, <em>Owner</em>): i curatori esaminano i record proposti, possono modificarne i metadati e decidono se accettarli.</p>
+<section id="community-e-progetti-osf" class="level3">
+<h3 class="anchored" data-anchor-id="community-e-progetti-osf">Community e progetti OSF</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Progetto OSF</th>
+<th style="text-align: left;">Community Zenodo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Contenuto</strong></td>
+<td style="text-align: left;">File di lavoro</td>
+<td style="text-align: left;">Record pubblicati, ciascuno con il suo DOI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Scopo</strong></td>
+<td style="text-align: left;">Lavorare insieme mentre lo studio è in corso</td>
+<td style="text-align: left;">Raccogliere in una pagina gli output di un progetto o di un gruppo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Partecipanti</strong></td>
+<td style="text-align: left;">Collaboratori con permesso di lettura o di scrittura</td>
+<td style="text-align: left;">Membri con ruolo di lettore, curatore, gestore o proprietario</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Modifiche ai file</strong></td>
+<td style="text-align: left;">In qualsiasi momento</td>
+<td style="text-align: left;">Entro 30 giorni dalla pubblicazione; poi si crea una nuova versione</td>
+</tr>
+</tbody>
+</table>
+<p>Una community somiglia a un progetto OSF come pagina indice: un unico posto dove trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio di lavoro, perché raccoglie solo record già depositati; per lavorare insieme restano GitHub o le cartelle condivise di ateneo.</p>
+<p>Inoltre, far parte della stessa community non collega i record fra loro nei metadati: per quello servono sempre i campi <em>related identifiers</em> di ciascun record.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -720,7 +702,7 @@ Revisione
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a></p>
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a></p>
 </div>
   </div>
 </footer>

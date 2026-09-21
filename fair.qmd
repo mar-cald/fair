@@ -3,17 +3,14 @@ title: "I principi FAIR"
 subtitle: "Findable, Accessible, Interoperable, Reusable"
 ---
 
-I principi FAIR sono la risposta pratica
-alla domanda "*come faccio in modo che questo lavoro sia ancora utilizzabile fra
-dieci anni, da qualcuno che non può chiedermi niente?*". Quel qualcuno, molto
-spesso, siete voi stessi fra tre anni.
+*Come faccio in modo che questo lavoro sia utilizzabile da qualcuno che non può chiedermi niente?*
+
 
 ## Quanto siete FAIR?
 
 ::: {.callout-important title="Provate sull'ultimo studio che avete concluso"}
 - [ ] Esiste un identificatore persistente (DOI) per i dati/progetto, non solo per l'articolo?
-- [ ] Una persona esterna può scaricarlo?
-- [ ] Una persona esterna può capirlo?
+- [ ] Una persona esterna può scaricare i vostri dati/materiali/script?
 - [ ] I file sono in formati aperti (CSV, TXT, JSON) e non solo `.xlsx`?
 - [ ] Ogni colonna di ogni file è documentata da qualche parte?
 - [ ] C'è una licenza esplicita?
@@ -29,35 +26,20 @@ colleghi, [10.1038/sdata.2016.18](https://doi.org/10.1038/sdata.2016.18)), scrit
 da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici.
 L'idea di partenza è che l'enorme quantità di dati prodotti dalla ricerca resta
 sostanzialmente inutilizzabile, non perché sia segreta, ma perché è
-**indescrivibile, introvabile e illeggibile** per chi non l'ha prodotta.
+indescrivibile, introvabile e illeggibile per chi non l'ha prodotta.
 
-Oggi sono il riferimento esplicito dei principali enti finanziatori. [Horizon Europe](https://www.openaire.eu/how-to-comply-with-horizon-europe-mandate-for-rdm) chiede dati gestiti secondo i principi FAIR e un Data Management Plan entro il sesto mese di progetto; l'[ERC](https://erc.europa.eu/manage-your-project/open-science) chiede lo stesso DMP e incoraggia il deposito dei dati secondo i principi FAIR. In Italia il MUR li ha adottati nel [Piano Nazionale per la Scienza Aperta 2021-2027](https://www.mur.gov.it/sites/default/files/2022-06/Piano_Nazionale_per_la_Scienza_Aperta.pdf), e le [linee guida di valutazione del PRIN 2026](https://www.mur.gov.it/sites/default/files/2026-04/D.D.%202298%20All.%203%20Linee%20Guida%20di%20valutazione.pdf) scrivono che *«la gestione dei dati di ricerca deve essere responsabile e conforme ai principi FAIR»*.
+Oggi sono il riferimento esplicito per [Horizon Europe](https://www.openaire.eu/how-to-comply-with-horizon-europe-mandate-for-rdm), [ERC](https://erc.europa.eu/manage-your-project/open-science) e [PRIN](https://www.mur.gov.it/sites/default/files/2026-04/D.D.%202298%20All.%203%20Linee%20Guida%20di%20valutazione.pdf). In Italia il MUR li ha adottati nel [Piano Nazionale per la Scienza Aperta 2021-2027](https://www.mur.gov.it/sites/default/files/2022-06/Piano_Nazionale_per_la_Scienza_Aperta.pdf), dove si legge che **"Occorre promuovere la gestione FAIR quale standard di riferimento nel processo di produzione dei risultati della ricerca finanziata con risorse pubbliche"**.
 
-::: {.callout-note title="FAIR parla anche alle macchine"}
-La parte meno intuitiva dell'articolo originale è l'insistenza sulla
-*machine-actionability*: non basta che una persona, leggendo, capisca — deve
-poterlo fare anche un programma, senza intervento umano. È per questo che i
-principi chiedono identificatori persistenti, formati aperti, vocabolari condivisi
-e metadati indicizzati: sono le condizioni perché motori di ricerca, aggregatori
-e meta-analisi automatizzate trovino e combinino i vostri dati.
-
-"Nella colonna 3 c'è il tempo di reazione in millisecondi" scritto in una mail
-non è FAIR. La stessa informazione nel data dictionary, sì.
-:::
 
 
 ## I principi
 
-::: {.callout-tip title="Più facile di quanto sembri"}
-Scritti così, i principi sembrano un'impresa. Nella pratica **circa metà li
-soddisfa il repository nel momento in cui pubblicate il deposito**. L'altra
-metà richiede di compilare i metadati del deposito, salvare i dati in formato
-CSV, scegliere una licenza, indicare il DOI dell'articolo collegato, e scrivere
-il README e il data dictionary.
+::: {.callout-tip}
+## [Repository]{.chi-repo} [Noi]{.chi-voi}
 
-Gli esempi seguono tutti lo stesso deposito: i dati di uno studio Stroop caricati
-su Zenodo. Nelle tabelle, [Repository]{.chi-repo} indica ciò che il repository
-fa automaticamente, [Voi]{.chi-voi} ciò che deve fare chi deposita.
+**Circa metà li soddisfa il repository nel momento in cui si pubblica il deposito**.
+
+Gli esempi seguono tutti lo stesso deposito: i dati di uno studio Stroop caricati su Zenodo. Nelle tabelle, [Repository]{.chi-repo} indica ciò che il repository fa automaticamente, [Noi]{.chi-voi} ciò che deve fare chi deposita.
 :::
 
 ### F — Findable, trovabile
@@ -67,10 +49,10 @@ Prima di poter usare qualcosa, bisogna poterlo trovare.
 ::: {.principi}
 | | Principio | Nell'esempio |
 |:-|:--------|:------------|
-| **F1** | (Meta)dati hanno un identificatore globale, univoco e persistente | [Repository]{.chi-repo} Premete "Pubblica" e Zenodo assegna un DOI, tipo `10.5281/zenodo.XXXXXXX`. |
-| **F2** | I dati sono descritti da metadati ricchi | [Voi]{.chi-voi} Al momento del caricamento Zenodo chiede di compilare i metadati del deposito: titolo, autori con ORCID, descrizione e parole chiave, per esempio "Stroop", "attenzione selettiva", "controllo cognitivo". |
-| **F3** | I metadati contengono l'identificatore dei dati che descrivono | [Repository]{.chi-repo} La pagina del deposito mostra il DOI accanto ai file. A voi resta solo scriverlo nell'articolo. |
-| **F4** | (Meta)dati sono registrati o indicizzati in una risorsa ricercabile | [Repository]{.chi-repo} Zenodo rende disponibili i metadati tramite il protocollo OAI-PMH; OpenAIRE e gli altri aggregatori li raccolgono e li indicizzano automaticamente. |
+| **F1** | (Meta)dati hanno un identificatore globale, univoco e persistente | [Repository]{.chi-repo} Alla pubblicazione Zenodo assegna un DOI, per esempio `10.5281/zenodo.XXXXXXX`. |
+| **F2** | I dati sono descritti da metadati ricchi | [Noi]{.chi-voi} Al momento del caricamento viene richiesto di compilare i metadati del deposito: titolo, autori con ORCID, descrizione e parole chiave, per esempio "Stroop", "cognitive control". |
+| **F3** | I metadati contengono l'identificatore dei dati che descrivono | [Repository]{.chi-repo} Nel record di metadati il DOI del dataset è riportato come identificatore esplicito del deposito stesso: chi legge i metadati sa senza ambiguità a quali file si riferiscono, e può ritrovarli cercando quel DOI. |
+| **F4** | (Meta)dati sono registrati o indicizzati in una risorsa ricercabile | [Repository]{.chi-repo} I repository rendono disponibili i metadati tramite il protocollo [OAI-PMH](https://www.openarchives.org/pmh/); [OpenAIRE](https://explore.openaire.eu/) e gli altri aggregatori li raccolgono e li indicizzano automaticamente. |
 :::
 
 ### A — Accessible, accessibile
@@ -81,10 +63,10 @@ a ottenerli?".
 ::: {.principi}
 | | Principio | Nell'esempio |
 |:-|:--------|:------------|
-| **A1** | Una volta che avete l'identificatore, deve esistere un modo ordinario e documentato per arrivare ai file | [Repository]{.chi-repo} Chiunque apra `https://doi.org/10.5281/zenodo.XXXXXXX` arriva alla pagina e scarica i file. |
+| **A1** | Una volta noto l'identificatore, deve esistere un modo ordinario e documentato per arrivare ai file | [Repository]{.chi-repo} Chiunque apra `https://doi.org/10.5281/zenodo.XXXXXXX` arriva alla pagina e scarica i file. |
 | **A1.1** | Il protocollo è aperto, gratuito e implementabile da chiunque | [Repository]{.chi-repo} I file si scaricano tramite HTTPS, lo stesso protocollo delle normali pagine web: si usa un qualunque browser, senza software aggiuntivo né abbonamenti. |
-| **A1.2** | Il protocollo consente autenticazione e autorizzazione dove servono | [Repository]{.chi-repo} [Voi]{.chi-voi} Se i dati sono sensibili si caricano con accesso *restricted*: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L'accesso può quindi essere limitato, purché la procedura per richiederlo sia pubblica e uguale per tutti. |
-| **A2** | I metadati restano accessibili anche quando i dati non lo sono più | [Repository]{.chi-repo} Se un deposito va ritirato, Zenodo mantiene il DOI e al posto dei file mostra una pagina con il motivo del ritiro. |
+| **A1.2** | Il protocollo consente autenticazione e autorizzazione dove servono | [Repository]{.chi-repo} [Noi]{.chi-voi} Se i dati sono sensibili si caricano con accesso *restricted*: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L'accesso può quindi essere limitato, purché la procedura per richiederlo sia pubblica. |
+| **A2** | I metadati restano accessibili anche quando i dati non lo sono più | [Repository]{.chi-repo} Se un deposito va ritirato, il DOI continua a funzionare e porta a una pagina che indica il motivo del ritiro, al posto dei file. |
 :::
 
 ### I — Interoperable, interoperabile
@@ -94,9 +76,9 @@ I dati devono potersi combinare con altri dati ed essere letti da software diver
 ::: {.principi}
 | | Principio | Nell'esempio |
 |:-|:--------|:------------|
-| **I1** | Si usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza | [Voi]{.chi-voi} I dati sono salvati in `stroop_trials.csv` anziché in `stroop.xlsx`; in Excel si usa *File → Salva con nome → CSV UTF-8*. Un file che si apre solo con un software a pagamento non è interoperabile. |
-| **I2** | Si usano vocabolari che seguono a loro volta i principi FAIR | [Repository]{.chi-repo} [Voi]{.chi-voi} Zenodo pubblica i metadati negli schemi standard [Dublin Core](https://www.dublincore.org/) e DataCite. Nei dati, chi deposita scrive le date nel formato ISO 8601 (`2026-09-23`) invece che come `05/09/2026`, che in Italia indica il 5 settembre e negli Stati Uniti il 9 maggio. |
-| **I3** | I (meta)dati contengono riferimenti qualificati ad altri (meta)dati | [Voi]{.chi-voi} Nel campo *Related works* di Zenodo si inserisce il DOI dell'articolo e si sceglie la relazione "is supplement to". Nei metadati del dataset compare così il collegamento all'articolo; il collegamento inverso si crea citando il DOI del dataset nella sezione *Data availability* dell'articolo. |
+| **I1** | Si usa un linguaggio formale, accessibile e condiviso per rappresentare la conoscenza | [Noi]{.chi-voi} Una tabella di soli numeri non dice a un programma/o un umano che cosa contiene: una colonna `temperature` può essere corporea o dell'aria, `score` un'accuratezza o il punteggio a un test. I1 chiede di rappresentare il *significato* dei dati in una forma condivisa e leggibile dalle [macchine](struttura-2.qmd) e/o dagli esseri [umani](struttura-1.qmd). |
+| **I2** | Si usano vocabolari che seguono a loro volta i principi FAIR | [Repository]{.chi-repo} I metadati del deposito seguono schemi standard e documentati (DataCite, Dublin Core), pubblici e citabili a loro volta. [Noi]{.chi-voi} Dove è possibile, i valori si codificano con termini presi da un vocabolario condiviso invece che con sigle inventate, così che un termine come `incongruent` rimandi a un significato definito e uguale per tutti, e non a un'etichetta valida solo nel nostro file. |
+| **I3** | I (meta)dati contengono riferimenti qualificati ad altri (meta)dati | [Noi]{.chi-voi} Su Zenodo, nel campo *Related works*, si inserisce il DOI dell'articolo e si sceglie la relazione "is supplement to": nei metadati del dataset compare così il collegamento all'articolo. Il collegamento inverso si crea citando il DOI del dataset nella sezione *Data availability* dell'articolo. Anche PsychArchives permette di collegare fra loro gli oggetti dello stesso studio. |
 :::
 
 ### R — Reusable, riusabile
@@ -106,48 +88,39 @@ I dati devono potersi combinare con altri dati ed essere letti da software diver
 ::: {.principi}
 | | Principio | Nell'esempio |
 |:-|:--------|:------------|
-| **R1** | I (meta)dati sono descritti con molti attributi accurati e pertinenti | [Voi]{.chi-voi} Si scrivono un [README](struttura-1.qmd) che descrive lo studio e un [data dictionary](struttura-1.qmd) con una riga per ogni colonna dei dati, per esempio: `rt_ms`, tempo di reazione, in millisecondi, cella vuota se il valore manca. |
-| **R1.1** | Sono rilasciati con una licenza d'uso chiara e accessibile | [Voi]{.chi-voi} Nel campo *License* del deposito si sceglie la licenza, per esempio CC0. [In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.](licenze.qmd) |
-| **R1.2** | Sono associati a una provenienza dettagliata | [Voi]{.chi-voi} Nel README si indica come sono stati raccolti e trattati i dati, per esempio: "Raccolti in laboratorio fra marzo e aprile 2026 con PsychoPy, ripuliti con `scripts/01_cleaning.R`". |
-| **R1.3** | Rispettano gli standard della comunità disciplinare | [Voi]{.chi-voi} Se per quel tipo di dati esiste uno standard, lo si adotta: [BIDS](https://bids.neuroimaging.io/) per il neuroimaging, [Psych-DS](struttura-2.qmd) per i dati comportamentali, [DDI](https://ddialliance.org/) per i questionari nelle scienze sociali. Se non esiste, si usano gli stessi nomi, formati e codifiche in tutti i file. |
+| **R1** | I (meta)dati sono descritti con molti attributi accurati e pertinenti | [Noi]{.chi-voi} Si scrivono un [README](struttura-1.qmd) che descrive lo studio e un [data dictionary](struttura-1.qmd) con una riga per ogni colonna dei dati, per esempio: `rt_ms`, tempo di reazione, in millisecondi, cella vuota se il valore manca. |
+| **R1.1** | Sono rilasciati con una licenza d'uso chiara e accessibile | [Noi]{.chi-voi} Nel campo *License* del deposito si sceglie la licenza, per esempio CC0. [In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.](licenze.qmd) |
+| **R1.2** | Sono associati a una provenienza dettagliata | [Noi]{.chi-voi} Nel README si indica come sono stati raccolti e trattati i dati, per esempio: "Raccolti in laboratorio fra marzo e aprile 2026 con PsychoPy, ripuliti con `scripts/01_cleaning.R`". |
+| **R1.3** | Rispettano gli standard della comunità disciplinare | [Noi]{.chi-voi} Se per quel tipo di dati esiste uno standard, lo si adotta: [BIDS](https://bids.neuroimaging.io/) per il neuroimaging, [Psych-DS](struttura-2.qmd) per i dati comportamentali, [DDI](https://ddialliance.org/) per i questionari nelle scienze sociali. Se non esiste, si usano gli stessi nomi, formati e codifiche in tutti i file. |
 :::
+
 
 Esiste anche una versione dei principi per il software, **FAIR4RS**
 ([Barker et al., 2022](https://doi.org/10.1038/s41597-022-01710-x)): identificatore
-e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo. In pratica
-vuol dire una release archiviata su Zenodo con il suo DOI, un file `CITATION.cff`
-e un file `LICENSE`.
+e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo.
 
-## Da dove si comincia: il Data Management Plan
+## FAIR e GDPR
 
-Il **DMP** è un documento che si scrive **all'inizio** di un progetto e dice che
-dati produrrete, come li documenterete, dove li conserverete, con quale licenza e
-per quanto tempo. Nei progetti Horizon Europe è obbligatorio: va consegnato come
-deliverable **entro il sesto mese** e rivisto verso la fine.
+<small>Tradotto e adattato da Vipavc Brvar, I., & Gogl, S. (2025, June 5). Balancing FAIR Data Principles with GDPR Compliance: A Guide for Researchers. Zenodo. IASSIST 2025, Bristol, UK. [https://doi.org/10.5281/zenodo.15696827](https://doi.org/10.5281/zenodo.15696827).</small>
 
-Vale la pena scriverlo anche quando nessuno lo chiede, perché è il momento in cui
-si decidono le cose che dopo non si possono più correggere: la formula del
-consenso informato, i formati, il repository, la licenza.
+| Dove si scontrano | Perché | Come si risolve |
+|:--|:--|:--|
+| **Accesso aperto e riservatezza** | I principi FAIR spingono verso l'apertura; il GDPR vieta di rendere accessibili dati personali senza una base giuridica | Si pubblicano dati anonimizzati, oppure si usa l'accesso controllato (A1.2) |
+| **Metadati ricchi e re-identificazione** | Una descrizione dettagliata del campione (F2) può bastare a riconoscere le persone: "12 pazienti afasici ricoverati nel reparto X nel 2025" | Si descrive il campione con il dettaglio che serve al riuso, e non di più |
+| **Conservazione a lungo termine e limitazione della conservazione** | I principi FAIR chiedono che i dati restino disponibili per anni; il GDPR vieta di conservare dati personali più del necessario | Il GDPR ammette una conservazione più lunga per la ricerca scientifica, con garanzie adeguate ([art. 5, par. 1, lett. e](https://gdpr-info.eu/art-5-gdpr/)); l'anonimizzazione elimina il problema |
 
-Il modo più rapido per capire cosa chiede un DMP è aprire il template:
 
-- [**Il template ufficiale di Horizon Europe**](https://dmponline.rivm.nl/template_export/5992485.pdf) —
-  quattro pagine, una cinquantina di domande, nessun commento. Sette sezioni: dati
-  prodotti, dati FAIR, altri output, risorse, sicurezza, etica, altro.
-- [**Lo stesso template, annotato da Unipd**](https://biblio.unipd.it/biblioteca-digitale/per-chi-pubblica/documenti-e-materiali/unipd_dmp-guidelines_18-09-2024_v4-3.pdf) —
-  con spiegazioni ed esempi per ogni domanda. Si compilano solo le sezioni
-  pertinenti al progetto.
-- [**Il catalogo dei template**](https://dmponline.rivm.nl/public_templates) — se
-  il vostro finanziatore non è Horizon Europe (ERC, DFG, i consigli di ricerca
-  britannici...), cercate lì il suo.
-- [**Argos**](https://argos.openaire.eu/) (OpenAIRE) e
-  [**DMPonline**](https://dmponline.dcc.ac.uk/): strumenti online che guidano la
-  compilazione domanda per domanda.
-- Per un supporto diretto c'è il [Sistema Bibliotecario di Ateneo](https://biblio.unipd.it/en/digital-library/about-publishing/open-research-data).
+## Data Management Plan (DMP)
 
-::: {.callout-tip title="Un DMP sono i principi FAIR trasformati in domande"}
-Nel template la sezione 2 si chiama *FAIR data*, e ha quattro sottosezioni:
-*findable*, *accessible*, *interoperable*, *re-use*. Sono le quattro lettere di
-questa pagina, riscritte come domande a cui rispondere **prima** di raccogliere
-il primo dato. Chi ha capito i principi ha già capito metà del DMP.
-:::
+Il **[DMP](https://www.openaire.eu/rdm-glossary#data-management-plan)** è un documento che si scrive **all'inizio** di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. È un documento vivo: va aggiornato man mano che il progetto procede, e gli scostamenti dal piano iniziale vanno documentati e motivati.
+
+
+- [**Catalogo dei template**](https://dmponline.rivm.nl/public_templates) 
+- [**Il template ufficiale di Horizon Europe**](https://dmponline.rivm.nl/template_export/5992485.pdf)
+- [**Horizon Europe, annotato da Unipd**](https://biblio.unipd.it/biblioteca-digitale/per-chi-pubblica/documenti-e-materiali/unipd_dmp-guidelines_18-09-2024_v4-3.pdf),
+  con spiegazioni ed esempi per ogni domanda. 
+- [**Argos**](https://argos.openaire.eu/) (OpenAIRE),
+  [**DMPonline**](https://dmponline.dcc.ac.uk/) e [**DMPTool**](https://dmptool.org/): strumenti online che guidano la
+  compilazione.
+
+

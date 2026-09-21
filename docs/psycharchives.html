@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Versioni e correzioni – Hands-on Open Science</title>
+<title>Depositare su PsychArchives – Hands-on Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -158,16 +158,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In questa pagina</h2>
+   
+  <ul class="collapse">
+  <li><a href="#un-progetto-più-oggetti" id="toc-un-progetto-più-oggetti" class="nav-link active" data-scroll-target="#un-progetto-più-oggetti">Un progetto, più oggetti</a></li>
+  <li><a href="#livello-di-condivisione-e-licenza" id="toc-livello-di-condivisione-e-licenza" class="nav-link" data-scroll-target="#livello-di-condivisione-e-licenza">Livello di condivisione e licenza</a></li>
+  <li><a href="#condividere-prima-di-pubblicare-il-reviewer-link" id="toc-condividere-prima-di-pubblicare-il-reviewer-link" class="nav-link" data-scroll-target="#condividere-prima-di-pubblicare-il-reviewer-link">Condividere prima di pubblicare: il reviewer link</a></li>
+  <li><a href="#pubblicazione-correzioni-e-nuove-versioni" id="toc-pubblicazione-correzioni-e-nuove-versioni" class="nav-link" data-scroll-target="#pubblicazione-correzioni-e-nuove-versioni">Pubblicazione, correzioni e nuove versioni</a></li>
+  <li><a href="#psycharchives-e-zenodo-a-confronto" id="toc-psycharchives-e-zenodo-a-confronto" class="nav-link" data-scroll-target="#psycharchives-e-zenodo-a-confronto">PsychArchives e Zenodo a confronto</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Versioni e correzioni</h1>
-<p class="subtitle lead">Cosa succede quando devi correggere qualcosa dopo aver depositato</p>
+<h1 class="title">Depositare su PsychArchives</h1>
+<p class="subtitle lead">Le scelte da fare durante il deposito</p>
 </div>
 
 
@@ -184,7 +194,44 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>È la domanda che arriva sempre per seconda, subito dopo “dove lo metto”: <em>e se poi mi accorgo di un errore?</em> La risposta cambia molto da un repository all’altro.</p>
+<p><a href="https://www.psycharchives.org/">PsychArchives</a> è il repository disciplinare della psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita tramite il <a href="https://pasa.psycharchives.org">PsychArchives Submission Assistant</a>, accedendo con ORCID o con un account Leibniz Psychology. Deposito e download sono gratuiti fino a 1 GB per oggetto; per oggetti più grandi si chiede il servizio dedicato scrivendo a psycharchives-submission@leibniz-psychology.org.</p>
+<section id="un-progetto-più-oggetti" class="level2">
+<h2 class="anchored" data-anchor-id="un-progetto-più-oggetti">Un progetto, più oggetti</h2>
+<p>PsychArchives chiama ogni deposito <em>digital research object</em> (DRO) e ne distingue una ventina di tipi, fra cui <em>Research Data</em>, <em>Code</em>, <em>Preprint</em>, <em>Article</em>, <em>Preregistration</em>, <em>Test</em>, <em>Course Material</em>, <em>Report</em>, <em>Image</em>, <em>Sound</em> e <em>Moving Image</em>.</p>
+<p>Un progetto non si deposita come un’unica cartella compressa, ma come più oggetti, uno per tipo: i dati come <em>Research Data</em>, gli script come <em>Code</em>, un questionario costruito da voi come <em>Test</em>, la preregistrazione come <em>Preregistration</em>. Ogni oggetto è un invio separato, con il suo tipo; gli oggetti dello stesso studio vengono poi collegati fra loro nel repository. Chi li scarica li ottiene però uno alla volta.</p>
+<p>Le linee guida chiedono formati aperti e adatti alla conservazione a lungo termine, come CSV per i dati e PDF/A per i documenti. Sugli archivi zip non dicono nulla: prima di depositare una cartella compressa conviene chiedere alla mail delle submission.</p>
+</section>
+<section id="livello-di-condivisione-e-licenza" class="level2">
+<h2 class="anchored" data-anchor-id="livello-di-condivisione-e-licenza">Livello di condivisione e licenza</h2>
+<p>Durante l’invio si scelgono il livello di condivisione e la licenza:</p>
+<ul>
+<li><strong>livello 0 e 0+</strong> (<em>Public Use File</em>): accesso aperto;</li>
+<li><strong>livello 1</strong> (<em>Scientific Use File</em>): uso solo scientifico, e chi scarica deve accettare un contratto di licenza.</li>
+</ul>
+<p>Per testi e dati le licenze disponibili sono CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice LGPL-3.0, Apache-2.0 e 0BSD. Come scegliere, e cosa comporta la licenza per scopi scientifici, è spiegato nella <a href="./licenze.html#uso-scientifico">pagina sulle licenze</a>.</p>
+</section>
+<section id="condividere-prima-di-pubblicare-il-reviewer-link" class="level2">
+<h2 class="anchored" data-anchor-id="condividere-prima-di-pubblicare-il-reviewer-link">Condividere prima di pubblicare: il reviewer link</h2>
+<p>Durante l’invio si può chiedere un <em>reviewer link</em>, da dare per esempio ai revisori di una rivista:</p>
+<ul>
+<li>il deposito è <strong>anonimizzato di default</strong>: i metadati che identificano gli autori vengono nascosti, e l’anonimizzazione si può disattivare;</li>
+<li>chiunque abbia il link può vedere il deposito;</li>
+<li>finché non lo pubblicate, potete modificarlo, cancellarlo o pubblicarlo;</li>
+<li>il reviewer link non è un DOI: il DOI viene assegnato solo alla pubblicazione.</li>
+</ul>
+<p>L’anonimizzazione riguarda i metadati: i riferimenti a voi dentro i file (README, intestazioni degli script, percorsi come <code>/Users/nome/...</code>) vanno tolti.</p>
+</section>
+<section id="pubblicazione-correzioni-e-nuove-versioni" class="level2">
+<h2 class="anchored" data-anchor-id="pubblicazione-correzioni-e-nuove-versioni">Pubblicazione, correzioni e nuove versioni</h2>
+<p>Dopo l’invio lo staff di PsychArchives fa un <strong>controllo formale</strong>: verifica che il contenuto sia adatto al repository e che i metadati siano completi. Di solito richiede uno o due giorni lavorativi. Alla pubblicazione il deposito riceve un DOI .</p>
+<ul>
+<li><strong>Entro una settimana</strong> dalla pubblicazione, file e metadati si possono correggere su richiesta.</li>
+<li><strong>Dopo</strong>, si crea una nuova versione: si manda a psycharchives-submission@leibniz-psychology.org il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.</li>
+<li>I <strong>riferimenti dell’articolo</strong> collegato si possono aggiungere ai metadati in qualsiasi momento, senza creare una nuova versione.</li>
+</ul>
+</section>
+<section id="psycharchives-e-zenodo-a-confronto" class="level2">
+<h2 class="anchored" data-anchor-id="psycharchives-e-zenodo-a-confronto">PsychArchives e Zenodo a confronto</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -194,48 +241,56 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
-<th style="text-align: left;">Dopo la pubblicazione potete…</th>
-<th style="text-align: left;">Come</th>
+<th style="text-align: left;">Zenodo</th>
+<th style="text-align: left;">PsychArchives</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Zenodo</strong></td>
-<td style="text-align: left;">modificare i file <strong>entro 30 giorni</strong>, stesso DOI, nessuna nuova versione</td>
-<td style="text-align: left;">in autonomia, dall’interfaccia</td>
+<td style="text-align: left;"><strong>Ambito</strong></td>
+<td style="text-align: left;">Generalista</td>
+<td style="text-align: left;">Psicologia e discipline vicine</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Zenodo</strong>, dopo i 30 giorni</td>
-<td style="text-align: left;">solo casi giustificati: violazione di copyright, dati personali esposti. Per tutto il resto si crea una nuova versione</td>
-<td style="text-align: left;">richiesta motivata</td>
+<td style="text-align: left;"><strong>Spazio</strong></td>
+<td style="text-align: left;">50 GB per record</td>
+<td style="text-align: left;">1 GB per oggetto</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>PsychArchives</strong></td>
-<td style="text-align: left;">modificare file e metadati <strong>entro una settimana</strong></td>
-<td style="text-align: left;">su richiesta a PsychArchives</td>
+<td style="text-align: left;"><strong>Un progetto si deposita come</strong></td>
+<td style="text-align: left;">Uno zip, oppure più record collegati</td>
+<td style="text-align: left;">Più oggetti, uno per tipo, collegati fra loro</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>PsychArchives</strong>, dopo la prima settimana</td>
-<td style="text-align: left;">si genera una nuova versione; la precedente resta, collegata nella cronologia pubblica</td>
-<td style="text-align: left;">si manda alla mail delle submission il DOI dell’oggetto, i file aggiornati e un changelog di <strong>massimo 255 caratteri</strong></td>
+<td style="text-align: left;"><strong>Controllo prima della pubblicazione</strong></td>
+<td style="text-align: left;">Nessuno sul contenuto, salvo nelle community con revisione</td>
+<td style="text-align: left;">Controllo formale dello staff, di solito entro due giorni lavorativi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Condividere prima di pubblicare</strong></td>
+<td style="text-align: left;">Link segreto sulla bozza; l’anonimizzazione è a mano</td>
+<td style="text-align: left;">Reviewer link, anonimizzato di default</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Correzioni dopo la pubblicazione</strong></td>
+<td style="text-align: left;">In autonomia, entro 30 giorni</td>
+<td style="text-align: left;">Su richiesta, entro una settimana</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Licenze</strong></td>
+<td style="text-align: left;">Qualsiasi; di default CC BY 4.0</td>
+<td style="text-align: left;">CC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Dati personali</strong></td>
+<td style="text-align: left;">Anonimizzati o con consenso esplicito alla diffusione</td>
+<td style="text-align: left;">Sempre anonimizzati</td>
 </tr>
 </tbody>
 </table>
-<div class="callout callout-style-default callout-tip callout-titled" title="Eco">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Eco
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Una nuova versione non raddoppia lo spazio occupato, la piattaforma sottostante salva solo la differenza.</p>
-</div>
-</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ac30c1ccdcaaf3795f8f0284dc3e508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,12 +111,16 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Dove archiviare</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./riproducibilita.html">
- <span class="dropdown-text">Riproducibilità</span></a>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./versioni.html">
+ <span class="dropdown-text">Versioni e correzioni</span></a>
   </li>  
     </ul>
   </li>
@@ -161,9 +165,8 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#repository-generalisti" id="toc-repository-generalisti" class="nav-link active" data-scroll-target="#repository-generalisti">Repository generalisti</a></li>
   <li><a href="#repository-disciplinari-per-la-psicologia" id="toc-repository-disciplinari-per-la-psicologia" class="nav-link" data-scroll-target="#repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</a></li>
-  <li><a href="#come-si-sceglie-una-repository" id="toc-come-si-sceglie-una-repository" class="nav-link" data-scroll-target="#come-si-sceglie-una-repository">Come si sceglie una repository</a></li>
-  <li><a href="#stack" id="toc-stack" class="nav-link" data-scroll-target="#stack">Il flusso di lavoro dopo OSF</a></li>
   <li><a href="#dati-che-non-si-possono-aprire" id="toc-dati-che-non-si-possono-aprire" class="nav-link" data-scroll-target="#dati-che-non-si-possono-aprire">Dati che non si possono aprire</a></li>
+  <li><a href="#come-si-sceglie-una-repository" id="toc-come-si-sceglie-una-repository" class="nav-link" data-scroll-target="#come-si-sceglie-una-repository">Come si sceglie una repository</a></li>
   </ul>
 </nav>
     </div>
@@ -203,29 +206,8 @@ ul.task-list li input[type="checkbox"] {
 <p><strong><em>Strumenti:</em></strong> Zenodo, PsychArchives, Research Data Unipd, Dataverse, Dryad…</p>
 </div>
 <div class="g-col-12 g-col-md-4 scheda">
-<p><strong>3. Dove si dichiara</strong></p>
-<p>Il piano di studio, registrato prima di raccogliere i dati e congelato con un DOI.</p>
-<p><strong><em>Strumenti:</em></strong> <a href="https://osf.io/registries">OSF Registries</a>, che resta attivo anche dopo la chiusura dei Projects; PsychArchives accetta anche preregistrazioni.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Come si collegano fra loro i materiali">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Come si collegano fra loro i materiali
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Nessuno strumento, OSF compreso, collega automaticamente preregistrazione, dati, codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri:</p>
-<ul>
-<li>il deposito dei dati riporta i DOI di articolo, preregistrazione e codice nei campi <em>related identifiers</em>;</li>
-<li>il README li elenca in una sezione dedicata;</li>
-<li>l’articolo e il preprint li citano nella sezione <em>Data availability</em>;</li>
-<li>la release del codice indica il DOI dei dati che analizza.</li>
-</ul>
-<p>Un documento che non riporta questi riferimenti resta isolato: chi lo trova non ha modo di risalire agli altri.</p>
+<p><strong>3. Dove si collega</strong></p>
+<p>Nessuno strumento, collega automaticamente preregistrazione, dati, codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Importante">
@@ -238,7 +220,7 @@ Importante
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>GitHub non è un archivio</strong> (i repository si possono cancellare o riscrivere in qualsiasi momento, non c’è DOI, non c’è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository vero.</p>
+<p><strong>GitHub non è un archivio</strong> (i repository si possono cancellare o riscrivere in qualsiasi momento, non c’è DOI, non c’è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository “vero”.</p>
 </div>
 </div>
 <section id="repository-generalisti" class="level2">
@@ -256,26 +238,26 @@ Importante
 <tr class="odd">
 <td style="text-align: left;"><strong><a href="https://zenodo.org/">Zenodo</a></strong></td>
 <td style="text-align: left;">CERN, con finanziamenti UE</td>
-<td style="text-align: left;"><strong>50 GB per record</strong>, di più su richiesta. <a href="https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo">Altre info</a></td>
-<td style="text-align: left;">Accetta qualsiasi tipo di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.</td>
+<td style="text-align: left;"><strong>50 GB</strong> per singolo record (max 100 files) <a href="https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo">Altre info</a></td>
+<td style="text-align: left;">Accetta diversi tipi di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, <a href="https://help.zenodo.org/docs/communities/about-communities/">“communities”</a> per raccogliere i prodotti di un progetto o di un laboratorio.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><a href="https://researchdata.cab.unipd.it/">Research Data Unipd</a></strong></td>
 <td style="text-align: left;">Università di Padova (Sistema Bibliotecario)</td>
-<td style="text-align: left;">Non pubblicato: si concorda con i bibliotecari, che seguono il deposito.</td>
-<td style="text-align: left;">Requisiti dei finanziatori. C’è supporto umano, ed è la sede naturale per i dati dei progetti Unipd.</td>
+<td style="text-align: left;"><strong>2,5 GB per singolo file</strong></td>
+<td style="text-align: left;">Requisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong><a href="https://dataverse.harvard.edu/">Harvard Dataverse</a></strong></td>
 <td style="text-align: left;">Infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>2,5 GB per singolo file</strong> caricato da web, <strong>fino a 1 TB per record</strong>. <a href="https://support.dataverse.harvard.edu/researchers">Altre info</a></td>
-<td style="text-align: left;">Dati tabellari: riconosce i formati statistici, estrae automaticamente le variabili e genera un codebook. Molto usato nelle scienze sociali.</td>
+<td style="text-align: left;"><strong>2,5 GB per singolo file</strong> <a href="https://support.dataverse.harvard.edu/researchers">Altre info</a></td>
+<td style="text-align: left;">Estrae automaticamente le variabili e genera un codebook.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><a href="https://datadryad.org/">Dryad</a></strong></td>
 <td style="text-align: left;">Non profit, infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>10GB per file</strong>, <strong>2T per record</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
-<td style="text-align: left;">Quando serve <strong>curation umana</strong>: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivist</td>
+<td style="text-align: left;"><strong>10GB per file</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
+<td style="text-align: left;">Quando serve <strong>curation umana</strong>: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong><a href="https://figshare.com/">Figshare</a></strong></td>
@@ -285,7 +267,7 @@ Importante
 </tr>
 </tbody>
 </table>
-<p>Le quote cambiano: quelle qui sopra sono verificate a settembre 2026, ma prima di pianificare un deposito grosso conviene ricontrollarle sul sito del servizio.</p>
+<p>Le quote cambiano: quelle qui sopra sono verificate a settembre 2026.</p>
 </section>
 <section id="repository-disciplinari-per-la-psicologia" class="level2">
 <h2 class="anchored" data-anchor-id="repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</h2>
@@ -303,76 +285,13 @@ Importante
 <td style="text-align: left;"><strong><a href="https://www.psycharchives.org/">PsychArchives</a></strong> (ZPID, Leibniz Institute for Psychology)</td>
 <td style="text-align: left;">Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali</td>
 <td style="text-align: left;"><strong>1 GB per oggetto</strong>, gratuito.</td>
-<td style="text-align: left;">Gratuito, non commerciale, DOI DataCite più Handle, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
+<td style="text-align: left;">Gratuito, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><a href="https://openneuro.org/">OpenNeuro</a></strong></td>
 <td style="text-align: left;">Dati di neuroimaging (MRI, MEG, EEG, iEEG, PET)</td>
 <td style="text-align: left;">Nessun tetto pubblicato.</td>
 <td style="text-align: left;">Gratuito. Richiede il formato <a href="https://bids.neuroimaging.io/">BIDS</a>, che viene validato automaticamente al caricamento.</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="come-si-sceglie-una-repository" class="level2">
-<h2 class="anchored" data-anchor-id="come-si-sceglie-una-repository">Come si sceglie una repository</h2>
-<p>Domande da porsi, in ordine di importanza:</p>
-<ol type="1">
-<li><strong>Il mio finanziatore o la mia rivista impongono qualcosa?</strong></li>
-<li><strong>Esiste un repository disciplinare per questo tipo di dato?</strong> Se sì, di solito è preferibile a uno generalista.</li>
-<li><strong>Rilascia un identificatore persistente</strong> e garantisce conservazione a lungo termine?</li>
-<li><strong>Supporta il livello di accesso che mi serve?</strong> Aperto, embargo, ristretto con approvazione.</li>
-<li><strong>Consente il versionamento?</strong> Perché i dati cambiano anche dopo la pubblicazione.</li>
-<li><strong>Dove sono fisicamente i dati?</strong> Rilevante per dati personali e GDPR.</li>
-<li><strong>Quanto costa, e chi paga?</strong></li>
-</ol>
-<p>Per cercare in modo sistematico: <a href="https://www.re3data.org/">re3data.org</a> è il registro internazionale dei repository di dati.</p>
-</section>
-<section id="stack" class="level2">
-<h2 class="anchored" data-anchor-id="stack">Il flusso di lavoro dopo OSF</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Fase</th>
-<th style="text-align: left;">Dove</th>
-<th style="text-align: left;">Cosa producete</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Progettazione</td>
-<td style="text-align: left;">OSF Registrations</td>
-<td style="text-align: left;">Preregistrazione con DOI</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Raccolta dati</td>
-<td style="text-align: left;">Server o cloud di ateneo, cartelle strutturate</td>
-<td style="text-align: left;">Dati grezzi + documentazione in corso d’opera</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Analisi</td>
-<td style="text-align: left;">GitHub/GitLab privato</td>
-<td style="text-align: left;">Script versionati</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Pubblicazione</td>
-<td style="text-align: left;">Zenodo, PsychArchives, … (dati e materiali) + release GitHub archiviata su Zenodo (codice)</td>
-<td style="text-align: left;">Uno o più DOI</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Diffusione</td>
-<td style="text-align: left;">Preprint su PsyArXiv, articolo, ORCID</td>
-<td style="text-align: left;">Sezione <em>Data availability</em> con tutti i DOI</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Collegamento</td>
-<td style="text-align: left;">Campi <em>related identifiers</em> di ogni deposito</td>
-<td style="text-align: left;">Rete di link fra preregistrazione, dati, codice e articolo</td>
 </tr>
 </tbody>
 </table>
@@ -386,8 +305,22 @@ Importante
 <li><strong>Dataset derivato</strong>: pubblicare aggregati, summary statistics.</li>
 <li><strong>Dati sintetici</strong> che riproducono la struttura del dataset reale.</li>
 </ol>
+</section>
+<section id="come-si-sceglie-una-repository" class="level2">
+<h2 class="anchored" data-anchor-id="come-si-sceglie-una-repository">Come si sceglie una repository</h2>
+<p>Domande da porsi, in ordine di importanza:</p>
+<ol type="1">
+<li><strong>Il mio finanziatore o la mia rivista impongono qualcosa?</strong></li>
+<li><strong>Esiste un repository disciplinare per questo tipo di dato?</strong> Se sì, di solito è preferibile a uno generalista.</li>
+<li><strong>Rilascia un identificatore persistente</strong> e garantisce conservazione a lungo termine?</li>
+<li><strong>Supporta il livello di accesso che mi serve?</strong> Aperto, embargo, ristretto con approvazione.</li>
+<li><strong>Consente il versionamento?</strong> Perché i dati possono cambiare anche dopo la pubblicazione.</li>
+<li><strong>Dove sono fisicamente i dati?</strong> Rilevante per dati personali e GDPR.</li>
+<li><strong>Quanto costa, e chi paga?</strong></li>
+</ol>
+<p>Per cercare in modo sistematico: <a href="https://www.re3data.org/">re3data.org</a> è il registro internazionale dei repository di dati.</p>
 <hr>
-<p>Due domande che arrivano subito dopo aver scelto dove depositare: <a href="./versioni.html">cosa si può correggere dopo la pubblicazione</a> e <a href="./riproducibilita.html">come si rende il nostro lavoro riproducibile</a>.</p>
+<p>Due domande che arrivano subito dopo aver scelto dove depositare: <a href="./versioni.html">cosa si può correggere dopo la pubblicazione</a> e <a href="riproducibilita.qmd">come si rende il nostro lavoro riproducibile</a>.</p>
 
 
 </section>
@@ -807,7 +740,7 @@ Importante
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a></p>
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a></p>
 </div>
   </div>
 </footer>
