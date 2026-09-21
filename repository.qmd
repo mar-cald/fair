@@ -63,7 +63,7 @@ alcune strade praticabili, in ordine di preferenza:
 1. **Deposito ad accesso ristretto** con procedura di richiesta documentata
    (Zenodo *restricted*).
 2. **Metadati pubblici e dati su richiesta formalizzata**.
-3. **Dataset derivato**: pubblicare aggregati, summary statistics.
+3. **Dataset derivato**: pubblicare aggregati, sufficient statistics.
 4. **Dati sintetici** che riproducono la struttura del dataset reale.
 
 
