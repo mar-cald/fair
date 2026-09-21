@@ -76,6 +76,7 @@ Dove mettere dati, codice e materiali, e cosa allegarci.
 <script>
 (function(){
   var DATA=[
+    {q:"Un esempio completo di progetto (modello)",cat:"Struttura",tags:"esempio esempi completo modello template progetto fatto bene riusabile tutto insieme cartella pronta",url:"esempio.html"},
     {q:"OSF chiude: e adesso? Cosa cambia e cosa no",cat:"Dati",tags:"osf chiude chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura cosa cambia futuro",url:"apertura.html"},
     {q:"Dove deposito i miei dati?",cat:"Dati",tags:"repository archivio deposito depositare caricare pubblicare mettere zenodo psycharchives dataverse dryad figshare osf",url:"repository.html"},
     {q:"I dati sono personali o sensibili: dove e come li metto?",cat:"Dati",tags:"gdpr personali sensibili anonimizzare anonimizzazione accesso ristretto restricted riservati privacy identificabili consenso",url:"repository.html#dati-che-non-si-possono-aprire"},

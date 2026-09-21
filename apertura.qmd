@@ -36,6 +36,10 @@ collaborazione, archivio dati e gestione file.
 :::
 
 <br/>
+<br/>
+<br/>
+<br/>
 
-[osf a parte ...](ma.qmd)
+
+[OSF a parte ...](ma.qmd)
 

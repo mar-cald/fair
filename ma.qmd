@@ -2,39 +2,20 @@
 title: "OSF a parte: che cosa condividiamo?"
 ---
 
-::: {.callout-important title="Ve la sentireste?"}
-Immaginate di passare a chi vi siede accanto la cartella dell'ultimo lavoro che
-avete pubblicato, non l'articolo, la cartella dei dati e del codice. Ve la
-sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?
-:::
 
-Se avete una cartella a portata provate davvero:
+Proviamo, a coppie: **scambiatevi le cartelle**, l'ultimo lavoro che avete
+pubblicato. Chi non ha il computer o una cartella pronta si unisce a una coppia.
 
-1. Di che cosa tratta lo studio?
-2. Prendete una colonna a caso del dataset utilizzato per le analisi (uno a caso se ce n'è più di uno), che cosa sapreste dire delle informazioni che sono riportate nella decima riga?
-3. Potete riusare i dati di questo studio?
+Aprite la cartella che avete ricevuto e, senza chiedere niente a chi l'ha
+prodotta, spuntate quello che riuscite a trovare:
 
-
-<br/>
-<br/>
-
-## Una cartella che si può riusare
+- [ ] un file che descrive cosa contiene la cartella
+- [ ] i dati sono in un formato aperto (CSV, TXT), non solo `.xlsx` 
+- [ ] ogni colonna nel dataset è spiegata da qualche parte: nome, unità, codifica
+- [ ] i file hanno nomi che dicono che cosa contengono
+- [ ] c'è una licenza, quindi si sa a quali condizioni riusare i dati
+- [ ] si capisce quale script produce quali risultati, e in che ordine
 
 
-```
-stroop-anxiety/
-├── README.md                 cos'è lo studio
-├── LICENSE                   a quali condizioni si riusa
-├── data/
-│   ├── stroop_data.csv       i dati, un trial per riga
-│   └── stroop_dictionary.csv descrive ogni colonna
-└── scripts/
-    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti
-    └── 02_analysis.R         riproduce l'analisi
-```
-
-Ogni file dice che cosa contiene: il README spiega il progetto,
-il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a
-quali condizioni si può riusare. 
 
 

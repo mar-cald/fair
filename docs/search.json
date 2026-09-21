@@ -249,7 +249,49 @@
     "href": "apertura.html",
     "title": "Che cosa sta succedendo a OSF",
     "section": "",
-    "text": "Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n\nosf a parte …"
+    "text": "Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n   \nOSF a parte …"
+  },
+  {
+    "objectID": "esempio.html",
+    "href": "esempio.html",
+    "title": "Un esempio completo",
+    "section": "",
+    "text": "stroop-anxiety/\n├── README.md                        cos'è e come si riproduce\n├── CITATION.cff                     come citare il progetto\n├── LICENSE                          licenze di dati, codice, materiali\n├── renv.lock                        versioni esatte dei pacchetti R\n├── stroop-anxiety.Rproj             progetto RStudio (working directory)\n├── data/\n│   ├── raw/                         export originali, sola lettura\n│   ├── stroop_data.csv              un trial per riga\n│   ├── stroop_dictionary.csv        definizione di ogni colonna\n│   ├── questionnaire_data.csv       un partecipante per riga\n│   └── questionnaire_dictionary.csv definizione di ogni colonna\n├── materials/                       task e istruzioni\n├── scripts/\n│   ├── 01_preprocessing.R           dai grezzi ai dati puliti\n│   └── 02_analysis.R                analisi e figure\n└── docs/                            preregistrazione, preprint\nNomi senza spazi né accenti, script numerati nell’ordine di esecuzione, i dati grezzi separati e in sola lettura. → Nomi, formati e struttura"
+  },
+  {
+    "objectID": "esempio.html#la-cartella",
+    "href": "esempio.html#la-cartella",
+    "title": "Un esempio completo",
+    "section": "",
+    "text": "stroop-anxiety/\n├── README.md                        cos'è e come si riproduce\n├── CITATION.cff                     come citare il progetto\n├── LICENSE                          licenze di dati, codice, materiali\n├── renv.lock                        versioni esatte dei pacchetti R\n├── stroop-anxiety.Rproj             progetto RStudio (working directory)\n├── data/\n│   ├── raw/                         export originali, sola lettura\n│   ├── stroop_data.csv              un trial per riga\n│   ├── stroop_dictionary.csv        definizione di ogni colonna\n│   ├── questionnaire_data.csv       un partecipante per riga\n│   └── questionnaire_dictionary.csv definizione di ogni colonna\n├── materials/                       task e istruzioni\n├── scripts/\n│   ├── 01_preprocessing.R           dai grezzi ai dati puliti\n│   └── 02_analysis.R                analisi e figure\n└── docs/                            preregistrazione, preprint\nNomi senza spazi né accenti, script numerati nell’ordine di esecuzione, i dati grezzi separati e in sola lettura. → Nomi, formati e struttura"
+  },
+  {
+    "objectID": "esempio.html#il-readme",
+    "href": "esempio.html#il-readme",
+    "title": "Un esempio completo",
+    "section": "Il README",
+    "text": "Il README\n# Stroop and trait anxiety\n\nStroop interference as a function of trait anxiety.\n100 adults; colour-word Stroop task (PsychoPy) and a STAI-Y questionnaire,\ncollected in the lab in March 2026.\n\n## Contents\n- data/stroop_data.csv — one trial per row\n- data/stroop_dictionary.csv — its columns\n- data/questionnaire_data.csv — one participant per row\n- data/questionnaire_dictionary.csv — its columns\n- data/raw/ — original exports, read-only\n- scripts/01_preprocessing.R — cleans and merges the data\n- scripts/02_analysis.R — models and figures\n- materials/ — task and instructions\n- renv.lock — exact R package versions\n- stroop-anxiety.Rproj — RStudio project\n\n## How to reproduce\nOpen stroop-anxiety.Rproj in RStudio (R &gt;= 4.3), then:\n  renv::restore()   # installs the exact package versions (renv.lock)\n  source(\"scripts/01_preprocessing.R\")\n  source(\"scripts/02_analysis.R\")\n\n## License\nData CC0-1.0, code GPL-3.0, materials CC BY 4.0 (see LICENSE).\nSTAI-Y is a third-party instrument: not included, cite it.\n\n## How to cite\nSee CITATION.cff. Dataset: https://doi.org/10.5281/zenodo.XXXXXXX\n\n## Links\nArticle: https://doi.org/10.xxxx/xxxxx\nPreregistration: https://doi.org/10.17605/OSF.IO/XXXXX\nIl README risponde alle domande che ci si fa prima di aprire qualsiasi file. → Che cos’è un README"
+  },
+  {
+    "objectID": "esempio.html#il-data-dictionary",
+    "href": "esempio.html#il-data-dictionary",
+    "title": "Un esempio completo",
+    "section": "Il data dictionary",
+    "text": "Il data dictionary\nUn estratto di data/stroop_dictionary.csv: una riga per ogni colonna del dataset (questionnaire_dictionary.csv fa lo stesso per il questionario).\n\n\n\n\n\n\n\n\n\n\n\nvariable_name\nlabel\ntype\nunit\nallowed_values\nmissing_values\n\n\n\n\nparticipant\nparticipant code\nstring\n\np01-p100\n\n\n\nblock\nblock number\ninteger\n\n1-4\n\n\n\ncongruent\ncongruent trial (word = colour)\nboolean\n\nTRUE / FALSE\n\n\n\nrt_ms\nreaction time\ninteger\nms\n200-2000\nempty cell\n\n\ncorrect\ncorrect response\nboolean\n\nTRUE / FALSE\n\n\n\n\n→ Che cos’è un data dictionary"
+  },
+  {
+    "objectID": "esempio.html#le-licenze",
+    "href": "esempio.html#le-licenze",
+    "title": "Un esempio completo",
+    "section": "Le licenze",
+    "text": "Le licenze\n\n\n\nComponente\nLicenza\n\n\n\n\nDati (data/)\nCC0-1.0\n\n\nCodice (scripts/)\nGPL-3.0\n\n\nMateriali propri (materials/)\nCC BY 4.0\n\n\nStrumenti di terzi (STAI-Y)\nnessuna: non si depositano, si citano\n\n\n\n→ Licenze per dati, codice e materiali"
+  },
+  {
+    "objectID": "esempio.html#dove-sta-e-come-è-collegato",
+    "href": "esempio.html#dove-sta-e-come-è-collegato",
+    "title": "Un esempio completo",
+    "section": "Dove sta e come è collegato",
+    "text": "Dove sta e come è collegato\nDepositato su Zenodo: alla pubblicazione ottiene un DOI. Nel campo Related works il dataset è collegato all’articolo (“is supplement to”) e alla preregistrazione; l’articolo, nella sezione Data availability, cita il DOI del dataset. Così da qualsiasi punto si arriva agli altri.\n→ Depositare su Zenodo · Dove archiviare"
   },
   {
     "objectID": "index.html",
@@ -263,14 +305,7 @@
     "href": "ma.html",
     "title": "OSF a parte: che cosa condividiamo?",
     "section": "",
-    "text": "Ve la sentireste?\n\n\n\nImmaginate di passare a chi vi siede accanto la cartella dell’ultimo lavoro che avete pubblicato, non l’articolo, la cartella dei dati e del codice. Ve la sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?\nSe avete una cartella a portata provate davvero:"
-  },
-  {
-    "objectID": "ma.html#una-cartella-che-si-può-riusare",
-    "href": "ma.html#una-cartella-che-si-può-riusare",
-    "title": "OSF a parte: che cosa condividiamo?",
-    "section": "Una cartella che si può riusare",
-    "text": "Una cartella che si può riusare\nstroop-anxiety/\n├── README.md                 cos'è lo studio\n├── LICENSE                   a quali condizioni si riusa\n├── data/\n│   ├── stroop_data.csv       i dati, un trial per riga\n│   └── stroop_dictionary.csv descrive ogni colonna\n└── scripts/\n    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti\n    └── 02_analysis.R         riproduce l'analisi\nOgni file dice che cosa contiene: il README spiega il progetto, il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a quali condizioni si può riusare."
+    "text": "Proviamo, a coppie: scambiatevi le cartelle, l’ultimo lavoro che avete pubblicato. Chi non ha il computer o una cartella pronta si unisce a una coppia.\nAprite la cartella che avete ricevuto e, senza chiedere niente a chi l’ha prodotta, spuntate quello che riuscite a trovare:\n\nun file che descrive cosa contiene la cartella\ni dati sono in un formato aperto (CSV, TXT), non solo .xlsx\nogni colonna nel dataset è spiegata da qualche parte: nome, unità, codifica\ni file hanno nomi che dicono che cosa contengono\nc’è una licenza, quindi si sa a quali condizioni riusare i dati\nsi capisce quale script produce quali risultati, e in che ordine"
   },
   {
     "objectID": "repository.html",
@@ -305,28 +340,21 @@
     "href": "repository.html#come-si-sceglie-una-repository",
     "title": "Dove archiviare",
     "section": "Come si sceglie una repository",
-    "text": "Come si sceglie una repository\nDomande da porsi, in ordine di importanza:\n\nIl mio finanziatore o la mia rivista impongono qualcosa?\nEsiste un repository disciplinare per questo tipo di dato? Se sì, di solito è preferibile a uno generalista.\nRilascia un identificatore persistente e garantisce conservazione a lungo termine?\nSupporta il livello di accesso che mi serve? Aperto, embargo, ristretto con approvazione.\nConsente il versionamento? Perché i dati possono cambiare anche dopo la pubblicazione.\nDove sono fisicamente i dati? Rilevante per dati personali e GDPR.\nQuanto costa, e chi paga?\n\nPer cercare in modo sistematico: re3data.org è il registro internazionale dei repository di dati.\n\nDue domande che arrivano subito dopo aver scelto dove depositare: cosa si può correggere dopo la pubblicazione e come si rende il nostro lavoro riproducibile."
+    "text": "Come si sceglie una repository\nDomande da porsi, in ordine di importanza:\n\nIl mio finanziatore o la mia rivista impongono qualcosa?\nEsiste un repository disciplinare per questo tipo di dato? Se sì, di solito è preferibile a uno generalista.\nRilascia un identificatore persistente e garantisce conservazione a lungo termine?\nSupporta il livello di accesso che mi serve? Aperto, embargo, ristretto con approvazione.\nConsente il versionamento? Perché i dati possono cambiare anche dopo la pubblicazione.\nDove sono fisicamente i dati? Rilevante per dati personali e GDPR.\nQuanto costa, e chi paga?\n\nPer cercare in modo sistematico: re3data.org è il registro internazionale dei repository di dati."
   },
   {
     "objectID": "struttura-1.html",
     "href": "struttura-1.html",
     "title": "README e Data dictionary",
     "section": "",
-    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad."
+    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad.\n\n\n\nUn formato proprietario (.xlsx, .sav di SPSS, .mat di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato aperto e testuale (.csv, .tsv, .txt, .json) si apre con qualunque strumento e si legge anche a occhio.\n\n\nNo\n\ndati.xlsx (Excel)\ndati.sav (SPSS)\ncodebook.docx\n\n\n\nSì\n\ndati.csv\ndati.csv + dati_dictionary.csv\ncodebook.txt o README.md\n\n\n\nL’export originale dello strumento (per esempio il .sav che esce dal software del questionario) si tiene in data/raw/ come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita."
   },
   {
-    "objectID": "struttura-1.html#come-si-chiamano-i-file",
-    "href": "struttura-1.html#come-si-chiamano-i-file",
+    "objectID": "struttura-1.html#dati-nomi-e-formati",
+    "href": "struttura-1.html#dati-nomi-e-formati",
     "title": "README e Data dictionary",
     "section": "",
-    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad."
-  },
-  {
-    "objectID": "struttura-1.html#in-che-formato-salvarli",
-    "href": "struttura-1.html#in-che-formato-salvarli",
-    "title": "README e Data dictionary",
-    "section": "In che formato salvarli",
-    "text": "In che formato salvarli\nUn formato proprietario (.xlsx, .sav di SPSS, .mat di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato aperto e testuale (.csv, .tsv, .txt, .json) si apre con qualunque strumento e si legge anche a occhio.\n\n\nNo\n\ndati.xlsx (Excel)\ndati.sav (SPSS)\ncodebook.docx\n\n\n\nSì\n\ndati.csv\ndati.csv + dati_dictionary.csv\ncodebook.txt o README.md\n\n\n\nL’export originale dello strumento (per esempio il .sav che esce dal software del questionario) si tiene in data/raw/ come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita."
+    "text": "No\nDati definitivi (2).xlsx\nanalisi finale.R\nquestionarioEtà.csv\n\n\nSì\ngonogo_data.csv\n02_analysis_gonogo.R\ndemographics.csv\n\n\n\n\n\nNiente spazi, accenti o caratteri speciali nei nomi di file e di variabile: rompono gli script, i link e i trasferimenti fra sistemi operativi.\nNumeri con lo zero davanti (01_, 02_): altrimenti 10_ viene prima di 2_.\nIl nome dice cosa contiene.\nSe serve una versione, usate _v1, _v2, o meglio ancora usate git.\nUsare separatori e maiuscole in modo sistematico e significativo, non a caso: questo_e_snake_case, questoInveceECamelCase. Scegliete una convenzione e tenetela.\n\nRegole tradotte e adattate dal sito di BIDS e dal corso di Research Data Management di DataLad.\n\n\n\nUn formato proprietario (.xlsx, .sav di SPSS, .mat di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato aperto e testuale (.csv, .tsv, .txt, .json) si apre con qualunque strumento e si legge anche a occhio.\n\n\nNo\n\ndati.xlsx (Excel)\ndati.sav (SPSS)\ncodebook.docx\n\n\n\nSì\n\ndati.csv\ndati.csv + dati_dictionary.csv\ncodebook.txt o README.md\n\n\n\nL’export originale dello strumento (per esempio il .sav che esce dal software del questionario) si tiene in data/raw/ come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita."
   },
   {
     "objectID": "struttura-1.html#la-struttura",

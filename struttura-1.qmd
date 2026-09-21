@@ -3,7 +3,7 @@ title: "README e Data dictionary"
 ---
 
 
-## Come si chiamano i file
+## Dati, nomi e formati
 
 ::: {.grid}
 ::: {.g-col-12 .g-col-md-6 .panel-no}
@@ -39,7 +39,7 @@ demographics.csv
 
 <small>Regole tradotte e adattate dal [sito di BIDS](https://bids.neuroimaging.io/) e dal [corso di Research Data Management di DataLad](https://psychoinformatics-de.github.io/rdm-course/).</small>
 
-## In che formato salvarli
+### In che formato salvarli
 
 Un formato **proprietario** (`.xlsx`, `.sav` di SPSS, `.mat` di MATLAB) si apre
 solo con il programma che l'ha creato: bisogna averlo, spesso a pagamento, e non

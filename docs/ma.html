@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e2b95ecede14c8ee3260e64b5fbb2601.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-cd359fb65c84ca3f642640f134c34d0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -144,6 +144,10 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="./esempio.html"> 
+<span class="menu-text">Esempio</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./risorse.html"> 
 <span class="menu-text">Risorse</span></a>
   </li>  
@@ -158,14 +162,8 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">In questa pagina</h2>
-   
-  <ul class="collapse">
-  <li><a href="#una-cartella-che-si-può-riusare" id="toc-una-cartella-che-si-può-riusare" class="nav-link active" data-scroll-target="#una-cartella-che-si-può-riusare">Una cartella che si può riusare</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -189,41 +187,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-important callout-titled" title="Ve la sentireste?">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ve la sentireste?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Immaginate di passare a chi vi siede accanto la cartella dell’ultimo lavoro che avete pubblicato, non l’articolo, la cartella dei dati e del codice. Ve la sentireste? E soprattutto: che cosa ne capirebbe, senza potervi chiedere niente?</p>
-</div>
-</div>
-<p>Se avete una cartella a portata provate davvero:</p>
-<ol type="1">
-<li>Di che cosa tratta lo studio?</li>
-<li>Prendete una colonna a caso del dataset utilizzato per le analisi (uno a caso se ce n’è più di uno), che cosa sapreste dire delle informazioni che sono riportate nella decima riga?</li>
-<li>Potete riusare i dati di questo studio?</li>
-</ol>
-<p><br> <br></p>
-<section id="una-cartella-che-si-può-riusare" class="level2">
-<h2 class="anchored" data-anchor-id="una-cartella-che-si-può-riusare">Una cartella che si può riusare</h2>
-<pre><code>stroop-anxiety/
-├── README.md                 cos'è lo studio
-├── LICENSE                   a quali condizioni si riusa
-├── data/
-│   ├── stroop_data.csv       i dati, un trial per riga
-│   └── stroop_dictionary.csv descrive ogni colonna
-└── scripts/
-    ├── 01_preprocessing.R    dai dati grezzi a quelli puliti
-    └── 02_analysis.R         riproduce l'analisi</code></pre>
-<p>Ogni file dice che cosa contiene: il README spiega il progetto, il data dictionary definisce ogni colonna con unità e codifica, la licenza dice a quali condizioni si può riusare.</p>
+<p>Proviamo, a coppie: <strong>scambiatevi le cartelle</strong>, l’ultimo lavoro che avete pubblicato. Chi non ha il computer o una cartella pronta si unisce a una coppia.</p>
+<p>Aprite la cartella che avete ricevuto e, senza chiedere niente a chi l’ha prodotta, spuntate quello che riuscite a trovare:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">un file che descrive cosa contiene la cartella</label></li>
+<li><label><input type="checkbox">i dati sono in un formato aperto (CSV, TXT), non solo <code>.xlsx</code></label></li>
+<li><label><input type="checkbox">ogni colonna nel dataset è spiegata da qualche parte: nome, unità, codifica</label></li>
+<li><label><input type="checkbox">i file hanno nomi che dicono che cosa contengono</label></li>
+<li><label><input type="checkbox">c’è una licenza, quindi si sa a quali condizioni riusare i dati</label></li>
+<li><label><input type="checkbox">si capisce quale script produce quali risultati, e in che ordine</label></li>
+</ul>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -634,7 +609,7 @@ Ve la sentireste?
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Seminario del 23 settembre 2026 — Margherita Calderan, Dipartimento di Psicologia Generale, Università di Padova</p>
+<p>Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

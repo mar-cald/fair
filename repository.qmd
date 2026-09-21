@@ -85,7 +85,3 @@ Per cercare in modo sistematico: [re3data.org](https://www.re3data.org/) è il
 registro internazionale dei repository di dati.
 
 ---
-
-Due domande che arrivano subito dopo aver scelto dove depositare:
-[cosa si può correggere dopo la pubblicazione](versioni.qmd) e
-[come si rende il nostro lavoro riproducibile](riproducibilita.qmd).

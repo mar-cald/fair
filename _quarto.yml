@@ -39,11 +39,13 @@ website:
             text: README e Data dictionary
           - href: struttura-2.qmd
             text: Psych-DS
+      - href: esempio.qmd
+        text: Esempio
       - href: risorse.qmd
         text: Risorse
   page-footer:
     border: true
-    left: "Seminario del 23 settembre 2026 — Margherita Calderan, Dipartimento di Psicologia Generale, Università di Padova"
+    left: "Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova"
     right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) · [Fonti](risorse.qmd#fonti)"
 
 format:
