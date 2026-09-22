@@ -4,8 +4,8 @@ subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
 
-Dove mettere dati, codice e materiali, e cosa allegarci. 
- 
+Dove mettere dati, codice e materiali, e cosa allegarci.
+
 ::: {.grid}
 
 ::: {.g-col-12 .g-col-md-4 .scheda}

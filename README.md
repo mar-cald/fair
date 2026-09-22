@@ -23,7 +23,7 @@ Le pagine sono file `.qmd` in questa cartella; `quarto render` genera il sito in
 | `esempio.qmd` | Un esempio completo: un progetto modello con tutte le parti |
 | `risorse.qmd` | Checklist, link, glossario |
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
-| `custom.scss` | Grafica: i cinque colori sono nelle prime righe |
+| `custom.scss` | Grafica del sito: i cinque colori sono nelle prime righe |
 
 ## Materiali per le esercitazioni
 
