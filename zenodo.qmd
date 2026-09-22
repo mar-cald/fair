@@ -15,6 +15,7 @@ Prima di caricarlo, aprite lo zip e controllate che contenga solo i file del
 progetto: alcuni sistemi operativi aggiungono all'archivio file nascosti, che
 su Zenodo compaiono come file in più.
 
+
 ## Il tipo di risorsa
 
 Il campo *Resource type* è obbligatorio e incide sulla reperibilità: alcuni
@@ -93,3 +94,25 @@ trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio d
 Inoltre, far parte della stessa community non collega i record fra loro nei
 metadati: per quello servono sempre i campi *related identifiers* di ciascun
 record.
+
+## Da GitHub a Zenodo: un DOI a ogni release
+
+Se il codice del progetto sta su GitHub, non serve ricaricarlo a mano a ogni
+modifica: Zenodo può archiviarlo da solo. Si collega una volta sola, poi
+funziona in automatico.
+
+1. In Zenodo, dal menu del profilo si apre **GitHub** e si collega l'account
+   (comodo se ci si è iscritti con ORCID).
+2. Si preme **Sync** e si attiva l'interruttore accanto al repository. *Deve
+   essere pubblico su GitHub*: i repository privati non compaiono.
+3. Su GitHub si crea una **release** con un tag di versione (per convenzione
+   `v1.0.0`).
+4. Zenodo archivia quella release e le assegna un DOI. Ogni release successiva
+   riceve **un DOI proprio**, mentre un **concept DOI** unico rimanda sempre
+   all'ultima versione: nell'articolo si cita quello.
+
+
+<small>Testo adattato da Johnson, E. (2026). *Linking GitHub to Zenodo —
+generating DOIs and adding to communities*. Zenodo.
+[10.5281/zenodo.20428659](https://doi.org/10.5281/zenodo.20428659), che mostra
+ogni passaggio con le schermate.</small>

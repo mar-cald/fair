@@ -172,6 +172,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#licenza-e-copyright" id="toc-licenza-e-copyright" class="nav-link" data-scroll-target="#licenza-e-copyright">Licenza e copyright</a></li>
   <li><a href="#condividere-una-bozza-prima-di-pubblicare" id="toc-condividere-una-bozza-prima-di-pubblicare" class="nav-link" data-scroll-target="#condividere-una-bozza-prima-di-pubblicare">Condividere una bozza prima di pubblicare</a></li>
   <li><a href="#lavorare-in-più-persone" id="toc-lavorare-in-più-persone" class="nav-link" data-scroll-target="#lavorare-in-più-persone">Lavorare in più persone</a></li>
+  <li><a href="#da-github-a-zenodo-un-doi-a-ogni-release" id="toc-da-github-a-zenodo-un-doi-a-ogni-release" class="nav-link" data-scroll-target="#da-github-a-zenodo-un-doi-a-ogni-release">Da GitHub a Zenodo: un DOI a ogni release</a></li>
   </ul>
 </nav>
     </div>
@@ -285,9 +286,20 @@ Per una revisione in cieco l’anonimizzazione è a carico vostro
 </table>
 <p>Una community somiglia a un progetto OSF come pagina indice: un unico posto dove trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio di lavoro, perché raccoglie solo record già depositati; per lavorare insieme restano GitHub o le cartelle condivise di ateneo.</p>
 <p>Inoltre, far parte della stessa community non collega i record fra loro nei metadati: per quello servono sempre i campi <em>related identifiers</em> di ciascun record.</p>
-
-
 </section>
+</section>
+<section id="da-github-a-zenodo-un-doi-a-ogni-release" class="level2">
+<h2 class="anchored" data-anchor-id="da-github-a-zenodo-un-doi-a-ogni-release">Da GitHub a Zenodo: un DOI a ogni release</h2>
+<p>Se il codice del progetto sta su GitHub, non serve ricaricarlo a mano a ogni modifica: Zenodo può archiviarlo da solo. Si collega una volta sola, poi funziona in automatico.</p>
+<ol type="1">
+<li>In Zenodo, dal menu del profilo si apre <strong>GitHub</strong> e si collega l’account (comodo se ci si è iscritti con ORCID).</li>
+<li>Si preme <strong>Sync</strong> e si attiva l’interruttore accanto al repository. <em>Deve essere pubblico su GitHub</em>: i repository privati non compaiono.</li>
+<li>Su GitHub si crea una <strong>release</strong> con un tag di versione (per convenzione <code>v1.0.0</code>).</li>
+<li>Zenodo archivia quella release e le assegna un DOI. Ogni release successiva riceve <strong>un DOI proprio</strong>, mentre un <strong>concept DOI</strong> unico rimanda sempre all’ultima versione: nell’articolo si cita quello.</li>
+</ol>
+<p><small>Testo adattato da Johnson, E. (2026). <em>Linking GitHub to Zenodo — generating DOIs and adding to communities</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.20428659">10.5281/zenodo.20428659</a>, che mostra ogni passaggio con le schermate.</small></p>
+
+
 </section>
 
 </main> <!-- /main -->
