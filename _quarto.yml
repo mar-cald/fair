@@ -11,12 +11,11 @@ project:
     - "materiali.zip"             # esempio Psych-DS (pagina Struttura)
 
 website:
-  title: "Hands-on Open Science"
+  title: "Open Science"
   navbar:
-    background: light
+    background: "#6d1720"
+    foreground: light
     left:
-      - href: index.qmd
-        text: Home
       - href: apertura.qmd
         text: Intro
       - href: fair.qmd
@@ -29,8 +28,8 @@ website:
             text: Depositare su Zenodo
           - href: psycharchives.qmd
             text: Depositare su PsychArchives
-          - href: versioni.qmd
-            text: Versioni e correzioni
+          - href: confronto.qmd
+            text: Zenodo o PsychArchives?
       - href: licenze.qmd
         text: Licenze
       - text: Struttura
@@ -43,9 +42,17 @@ website:
         text: Esempio
       - href: risorse.qmd
         text: Risorse
+    right:
+      - icon: bug
+        aria-label: "Segnala un errore o una correzione"
+        menu:
+          - text: "Apri una issue su GitHub"
+            href: "https://github.com/mar-cald/fair/issues/new?title=Segnalazione&body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20"
+          - text: "Scrivimi una email"
+            href: segnala.qmd
   page-footer:
     border: true
-    left: "Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova"
+    left: "Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova"
     right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) · [Fonti](risorse.qmd#fonti)"
 
 format:

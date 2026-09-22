@@ -1,14 +1,17 @@
 ---
 title: "Un esempio completo"
-subtitle: "Un progetto che mette insieme le cose principali"
 ---
+
+::: {.visually-hidden}
+Parole chiave: esempio completo modello template progetto riusabile cartella pronta fatto bene tutto insieme.
+:::
 
 ## La cartella
 
 ```
 stroop-anxiety/
 ├── README.md                        cos'è e come si riproduce
-├── CITATION.cff                     come citare il progetto
+├── CITATION.cff                     come citare il progetto (non essenziale)
 ├── LICENSE                          licenze di dati, codice, materiali
 ├── renv.lock                        versioni esatte dei pacchetti R
 ├── stroop-anxiety.Rproj             progetto RStudio (working directory)
@@ -27,7 +30,6 @@ stroop-anxiety/
 
 Nomi senza spazi né accenti, script numerati nell'ordine di esecuzione, i dati
 grezzi separati e in sola lettura.
-→ [Nomi, formati e struttura](struttura-1.qmd)
 
 ## Il README
 
@@ -68,8 +70,7 @@ Article: https://doi.org/10.xxxx/xxxxx
 Preregistration: https://doi.org/10.17605/OSF.IO/XXXXX
 ```
 
-Il README risponde alle domande che ci si fa *prima* di aprire qualsiasi file.
-→ [Che cos'è un README](struttura-1.qmd#che-cosè-un-readme)
+
 
 ## Il data dictionary
 
@@ -84,7 +85,6 @@ dataset (`questionnaire_dictionary.csv` fa lo stesso per il questionario).
 | rt_ms | reaction time | integer | ms | 200-2000 | empty cell |
 | correct | correct response | boolean |  | TRUE / FALSE |  |
 
-→ [Che cos'è un data dictionary](struttura-1.qmd#che-cosè-un-data-dictionary)
 
 ## Le licenze
 
@@ -95,15 +95,7 @@ dataset (`questionnaire_dictionary.csv` fa lo stesso per il questionario).
 | Materiali propri (`materials/`) | **CC BY 4.0** |
 | Strumenti di terzi (STAI-Y) | nessuna: non si depositano, si citano |
 
-→ [Licenze per dati, codice e materiali](licenze.qmd)
 
-## Dove sta e come è collegato
 
-Depositato su [Zenodo](zenodo.qmd): alla pubblicazione ottiene un DOI. Nel campo
-*Related works* il dataset è collegato all'articolo ("is supplement to") e alla
-preregistrazione; l'articolo, nella sezione *Data availability*, cita il DOI del
-dataset. Così da qualsiasi punto si arriva agli altri.
-
-→ [Depositare su Zenodo](zenodo.qmd) · [Dove archiviare](repository.qmd)
 
 

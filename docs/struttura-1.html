@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>README e Data dictionary – Hands-on Open Science</title>
+<title>README e Data dictionary – Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd359fb65c84ca3f642640f134c34d0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Hands-on Open Science</span>
+    <span class="navbar-title">Open Science</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Ricerca"></div>
@@ -89,10 +89,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./apertura.html"> 
 <span class="menu-text">Intro</span></a>
@@ -119,8 +115,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Depositare su PsychArchives</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./confronto.html">
+ <span class="dropdown-text">Zenodo o PsychArchives?</span></a>
   </li>  
     </ul>
   </li>
@@ -152,6 +148,25 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Risorse</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-bug" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bug" role="img" aria-label="Segnala un errore o una correzione">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-bug">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/mar-cald/fair/issues/new?title=Segnalazione&amp;body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20">
+ <span class="dropdown-text">Apri una issue su GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./segnala.html">
+ <span class="dropdown-text">Scrivimi una email</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -168,9 +183,9 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#dati-nomi-e-formati" id="toc-dati-nomi-e-formati" class="nav-link active" data-scroll-target="#dati-nomi-e-formati">Dati, nomi e formati</a></li>
-  <li><a href="#la-struttura" id="toc-la-struttura" class="nav-link" data-scroll-target="#la-struttura">La struttura</a></li>
-  <li><a href="#che-cosè-un-data-dictionary" id="toc-che-cosè-un-data-dictionary" class="nav-link" data-scroll-target="#che-cosè-un-data-dictionary">Che cos’è un data dictionary</a></li>
-  <li><a href="#la-licenza" id="toc-la-licenza" class="nav-link" data-scroll-target="#la-licenza">La licenza</a></li>
+  <li><a href="#struttura" id="toc-struttura" class="nav-link" data-scroll-target="#struttura">Struttura</a></li>
+  <li><a href="#readme" id="toc-readme" class="nav-link" data-scroll-target="#readme">README</a></li>
+  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link" data-scroll-target="#data-dictionary">Data dictionary</a></li>
   </ul>
 </nav>
     </div>
@@ -196,6 +211,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="visually-hidden">
+<p>Parole chiave: nomi file cartelle naming spazi accenti convenzione rinominare; formato CSV xlsx Excel sav SPSS mat proprietario aperto TXT JSON; struttura raw grezzi scripts output alberatura; README leggimi documentare documentazione; data dictionary codebook colonne variabili unità codifica significato.</p>
+</div>
 <section id="dati-nomi-e-formati" class="level2">
 <h2 class="anchored" data-anchor-id="dati-nomi-e-formati">Dati, nomi e formati</h2>
 <div class="grid">
@@ -225,13 +243,12 @@ demographics.csv</code></pre>
 </section>
 <section id="in-che-formato-salvarli" class="level3">
 <h3 class="anchored" data-anchor-id="in-che-formato-salvarli">In che formato salvarli</h3>
-<p>Un formato <strong>proprietario</strong> (<code>.xlsx</code>, <code>.sav</code> di SPSS, <code>.mat</code> di MATLAB) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento, e non è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato <strong>aperto</strong> e testuale (<code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, <code>.json</code>) si apre con qualunque strumento e si legge anche a occhio.</p>
+<p>Un formato <strong>proprietario</strong> (<code>.xlsx</code>, <code>.mat</code>) si apre solo con il programma che l’ha creato: bisogna averlo, spesso a pagamento. Un formato <strong>aperto</strong> e testuale (<code>.csv</code>, <code>.tsv</code>, <code>.txt</code>, <code>.json</code>) si apre con qualunque strumento e si legge anche a occhio.</p>
 <div class="grid">
 <div class="g-col-12 g-col-md-6 panel-no">
 <p><strong>No</strong></p>
 <ul>
 <li><code>dati.xlsx</code> (Excel)</li>
-<li><code>dati.sav</code> (SPSS)</li>
 <li><code>codebook.docx</code></li>
 </ul>
 </div>
@@ -239,16 +256,16 @@ demographics.csv</code></pre>
 <p><strong>Sì</strong></p>
 <ul>
 <li><code>dati.csv</code></li>
-<li><code>dati.csv</code> + <code>dati_dictionary.csv</code></li>
-<li><code>codebook.txt</code> o <code>README.md</code></li>
+<li><code>dati_dictionary.csv</code>, <code>codebook.txt</code></li>
+<li><code>README.txt</code> o <code>README.md</code></li>
 </ul>
 </div>
 </div>
-<p>L’export originale dello strumento (per esempio il <code>.sav</code> che esce dal software del questionario) si tiene in <code>data/raw/</code> come sola lettura; accanto si salva la versione in formato aperto, che è quella che si documenta e si deposita.</p>
+<p>L’export originale dello strumento si tiene in <code>data/raw/</code> come sola lettura; accanto si salva la versione in formato aperto.</p>
 </section>
 </section>
-<section id="la-struttura" class="level2">
-<h2 class="anchored" data-anchor-id="la-struttura">La struttura</h2>
+<section id="struttura" class="level2">
+<h2 class="anchored" data-anchor-id="struttura">Struttura</h2>
 <pre><code>progetto/
 ├── README.md                       cosa c'è qui dentro e come si usa
 ├── LICENSE                         a quali condizioni
@@ -265,10 +282,11 @@ demographics.csv</code></pre>
 │   ├── figures/
 │   └── tables/
 └── docs/                           preregistrazione, preprint, ...</code></pre>
-<section id="che-cosè-un-readme" class="level3">
-<h3 class="anchored" data-anchor-id="che-cosè-un-readme">Che cos’è un README</h3>
-<p>È il file che risponde alle domande che una persona si fa <strong>prima</strong> di poter usare qualunque altra cosa ci sia nella cartella. Va scritto pensando a un destinatario preciso: qualcuno competente del vostro settore, che però non sa niente di questo studio e non può scrivervi.</p>
-<p>Sta nella root del progetto/cartella, si chiama <code>README.md</code> ed è in <a href="https://www.markdownguide.org/basic-syntax/">Markdown</a> o <code>.txt</code></p>
+</section>
+<section id="readme" class="level2">
+<h2 class="anchored" data-anchor-id="readme">README</h2>
+<p>È il file che risponde alle domande che una persona si fa <strong>prima</strong> di poter usare qualunque altra cosa ci sia nella cartella.</p>
+<p>Sta nella root del progetto/cartella ed è in <a href="https://www.markdownguide.org/basic-syntax/">Markdown</a> o <code>.txt</code>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -287,11 +305,11 @@ demographics.csv</code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Di cosa si tratta</td>
-<td style="text-align: left;">Che studio è, che disegno, chi sono i partecipanti, quando sono stati raccolti i dati</td>
+<td style="text-align: left;">Che studio è, quando sono stati raccolti i dati</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Contenuto dei file</td>
-<td style="text-align: left;">Cosa c’è nella cartella, file per file, e qual è l’unità di osservazione</td>
+<td style="text-align: left;">Cosa c’è nella cartella, file per file</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Come leggere i dati</td>
@@ -316,10 +334,9 @@ demographics.csv</code></pre>
 </tbody>
 </table>
 </section>
-</section>
-<section id="che-cosè-un-data-dictionary" class="level2">
-<h2 class="anchored" data-anchor-id="che-cosè-un-data-dictionary">Che cos’è un data dictionary</h2>
-<p>Il README descrive il progetto. Il data dictionary descrive <strong>ogni singola colonna</strong> dei vostri dati: una riga per variabile, in un file a parte (<code>&lt;nome_dataset&gt;_dictionary.csv</code>).</p>
+<section id="data-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="data-dictionary">Data dictionary</h2>
+<p>Il README descrive il progetto. Il data dictionary descrive <strong>ogni singola colonna</strong> dei vostri dati: una riga per variabile, in un file a parte (<code>&lt;nome-dataset&gt;_dictionary.csv</code>). Per esempio:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -366,8 +383,8 @@ demographics.csv</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>missing_values</code></td>
-<td style="text-align: left;">Come sono rappresentati, e se si sa perché mancano</td>
-<td style="text-align: left;">cella vuota</td>
+<td style="text-align: left;">Come sono rappresentati</td>
+<td style="text-align: left;">cella vuota o NA?</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>source</code></td>
@@ -378,39 +395,6 @@ demographics.csv</code></pre>
 <td style="text-align: left;"><code>notes</code></td>
 <td style="text-align: left;">Decisioni prese, anomalie, avvertenze</td>
 <td style="text-align: left;">…</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="la-licenza" class="level2">
-<h2 class="anchored" data-anchor-id="la-licenza">La licenza</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Componente</th>
-<th style="text-align: left;">Licenza</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Dati (<code>data/</code>)</td>
-<td style="text-align: left;"><strong>CC0-1.0</strong>, oppure CC-BY-4.0 se preferite l’obbligo di attribuzione</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Codice (<code>scripts/</code>)</td>
-<td style="text-align: left;"><strong>GPL-3.0</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Testi e materiali vostri</td>
-<td style="text-align: left;"><strong>CC-BY-4.0</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Strumenti di terzi (test, questionari commerciali)</td>
-<td style="text-align: left;">Nessuna: <strong>non si depositano</strong>, si citano</td>
 </tr>
 </tbody>
 </table>
@@ -827,7 +811,7 @@ demographics.csv</code></pre>
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova</p>
+<p>Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

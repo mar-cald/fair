@@ -2,6 +2,10 @@
 title: "Che cosa sta succedendo a OSF"
 ---
 
+::: {.visually-hidden}
+Parole chiave: OSF chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura futuro cosa cambia.
+:::
+
 Ad agosto 2026 il Center for Open Science ha annunciato la dismissione del
 *workflow* di OSF Projects. In pratica OSF smette di funzionare come spazio di
 collaborazione, archivio dati e gestione file.

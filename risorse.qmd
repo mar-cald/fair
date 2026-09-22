@@ -3,6 +3,10 @@ title: "Risorse e checklist"
 subtitle: "Cosa controllare, dove cercare"
 ---
 
+::: {.visually-hidden}
+Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni.
+:::
+
 
 ## Checklist prima di depositare
 
@@ -11,19 +15,16 @@ subtitle: "Cosa controllare, dove cercare"
 - [ ] C'è un **README** chiaro
 - [ ] C'è un **data dictionary** che copre tutte le colonne di tutti i file
 - [ ] I file sono in **formati aperti** (CSV, TXT, JSON, PNG), non solo `.sav`, `.xlsx`, `.docx`
-- [ ] Gli identificativi dei partecipanti sono **univoci**
 - [ ] Il codice gira **su un altro computer**, partendo da una cartella pulita
 
 ### Diritti e riservatezza
 
-- [ ] C'è un file **LICENSE**, e il campo licenza del repository è compilato
+- [ ] C'è un file **LICENSE**, e/o il campo licenza del repository è compilato
 - [ ] Ho verificato di poter **ridistribuire** tutto ciò che sto depositando
   (attenzione a test, questionari e stimoli di terzi)
-- [ ] Ho controllato i **campi di testo libero**, i **nomi dei file** e i
-  **metadati** dei file multimediali
 - [ ] Non ci sono date di nascita complete, indirizzi, o combinazioni di variabili
   che identificano una persona
-- [ ] I coautori sanno che sto depositando e sono d'accordo su licenza e tempi
+- [ ] I coautori sanno che sto depositando e sono d'accordo
 
 ### Collegamenti
 
@@ -66,10 +67,6 @@ subtitle: "Cosa controllare, dove cercare"
 
 
 
-### Supporto a Padova
-
-- [Open Science — Sistema Bibliotecario di Ateneo](https://bibliotecadigitale.cab.unipd.it/bd/openscience):
-  supporto su deposito dei dati, licenze e requisiti dei finanziatori
 
 ## Glossario minimo
 

@@ -1,11 +1,15 @@
 ---
 title: "Psych-DS"
-subtitle: "Uno standard per i dati psicologici, come BIDS"
+subtitle: "BIDS per i dati psicologici"
 ---
 
-## Tre regole minime
+::: {.visually-hidden}
+Parole chiave: Psych-DS psychds standard dati comportamentali metadati validator BIDS.
+:::
 
-Un dataset Psych-DS valido richiede solo questo:
+## Requisiti minimi
+
+Un dataset Psych-DS valido richiede:
 
 1. **Una cartella `data/`** nella radice del progetto, che contiene i file di dati in CSV.
 2. **Un file `dataset_description.json`** nella radice, con esattamente questo
@@ -63,7 +67,7 @@ Subject-01_data.csv
 :::
 
 
-### Il file dei metadati - minimi
+### Il file dei metadati
 
 `dataset_description.json` usa il vocabolario di
 [schema.org](https://schema.org/Dataset), lo stesso che i motori di ricerca leggono
@@ -91,7 +95,7 @@ automaticamente. La documentazione smette di essere un file che si scrive alla f
 
 
 
-### Un passo in più: la descrizione delle variabili
+### dataset_description.json come data-dictionary
 
 Nella forma minima `variableMeasured` è un elenco di nomi. Schema.org permette però
 di sostituire ogni stringa con un oggetto `PropertyValue`, e a quel punto il data
@@ -118,21 +122,17 @@ dictionary vero e proprio entra nei metadati:
 
 ## Il validator
 
-**[psych-ds.github.io/validator](https://psych-ds.github.io/validator/)** — si
-trascina la cartella e si legge il verdetto.
+E' possibile controllare se si sono seguiti standard caricando la **cartella radice** del progetto (es. `stroop-attention/`, non `stroop-attention/data` ) su: **[psych-ds.github.io/validator](https://psych-ds.github.io/validator/)**
 
-Va selezionata la **cartella radice** del progetto (`stroop-attention/`), non la
-sottocartella `data/`. 
-
-## Errori tipici
+### Errori tipici
 
 | Sintomo | Causa |
 |:--|:--|
 | "No dataset_description.json found" | Il file è dentro `data/`, oppure avete selezionato la cartella sbagliata, oppure il nome ha una maiuscola o un `.txt` nascosto in coda |
 | Un file di dati non viene riconosciuto | Il nome non segue lo schema chiave-valore, o manca il suffisso `_data.csv` |
-| "Column not found in variableMeasured" | Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti) |
+| "Column not found in variableMeasured" | Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti). variableMeasured` deve contenere l'unione dei nomi di colonna di **tutti** i CSV. |
 | Il JSON non viene letto | Virgola di troppo prima di una parentesi graffa |
-| Le colonne non corrispondono fra file diversi | `variableMeasured` deve contenere l'unione dei nomi di colonna di **tutti** i CSV |
+
 
 ## Quando conviene, e quando no
 
@@ -143,7 +143,6 @@ sottocartella `data/`.
 - Dati sperimentali per singola prova, con molti partecipanti e file simili fra loro
 - Studi multi-sito o longitudinali, dove la struttura si ripete
 - Laboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti
-- Quando si prevede che i dati confluiscano in meta-analisi
 :::
 ::: {.g-col-12 .g-col-md-6 .panel-no}
 **Non è la priorità**
@@ -155,13 +154,13 @@ sottocartella `data/`.
 :::
 :::
 
-::: {.callout-important title="Priorità"}
+::: {.callout-warning title="Priorità"}
 Un dataset con README e data dictionary ben fatti, ma senza standard, è
 **largamente più utile** di un dataset formalmente conforme a Psych-DS ma privo di documentazione. 
 :::
 
 
-### Esempio
+## Esempio
 
 Due partecipanti, dodici prove ciascuno, compito Stroop.
 
@@ -194,5 +193,7 @@ Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è
 [BIDS](https://bids.neuroimaging.io/): molto più prescrittivo, 
 ([validator](https://bids-standard.github.io/bids-validator/), BIDS Apps, fMRIPrep).
 Depositando su OpenNeuro è di fatto obbligatorio.
+
+---
 
 <small>Schema dei nomi dei file adattato dal [sito di BIDS](https://bids.neuroimaging.io/); regole ed esempio di `dataset_description.json` adattati dalla [documentazione di Psych-DS](https://psychds-docs.readthedocs.io/).</small>

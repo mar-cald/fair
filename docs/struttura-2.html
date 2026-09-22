@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Psych-DS – Hands-on Open Science</title>
+<title>Psych-DS – Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd359fb65c84ca3f642640f134c34d0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Hands-on Open Science</span>
+    <span class="navbar-title">Open Science</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Ricerca"></div>
@@ -124,10 +124,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./apertura.html"> 
 <span class="menu-text">Intro</span></a>
@@ -154,8 +150,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Depositare su PsychArchives</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./confronto.html">
+ <span class="dropdown-text">Zenodo o PsychArchives?</span></a>
   </li>  
     </ul>
   </li>
@@ -187,6 +183,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Risorse</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-bug" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bug" role="img" aria-label="Segnala un errore o una correzione">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-bug">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/mar-cald/fair/issues/new?title=Segnalazione&amp;body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20">
+ <span class="dropdown-text">Apri una issue su GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./segnala.html">
+ <span class="dropdown-text">Scrivimi una email</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -202,10 +217,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul class="collapse">
-  <li><a href="#tre-regole-minime" id="toc-tre-regole-minime" class="nav-link active" data-scroll-target="#tre-regole-minime">Tre regole minime</a></li>
+  <li><a href="#requisiti-minimi" id="toc-requisiti-minimi" class="nav-link active" data-scroll-target="#requisiti-minimi">Requisiti minimi</a></li>
   <li><a href="#il-validator" id="toc-il-validator" class="nav-link" data-scroll-target="#il-validator">Il validator</a></li>
-  <li><a href="#errori-tipici" id="toc-errori-tipici" class="nav-link" data-scroll-target="#errori-tipici">Errori tipici</a></li>
   <li><a href="#quando-conviene-e-quando-no" id="toc-quando-conviene-e-quando-no" class="nav-link" data-scroll-target="#quando-conviene-e-quando-no">Quando conviene, e quando no</a></li>
+  <li><a href="#esempio" id="toc-esempio" class="nav-link" data-scroll-target="#esempio">Esempio</a></li>
   <li><a href="#neuroimaging-bids" id="toc-neuroimaging-bids" class="nav-link" data-scroll-target="#neuroimaging-bids">Neuroimaging: BIDS</a></li>
   </ul>
 </nav>
@@ -216,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Psych-DS</h1>
-<p class="subtitle lead">Uno standard per i dati psicologici, come BIDS</p>
+<p class="subtitle lead">BIDS per i dati psicologici</p>
 </div>
 
 
@@ -233,9 +248,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="tre-regole-minime" class="level2">
-<h2 class="anchored" data-anchor-id="tre-regole-minime">Tre regole minime</h2>
-<p>Un dataset Psych-DS valido richiede solo questo:</p>
+<div class="visually-hidden">
+<p>Parole chiave: Psych-DS psychds standard dati comportamentali metadati validator BIDS.</p>
+</div>
+<section id="requisiti-minimi" class="level2">
+<h2 class="anchored" data-anchor-id="requisiti-minimi">Requisiti minimi</h2>
+<p>Un dataset Psych-DS valido richiede:</p>
 <ol type="1">
 <li><strong>Una cartella <code>data/</code></strong> nella radice del progetto, che contiene i file di dati in CSV.</li>
 <li><strong>Un file <code>dataset_description.json</code></strong> nella radice, con esattamente questo nome, accanto a <code>data/</code> e non dentro.</li>
@@ -274,8 +292,8 @@ Subject-01_data.csv
 </div>
 </div>
 </section>
-<section id="il-file-dei-metadati---minimi" class="level3">
-<h3 class="anchored" data-anchor-id="il-file-dei-metadati---minimi">Il file dei metadati - minimi</h3>
+<section id="il-file-dei-metadati" class="level3">
+<h3 class="anchored" data-anchor-id="il-file-dei-metadati">Il file dei metadati</h3>
 <p><code>dataset_description.json</code> usa il vocabolario di <a href="https://schema.org/Dataset">schema.org</a>, lo stesso che i motori di ricerca leggono per indicizzare i dataset. Nella versione minima servono tre campi:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@context"</span><span class="fu">:</span> <span class="st">"https://schema.org/"</span><span class="fu">,</span></span>
@@ -299,8 +317,8 @@ Importante
 </div>
 </div>
 </section>
-<section id="un-passo-in-più-la-descrizione-delle-variabili" class="level3">
-<h3 class="anchored" data-anchor-id="un-passo-in-più-la-descrizione-delle-variabili">Un passo in più: la descrizione delle variabili</h3>
+<section id="dataset_description.json-come-data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="dataset_description.json-come-data-dictionary">dataset_description.json come data-dictionary</h3>
 <p>Nella forma minima <code>variableMeasured</code> è un elenco di nomi. Schema.org permette però di sostituire ogni stringa con un oggetto <code>PropertyValue</code>, e a quel punto il data dictionary vero e proprio entra nei metadati:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="er">"variableMeasured":</span> <span class="ot">[</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
@@ -322,11 +340,9 @@ Importante
 </section>
 <section id="il-validator" class="level2">
 <h2 class="anchored" data-anchor-id="il-validator">Il validator</h2>
-<p><strong><a href="https://psych-ds.github.io/validator/">psych-ds.github.io/validator</a></strong> — si trascina la cartella e si legge il verdetto.</p>
-<p>Va selezionata la <strong>cartella radice</strong> del progetto (<code>stroop-attention/</code>), non la sottocartella <code>data/</code>.</p>
-</section>
-<section id="errori-tipici" class="level2">
-<h2 class="anchored" data-anchor-id="errori-tipici">Errori tipici</h2>
+<p>E’ possibile controllare se si sono seguiti standard caricando la <strong>cartella radice</strong> del progetto (es. <code>stroop-attention/</code>, non <code>stroop-attention/data</code> ) su: <strong><a href="https://psych-ds.github.io/validator/">psych-ds.github.io/validator</a></strong></p>
+<section id="errori-tipici" class="level3">
+<h3 class="anchored" data-anchor-id="errori-tipici">Errori tipici</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -349,18 +365,15 @@ Importante
 </tr>
 <tr class="odd">
 <td style="text-align: left;">“Column not found in variableMeasured”</td>
-<td style="text-align: left;">Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti)</td>
+<td style="text-align: left;">Una colonna dei CSV non è dichiarata nei metadati, oppure è scritta in modo leggermente diverso (spazi, maiuscole, accenti). variableMeasured` deve contenere l’unione dei nomi di colonna di <strong>tutti</strong> i CSV.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Il JSON non viene letto</td>
 <td style="text-align: left;">Virgola di troppo prima di una parentesi graffa</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">Le colonne non corrispondono fra file diversi</td>
-<td style="text-align: left;"><code>variableMeasured</code> deve contenere l’unione dei nomi di colonna di <strong>tutti</strong> i CSV</td>
-</tr>
 </tbody>
 </table>
+</section>
 </section>
 <section id="quando-conviene-e-quando-no" class="level2">
 <h2 class="anchored" data-anchor-id="quando-conviene-e-quando-no">Quando conviene, e quando no</h2>
@@ -371,7 +384,6 @@ Importante
 <li>Dati sperimentali per singola prova, con molti partecipanti e file simili fra loro</li>
 <li>Studi multi-sito o longitudinali, dove la struttura si ripete</li>
 <li>Laboratori che producono molti dataset dello stesso tipo: si scrive uno script di lettura e vale per tutti</li>
-<li>Quando si prevede che i dati confluiscano in meta-analisi</li>
 </ul>
 </div>
 <div class="g-col-12 g-col-md-6 panel-no">
@@ -384,7 +396,7 @@ Importante
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled" title="Priorità">
+<div class="callout callout-style-default callout-warning callout-titled" title="Priorità">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -397,8 +409,9 @@ Priorità
 <p>Un dataset con README e data dictionary ben fatti, ma senza standard, è <strong>largamente più utile</strong> di un dataset formalmente conforme a Psych-DS ma privo di documentazione.</p>
 </div>
 </div>
-<section id="esempio" class="level3">
-<h3 class="anchored" data-anchor-id="esempio">Esempio</h3>
+</section>
+<section id="esempio" class="level2">
+<h2 class="anchored" data-anchor-id="esempio">Esempio</h2>
 <p>Due partecipanti, dodici prove ciascuno, compito Stroop.</p>
 <pre><code>stroop-attention/
 ├── dataset_description.json          obbligatorio, questo nome esatto
@@ -418,10 +431,10 @@ Priorità
 </ul>
 <p>La cartella <code>data/raw/</code> serve a conservare gli export originali nei formati prodotti dai software di acquisizione (<code>.txt</code>, <code>.edat3</code>, <code>.sav</code>, <code>.mat</code>): il validator ne ignora il contenuto.</p>
 </section>
-</section>
 <section id="neuroimaging-bids" class="level2">
 <h2 class="anchored" data-anchor-id="neuroimaging-bids">Neuroimaging: BIDS</h2>
 <p>Se lavorate con MRI, EEG, MEG o fNIRS, lo standard è <a href="https://bids.neuroimaging.io/">BIDS</a>: molto più prescrittivo, (<a href="https://bids-standard.github.io/bids-validator/">validator</a>, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.</p>
+<hr>
 <p><small>Schema dei nomi dei file adattato dal <a href="https://bids.neuroimaging.io/">sito di BIDS</a>; regole ed esempio di <code>dataset_description.json</code> adattati dalla <a href="https://psychds-docs.readthedocs.io/">documentazione di Psych-DS</a>.</small></p>
 
 
@@ -836,7 +849,7 @@ Priorità
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova</p>
+<p>Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Dove archiviare – Hands-on Open Science</title>
+<title>Dove archiviare – Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd359fb65c84ca3f642640f134c34d0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Hands-on Open Science</span>
+    <span class="navbar-title">Open Science</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Ricerca"></div>
@@ -89,10 +89,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./apertura.html"> 
 <span class="menu-text">Intro</span></a>
@@ -119,8 +115,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Depositare su PsychArchives</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./confronto.html">
+ <span class="dropdown-text">Zenodo o PsychArchives?</span></a>
   </li>  
     </ul>
   </li>
@@ -152,6 +148,25 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Risorse</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-bug" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bug" role="img" aria-label="Segnala un errore o una correzione">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-bug">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/mar-cald/fair/issues/new?title=Segnalazione&amp;body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20">
+ <span class="dropdown-text">Apri una issue su GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./segnala.html">
+ <span class="dropdown-text">Scrivimi una email</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -170,7 +185,6 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#repository-generalisti" id="toc-repository-generalisti" class="nav-link active" data-scroll-target="#repository-generalisti">Repository generalisti</a></li>
   <li><a href="#repository-disciplinari-per-la-psicologia" id="toc-repository-disciplinari-per-la-psicologia" class="nav-link" data-scroll-target="#repository-disciplinari-per-la-psicologia">Repository disciplinari per la psicologia</a></li>
   <li><a href="#dati-che-non-si-possono-aprire" id="toc-dati-che-non-si-possono-aprire" class="nav-link" data-scroll-target="#dati-che-non-si-possono-aprire">Dati che non si possono aprire</a></li>
-  <li><a href="#come-si-sceglie-una-repository" id="toc-come-si-sceglie-una-repository" class="nav-link" data-scroll-target="#come-si-sceglie-una-repository">Come si sceglie una repository</a></li>
   </ul>
 </nav>
     </div>
@@ -197,7 +211,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Nessun singolo servizio sostituisce OSF, perché OSF faceva tre mestieri diversi.</p>
+<div class="visually-hidden">
+<p>Parole chiave: dove depositare archivio caricare pubblicare mettere Dataverse Dryad Figshare OpenNeuro; dati personali sensibili anonimizzare anonimizzazione privacy consenso identificabili accesso ristretto restricted riservati; limiti limite spazio quota GB capienza dimensione peso.</p>
+</div>
 <div class="grid">
 <div class="g-col-12 g-col-md-4 scheda">
 <p><strong>1. Dove si lavora</strong></p>
@@ -214,17 +230,20 @@ ul.task-list li input[type="checkbox"] {
 <p>Nessuno strumento, collega automaticamente preregistrazione, dati, codice e articolo. I collegamenti esistono solo se ogni documento indica dove si trovano gli altri.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Importante">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-default callout-important callout-titled" title="GitHub non è un archivio">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Importante
+GitHub non è un archivio
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>GitHub non è un archivio</strong> (i repository si possono cancellare o riscrivere in qualsiasi momento, non c’è DOI, non c’è garanzia di conservazione). Va benissimo per lavorare, purché al momento della pubblicazione si depositi anche in un repository “vero”.</p>
+</div>
 </div>
 </div>
 <section id="repository-generalisti" class="level2">
@@ -243,7 +262,7 @@ Importante
 <td style="text-align: left;"><strong><a href="https://zenodo.org/">Zenodo</a></strong></td>
 <td style="text-align: left;">CERN, con finanziamenti UE</td>
 <td style="text-align: left;"><strong>50 GB</strong> per singolo record (max 100 files) <a href="https://support.zenodo.org/help/en-gb/1-upload-deposit/80-what-are-the-size-limitations-of-zenodo">Altre info</a></td>
-<td style="text-align: left;">Accetta diversi tipi di file, gestisce versioni, <a href="./zenodo.html#da-github-a-zenodo-un-doi-a-ogni-release">integrazione automatica con GitHub</a>, accesso aperto/embargo/ristretto/chiuso, <a href="https://help.zenodo.org/docs/communities/about-communities/">“communities”</a> per raccogliere i prodotti di un progetto o di un laboratorio.</td>
+<td style="text-align: left;">Accetta diversi tipi di file, gestisce versioni, <a href="./zenodo.html#da-github-a-zenodo">integrazione automatica con GitHub</a>, accesso aperto/embargo/ristretto/chiuso, <a href="https://help.zenodo.org/docs/communities/about-communities/">“communities”</a> per raccogliere i prodotti di un progetto o di un laboratorio.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><a href="https://researchdata.cab.unipd.it/">Research Data Unipd</a></strong></td>
@@ -252,22 +271,16 @@ Importante
 <td style="text-align: left;">Requisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong><a href="https://dataverse.harvard.edu/">Harvard Dataverse</a></strong></td>
-<td style="text-align: left;">Infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>2,5 GB per singolo file</strong> <a href="https://support.dataverse.harvard.edu/researchers">Altre info</a></td>
-<td style="text-align: left;">Estrae automaticamente le variabili e genera un codebook.</td>
+<td style="text-align: left;"><strong><a href="https://datadryad.org/">Dryad</a></strong></td>
+<td style="text-align: left;">no-profit organization</td>
+<td style="text-align: left;"><strong>10GB per file</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
+<td style="text-align: left;"><strong>Curation umana</strong>, il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong><a href="https://datadryad.org/">Dryad</a></strong></td>
-<td style="text-align: left;">Non profit, infrastrutture statunitensi</td>
-<td style="text-align: left;"><strong>10GB per file</strong>, di più su richiesta. <a href="https://datadryad.org/help/requirements/files">Altre info</a></td>
-<td style="text-align: left;">Quando serve <strong>curation umana</strong>: il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;"><strong><a href="https://figshare.com/">Figshare</a></strong></td>
 <td style="text-align: left;">Digital Science (commerciale)</td>
 <td style="text-align: left;"><strong>20 GB</strong> per record; <a href="https://info.figshare.com/user-guide/account-limits/">altre info</a></td>
-<td style="text-align: left;">Infrastrutture statunitensi, europee nel caso di accordi con l’università.</td>
+<td style="text-align: left;">Infrastrutture statunitensi (Amazon Web Services), europee nel caso di accordi con l’università.</td>
 </tr>
 </tbody>
 </table>
@@ -289,7 +302,7 @@ Importante
 <td style="text-align: left;"><strong><a href="https://www.psycharchives.org/">PsychArchives</a></strong> (ZPID, Leibniz Institute for Psychology)</td>
 <td style="text-align: left;">Circa venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali</td>
 <td style="text-align: left;"><strong>1 GB per oggetto</strong>, gratuito.</td>
-<td style="text-align: left;">Gratuito, oggetti dello stesso studio collegati fra loro. Infrastruttura tedesca. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
+<td style="text-align: left;">Gratuito, oggetti dello stesso studio collegati fra loro. Offre anche <a href="./licenze.html#uso-scientifico">licenze per solo uso scientifico</a>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><a href="https://openneuro.org/">OpenNeuro</a></strong></td>
@@ -299,31 +312,16 @@ Importante
 </tr>
 </tbody>
 </table>
+<p>Per cercare in modo sistematico, repository disciplinari e non: <a href="https://www.re3data.org/">re3data.org</a>.</p>
 </section>
 <section id="dati-che-non-si-possono-aprire" class="level2">
 <h2 class="anchored" data-anchor-id="dati-che-non-si-possono-aprire">Dati che non si possono aprire</h2>
-<p>Se i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili, in ordine di preferenza:</p>
+<p>Se i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili:</p>
 <ol type="1">
-<li><strong>Deposito ad accesso ristretto</strong> con procedura di richiesta documentata (Zenodo <em>restricted</em>).</li>
-<li><strong>Metadati pubblici e dati su richiesta formalizzata</strong>.</li>
-<li><strong>Dataset derivato</strong>: pubblicare aggregati, sufficient statistics.</li>
+<li><strong>Metadati pubblici e deposito ad accesso ristretto</strong> con procedura di richiesta documentata.</li>
+<li><strong>Dataset derivato</strong>: pubblicare aggregati, statistiche sufficienti.</li>
 <li><strong>Dati sintetici</strong> che riproducono la struttura del dataset reale.</li>
 </ol>
-</section>
-<section id="come-si-sceglie-una-repository" class="level2">
-<h2 class="anchored" data-anchor-id="come-si-sceglie-una-repository">Come si sceglie una repository</h2>
-<p>Domande da porsi, in ordine di importanza:</p>
-<ol type="1">
-<li><strong>Il mio finanziatore o la mia rivista impongono qualcosa?</strong></li>
-<li><strong>Esiste un repository disciplinare per questo tipo di dato?</strong> Se sì, di solito è preferibile a uno generalista.</li>
-<li><strong>Rilascia un identificatore persistente</strong> e garantisce conservazione a lungo termine?</li>
-<li><strong>Supporta il livello di accesso che mi serve?</strong> Aperto, embargo, ristretto con approvazione.</li>
-<li><strong>Consente il versionamento?</strong> Perché i dati possono cambiare anche dopo la pubblicazione.</li>
-<li><strong>Dove sono fisicamente i dati?</strong> Rilevante per dati personali e GDPR.</li>
-<li><strong>Quanto costa, e chi paga?</strong></li>
-</ol>
-<p>Per cercare in modo sistematico: <a href="https://www.re3data.org/">re3data.org</a> è il registro internazionale dei repository di dati.</p>
-<hr>
 
 
 </section>
@@ -737,7 +735,7 @@ Importante
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova</p>
+<p>Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

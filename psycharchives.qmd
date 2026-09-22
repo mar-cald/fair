@@ -3,6 +3,10 @@ title: "Depositare su PsychArchives"
 subtitle: "Le scelte da fare durante il deposito"
 ---
 
+::: {.visually-hidden}
+Parole chiave: reviewer link revisione anonima peer review; scientific use file uso scientifico; DRO bundle invio oggetti tipi sharing level condivisione.
+:::
+
 [PsychArchives](https://www.psycharchives.org/) è il repository disciplinare della
 psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita
 tramite il [PsychArchives Submission Assistant](https://pasa.psycharchives.org),
@@ -71,17 +75,4 @@ il contenuto sia adatto al repository e che i metadati siano completi. Di solito
   aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.
 - I **riferimenti dell'articolo** collegato si possono aggiungere ai metadati in
   qualsiasi momento, senza creare una nuova versione.
-
-## PsychArchives e Zenodo a confronto
-
-| | Zenodo | PsychArchives |
-|:--|:--|:--|
-| **Ambito** | Generalista | Psicologia e discipline vicine |
-| **Spazio** | 50 GB per record | 1 GB per oggetto |
-| **Un progetto si deposita come** | Uno zip, oppure più record collegati | Un unico invio (bundle) con più oggetti, uno per tipo, collegati fra loro |
-| **Controllo prima della pubblicazione** | Nessuno sul contenuto, salvo nelle community con revisione | Controllo formale dello staff, di solito entro due giorni lavorativi |
-| **Condividere prima di pubblicare** | Link segreto sulla bozza; l'anonimizzazione è a mano | Reviewer link, anonimizzato di default |
-| **Correzioni dopo la pubblicazione** | In autonomia, entro 30 giorni | Su richiesta, entro una settimana |
-| **Licenze** | Qualsiasi; di default CC BY 4.0 | CC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD |
-
 

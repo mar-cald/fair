@@ -1,0 +1,18 @@
+---
+title: "Segnalare un errore o una correzione"
+---
+
+Hai trovato un refuso, un link che non funziona o qualcosa da correggere?
+Ogni segnalazione è utile, grazie.
+
+## Scrivimi una email
+
+Indirizzo: **margherita.calderan@unipd.it**
+
+Nella mail indica:
+
+- **la pagina** dove hai notato il problema (il titolo, oppure l'indirizzo che
+  vedi nella barra del browser);
+- **cosa hai notato** e, se ti va, come lo correggeresti.
+
+

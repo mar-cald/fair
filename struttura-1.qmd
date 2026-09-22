@@ -2,6 +2,10 @@
 title: "README e Data dictionary"
 ---
 
+::: {.visually-hidden}
+Parole chiave: nomi file cartelle naming spazi accenti convenzione rinominare; formato CSV xlsx Excel sav SPSS mat proprietario aperto TXT JSON; struttura raw grezzi scripts output alberatura; README leggimi documentare documentazione; data dictionary codebook colonne variabili unità codifica significato.
+:::
+
 
 ## Dati, nomi e formati
 
@@ -41,9 +45,8 @@ demographics.csv
 
 ### In che formato salvarli
 
-Un formato **proprietario** (`.xlsx`, `.sav` di SPSS, `.mat` di MATLAB) si apre
-solo con il programma che l'ha creato: bisogna averlo, spesso a pagamento, e non
-è detto che fra dieci anni esista ancora o legga i file di oggi. Un formato
+Un formato **proprietario** (`.xlsx`, `.mat`) si apre
+solo con il programma che l'ha creato: bisogna averlo, spesso a pagamento. Un formato
 **aperto** e testuale (`.csv`, `.tsv`, `.txt`, `.json`) si apre con qualunque
 strumento e si legge anche a occhio.
 
@@ -52,23 +55,20 @@ strumento e si legge anche a occhio.
 **No**
 
 - `dati.xlsx` (Excel)
-- `dati.sav` (SPSS)
 - `codebook.docx`
 :::
 ::: {.g-col-12 .g-col-md-6 .panel-si}
 **Sì**
 
 - `dati.csv`
-- `dati.csv` + `dati_dictionary.csv`
-- `codebook.txt` o `README.md`
+- `dati_dictionary.csv`, `codebook.txt`
+- `README.txt` o `README.md`
 :::
 :::
 
-L'export originale dello strumento (per esempio il `.sav` che esce dal software
-del questionario) si tiene in `data/raw/` come sola lettura; accanto si salva la
-versione in formato aperto, che è quella che si documenta e si deposita.
+L'export originale dello strumento si tiene in `data/raw/` come sola lettura; accanto si salva la versione in formato aperto.
 
-## La struttura
+## Struttura
 
 ```
 progetto/
@@ -90,21 +90,20 @@ progetto/
 ```
 
 
-### Che cos'è un README
+## README
 
 È il file che risponde alle domande che una persona si fa **prima** di poter usare
-qualunque altra cosa ci sia nella cartella. Va scritto pensando a un destinatario
-preciso: qualcuno competente del vostro settore, che però non sa niente di questo
-studio e non può scrivervi.
+qualunque altra cosa ci sia nella cartella. 
 
-Sta nella root del progetto/cartella, si chiama `README.md` ed è in
-[Markdown](https://www.markdownguide.org/basic-syntax/) o `.txt` 
+Sta nella root del progetto/cartella ed è in
+[Markdown](https://www.markdownguide.org/basic-syntax/) o `.txt`.
+
 
 | Sezione | Risponde a |
 |:--|:-----|
 | Titolo e autori (con ORCID) | Di chi è questo lavoro, e a chi scrivo se qualcosa non torna |
-| Di cosa si tratta | Che studio è, che disegno, chi sono i partecipanti, quando sono stati raccolti i dati |
-| Contenuto dei file | Cosa c'è nella cartella, file per file, e qual è l'unità di osservazione |
+| Di cosa si tratta | Che studio è, quando sono stati raccolti i dati |
+| Contenuto dei file | Cosa c'è nella cartella, file per file |
 | Come leggere i dati | Cosa mi serve per accedere ai dati? |
 | Come riprodurre | In che ordine girano gli script, con che software, cosa producono |
 | Licenza | A quali condizioni si può riusare, e cosa vale per cosa |
@@ -112,11 +111,11 @@ Sta nella root del progetto/cartella, si chiama `README.md` ed è in
 | Materiali collegati | DOI dell'articolo, della preregistrazione, del codice |
 
 
-## Che cos'è un data dictionary
+## Data dictionary
 
 Il README descrive il progetto. Il data dictionary descrive **ogni singola
 colonna** dei vostri dati: una riga per variabile, in un file a parte
-(`<nome_dataset>_dictionary.csv`).
+(`<nome-dataset>_dictionary.csv`). Per esempio:
 
 | Colonna | Cosa ci va | Esempio |
 |:--|:--|:--|
@@ -126,21 +125,7 @@ colonna** dei vostri dati: una riga per variabile, in un file a parte
 | `unit` | Unità di misura. Vuoto se non ne ha | milliseconds |
 | `allowed_values` | Intervallo o elenco dei valori possibili | 200-2000 |
 | `coding` | Il significato di ogni codice, per le categoriali | 1 = Psicologia; 2 = Economia |
-| `missing_values` | Come sono rappresentati, e se si sa perché mancano | cella vuota |
+| `missing_values` | Come sono rappresentati | cella vuota o NA? |
 | `source` | Da dove viene il dato: strumento, questionario, calcolo | PsychoPy |
 | `notes` | Decisioni prese, anomalie, avvertenze | ... |
-
-## La licenza
-
-
-| Componente | Licenza |
-|:--|:--|
-| Dati (`data/`) | **CC0-1.0**, oppure CC-BY-4.0 se preferite l'obbligo di attribuzione |
-| Codice (`scripts/`) | **GPL-3.0** |
-| Testi e materiali vostri | **CC-BY-4.0** |
-| Strumenti di terzi (test, questionari commerciali) | Nessuna: **non si depositano**, si citano |
-
-
-
-
 

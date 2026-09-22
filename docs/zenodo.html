@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Depositare su Zenodo – Hands-on Open Science</title>
+<title>Depositare su Zenodo – Open Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd359fb65c84ca3f642640f134c34d0e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Hands-on Open Science</span>
+    <span class="navbar-title">Open Science</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Ricerca"></div>
@@ -89,10 +89,6 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./apertura.html"> 
 <span class="menu-text">Intro</span></a>
@@ -119,8 +115,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Depositare su PsychArchives</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./versioni.html">
- <span class="dropdown-text">Versioni e correzioni</span></a>
+    <a class="dropdown-item" href="./confronto.html">
+ <span class="dropdown-text">Zenodo o PsychArchives?</span></a>
   </li>  
     </ul>
   </li>
@@ -152,6 +148,25 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Risorse</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-bug" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bug" role="img" aria-label="Segnala un errore o una correzione">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-bug">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/mar-cald/fair/issues/new?title=Segnalazione&amp;body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20">
+ <span class="dropdown-text">Apri una issue su GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./segnala.html">
+ <span class="dropdown-text">Scrivimi una email</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -167,12 +182,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul class="collapse">
-  <li><a href="#caricare-unintera-cartella" id="toc-caricare-unintera-cartella" class="nav-link active" data-scroll-target="#caricare-unintera-cartella">Caricare un’intera cartella</a></li>
-  <li><a href="#il-tipo-di-risorsa" id="toc-il-tipo-di-risorsa" class="nav-link" data-scroll-target="#il-tipo-di-risorsa">Il tipo di risorsa</a></li>
+  <li><a href="#il-tipo-di-risorsa" id="toc-il-tipo-di-risorsa" class="nav-link active" data-scroll-target="#il-tipo-di-risorsa">Il tipo di risorsa</a></li>
   <li><a href="#licenza-e-copyright" id="toc-licenza-e-copyright" class="nav-link" data-scroll-target="#licenza-e-copyright">Licenza e copyright</a></li>
   <li><a href="#condividere-una-bozza-prima-di-pubblicare" id="toc-condividere-una-bozza-prima-di-pubblicare" class="nav-link" data-scroll-target="#condividere-una-bozza-prima-di-pubblicare">Condividere una bozza prima di pubblicare</a></li>
   <li><a href="#lavorare-in-più-persone" id="toc-lavorare-in-più-persone" class="nav-link" data-scroll-target="#lavorare-in-più-persone">Lavorare in più persone</a></li>
-  <li><a href="#da-github-a-zenodo-un-doi-a-ogni-release" id="toc-da-github-a-zenodo-un-doi-a-ogni-release" class="nav-link" data-scroll-target="#da-github-a-zenodo-un-doi-a-ogni-release">Da GitHub a Zenodo: un DOI a ogni release</a></li>
+  <li><a href="#correzioni-e-nuove-versioni" id="toc-correzioni-e-nuove-versioni" class="nav-link" data-scroll-target="#correzioni-e-nuove-versioni">Correzioni e nuove versioni</a></li>
+  <li><a href="#da-github-a-zenodo" id="toc-da-github-a-zenodo" class="nav-link" data-scroll-target="#da-github-a-zenodo">Da GitHub a Zenodo</a></li>
   </ul>
 </nav>
     </div>
@@ -199,24 +214,22 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="caricare-unintera-cartella" class="level2">
-<h2 class="anchored" data-anchor-id="caricare-unintera-cartella">Caricare un’intera cartella</h2>
-<p>Zenodo non gestisce cartelle: i file di un record sono un elenco senza sottocartelle. Per conservare la struttura del progetto (<code>data/</code>, <code>scripts/</code>, <code>output/</code>) si carica un unico archivio <code>.zip</code>, di cui Zenodo mostra il contenuto nell’anteprima. Un record accetta al massimo 100 file, e oltre i 20 Zenodo consiglia comunque di raccoglierli in uno zip.</p>
-<p>Prima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto: alcuni sistemi operativi aggiungono all’archivio file nascosti, che su Zenodo compaiono come file in più.</p>
-</section>
+<div class="visually-hidden">
+<p>Parole chiave: caricare upload zip cartella intera; resource type dataset software tipo risorsa; GitHub DOI release concept versione badge sync integrazione automatica; bozza reviewer secret link peer review revisione anonima; community collaborare coautori insieme; correzioni nuove versioni aggiornare modificare errata.</p>
+</div>
 <section id="il-tipo-di-risorsa" class="level2">
 <h2 class="anchored" data-anchor-id="il-tipo-di-risorsa">Il tipo di risorsa</h2>
 <p>Il campo <em>Resource type</em> è obbligatorio e incide sulla reperibilità: alcuni sistemi di ricerca indicizzano da Zenodo solo pubblicazioni, dataset e software. Per un’intera cartella di progetto Zenodo indica <a href="https://help.zenodo.org/docs/deposit/describe-records/resource-type">due strade</a>:</p>
 <ul>
-<li><strong>un solo record</strong>, con il tipo che descrive il contributo principale: di solito <em>Dataset</em>, quando gli script servono solo a elaborare i dati;</li>
-<li><strong>più record, uno per tipo</strong>, quando dati e codice sono ciascuno un contributo a sé: un record <em>Dataset</em> per i dati e uno <em>Software</em> per il codice, collegati fra loro nel campo <em>Related works</em>.</li>
+<li><p><strong>un solo record</strong>, con il tipo che descrive il contributo principale: di solito <em>Dataset</em>, quando gli script servono solo a elaborare i dati. Per conservare la struttura del progetto (<code>data/</code>, <code>scripts/</code>, <code>output/</code>) si carica un unico file <code>.zip</code>, di cui Zenodo mostra il contenuto nell’anteprima. Prima di caricarlo, aprite lo zip e controllate che contenga solo i file del progetto (alcuni sistemi operativi aggiungono file nascosti).</p></li>
+<li><p><strong>più record, uno per tipo</strong>, quando dati e codice sono ciascuno un contributo a sé: un record <em>Dataset</em> per i dati e uno <em>Software</em> per il codice, collegati fra loro nel campo <em>Related works</em>.</p></li>
 </ul>
-<p>Il tipo <em>Other</em> non dice che cosa contiene il record, e i sistemi che raccolgono solo alcuni tipi non lo indicizzano.</p>
 </section>
 <section id="licenza-e-copyright" class="level2">
 <h2 class="anchored" data-anchor-id="licenza-e-copyright">Licenza e copyright</h2>
+<p>Il campo <em>Copyright</em> serve a dichiarare <strong>chi detiene i diritti</strong>, mentre la <em>License</em> dice <strong>che cosa possono farne gli altri</strong>.</p>
 <p>Il campo <em>License</em> è obbligatorio e <strong>di default è impostato su CC BY 4.0</strong>: se per i dati avete scelto <a href="./licenze.html">CC0</a>, va cambiato. Nello stesso record si possono indicare più licenze, per esempio CC0 per i dati e MIT per il codice.</p>
-<p>Il campo <em>Copyright</em> ha un’altra funzione: dichiara <strong>chi detiene i diritti</strong>, mentre la licenza dice <strong>che cosa possono farne gli altri</strong>. Si compila con una riga come “© 2026 Nome Cognome”, o con il nome dell’ente quando i diritti appartengono all’università o a un editore.</p>
+<p>Il campo <em>Copyright</em> si compila con una riga come “© 2026 Nome Cognome”, o con il nome dell’ente quando i diritti appartengono all’università o a un editore.</p>
 </section>
 <section id="condividere-una-bozza-prima-di-pubblicare" class="level2">
 <h2 class="anchored" data-anchor-id="condividere-una-bozza-prima-di-pubblicare">Condividere una bozza prima di pubblicare</h2>
@@ -228,74 +241,42 @@ ul.task-list li input[type="checkbox"] {
 <li>Se serve, impostate una data di scadenza del link.</li>
 </ol>
 <p>Il link funziona anche per chi non ha un account Zenodo, e non rivela a nessuno chi lo apre (<a href="https://help.zenodo.org/docs/share/link-sharing">documentazione</a>).</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Per una revisione in cieco l'anonimizzazione è a carico vostro">
+<div class="callout callout-style-default callout-important callout-titled" title="Double-blind peer-review">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Per una revisione in cieco l’anonimizzazione è a carico vostro
+Double-blind peer-review
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Il link protegge l’identità di chi revisiona, non la vostra: l’anteprima mostra la pagina del record come sarà pubblicata, autori compresi. Se i revisori non devono sapere chi siete, sostituite gli autori della bozza con “un nome segnaposto”anonymous” e togliete i riferimenti a voi dal contenuto dei file (README, intestazioni degli script, percorsi come <code>/Users/nome/...</code>). Prima di pubblicare, rimettete i nomi.</p>
+<p>Il link protegge l’identità di chi revisiona, non la vostra: l’anteprima mostra la pagina del record come sarà pubblicata, autori compresi. Se i revisori non devono sapere chi siete, sostituite gli autori della bozza con “anonymous” e togliete i riferimenti a voi dal contenuto dei file (README, intestazioni degli script, percorsi come <code>/Users/nome/...</code>). Prima di pubblicare, rimettete i nomi.</p>
 </div>
 </div>
 </section>
 <section id="lavorare-in-più-persone" class="level2">
 <h2 class="anchored" data-anchor-id="lavorare-in-più-persone">Lavorare in più persone</h2>
 <p><strong>Sulla stessa bozza.</strong> Con <em>Share</em> si può condividere la bozza con un altro utente Zenodo. Con il permesso <em>Can edit</em> può compilare i metadati e aggiungere file insieme a voi.</p>
-<p><strong>Su un intero progetto: le community.</strong> Una <a href="https://help.zenodo.org/docs/communities/about-communities">community</a> è uno spazio che raccoglie i record di un progetto, di un laboratorio o di un convegno. Ha membri con ruoli diversi (<em>Reader</em>, <em>Curator</em>, <em>Manager</em>, <em>Owner</em>): i curatori esaminano i record proposti, possono modificarne i metadati e decidono se accettarli.</p>
-<section id="community-e-progetti-osf" class="level3">
-<h3 class="anchored" data-anchor-id="community-e-progetti-osf">Community e progetti OSF</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">Progetto OSF</th>
-<th style="text-align: left;">Community Zenodo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><strong>Contenuto</strong></td>
-<td style="text-align: left;">File di lavoro</td>
-<td style="text-align: left;">Record pubblicati, ciascuno con il suo DOI</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Scopo</strong></td>
-<td style="text-align: left;">Lavorare insieme mentre lo studio è in corso</td>
-<td style="text-align: left;">Raccogliere in una pagina gli output di un progetto o di un gruppo</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>Partecipanti</strong></td>
-<td style="text-align: left;">Collaboratori con permesso di lettura o di scrittura</td>
-<td style="text-align: left;">Membri con ruolo di lettore, curatore, gestore o proprietario</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><strong>Modifiche ai file</strong></td>
-<td style="text-align: left;">In qualsiasi momento</td>
-<td style="text-align: left;">Entro 30 giorni dalla pubblicazione; poi si crea una nuova versione</td>
-</tr>
-</tbody>
-</table>
-<p>Una community somiglia a un progetto OSF come pagina indice: un unico posto dove trovare dati, codice e materiali di uno studio. Non lo sostituisce come spazio di lavoro, perché raccoglie solo record già depositati; per lavorare insieme restano GitHub o le cartelle condivise di ateneo.</p>
-<p>Inoltre, far parte della stessa community non collega i record fra loro nei metadati: per quello servono sempre i campi <em>related identifiers</em> di ciascun record.</p>
+<p><strong>Su un intero progetto: le community.</strong> Una <a href="https://help.zenodo.org/docs/communities/about-communities">community</a> è uno spazio che raccoglie i record di un progetto o di un laboratorio (o altro). Può avere membri con ruoli diversi (<em>Reader</em>, <em>Curator</em>, <em>Manager</em>, <em>Owner</em>).</p>
 </section>
+<section id="correzioni-e-nuove-versioni" class="level2">
+<h2 class="anchored" data-anchor-id="correzioni-e-nuove-versioni">Correzioni e nuove versioni</h2>
+<ul>
+<li><strong>Entro 30 giorni</strong> dalla pubblicazione si possono modificare i file <strong>in autonomia</strong>, dall’interfaccia, mantenendo lo stesso DOI e senza creare una nuova versione.</li>
+<li><strong>Dopo i 30 giorni</strong> la modifica diretta è ammessa solo in casi giustificati (per esempio una violazione di copyright o dati personali esposti) e su richiesta motivata; per tutto il resto si pubblica una <strong>nuova versione</strong>.</li>
+<li>I <strong>metadati</strong> (titolo, autori, descrizione, licenza) si correggono in qualsiasi momento con il pulsante <em>Edit</em>, senza creare una nuova versione.</li>
+</ul>
+<p>Ogni nuova versione riceve un proprio DOI, mentre il <em>concept DOI</em> continua a rimandare alla più recente.</p>
 </section>
-<section id="da-github-a-zenodo-un-doi-a-ogni-release" class="level2">
-<h2 class="anchored" data-anchor-id="da-github-a-zenodo-un-doi-a-ogni-release">Da GitHub a Zenodo: un DOI a ogni release</h2>
-<p>Se il codice del progetto sta su GitHub, non serve ricaricarlo a mano a ogni modifica: Zenodo può archiviarlo da solo. Si collega una volta sola, poi funziona in automatico.</p>
+<section id="da-github-a-zenodo" class="level2">
+<h2 class="anchored" data-anchor-id="da-github-a-zenodo">Da GitHub a Zenodo</h2>
+<p>Se il codice o l’intero progetto sta su GitHub, Zenodo può archiviarlo da solo.</p>
 <ol type="1">
 <li>In Zenodo, dal menu del profilo si apre <strong>GitHub</strong> e si collega l’account (comodo se ci si è iscritti con ORCID).</li>
-<li>Si preme <strong>Sync</strong> e si attiva l’interruttore accanto al repository. <em>Deve essere pubblico su GitHub</em>: i repository privati non compaiono.</li>
+<li>Si preme <strong>Sync</strong> e si attiva l’interruttore accanto il repository. <em>Deve essere pubblico su GitHub</em>, i repository privati non compaiono.</li>
 <li>Su GitHub si crea una <strong>release</strong> con un tag di versione (per convenzione <code>v1.0.0</code>).</li>
-<li>Zenodo archivia quella release e le assegna un DOI. Ogni release successiva riceve <strong>un DOI proprio</strong>, mentre un <strong>concept DOI</strong> unico rimanda sempre all’ultima versione: nell’articolo si cita quello.</li>
+<li>Zenodo archivia quella release e le assegna un DOI. Ogni release successiva riceve <strong>un DOI proprio</strong>, mentre un <strong>concept DOI</strong> unico rimanda sempre all’ultima versione (nell’articolo si cita quello).</li>
 </ol>
 <p><small>Testo adattato da Johnson, E. (2026). <em>Linking GitHub to Zenodo — generating DOIs and adding to communities</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.20428659">10.5281/zenodo.20428659</a>, che mostra ogni passaggio con le schermate.</small></p>
 
@@ -711,7 +692,7 @@ Per una revisione in cieco l’anonimizzazione è a carico vostro
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Hands-on del 23 settembre 2026 — Margherita Calderan Dipartimento di Psicologia Generale, Università di Padova</p>
+<p>Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
