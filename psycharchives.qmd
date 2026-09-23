@@ -16,7 +16,7 @@ dedicato scrivendo a psycharchives-submission@leibniz-psychology.org.
 
 ## Un progetto, più oggetti
 
-PsychArchives chiama ogni deposito *digital research object* (DRO) e ne distingue
+PsychArchives chiama ogni deposito **digital research object** (DRO) e ne distingue
 una ventina di tipi, fra cui *Research Data*, *Code*, *Preprint*, *Article*,
 *Preregistration*, *Test*, *Course Material*, *Report*, *Image*, *Sound* e
 *Moving Image*.
@@ -30,9 +30,7 @@ con la relativa licenza e i suoi metadati; gli oggetti dello stesso invio
 restano collegati fra loro.
 
 Le linee guida chiedono formati aperti e adatti alla conservazione a lungo
-termine, come CSV per i dati e PDF/A per i documenti. Sugli archivi zip non
-dicono nulla: prima di depositare una cartella compressa conviene chiedere alla
-mail delle submission.
+termine, come CSV per i dati e PDF/A per i documenti. 
 
 ## Livello di condivisione e licenza
 

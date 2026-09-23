@@ -124,7 +124,7 @@ Salvare i dati in **formati aperti** (CSV invece di .xlsx). Un file che si apre 
 
 **Dichiarare la [licenza](licenze.qmd).** In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.
 
-**Indicare la provenienza** nel README: come sono stati raccolti e trattati i dati (e.g., "raccolti in laboratorio fra marzo").
+**Indicare la provenienza** nel README: come sono stati raccolti e trattati i dati (e.g., "raccolti in laboratorio fra marzo e luglio 2025").
 
 **Seguire gli standard della disciplina**, se esistono:
 [BIDS](https://bids.neuroimaging.io/) per il neuroimaging,
