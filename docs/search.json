@@ -88,7 +88,14 @@
     "href": "risorse.html",
     "title": "Risorse e checklist",
     "section": "",
-    "text": "Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni."
+    "text": "Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni; pdf vademecum scaricare stampare."
+  },
+  {
+    "objectID": "risorse.html#da-scaricare",
+    "href": "risorse.html#da-scaricare",
+    "title": "Risorse e checklist",
+    "section": "Da scaricare",
+    "text": "Da scaricare\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo)."
   },
   {
     "objectID": "risorse.html#checklist-prima-di-depositare",
@@ -284,7 +291,7 @@
     "href": "index.html",
     "title": "Strumenti per una gestione FAIR",
     "section": "",
-    "text": "Dove mettere dati, codice e materiali, e cosa allegarci.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff"
+    "text": "Vademecum\n\n\n\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo).\n\n\nDove mettere dati, codice e materiali, e cosa allegarci.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff"
   },
   {
     "objectID": "ma.html",

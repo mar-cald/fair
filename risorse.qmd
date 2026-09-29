@@ -4,9 +4,12 @@ subtitle: "Cosa controllare, dove cercare"
 ---
 
 ::: {.visually-hidden}
-Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni.
+Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni; pdf vademecum scaricare stampare.
 :::
 
+## Da scaricare
+
+[**Vademecum FAIR**](booklet/vademecum.pdf) (PDF, 8 pagine): l'essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo).
 
 ## Checklist prima di depositare
 

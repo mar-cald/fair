@@ -1,0 +1,568 @@
+---
+# Vademecum FAIR — l'essenziale del sito in PDF (A4 orizzontale), rimanda al sito.
+# Rendi con:  quarto render vademecum.qmd   (dalla cartella booklet/)
+# In cima un blocco Typst (copertina, stili, grafiche); sotto, il testo in Markdown.
+# Ogni pagina: testo a sinistra (Markdown), rappresentazione a destra (Typst).
+format:
+  typst:
+    font-paths:
+      - fonts
+    template-partials:
+      - typst-show.typ
+---
+
+````{=typst}
+// ---------------------------------------------------------------------------
+// Colori (gli stessi del sito)
+// ---------------------------------------------------------------------------
+#let acc   = rgb("#8f1f27")
+#let ink   = rgb("#1a1714")
+#let muted = rgb("#5a534b")
+#let rule  = rgb("#c8c1b6")
+#let tint  = rgb("#f7f0ec")
+#let grey  = rgb("#f3f1ee")
+#let okc   = rgb("#2d6a3e")
+
+#set document(title: "Vademecum FAIR", author: "Margherita Calderan")
+
+// A4 orizzontale
+#set page(
+  paper: "a4",
+  flipped: true,
+  margin: (x: 16mm, top: 14mm, bottom: 14mm),
+  footer: context {
+    set text(size: 7.5pt, fill: muted)
+    [Vademecum FAIR · #link("https://mar-cald.github.io/fair/")[mar-cald.github.io/fair]]
+    h(1fr)
+    counter(page).display()
+  },
+)
+
+#set text(font: "Libre Franklin", size: 12pt, fill: ink, lang: "it")
+#set par(leading: 0.6em, spacing: 0.85em, justify: false)
+#set list(indent: 2pt, body-indent: 6pt, spacing: 0.55em, marker: text(fill: acc)[▪])
+#set enum(indent: 2pt, body-indent: 6pt, spacing: 0.55em)
+#set strong(delta: 250)
+
+#show link: set text(fill: acc)
+#show raw: set text(font: "DejaVu Sans Mono", size: 10pt)
+#show raw.where(block: false): box.with(fill: grey, inset: (x: 2.5pt), outset: (y: 2.5pt), radius: 2pt)
+#show raw.where(block: true): set block(fill: grey, inset: 7pt, radius: 3pt, width: 100%)
+
+// Casella della checklist: "☐" nel testo diventa un quadratino rosso
+#show "☐": box(width: 10pt, height: 10pt, stroke: 1pt + acc, radius: 1.5pt, baseline: 1.5pt) + h(3pt)
+
+// Titolo di sezione
+#show heading.where(level: 1): it => block(above: 4pt, below: 12pt)[
+  #set text(size: 21pt, weight: 700, fill: acc)
+  #it.body
+  #v(-7pt)
+  #line(length: 100%, stroke: 1.2pt + acc)
+]
+
+// Tabelle del testo
+#set table(
+  stroke: (x, y) => (
+    top: if y == 0 { 0pt } else { 0.4pt + rule },
+    bottom: 0.8pt + if y == 0 { acc } else { rule },
+  ),
+  inset: (x: 5pt, y: 4.5pt),
+)
+#show table.cell.where(y: 0): set text(weight: 700, size: 10.2pt, fill: acc)
+#show table: set text(size: 10.2pt)
+#show table: set par(justify: false)
+
+// Callout (firma di Quarto, aspetto del sito)
+#let callout(
+  body: [], title: "Callout",
+  background_color: rgb("#dddddd"), icon: none, icon_color: black,
+  body_background_color: white,
+) = block(
+  fill: tint, stroke: (left: 3pt + acc), inset: (x: 11pt, y: 9pt),
+  radius: (right: 3pt), width: 100%, breakable: false,
+)[
+  #if title != none and title != "" { text(weight: 700, fill: acc, size: 12pt, title); v(-2pt) }
+  #body
+]
+
+// Citazioni (> in Markdown): riquadro con filetto rosso
+#show quote.where(block: true): it => block(fill: tint, stroke: (left: 3pt + acc),
+  inset: (x: 11pt, y: 8pt), radius: (right: 3pt), width: 100%)[
+  #set text(style: "italic")
+  #set par(justify: false)
+  #it.body
+]
+
+// ---------------------------------------------------------------------------
+// Pezzi per le rappresentazioni
+// ---------------------------------------------------------------------------
+#let num(n) = box(
+  circle(radius: 10pt, fill: acc, stroke: none,
+    align(center + horizon, text(font: "Libre Franklin", fill: white, weight: 700, size: 10pt, str(n)))),
+  baseline: 4pt,
+)
+#let chip(body, fill: acc) = box(fill: fill, inset: (x: 7pt, y: 3.5pt), radius: 2pt,
+  text(font: "Libre Franklin", fill: white, weight: 700, size: 9.2pt, body))
+#let dot(c) = box(circle(radius: 2.6pt, fill: c))
+#let label(body) = block(below: 6pt)[
+  #text(size: 8.8pt, weight: 700, fill: muted, tracking: 0.06em, upper(body))
+  #v(-4pt)
+  #line(length: 100%, stroke: 0.5pt + rule)
+]
+// Finestra di un file (barra con nome + contenuto)
+#let filecard(name, body) = block(width: 100%, stroke: 0.7pt + rule, radius: 4pt, clip: true, breakable: false)[
+  #block(fill: grey, width: 100%, inset: (x: 8pt, y: 5pt), below: 0pt)[
+    #dot(rgb("#e26b5f")) #h(1pt) #dot(rgb("#e8b64c")) #h(1pt) #dot(rgb("#6fb35f")) #h(6pt)
+    #text(font: "DejaVu Sans Mono", size: 9pt, fill: muted, name)
+  ]
+  #block(inset: 10pt, width: 100%, above: 0pt)[#body]
+]
+// Tessera FAIR
+#let fair-tile(letter, en, it, repo, you, ref) = block(fill: tint, radius: 3pt, inset: 12pt, width: 100%, height: 100%)[
+  #set par(justify: false)
+  #grid(columns: (auto, 1fr), column-gutter: 9pt, align: horizon,
+    text(size: 36pt, weight: 800, fill: acc, letter),
+    [#text(weight: 700, size: 12pt, en) \ #text(size: 9.8pt, fill: muted, it)],
+  )
+  #v(5pt)
+  #set text(size: 10.2pt)
+  #if repo != none [
+    #text(weight: 700)[Repository:] #repo \
+  ]
+  #text(weight: 700, fill: acc)[Voi:] #you
+  #place(bottom + right, text(size: 9.5pt, weight: 700, fill: acc, ref))
+]
+// Licenze: cartella → licenza
+#let lic-row(folder, sub, badge, bfill, note) = (
+  block(fill: grey, inset: (x: 8pt, y: 6pt), radius: 3pt, width: 100%)[
+    #text(font: "DejaVu Sans Mono", size: 10pt, weight: "bold", folder) \
+    #text(size: 9.2pt, fill: muted, sub)
+  ],
+  align(center + horizon, text(size: 16pt, fill: acc)[→]),
+  align(left + horizon, box(fill: bfill, inset: (x: 9pt, y: 6pt), radius: 3pt, text(fill: white, weight: 700, size: 11.5pt, badge))),
+  align(left + horizon, text(size: 10.2pt, note)),
+)
+#let lic-place(n, title, body) = block(fill: tint, stroke: (top: 2pt + acc), inset: 8pt, width: 100%, height: 100%)[
+  #text(weight: 700, fill: acc, size: 11pt)[#n · #title] \
+  #text(size: 9.8pt, body)
+]
+// Zenodo: passi collegati da una linea
+#let zstep(n, title, body) = (
+  num(n),
+  [#text(weight: 700, size: 11pt, title) #h(5pt) #text(size: 10pt, fill: muted, body)],
+)
+#let zlink = (align(center, line(angle: 90deg, length: 9pt, stroke: 1.2pt + acc)), [])
+
+// ===========================================================================
+// COPERTINA (orizzontale, due pannelli)
+// ===========================================================================
+#page(margin: 0pt, footer: none)[
+  #grid(columns: (1.08fr, 1fr), rows: (1fr,),
+    block(fill: acc, width: 100%, height: 100%, inset: (x: 18mm, y: 17mm))[
+      #set text(fill: white, hyphenate: false)
+      #set par(justify: false)
+      #text(size: 8.5pt, weight: 600, tracking: 0.12em)[HANDS-ON OPEN SCIENCE · UNIVERSITÀ DI PADOVA]
+      #v(1fr)
+      #block[
+        #set par(leading: 0.18em)
+        #text(size: 46pt, weight: 800, tracking: -0.01em)[Vademecum \ FAIR]
+      ]
+      #v(10pt)
+      #text(size: 14pt, weight: 400)[L'essenziale per condividere dati, codice e materiali.]
+      #v(14pt)
+      #line(length: 26pt, stroke: 1.5pt + white)
+      #v(4pt)
+      #text(size: 13pt, weight: 600)[Margherita Calderan]
+      #v(1fr)
+      #text(size: 7.5pt, weight: 700, fill: white.transparentize(30%), tracking: 0.08em)[UN'INIZIATIVA DELLA]
+      #v(2pt)
+      #text(size: 11pt, weight: 700)[Sottocommissione Open Science]
+      #v(2pt)
+      #set text(size: 9pt)
+      #set par(leading: 0.5em)
+      della Commissione Terza Missione \
+      Dipartimento di Psicologia Generale, Università di Padova
+    ],
+    block(width: 100%, height: 100%, inset: (x: 16mm, y: 17mm))[
+      #set par(justify: false)
+      #set text(hyphenate: false)
+      #label[In questo vademecum]
+      #v(4pt)
+      #set text(size: 10.5pt)
+      #grid(columns: (24pt, 1fr), row-gutter: 9pt, column-gutter: 6pt,
+        num(1), [*Perché FAIR* \ #text(fill: muted)[Cosa vuol dire, e chi lo chiede.]],
+        grid.cell(colspan: 2)[#v(3pt) #text(size: 7.5pt, weight: 700, fill: acc, tracking: 0.08em)[COME ESSERE FAIR, IN PRATICA]],
+        num(2), [*Formati aperti* \ #text(fill: muted)[CSV, non solo Excel.]],
+        num(3), [*README* \ #text(fill: muted)[Cosa c'è nella cartella e come si usa.]],
+        num(4), [*Data dictionary* \ #text(fill: muted)[Cosa significa ogni colonna.]],
+        num(5), [*Licenze* \ #text(fill: muted)[Una per dati, codice e materiali.]],
+        num(6), [*Depositare su Zenodo* \ #text(fill: muted)[Un archivio vero, con un DOI.]],
+        num(7), [*Prima di depositare* \ #text(fill: muted)[Checklist e Data availability statement.]],
+      )
+      #v(1fr)
+      #block(fill: tint, stroke: (left: 3pt + acc), inset: (x: 10pt, y: 8pt), width: 100%)[
+        #set text(size: 9.5pt)
+        Più informazioni su *questo e altro* sono disponibili nel sito #link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*]
+      ]
+    ],
+  )
+]
+````
+
+# 1 · Perché FAIR
+
+::::: {layout="[[44,56]]"}
+:::: {}
+**FAIR** = *Findable, Accessible, Interoperable, Reusable*: dati trovabili, accessibili, leggibili da altri programmi, riusabili. Il criterio pratico:
+
+> Una persona che non vi conosce, e che non può scrivervi, riesce a trovare i vostri dati, aprirli, capirli e riusarli?
+
+**Lo chiedono i finanziatori.** ERC e Horizon Europe: Data Management Plan, accesso aperto (*"as open as possible, as closed as necessary"*), deposito in un repository affidabile, licenza dei dati CC BY o CC0. PRIN 2026: gestione dei dati *"conforme ai principi FAIR"*.
+
+**Aperto non basta:**
+
+- *"Disponibili su richiesta"*: la maggior parte delle richieste resta senza risposta.
+- *Drive, GitHub*: niente DOI.
+- *Excel su OSF, senza descrizione né licenza*: aperto, ma nessuno può usarlo.
+
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #grid(columns: (1fr, 1fr), rows: (57mm, 57mm), gutter: 9pt,
+    fair-tile("F", "Findable", "trovabile",
+      [DOI permanente; metadati indicizzati nei cataloghi.],
+      [metadati ricchi: titolo chiaro, autori con ORCID, parole chiave.], "→ sez. 6"),
+    fair-tile("A", "Accessible", "accessibile",
+      [file scaricabili dal DOI, senza account; il DOI resta attivo.],
+      [scegliere il livello di accesso: aperto o ristretto.], "→ sez. 6"),
+    fair-tile("I", "Interoperable", "interoperabile", none,
+      [formati aperti; nomi di colonna chiari e costanti; DOI che collegano dati, codice e articolo.], "→ sez. 2"),
+    fair-tile("R", "Reusable", "riusabile", none,
+      [README, data dictionary e una licenza esplicita.], "→ sez. 3–5"),
+  )
+  #v(6pt)
+  #set par(justify: false)
+  #text(size: 9.6pt, fill: muted)[#text(weight: 700)[Repository] = lo fa da solo, al momento del deposito. #h(8pt) #text(weight: 700, fill: acc)[Voi] = tocca a chi deposita.]
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 2 · Formati aperti
+
+::::: {layout="[[44,56]]"}
+:::: {}
+- Dati in **CSV** (o TXT, JSON), documenti in PDF: si aprono con qualunque programma.
+- `.xlsx`, `.sav`, `.mat` richiedono un programma specifico: tenete pure l'originale, ma depositate **anche** la versione aperta.
+
+**Cosa cambia passando a CSV:**
+
+- più fogli → un file per foglio;
+- colori ed evidenziature → se contengono informazione, diventano una colonna;
+- formule → i calcoli si fanno negli script;
+
+**Come si fa:**
+
+- **Excel:** File → Salva con nome → *CSV UTF-8*.
+- **R:** `write.csv(dati, "dati.csv", row.names = FALSE)`
+
+**Attenzione.** Excel in italiano salva con `;` e la virgola decimale.
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #set text(size: 10pt)
+  #filecard("risultati_DEF_nuovo.xlsx")[
+    #grid(
+      columns: (16pt, 1fr, 1.1fr, 1.4fr, 1fr),
+      rows: 19pt,
+      stroke: 0.5pt + rgb("#cfcfcf"),
+      align: horizon,
+      inset: (x: 4pt),
+      fill: (x, y) => if x == 0 or y == 0 { rgb("#eeeeee") } else { none },
+      [], [A], [B], [C], [D],
+      [1], grid.cell(colspan: 4, fill: rgb("#dbe9d6"), align: center + horizon)[*RISULTATI ESP. 1 (def.)*],
+      [2], [sogg], [cond], [TR], [note],
+      [3], [p01], [cong], [523], [],
+      [4], [p01], [inc], grid.cell(fill: rgb("#fff1a8"))[611], [],
+      [5], [p02], [cong], [498], grid.cell(fill: rgb("#f4c7c3"))[escluso?],
+      [6], [], [media], [\=MEDIA(C3:C5)], [],
+    )
+    #v(4pt)
+    #set text(size: 8.8pt, fill: muted)
+    #box(stroke: 0.5pt + rule, inset: (x: 5pt, y: 2pt), fill: white)[Foglio1]
+    #box(inset: (x: 5pt, y: 2pt), fill: grey)[Foglio2]
+    #box(inset: (x: 5pt, y: 2pt), fill: grey)[Grafico]
+  ]
+  #v(3pt)
+  #text(fill: acc, size: 9.6pt)[ ✗ informazione nel colore #h(7pt) ✗ formula #h(7pt) ✗ più fogli]
+  #v(7pt)
+  #align(center)[#text(size: 10.5pt, fill: muted)[↓ #h(3pt) File → Salva con nome → *CSV UTF-8*]]
+  #v(7pt)
+  #filecard("stroop_data.csv")[
+    #set text(font: "DejaVu Sans Mono", size: 9.8pt)
+    #set par(leading: 0.55em)
+    participant,condition,rt\_ms,excluded \
+    p01,congruent,523,FALSE \
+    p01,incongruent,611,FALSE \
+    p02,congruent,498,TRUE
+  ]
+  #v(3pt)
+  #text(fill: okc, size: 9.6pt)[✓ testo semplice #h(7pt) ✓ il colore diventa la colonna `excluded` #h(7pt) ✓ la media la calcola lo script]
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 3 · README
+
+::::: {layout="[[44,56]]"}
+:::: {}
+Un file di testo (`README.md` o `README.txt`) nella cartella principale. È il primo file che si apre: deve bastare a capire il resto. 
+
+Risponde a sei domande:
+
+1. **Di chi è?** Titolo, autori con ORCID.
+2. **Che studio è?** Obiettivo, campione, quando e come sono stati raccolti i dati.
+3. **Cosa c'è?** La struttura della cartella, file per file.
+4. **Come si riproduce?** Software e versioni, ordine degli script.
+5. **Con che licenza?** Cosa vale per dati, codice, materiali.
+6. **Come si cita?** DOI di dataset, articolo, preregistrazione.
+
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #filecard("README.md")[
+    #set text(font: "DejaVu Sans Mono", size: 9pt)
+    #set par(leading: 0.5em)
+    #grid(columns: (1fr, auto), row-gutter: 9pt, column-gutter: 8pt, align: (left + top, right + top),
+      [*\# Stroop and trait anxiety* \ Authors: N. Surname (ORCID 0000-0002-...)], chip[1 · di chi è],
+      [Stroop interference as a function of trait \ anxiety. 100 adults, PsychoPy + STAI-Y, \ collected in the lab, March 2026.], chip[2 · che studio è],
+      [*\#\# Contents*
+        #show raw.where(block: true): set block(fill: none, inset: 0pt, above: 4pt)
+        #show raw: set text(size: 8.6pt)
+        #raw(block: true, "stroop-anxiety/\n├── README.md\n├── LICENSE\n├── data/\n│   ├── raw/               exports, read-only\n│   ├── stroop_data.csv    one trial per row\n│   └── stroop_dictionary.csv\n├── scripts/\n│   ├── 01_preprocessing.R\n│   └── 02_analysis.R\n└── materials/             stimuli")
+      ], chip[3 · cosa c'è],
+      [*\#\# How to reproduce* \ R ≥ 4.3, packages in renv.lock. \ Run the scripts in numeric order.], chip[4 · come si riproduce],
+      [*\#\# License* \ Data CC0-1.0 · code GPL-3.0 \ materials CC BY 4.0 \ STAI-Y: third-party, not included.], chip[5 · licenza],
+      [*\#\# How to cite* \ Dataset: doi.org/10.5281/zenodo.XXXXXXX \ Article: doi.org/10.xxxx/xxxxx], chip[6 · come si cita],
+    )
+  ]
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 4 · Data dictionary
+
+::::: {layout="[[33,67]]"}
+:::: {}
+Il README descrive il progetto; il **data dictionary** (o *codebook*) descrive **ogni colonna** dei dati.
+
+- È un CSV, accanto al file che descrive: `stroop_data.csv` → `stroop_dictionary.csv`.
+- **Una riga per ogni colonna** del file di dati.
+- Il nome in `variable_name` è **identico** a quello nel file.
+
+| Colonna | Cosa contiene |
+|:---------------|:--------------------------|
+| `variable_name` | il nome esatto della colonna |
+| `label` | cosa misura, in parole |
+| `type` | numero, testo, vero/falso, categoria |
+| `unit` | unità di misura (ms, anni…) |
+| `allowed_values` | intervallo o valori ammessi |
+| `coding` | cosa significa ogni codice, per le categoriali |
+| `missing_values` | come è indicato il dato mancante |
+
+Se servono: `source` (strumento da cui viene il dato) e `notes` (decisioni, anomalie).
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #set text(font: "DejaVu Sans Mono", size: 8.3pt)
+  #filecard("stroop_data.csv")[
+    #grid(columns: (1fr, 1fr, 1fr, 1fr), stroke: 0.5pt + rgb("#d5d5d5"), inset: (x: 5pt, y: 4.5pt), align: horizon,
+      [*participant*], [*congruent*], [*rt*], [*group*],
+      [p01], [TRUE], [523], [1],
+      [p01], [FALSE], [611], [1],
+      [p02], [TRUE], [498], [2],
+    )
+  ]
+  #v(5pt)
+  #align(center)[#text(font: "Libre Franklin", size: 10.5pt, fill: muted)[↓ #h(3pt) una riga per ogni colonna]]
+  #v(5pt)
+  #filecard("stroop_dictionary.csv")[
+    #set text(size: 7.6pt)
+    #grid(columns: (auto, 1fr, auto, auto, auto, 1fr, auto), stroke: 0.5pt + rgb("#d5d5d5"), inset: (x: 4pt, y: 4.5pt), align: horizon,
+      [*variable\_name*], [*label*], [*type*], [*unit*], [*allowed\_values*], [*coding*], [*missing\_values*],
+      [participant], [participant code], [string], [], [p01–p100], [], [],
+      [congruent], [word = colour], [boolean], [], [TRUE/FALSE], [], [],
+      [rt], [reaction time], [integer], [ms], [200–2000], [], [empty],
+      [group], [experimental group], [categorical], [], [1, 2], [1 = control; \ 2 = training], [NA],
+    )
+  ]
+  #v(6pt)
+  #set text(font: "Libre Franklin", size: 9.8pt, fill: muted)
+  Ogni colonna di stroop\_data.csv è una riga di stroop\_dictionary.csv, con lo stesso nome.
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 5 · Licenze
+
+::::: {layout="[[44,56]]"}
+:::: {}
+Senza licenza valgono **tutti i diritti riservati**: nessuno può riusare legalmente i vostri file, anche se sono pubblici. Dati, codice e materiali hanno licenze diverse.
+
+- **Dati → CC0 1.0.** Riuso senza condizioni. Alternativa: CC BY 4.0, se volete l'obbligo di attribuzione.
+- **Codice → GPL-3.0.** Uso e modifica liberi, ma chi distribuisce una versione modificata deve rilasciarla con la stessa licenza, quindi aperta. Alternativa: **MIT**, più permissiva: basta mantenere l'avviso di copyright.
+- **Materiali propri → CC BY 4.0.** Stimoli, questionari, protocolli, figure: riuso citando la fonte.
+- **Materiali di terzi** (test commerciali, questionari altrui): non si depositano, si citano.
+
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #label[Cosa → quale licenza]
+  #grid(columns: (1.1fr, 18pt, auto, 1.25fr), row-gutter: 11pt, column-gutter: 6pt,
+    ..lic-row("data/", "dati", "CC0 1.0", acc, [riuso senza condizioni]),
+    ..lic-row("scripts/", "codice", "GPL-3.0", acc, [uso e modifica liberi; le versioni modificate restano aperte]),
+    ..lic-row("materials/", "stimoli, questionari propri", "CC BY 4.0", acc, [riuso citando la fonte]),
+    ..lic-row("STAI, WISC…", "materiali di terzi", "non si deposita", muted, [si cita la fonte]),
+  )
+  #v(14pt)
+  #label[Dove si dichiara]
+  #grid(columns: (1fr, 1fr, 1fr), rows: (33mm,), column-gutter: 8pt,
+    lic-place("1", "Zenodo", [campo _License_ del deposito; se ne possono indicare più d'una]),
+    lic-place("2", "README", [sezione _License_: cosa vale per cosa, e come citare]),
+    lic-place("3", "LICENSE", [file nella cartella principale, con il testo delle licenze (non obbligatorio) ]),
+  )
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 6 · Depositare su Zenodo
+
+::::: {layout="[[44,56]]"}
+:::: {}
+[Zenodo](https://zenodo.org/): gestito dal CERN, gratuito, fino a 50 GB per deposito, DOI immediato, versioni.
+
+**Prima di caricare.** Cartella pronta, compressa in un unico `.zip` se volete conservarne la struttura. Controllate che non contenga file nascosti (`.DS_Store`, `__MACOSX`) né dati personali.
+
+**Ricordatevi le licenze:** di default è CC BY 4.0; per il codice aggiungete GPL-3.0.
+
+**Condividere la bozza.** Da *Share*: con il permesso **Can edit** altri utenti Zenodo lavorano alla bozza con voi (metadati e file); con un link **Can preview draft** i revisori la vedono senza account. Per il doppio cieco sostituite gli autori con "anonymous".
+
+**Community.** Per raccogliere in un solo posto i depositi di un gruppo o di un progetto: vedi il [sito](https://mar-cald.github.io/fair/zenodo.html).
+
+**Dopo la pubblicazione.** Entro 30 giorni potete sostituire i file (stesso DOI); poi si crea una *New version*. I metadati si correggono sempre.
+
+**Codice su GitHub?** Collegate l'account in Zenodo: ogni *release* viene archiviata con un DOI.
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #grid(columns: (24pt, 1fr), column-gutter: 8pt, align: (center + horizon, left + horizon),
+    ..zstep(1, "Log in con ORCID", [il deposito è già associato a voi]),
+    ..zlink,
+    ..zstep(2, "New upload", [trascinate lo .zip o i file]),
+    ..zlink,
+    ..zstep(3, "Riservate il DOI", ["Do you already have a DOI?" → No → Get a DOI now!]),
+    ..zlink,
+    ..zstep(4, "Resource type", [Dataset (o Software, se il codice è a sé)]),
+    ..zlink,
+    ..zstep(5, "Metadati", [titolo, autori con ORCID, descrizione, keywords]),
+    ..zlink,
+    ..zstep(6, "Licenza", [CC BY 4.0 di default → CC0 per i dati, GPL-3.0 per il codice]),
+    ..zlink,
+    ..zstep(7, "Collegamenti", [Related works (articolo, preregistrazione), Funding]),
+    ..zlink,
+    ..zstep(8, "Accesso", [Public · Restricted (dati sensibili) · Embargo]),
+    ..zlink,
+    ..zstep(9, "Publish", [il DOI diventa attivo]),
+  )
+  #v(8pt)
+  #block(fill: acc, inset: (x: 12pt, y: 10pt), radius: 3pt, width: 100%)[
+    #text(fill: white, weight: 700, size: 11.5pt)[→ #h(3pt) Il DOI va nell'articolo, sezione _Data availability_]
+  ]
+]
+```
+::::
+:::::
+
+{{< pagebreak >}}
+
+# 7 · Prima di depositare
+
+::::: {layout="[[44,56]]"}
+:::: {}
+**Contenuto**
+
+☐ README nella cartella principale\
+☐ data dictionary per tutte le colonne di tutti i file\
+☐ dati in CSV (anche se tenete l'originale)\
+☐ il codice gira su un altro computer, da una cartella pulita
+
+**Diritti e riservatezza**
+
+☐ licenza nel repository, nel file `LICENSE` e nel README\
+☐ niente materiali di terzi che non potete ridistribuire\
+☐ nessuna informazione che identifica una persona\
+☐ i coautori sono d'accordo con il deposito
+
+**Collegamenti**
+
+☐ tutti gli autori con ORCID\
+☐ collegato ad articolo, preregistrazione e codice\
+☐ DOI del deposito nella *Data availability* dell'articolo
+::::
+
+:::: {}
+```{=typst}
+#pad(left: 4mm)[
+  #set par(justify: false)
+  #label[Data availability statement, da copiare]
+  #block(fill: grey, inset: 10pt, radius: 3pt, width: 100%)[
+    #set text(font: "DejaVu Sans Mono", size: 9.8pt)
+    Data, analysis code, and materials are openly available on Zenodo at https://doi.org/10.5281/zenodo.XXXXXXX (data: CC0 1.0; code: GPL-3.0; materials: CC BY 4.0).
+  ]
+  #v(8pt)
+  #text(size: 10.2pt, weight: 700)[Se l'accesso è ristretto:]
+  #v(2pt)
+  #block(fill: grey, inset: 10pt, radius: 3pt, width: 100%)[
+    #set text(font: "DejaVu Sans Mono", size: 9.8pt)
+    Data are available on Zenodo under restricted access at \[DOI\]; access is granted upon request for scientific purposes.
+  ]
+  #v(16pt)
+  #block(fill: tint, stroke: (left: 3pt + acc), inset: (x: 11pt, y: 9pt), width: 100%)[
+    #set text(size: 11pt)
+    Più informazioni su *questo e altro* sono disponibili nel sito #link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*]
+  ]
+]
+```
+::::
+:::::

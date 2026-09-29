@@ -1,0 +1,13 @@
+# Progetto a sé per il vademecum (il PDF resta qui; il sito ne copia solo il PDF).
+# Rendi con:   quarto render vademecum.qmd
+project:
+  type: default
+
+format:
+  typst:
+    font-paths:
+      - fonts
+    # Pass-through: niente wrapper "article" di Quarto. Copertina e stili sono
+    # nel blocco Typst in cima al .qmd.
+    template-partials:
+      - typst-show.typ

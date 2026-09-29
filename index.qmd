@@ -4,7 +4,12 @@ subtitle: "Hands-on Open Science"
 author: "Margherita Calderan & Claude"
 ---
 
+::: {.callout-note title="Vademecum"}
+[**Vademecum FAIR**](booklet/vademecum.pdf) (PDF, 8 pagine): l'essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo).
+:::
+
 Dove mettere dati, codice e materiali, e cosa allegarci.
+
 
 ::: {.grid}
 

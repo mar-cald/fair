@@ -9,7 +9,7 @@ Le pagine sono file `.qmd` in questa cartella; `quarto render` genera il sito in
 
 | File | Contenuto |
 |---|---|
-| `index.qmd` | Home: dove mettere dati, codice e materiali (tre schede). Per cercare nel sito si usa la ricerca integrata di Quarto (lente in alto a destra) |
+| `index.qmd` | Home: dove mettere dati, codice e materiali (tre schede) e il vademecum da scaricare. Per cercare nel sito si usa la ricerca integrata di Quarto (lente in alto a destra) |
 | `apertura.qmd` | Che cosa sta succedendo a OSF: le tempistiche della dismissione |
 | `ma.qmd` | Esercizio di apertura: a coppie ci si scambia la cartella e si spunta una checklist (pagina collegata dall'apertura, fuori dal menu) |
 | `fair.qmd` | I principi FAIR e il Data Management Plan |
@@ -21,10 +21,11 @@ Le pagine sono file `.qmd` in questa cartella; `quarto render` genera il sito in
 | `struttura-1.qmd` | README, data dictionary, formati e struttura delle cartelle |
 | `struttura-2.qmd` | Psych-DS, uno standard per organizzare i dati |
 | `esempio.qmd` | Un esempio completo: un progetto modello con tutte le parti |
-| `risorse.qmd` | Checklist, link, glossario |
+| `risorse.qmd` | Vademecum da scaricare, checklist, link, glossario |
 | `segnala.qmd` | Come segnalare un errore (email o issue GitHub); si apre dall'icona bug in navbar |
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
 | `custom.scss` | Grafica del sito: colori (in cima al file), tipografia (Libre Franklin) e stile della navbar |
+| `booklet/` | Sorgente del vademecum in PDF (vedi sotto) |
 
 ## Ricerca del sito
 
@@ -44,18 +45,32 @@ materiali/
 
 I dataset sono **fittizi**, costruiti per l'esercitazione.
 
-## Booklet PDF
+## Vademecum PDF
 
-`booklet/fair-in-pratica.pdf` è una sintesi operativa del sito in 9 pagine,
-scritta in [Typst](https://typst.app/) (`booklet/booklet.typ`). Si ricompila
-dalla cartella `booklet/` con:
+`booklet/vademecum.pdf` è il *Vademecum FAIR*: l'essenziale del sito in 8
+pagine A4 orizzontali (perché FAIR, formati aperti, README, data dictionary,
+licenze, Zenodo, checklist), con il testo a sinistra e uno schema a destra.
+
+La sorgente è `booklet/vademecum.qmd`. Il testo è in **Markdown**, come le
+pagine del sito; in cima al file c'è un blocco Typst con copertina, stili e le
+funzioni usate dagli schemi, che di solito non serve toccare. Per rigenerare il
+PDF, dalla cartella `booklet/`:
 
 ```
-quarto typst compile booklet.typ fair-in-pratica.pdf --font-path fonts
+quarto render vademecum.qmd
 ```
 
-Il PDF viene copiato nel sito al `quarto render` (voce `resources` in
-`_quarto.yml`) ed è linkato nel footer di ogni pagina.
+Nella cartella:
+
+- `_quarto.yml` imposta il formato Typst e la cartella dei font;
+- `typst-show.typ` è volutamente vuoto: toglie l'impaginazione di default di
+  Quarto, così copertina e stili li decide il blocco Typst del `.qmd`;
+- `fonts/` contiene Libre Franklin, necessario per la compilazione.
+
+Il `quarto render` del sito esclude `booklet/` (voce `"!booklet/"` in
+`_quarto.yml`) e copia soltanto il PDF in `docs/` (voce `resources`), dove è
+linkato nella home, in Risorse e nel footer. Dopo aver modificato
+`vademecum.qmd`, quindi, si rigenera prima il PDF e poi il sito.
 
 ## Licenza
 

@@ -6,10 +6,11 @@ project:
   render:
     - "*.qmd"               # si renderizzano solo le pagine di questa cartella,
                             # non i file dentro materiali/
+    - "!booklet/"           # il vademecum si compila a parte (vedi README), qui si copia solo il PDF
   resources:
     - "materiali/struttura-2/**"  # i file dell'esempio Psych-DS finiscono nel sito cosi' come sono
     - "materiali.zip"             # esempio Psych-DS (pagina Struttura)
-    - "booklet/fair-in-pratica.pdf"  # booklet PDF, linkato nel footer (sorgente in booklet/)
+    - "booklet/vademecum.pdf"     # vademecum PDF (sorgente: booklet/vademecum.qmd)
 
 website:
   title: "Open Science"
@@ -54,7 +55,7 @@ website:
   page-footer:
     border: true
     left: "Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova"
-    right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) · [Fonti](risorse.qmd#fonti) · [Booklet PDF](booklet/fair-in-pratica.pdf)"
+    right: "Contenuti [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.it) · [Fonti](risorse.qmd#fonti) · [Vademecum PDF](booklet/vademecum.pdf)"
 
 format:
   html:
