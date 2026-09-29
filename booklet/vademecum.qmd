@@ -355,7 +355,7 @@ Risponde a sei domande:
         #raw(block: true, "stroop-anxiety/\n├── README.md\n├── LICENSE\n├── data/\n│   ├── raw/               exports, read-only\n│   ├── stroop_data.csv    one trial per row\n│   └── stroop_dictionary.csv\n├── scripts/\n│   ├── 01_preprocessing.R\n│   └── 02_analysis.R\n└── materials/             stimuli")
       ], chip[3 · cosa c'è],
       [*\#\# How to reproduce* \ R ≥ 4.3, packages in renv.lock. \ Run the scripts in numeric order.], chip[4 · come si riproduce],
-      [*\#\# License* \ Data CC0-1.0 · code GPL-3.0 \ materials CC BY 4.0 \ STAI-Y: third-party, not included.], chip[5 · licenza],
+      [*\#\# License* \ Data CC0-1.0 · code GPL-3.0 \ materials CC-BY-SA 4.0 \ STAI-Y: third-party, not included.], chip[5 · licenza],
       [*\#\# How to cite* \ Dataset: doi.org/10.5281/zenodo.XXXXXXX \ Article: doi.org/10.xxxx/xxxxx], chip[6 · come si cita],
     )
   ]
@@ -433,8 +433,12 @@ Senza licenza valgono **tutti i diritti riservati**: nessuno può riusare legalm
 
 - **Dati → CC0 1.0.** Riuso senza condizioni. Alternativa: CC BY 4.0, se volete l'obbligo di attribuzione.
 - **Codice → GPL-3.0.** Uso e modifica liberi, ma chi distribuisce una versione modificata deve rilasciarla con la stessa licenza, quindi aperta. Alternativa: **MIT**, più permissiva: basta mantenere l'avviso di copyright.
-- **Materiali propri → CC BY 4.0.** Stimoli, questionari, protocolli, figure: riuso citando la fonte.
+- **Materiali propri → 	CC-BY-SA 4.0.** Stimoli, questionari, protocolli, figure: riuso citando la fonte, obbligo gli altri a rilasciare sotto la stessa licenza, quindi aperta.
 - **Materiali di terzi** (test commerciali, questionari altrui): non si depositano, si citano.
+
+::: {.callout-important title="Scientific Use License"}
+Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle proposte su [PsychArchives](https://mar-cald.github.io/fair/psycharchives.html), può impedire l'impiego dei vostri dati e materiali per scopi di terza missione. Questo tipo di licenze copre solo ricerca e didattica accademica.
+:::
 
 ::::
 
@@ -446,7 +450,7 @@ Senza licenza valgono **tutti i diritti riservati**: nessuno può riusare legalm
   #grid(columns: (1.1fr, 18pt, auto, 1.25fr), row-gutter: 11pt, column-gutter: 6pt,
     ..lic-row("data/", "dati", "CC0 1.0", acc, [riuso senza condizioni]),
     ..lic-row("scripts/", "codice", "GPL-3.0", acc, [uso e modifica liberi; le versioni modificate restano aperte]),
-    ..lic-row("materials/", "stimoli, questionari propri", "CC BY 4.0", acc, [riuso citando la fonte]),
+    ..lic-row("materials/", "stimoli, questionari propri", "CC-BY-SA 4.0", acc, [riuso citando la fonte]),
     ..lic-row("STAI, WISC…", "materiali di terzi", "non si deposita", muted, [si cita la fonte]),
   )
   #v(14pt)
@@ -548,7 +552,7 @@ Senza licenza valgono **tutti i diritti riservati**: nessuno può riusare legalm
   #label[Data availability statement, da copiare]
   #block(fill: grey, inset: 10pt, radius: 3pt, width: 100%)[
     #set text(font: "DejaVu Sans Mono", size: 9.8pt)
-    Data, analysis code, and materials are openly available on Zenodo at https://doi.org/10.5281/zenodo.XXXXXXX (data: CC0 1.0; code: GPL-3.0; materials: CC BY 4.0).
+    Data, analysis code, and materials are openly available on Zenodo at https://doi.org/10.5281/zenodo.XXXXXXX (data: CC0 1.0; code: GPL-3.0; materials: CC-BY-SA 4.0).
   ]
   #v(8pt)
   #text(size: 10.2pt, weight: 700)[Se l'accesso è ristretto:]
