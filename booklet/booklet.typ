@@ -145,7 +145,9 @@
     #set text(fill: white)
     #show link: set text(fill: white)
     #show link: underline.with(stroke: 0.4pt + white.transparentize(40%), offset: 2pt)
-    #text(size: 8.5pt, weight: 600, tracking: 0.12em)[HANDS-ON OPEN SCIENCE · UNIVERSITÀ DI PADOVA]
+    #text(size: 8.5pt, weight: 600, tracking: 0.12em)[HANDS-ON OPEN SCIENCE]
+    #h(7pt) #box(line(length: 9pt, angle: 90deg, stroke: 0.6pt + white.transparentize(45%)), baseline: 1pt) #h(7pt)
+    #text(size: 8.5pt, weight: 400, fill: white.transparentize(15%), tracking: 0.02em)[Dipartimento di Psicologia Generale, Università di Padova]
     #v(16pt)
     #text(size: 44pt, weight: 800, tracking: -0.01em)[FAIR in pratica]
     #v(4pt)
