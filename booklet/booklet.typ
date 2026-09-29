@@ -46,7 +46,7 @@
 #set enum(indent: 2pt, body-indent: 6pt, spacing: 0.55em)
 #set strong(delta: 250)
 
-#show link: it => text(fill: acc, it)
+#show link: set text(fill: acc)
 #show raw: set text(font: "DejaVu Sans Mono", size: 7.9pt)
 #show raw.where(block: false): box.with(fill: grey, inset: (x: 2.5pt), outset: (y: 2.5pt), radius: 2pt)
 #show raw.where(block: true): block.with(fill: grey, inset: 9pt, radius: 3pt, width: 100%)
@@ -141,19 +141,50 @@
 // COPERTINA
 // ===========================================================================
 #page(margin: 0pt, header: none, footer: none)[
-  #block(fill: acc, width: 100%, inset: (x: 19mm, top: 24mm, bottom: 16mm))[
+  #block(fill: acc, width: 100%, inset: (x: 19mm, top: 19mm, bottom: 11mm))[
     #set text(fill: white)
+    #show link: set text(fill: white)
+    #show link: underline.with(stroke: 0.4pt + white.transparentize(40%), offset: 2pt)
     #text(size: 8.5pt, weight: 600, tracking: 0.12em)[HANDS-ON OPEN SCIENCE · UNIVERSITÀ DI PADOVA]
     #v(16pt)
     #text(size: 44pt, weight: 800, tracking: -0.01em)[FAIR in pratica]
     #v(4pt)
     #text(size: 14pt, weight: 400)[Manuale operativo per chi deve condividere dati, codice e materiali, e non sa da dove cominciare.]
+    #v(16pt)
+    #line(length: 26pt, stroke: 1.5pt + white)
+    #v(2pt)
+    #text(size: 14pt, weight: 600)[Margherita Calderan]
+    #v(18pt)
+    #line(length: 100%, stroke: 0.5pt + white.transparentize(55%))
+    #v(6pt)
+    #grid(columns: (1fr, 1.15fr), column-gutter: 18pt, align: top,
+      [
+        #text(size: 7.5pt, weight: 700, fill: white.transparentize(30%), tracking: 0.08em)[UN'INIZIATIVA DELLA]
+        #v(-3pt)
+        #text(size: 11pt, weight: 700)[Sottocommissione Open Science]
+        #v(-5pt)
+        #set text(size: 9pt)
+        della Commissione Terza Missione \
+        Dipartimento di Psicologia Generale \
+        Università di Padova
+      ],
+      [
+        #set text(size: 7.8pt, fill: white.transparentize(15%))
+        #set par(leading: 0.5em)
+        #grid(columns: (auto, 1fr), column-gutter: 9pt, row-gutter: 5.5pt, align: top,
+          text(weight: 700)[Origine], [Dispensa del seminario _Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati_ (23 settembre 2026)],
+          text(weight: 700)[Online], link("https://mar-cald.github.io/fair/")[mar-cald.github.io/fair],
+          text(weight: 700)[Licenza], [Testi CC BY 4.0],
+          text(weight: 700)[Aggiornato], [Settembre 2026],
+        )
+      ],
+    )
   ]
-  #block(inset: (x: 19mm, top: 15mm))[
+  #block(inset: (x: 19mm, top: 13mm))[
     #text(size: 14pt, weight: 700)[Il minimo indispensabile, in sei mosse]
     #v(8pt)
     #set text(size: 11pt)
-    #steps(gutter: 13pt,
+    #steps(gutter: 10pt,
       ([Dati in CSV, non (solo) in Excel.], [Un formato che si apre con qualunque programma, oggi e fra vent'anni.]),
       ([Un README e un data dictionary.], [Cosa c'è nella cartella, e cosa significa ogni colonna.]),
       ([Una licenza per ciascuna cosa.], [Dati CC0, codice MIT o GPL-3.0, materiali CC BY 4.0.]),
@@ -161,7 +192,7 @@
       ([Il DOI nell'articolo.], [Nella sezione _Data availability_, al posto di "disponibili su richiesta".]),
       ([Se avete un grant ERC o Horizon Europe: il DMP.], [Da consegnare entro la fine del sesto mese di progetto.]),
     )
-    #v(28pt)
+    #v(20pt)
     #text(size: 8pt, weight: 700, fill: muted, tracking: 0.08em)[IN QUESTO MANUALE]
     #v(-2pt)
     #line(length: 100%, stroke: 0.5pt + rule)
@@ -177,14 +208,6 @@
       [#text(fill: acc, weight: 700)[4] #h(4pt) Preparare la cartella],
       [#text(fill: acc, weight: 700)[8] #h(4pt) Checklist finale e link],
     )
-  ]
-  #place(bottom + left, dx: 19mm, dy: -14mm)[
-    #set text(size: 7.8pt, fill: muted)
-    #block(width: 172mm)[
-      Tratto dalla dispensa del seminario _Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati_,
-      Dipartimento di Psicologia Generale, Università di Padova (23 settembre 2026), di Margherita Calderan:
-      #link("https://mar-cald.github.io/fair/")[mar-cald.github.io/fair]. Testi CC BY 4.0. Aggiornato a settembre 2026.
-    ]
   ]
 ]
 
