@@ -44,6 +44,19 @@ materiali/
 
 I dataset sono **fittizi**, costruiti per l'esercitazione.
 
+## Booklet PDF
+
+`booklet/fair-in-pratica.pdf` è una sintesi operativa del sito in 9 pagine,
+scritta in [Typst](https://typst.app/) (`booklet/booklet.typ`). Si ricompila
+dalla cartella `booklet/` con:
+
+```
+quarto typst compile booklet.typ fair-in-pratica.pdf --font-path fonts
+```
+
+Il PDF viene copiato nel sito al `quarto render` (voce `resources` in
+`_quarto.yml`) ed è linkato nel footer di ogni pagina.
+
 ## Licenza
 
 Testi CC BY 4.0; dataset di esempio CC0 1.0.
