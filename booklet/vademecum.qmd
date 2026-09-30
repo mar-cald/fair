@@ -288,9 +288,9 @@ format:
       fill: (x, y) => if x == 0 or y == 0 { rgb("#eeeeee") } else { none },
       [], [A], [B], [C], [D],
       [1], grid.cell(colspan: 4, fill: rgb("#dbe9d6"), align: center + horizon)[*RISULTATI ESP. 1 (def.)*],
-      [2], [sogg], [cond], [TR], [note],
+      [2], [participant], [condition], [rt], [note],
       [3], [p01], [cong], [523], [],
-      [4], [p01], [inc], [611], [],
+      [4], [p01], [inc], grid.cell(fill: rgb("#fff1a8"))[611], [],
       [5], [p02], [cong], [498], grid.cell(fill: rgb("#f4c7c3"))[escluso?],
       [6], [], [media], [\=MEDIA(C3:C5)], [],
     )
@@ -308,10 +308,10 @@ format:
   #filecard("stroop_data.csv")[
     #set text(font: "DejaVu Sans Mono", size: 9.8pt)
     #set par(leading: 0.55em)
-   [*participant*], [*condition*], [*rt\_ms*], [*excluded*],
-   [p01], [congruent], [523], [FALSE],
-   [p01], [incongruent], [611], [FALSE],
-   [p02], [congruent], [498], [TRUE],
+    participant,condition,rt,excluded \
+    p01,cong,523,FALSE \
+    p01,inc,611,FALSE \
+    p02,cong,498,TRUE
   ]
   #v(3pt)
   #text(fill: okc, size: 9.6pt)[✓ testo semplice #h(7pt) ✓ il colore diventa la colonna `excluded` #h(7pt) ✓ la media la calcola lo script]
@@ -396,10 +396,10 @@ Se servono: `source` (strumento da cui viene il dato) e `notes` (decisioni, anom
   #set text(font: "DejaVu Sans Mono", size: 8.3pt)
   #filecard("stroop_data.csv")[
     #grid(columns: (1fr, 1fr, 1fr, 1fr), stroke: 0.5pt + rgb("#d5d5d5"), inset: (x: 5pt, y: 4.5pt), align: horizon,
-      [*participant*], [*congruent*], [*rt*], [*group*],
-      [p01], [TRUE], [523], [1],
-      [p01], [FALSE], [611], [1],
-      [p02], [TRUE], [498], [2],
+      [*participant*], [*condition*], [*rt*], [*excluded*],
+      [p01], [cong], [523], [FALSE],
+      [p01], [inc], [611], [FALSE],
+      [p02], [inc], [498], [TRUE],
     )
   ]
   #v(5pt)
@@ -410,8 +410,8 @@ Se servono: `source` (strumento da cui viene il dato) e `notes` (decisioni, anom
     #grid(columns: (auto, 1fr, auto, auto, auto, 1fr, auto), stroke: 0.5pt + rgb("#d5d5d5"), inset: (x: 4pt, y: 4.5pt), align: horizon,
       [*variable\_name*], [*label*], [*type*], [*unit*], [*allowed\_values*], [*coding*], [*missing\_values*],
    [participant], [participant code], [string], [], [p01–p80], [], [],
-   [condition], [Stroop condition], [categorical], [], [congruent, \ incongruent], [congruent = word matches ink colour; \ incongruent = word differs], [],
-   [rt\_ms], [reaction time], [integer], [ms], [200–2000], [], [NA],
+   [condition], [Stroop condition], [categorical], [], [cong, \ inc], [cong = congruent; \ inc = incongruent], [],
+   [rt], [reaction time], [integer], [ms], [200–2000], [], [NA],
    [excluded], [trial excluded from analysis], [boolean], [], [TRUE/FALSE], [], [],
     )
   ]
@@ -434,10 +434,10 @@ Senza licenza il riuso è incerto: codice e materiali restano formalmente con **
 - **Dati → CC0 1.0.** Riuso senza condizioni. Alternativa: CC BY 4.0, se volete l'obbligo di attribuzione.
 - **Codice → GPL-3.0.** Uso e modifica liberi, ma chi distribuisce una versione modificata deve rilasciarla con la stessa licenza, quindi aperta. Alternativa: **MIT**, più permissiva: basta mantenere l'avviso di copyright e il testo della licenza.
 - **Materiali propri → 	CC-BY-SA 4.0.** Stimoli, questionari, protocolli, figure: riuso citando la fonte, obbligo gli altri a rilasciare sotto la stessa licenza, quindi aperta.
-- **Materiali di terzi** (test commerciali, questionari altrui): si depositano solo se la loro licenza lo permette; in ogni caso si citano.
+- **Materiali di terzi** (test commerciali, questionari altrui): si depositano solo se la loro licenza lo permette, altrimenti no.
 
 ::: {.callout-note title="Altre opzioni"}
-Esistono anche licenze che escludono l'uso commerciale (per esempio CC BY-NC) o limitano il riuso alla sola ricerca scientifica (per esempio su PsychArchives), ma ogni limitazione presenta anche degli inconvenienti. Più opzioni e dettagli sono riportati sul [sito](https://mar-cald.github.io/fair/licenze.html).
+Esistono anche licenze che escludono l'uso commerciale (per esempio CC BY-NC) o limitano il riuso alla sola ricerca scientifica (per esempio su [PsychArchives](https://mar-cald.github.io/fair/psycharchives.html)), ma ogni limitazione presenta anche degli inconvenienti. Più opzioni e dettagli sono riportati sul [sito](https://mar-cald.github.io/fair/licenze.html).
 :::
 
 ::::
@@ -450,7 +450,7 @@ Esistono anche licenze che escludono l'uso commerciale (per esempio CC BY-NC) o 
   #grid(columns: (1.1fr, 18pt, auto, 1.25fr), row-gutter: 11pt, column-gutter: 6pt,
     ..lic-row("data/", "dati", "CC0 1.0", acc, [riuso senza condizioni]),
     ..lic-row("scripts/", "codice", "GPL-3.0", acc, [uso e modifica liberi; le versioni modificate restano aperte]),
-    ..lic-row("materials/", "stimoli, questionari propri", "CC-BY-SA 4.0", acc, [riuso citando la fonte]),
+    ..lic-row("materials/", "stimoli, questionari propri", "CC-BY-SA 4.0", acc, [riuso citando la fonte, le versioni modificate restano aperte]),
     ..lic-row("STAI, WISC…", "materiali di terzi", "non si deposita", muted, [si cita la fonte]),
   )
   #v(14pt)
