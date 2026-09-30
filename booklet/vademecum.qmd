@@ -202,7 +202,7 @@ format:
       #v(1fr)
       #block(fill: tint, stroke: (left: 3pt + acc), inset: (x: 10pt, y: 8pt), width: 100%)[
         #set text(size: 9.5pt)
-        Più informazioni su *questo e altro* sono disponibili nel sito #link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*]
+        Più informazioni su *questo e altro* sono disponibili nel sito \ #link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*]
       ]
     ],
   )
@@ -235,10 +235,10 @@ format:
       [DOI permanente; metadati indicizzati nei cataloghi.],
       [metadati ricchi: titolo chiaro, autori con ORCID, parole chiave.], "→ sez. 6"),
     fair-tile("A", "Accessible", "accessibile",
-      [file scaricabili dal DOI, senza account; il DOI resta attivo.],
+      [dal DOI si arriva sempre alla scheda; i file, se open, si scaricano anche senza un account],
       [scegliere il livello di accesso: aperto o ristretto.], "→ sez. 6"),
     fair-tile("I", "Interoperable", "interoperabile", none,
-      [formati aperti; nomi di colonna chiari e costanti; DOI che collegano dati, codice e articolo.], "→ sez. 2"),
+      [formati aperti; nomi di colonna chiari e costanti; DOI che collegano dati, codice e articolo.], "→ sez. 2, 6"),
     fair-tile("R", "Reusable", "riusabile", none,
       [README, data dictionary e una licenza esplicita.], "→ sez. 3–5"),
   )
@@ -263,7 +263,7 @@ format:
 
 - più fogli → un file per foglio;
 - colori ed evidenziature → se contengono informazione, diventano una colonna;
-- formule → i calcoli si fanno negli script;
+- formule → i calcoli si fanno negli script. 
 
 **Come si fa:**
 
@@ -290,7 +290,7 @@ format:
       [1], grid.cell(colspan: 4, fill: rgb("#dbe9d6"), align: center + horizon)[*RISULTATI ESP. 1 (def.)*],
       [2], [sogg], [cond], [TR], [note],
       [3], [p01], [cong], [523], [],
-      [4], [p01], [inc], grid.cell(fill: rgb("#fff1a8"))[611], [],
+      [4], [p01], [inc], [611], [],
       [5], [p02], [cong], [498], grid.cell(fill: rgb("#f4c7c3"))[escluso?],
       [6], [], [media], [\=MEDIA(C3:C5)], [],
     )
@@ -308,10 +308,10 @@ format:
   #filecard("stroop_data.csv")[
     #set text(font: "DejaVu Sans Mono", size: 9.8pt)
     #set par(leading: 0.55em)
-    participant,condition,rt\_ms,excluded \
-    p01,congruent,523,FALSE \
-    p01,incongruent,611,FALSE \
-    p02,congruent,498,TRUE
+   [*participant*], [*condition*], [*rt\_ms*], [*excluded*],
+   [p01], [congruent], [523], [FALSE],
+   [p01], [incongruent], [611], [FALSE],
+   [p02], [congruent], [498], [TRUE],
   ]
   #v(3pt)
   #text(fill: okc, size: 9.6pt)[✓ testo semplice #h(7pt) ✓ il colore diventa la colonna `excluded` #h(7pt) ✓ la media la calcola lo script]
@@ -348,11 +348,11 @@ Risponde a sei domande:
     #set par(leading: 0.5em)
     #grid(columns: (1fr, auto), row-gutter: 9pt, column-gutter: 8pt, align: (left + top, right + top),
       [*\# Stroop and trait anxiety* \ Authors: N. Surname (ORCID 0000-0002-...)], chip[1 · di chi è],
-      [Stroop interference as a function of trait \ anxiety. 100 adults, PsychoPy + STAI-Y, \ collected in the lab, March 2026.], chip[2 · che studio è],
+      [Stroop interference as a function of trait \ anxiety. 80 adults, PsychoPy + STAI-Y, \ collected in the lab, March 2026.], chip[2 · che studio è],
       [*\#\# Contents*
         #show raw.where(block: true): set block(fill: none, inset: 0pt, above: 4pt)
         #show raw: set text(size: 8.6pt)
-        #raw(block: true, "stroop-anxiety/\n├── README.md\n├── LICENSE\n├── data/\n│   ├── raw/               exports, read-only\n│   ├── stroop_data.csv    one trial per row\n│   └── stroop_dictionary.csv\n├── scripts/\n│   ├── 01_preprocessing.R\n│   └── 02_analysis.R\n└── materials/             stimuli")
+        #raw(block: true, "stroop-anxiety/\n├── README.md\n├── LICENSE\n├── renv.lock\n├── data/\n│   ├── raw/               exports, read-only\n│   ├── stroop_data.csv    one trial per row\n│   └── stroop_dictionary.csv\n├── scripts/\n│   ├── 01_preprocessing.R\n│   └── 02_analysis.R\n└── materials/             stimuli")
       ], chip[3 · cosa c'è],
       [*\#\# How to reproduce* \ R ≥ 4.3, packages in renv.lock. \ Run the scripts in numeric order.], chip[4 · come si riproduce],
       [*\#\# License* \ Data CC0-1.0 · code GPL-3.0 \ materials CC-BY-SA 4.0 \ STAI-Y: third-party, not included.], chip[5 · licenza],
@@ -409,10 +409,10 @@ Se servono: `source` (strumento da cui viene il dato) e `notes` (decisioni, anom
     #set text(size: 7.6pt)
     #grid(columns: (auto, 1fr, auto, auto, auto, 1fr, auto), stroke: 0.5pt + rgb("#d5d5d5"), inset: (x: 4pt, y: 4.5pt), align: horizon,
       [*variable\_name*], [*label*], [*type*], [*unit*], [*allowed\_values*], [*coding*], [*missing\_values*],
-      [participant], [participant code], [string], [], [p01–p100], [], [],
-      [congruent], [word = colour], [boolean], [], [TRUE/FALSE], [], [],
-      [rt], [reaction time], [integer], [ms], [200–2000], [], [empty],
-      [group], [experimental group], [categorical], [], [1, 2], [1 = control; \ 2 = training], [NA],
+   [participant], [participant code], [string], [], [p01–p80], [], [],
+   [condition], [Stroop condition], [categorical], [], [congruent, \ incongruent], [congruent = word matches ink colour; \ incongruent = word differs], [],
+   [rt\_ms], [reaction time], [integer], [ms], [200–2000], [], [NA],
+   [excluded], [trial excluded from analysis], [boolean], [], [TRUE/FALSE], [], [],
     )
   ]
   #v(6pt)
@@ -429,15 +429,15 @@ Se servono: `source` (strumento da cui viene il dato) e `notes` (decisioni, anom
 
 ::::: {layout="[[44,56]]"}
 :::: {}
-Senza licenza valgono **tutti i diritti riservati**: nessuno può riusare legalmente i vostri file, anche se sono pubblici. Dati, codice e materiali hanno licenze diverse.
+Senza licenza il riuso è incerto: codice e materiali restano formalmente con **tutti i diritti riservati**, mentre per i dati non è chiaro cosa sia permesso.
 
 - **Dati → CC0 1.0.** Riuso senza condizioni. Alternativa: CC BY 4.0, se volete l'obbligo di attribuzione.
-- **Codice → GPL-3.0.** Uso e modifica liberi, ma chi distribuisce una versione modificata deve rilasciarla con la stessa licenza, quindi aperta. Alternativa: **MIT**, più permissiva: basta mantenere l'avviso di copyright.
+- **Codice → GPL-3.0.** Uso e modifica liberi, ma chi distribuisce una versione modificata deve rilasciarla con la stessa licenza, quindi aperta. Alternativa: **MIT**, più permissiva: basta mantenere l'avviso di copyright e il testo della licenza.
 - **Materiali propri → 	CC-BY-SA 4.0.** Stimoli, questionari, protocolli, figure: riuso citando la fonte, obbligo gli altri a rilasciare sotto la stessa licenza, quindi aperta.
-- **Materiali di terzi** (test commerciali, questionari altrui): non si depositano, si citano.
+- **Materiali di terzi** (test commerciali, questionari altrui): si depositano solo se la loro licenza lo permette; in ogni caso si citano.
 
-::: {.callout-important title="Scientific Use License"}
-Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle proposte su [PsychArchives](https://mar-cald.github.io/fair/psycharchives.html), può impedire l'impiego dei vostri dati e materiali per scopi di terza missione. Questo tipo di licenze copre solo ricerca e didattica accademica.
+::: {.callout-note title="Altre opzioni"}
+Esistono anche licenze che escludono l'uso commerciale (per esempio CC BY-NC) o limitano il riuso alla sola ricerca scientifica (per esempio su PsychArchives), ma ogni limitazione presenta anche degli inconvenienti. Più opzioni e dettagli sono riportati sul [sito](https://mar-cald.github.io/fair/licenze.html).
 :::
 
 ::::
@@ -471,11 +471,11 @@ Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle 
 
 ::::: {layout="[[44,56]]"}
 :::: {}
-[Zenodo](https://zenodo.org/): gestito dal CERN, gratuito, fino a 50 GB per deposito, DOI immediato, versioni.
+[Zenodo](https://zenodo.org/): gestito dal CERN per OpenAIRE, nato come archivio per la ricerca finanziata dall'UE, ora aperto a tutti; gratuito, fino a 50 GB per deposito, DOI immediato, versioni.
 
-**Prima di caricare.** Cartella pronta, compressa in un unico `.zip` se volete conservarne la struttura. Controllate che non contenga file nascosti (`.DS_Store`, `__MACOSX`) né dati personali.
+**Prima di caricare.** Cartella pronta, compressa in un unico `.zip` se volete conservarne la struttura (o se supera i 100 file). Controllate che non contenga file nascosti (`.DS_Store`, `__MACOSX`) né dati personali.
 
-**Ricordatevi le licenze:** di default è CC BY 4.0; per il codice aggiungete GPL-3.0.
+**Ricordatevi le licenze:** di default è CC BY 4.0 (va bene per i materiali); aggiungete CC0 per i dati e GPL-3.0 per il codice.
 
 **Condividere la bozza.** Da *Share*: con il permesso **Can edit** altri utenti Zenodo lavorano alla bozza con voi (metadati e file); con un link **Can preview draft** i revisori la vedono senza account. Per il doppio cieco sostituite gli autori con "anonymous".
 
@@ -483,7 +483,7 @@ Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle 
 
 **Dopo la pubblicazione.** Entro 30 giorni potete sostituire i file (stesso DOI); poi si crea una *New version*. I metadati si correggono sempre.
 
-**Codice su GitHub?** Collegate l'account in Zenodo: ogni *release* viene archiviata con un DOI.
+**Codice su GitHub?** Collegate l'account in Zenodo e attivate il repository (pubblico): ogni nuova *release* viene archiviata con un DOI.
 ::::
 
 :::: {}
@@ -491,7 +491,7 @@ Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle 
 #pad(left: 4mm)[
   #set par(justify: false)
   #grid(columns: (24pt, 1fr), column-gutter: 8pt, align: (center + horizon, left + horizon),
-    ..zstep(1, "Log in con ORCID", [il deposito è già associato a voi]),
+    ..zstep(1, "Log in con ORCID", [il vostro ORCID è collegato all'account]),
     ..zlink,
     ..zstep(2, "New upload", [trascinate lo .zip o i file]),
     ..zlink,
@@ -501,7 +501,7 @@ Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle 
     ..zlink,
     ..zstep(5, "Metadati", [titolo, autori con ORCID, descrizione, keywords]),
     ..zlink,
-    ..zstep(6, "Licenza", [CC BY 4.0 di default → CC0 per i dati, GPL-3.0 per il codice]),
+    ..zstep(6, "Licenza", [CC BY 4.0 di default; aggiungete CC0 (dati) e GPL-3.0 (codice)]),
     ..zlink,
     ..zstep(7, "Collegamenti", [Related works (articolo, preregistrazione), Funding]),
     ..zlink,
@@ -564,7 +564,7 @@ Scegliere licenze valide esclusivamente per la ricerca scientifica, come quelle 
   #v(16pt)
   #block(fill: tint, stroke: (left: 3pt + acc), inset: (x: 11pt, y: 9pt), width: 100%)[
     #set text(size: 11pt)
-    Più informazioni su *questo e altro* sono disponibili nel sito #link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*]
+    Più informazioni su *questo e altro* sono disponibili nel sito #box(link("https://mar-cald.github.io/fair/")[*mar-cald.github.io/fair*])
   ]
 ]
 ```
