@@ -43,4 +43,4 @@ licenze, Zenodo, checklist).
 
 ## Licenza
 
-Testi CC BY-SA 2.0; dataset di esempio CC0 1.0.
+Testi CC BY-SA 4.0; dataset di esempio CC0 1.0.
