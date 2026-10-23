@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Draft a data dictionary for a CSV/TSV file, with the booklet's columns.
 
-Usage: python3 draft_dictionary.py <data.csv> [--out <path>] [--force]
+Usage: python3 draft_dictionary.py <data.csv> [<more.csv> ...] [--out <path>] [--force]
+
+Several files with the same columns (e.g. one PsychoPy file per participant)
+are described together, in one dictionary: pass them all and give --out.
 
 Writes <stem>_dictionary.csv next to the data file (or to --out), one row per
 column: variable_name, label, type, unit, allowed_values, coding,
@@ -29,15 +32,24 @@ COLUMNS = ["variable_name", "label", "type", "unit", "allowed_values", "coding",
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("data")
+    ap.add_argument("data", nargs="+")
     ap.add_argument("--out")
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
 
-    path = Path(args.data).expanduser().resolve()
-    rows, info = read_table(path)
-    rows = [r for r in rows if any(c.strip() for c in r)]
-    header, body = rows[0], rows[1:]
+    paths = [Path(d).expanduser().resolve() for d in args.data]
+    if len(paths) > 1 and not args.out:
+        sys.exit("With several files, say where to write the dictionary with --out")
+    path = paths[0]
+    header, body = None, []
+    for p in paths:
+        rows, info = read_table(p)
+        rows = [r for r in rows if any(c.strip() for c in r)]
+        if header is None:
+            header = rows[0]
+        elif rows[0] != header:
+            sys.exit(f"{p.name} has different columns from {path.name}: describe it separately")
+        body += rows[1:]
     stem = path.stem[:-5] if path.stem.lower().endswith("_data") else path.stem
     out = Path(args.out) if args.out else path.with_name(f"{stem}_dictionary.csv")
     if out.exists() and not args.force:

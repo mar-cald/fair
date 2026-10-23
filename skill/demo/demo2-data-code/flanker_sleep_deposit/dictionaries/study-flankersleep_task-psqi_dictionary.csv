@@ -1,0 +1,6 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+id,participant code,string,,S01-S25,,none in data,TODO,S01 corresponds to subj 1 in the Flanker file. S25 has no Flanker data.
+sesso,sex,categorical,,F; M,F = female; M = male,none in data,TODO,
+eta,age,integer,years,19-33,,none in data,TODO,Participant 9 is 33 here and 30 in the Flanker file: to check.
+psqi_tot,PSQI global score (Pittsburgh Sleep Quality Index),integer,,0-21,,99,PSQI questionnaire,Higher scores mean worse sleep quality. 99 (participant S21) is a missing value: scripts/02_models.R sets it to NA.
+ore_sonno,hours of sleep per night,numeric,hours,TODO,,none in data,TODO,Label inferred from the column name: to check.

@@ -1,0 +1,17 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+ResponseId,response identifier,string,,R_ followed by 10 characters,,none in data,Qualtrics,One row per response.
+StartDate,date and time the questionnaire was started,date,,2025-04-01 to 2025-04-28,,none in data,Qualtrics,Format YYYY-MM-DD HH:MM.
+duration_s,time taken to complete the questionnaire,integer,seconds,61-898,,none in data,Qualtrics (Duration (in seconds)),Renamed from 'Duration (in seconds)'. One response took 61 s (median 579 s): possibly not attentive; kept.
+age,age,integer,years,19-40,,empty cell,self-report,Renamed from 'Età'. Values '25 anni' and 'venticinque' set to 25; -99 set to empty (missing).
+Genere,gender,categorical,,Donna; Uomo; Non binario,Donna = woman; Uomo = man; Non binario = non-binary,none in data,self-report,2 values 'donna' corrected to 'Donna'.
+attention_check,instructed-response item (respondents were asked to select 3),integer,,1-5,3 = correct response; any other value = failed,none in data,questionnaire,Range 1-5 assumed from the item format: to check. 2 respondents answered 1; kept.
+Q1,MAQ-10 item 1,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx), Item wording: TODO.
+Q2,MAQ-10 item 2,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx), Item wording: TODO.
+Q3,MAQ-10 item 3,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx),Reverse-coded: the total score uses 6 - value. Item wording: TODO.
+Q4,MAQ-10 item 4,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),empty cell,MAQ-10 questionnaire (codebook.docx),One value 6 (outside the scale) set to empty. Item wording: TODO.
+Q5,MAQ-10 item 5,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx), Item wording: TODO.
+Q6,MAQ-10 item 6,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx),Reverse-coded: the total score uses 6 - value. Item wording: TODO.
+Q7,MAQ-10 item 7,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx), Item wording: TODO.
+Q8,MAQ-10 item 8,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),empty cell,MAQ-10 questionnaire (codebook.docx),One value 0 (outside the scale) set to empty. Item wording: TODO.
+Q9,MAQ-10 item 9,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx),Reverse-coded: the total score uses 6 - value. Item wording: TODO.
+Q10,MAQ-10 item 10,integer,,1-5,1 = not at all (per nulla); 5 = very much (moltissimo),none in data,MAQ-10 questionnaire (codebook.docx), Item wording: TODO.

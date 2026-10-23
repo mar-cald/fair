@@ -14,6 +14,9 @@ report, so the researcher can read the full explanation.
 6. Licenses — `licenze.html`
 7. Code and reproducibility — `esempio.html`, `risorse.html`
 8. Privacy and rights — `risorse.html#checklist-prima-di-depositare`
+9. The deposit version: fixed folder layout — `struttura-1.html#struttura`, `zenodo.html`
+10. Psych-DS — `struttura-2.html`
+11. Manuscript or preprint — `risorse.html#checklist-prima-di-depositare`
 
 Base URL for all links: `https://mar-cald.github.io/fair/`
 
@@ -153,11 +156,15 @@ how missing values are coded.
 Data, code and texts are different legal objects and need different licenses.
 Applying one license to the whole project is the most common mistake.
 
+The deposit version built by the skill uses the **defaults** in bold below,
+unless the authors choose otherwise or one of the exceptions applies.
+
 | Component | Recommended | Notes |
 |:--|:--|:--|
-| Data | **CC0 1.0** (first choice) or **CC BY 4.0** | On facts and measurements the attribution requirement of CC BY has no legal effect; CC0 is required by Dryad and recommended by many repositories. ERC/Horizon Europe ask for CC BY or CC0. |
-| Code | **GPL-3.0** (first choice) or **MIT** | Apache-2.0 for structured software or when companies are involved; AGPL-3.0 for web applications (e.g. an online experiment platform). GPL is mandatory if the project includes GPL code. |
-| Texts and own materials | **CC BY 4.0** | Questionnaires, stimuli, protocols written by the authors. |
+| Data (and dictionaries, `dataset_description.json`) | **CC0 1.0** (default) or CC BY 4.0 | On facts and measurements the attribution requirement of CC BY has no legal effect; CC0 is required by Dryad and recommended by many repositories. ERC/Horizon Europe ask for CC BY or CC0. |
+| Code | **GPL-3.0** (default) or MIT | Apache-2.0 for structured software or when companies are involved; AGPL-3.0 for web applications (e.g. an online experiment platform). GPL is mandatory if the project includes GPL code. |
+| Manuscript / preprint | **CC BY 4.0** | Only the authors' version (preprint, or accepted manuscript where the journal allows it). The publisher's typeset PDF can almost never be redistributed: leave it out and link its DOI. If the preprint is already on a server (PsyArXiv, bioRxiv) under a license, keep that license. |
+| Texts and own materials, README, figures | **CC BY 4.0** | Questionnaires, stimuli, protocols written by the authors; figures produced by the scripts. |
 | Third-party materials | none: not redistributed | Published tests (e.g. STAI-Y), copyrighted stimuli: cite them, do not deposit them. |
 
 Licenses to flag:
@@ -184,19 +191,19 @@ How a license is applied, in practice:
 ```markdown
 ## License
 
-- Data (`data/`): CC0 1.0 Universal (CC0-1.0)
-- Code (`analysis/`): GPL-3.0
-- Own texts and materials (`docs/`, `materials/`): CC BY 4.0
+- Data (`data/`, `dictionaries/`, `dataset_description.json`): CC0 1.0 Universal (CC0-1.0)
+- Code (`scripts/`): GNU General Public License v3.0 (GPL-3.0)
+- Preprint, figures and own materials (`docs/`, `output/`, `materials/`): CC BY 4.0
 - Third-party materials: not redistributed, subject to the
   conditions of their respective owners
 ```
 
-Official full texts, to download when writing a LICENSE file:
+The full official texts of the three default licenses are bundled with the
+skill in `assets/licenses/` (`CC0-1.0.txt`, `GPL-3.0.txt`, `CC-BY-4.0.txt`,
+downloaded from creativecommons.org and gnu.org). For any other license, the
+official text must be downloaded (ask first):
 
-- CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
-- CC BY 4.0: https://creativecommons.org/licenses/by/4.0/legalcode.txt
 - CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt
-- GPL-3.0: https://www.gnu.org/licenses/gpl-3.0.txt
 - MIT: short, written with year and copyright holder (see https://choosealicense.com/licenses/mit/)
 - Apache-2.0: https://www.apache.org/licenses/LICENSE-2.0.txt
 
@@ -235,3 +242,116 @@ From the checklist "before depositing":
   stimuli owned by third parties.
 - Sensitive data: deposit with restricted access (metadata and DOI public, files
   only to approved people), not open.
+
+## 9. The deposit version: fixed folder layout
+
+The deposit version always uses the same folder names, so that every project
+deposited this way looks the same to a reader. Only the folders that have
+content are created.
+
+```
+<project>_deposit/
+├── README.md                 the eight sections of the booklet
+├── LICENSE                   what applies to what, then the full texts
+├── dataset_description.json  Psych-DS metadata and data dictionary
+├── data/                     data files, named key-value_..._data.csv
+│   └── raw/                  original exports (.xlsx, .sav, E-Prime ...), read-only
+├── dictionaries/             one <data file name>_dictionary.csv per data file
+├── scripts/                  analysis code, numbered in the order it runs
+├── output/
+│   ├── figures/              produced by the scripts
+│   └── tables/
+├── materials/                own stimuli, questionnaires, protocols
+└── docs/                     preprint or accepted manuscript, preregistration
+```
+
+The dictionaries are in their own folder, not next to the data as the
+booklet's general layout shows: Psych-DS checks every file inside `data/`
+(except `data/raw/`), and a `_dictionary.csv` there would be reported as a
+badly named data file.
+
+What stays out of the deposit:
+
+- system and editor files: `.DS_Store`, `.Rhistory`, `.RData`, `.Rproj.user/`,
+  `__pycache__/`, `.ipynb_checkpoints/`, `renv/library/`, `.git/`;
+- scripts that are not part of the analysis (old tests, files that read data
+  that are not there), unless the authors want them, described in the README;
+- copies of the same data in several formats beyond the original export in
+  `data/raw/` and its open version in `data/`;
+- empty folders;
+- third-party material that cannot be redistributed (published tests,
+  copyrighted stimuli, the publisher's PDF of the article);
+- personal data (see section 8): columns to remove, or files to deposit with
+  restricted access instead.
+
+The `.Rproj` file can stay: it sets the working directory in RStudio, and the
+scripts are written to run from the project root.
+
+Zenodo does not keep folders when files are uploaded one by one: a whole
+project folder is uploaded as a single `.zip`, whose contents Zenodo shows in
+the preview. Before uploading, open the zip and check that it contains only the
+project's files.
+
+## 10. Psych-DS
+
+Minimum rules (from `struttura-2.html`):
+
+1. A `data/` folder in the root, with the data files in CSV.
+2. A `dataset_description.json` file in the root, with exactly this name,
+   next to `data/` and not inside it.
+3. Data files named with key-value pairs and the suffix `_data.csv`:
+   `study-stroop_subject-01_data.csv`. A hyphen joins a key to its value, an
+   underscore separates the pairs; keys are lowercase; values contain only
+   letters and digits.
+
+Names used in the deposit: `study-<study name>` always first, then a key that
+says what the file contains when there is more than one, e.g.
+`study-flankersleep_task-flanker_data.csv` and
+`study-flankersleep_task-psqi_data.csv`. One file per participant adds
+`subject-<id>`.
+
+`dataset_description.json` uses the schema.org vocabulary. Required:
+`name`, `description`, `variableMeasured`; usually also `@context`
+(`https://schema.org/`) and `@type` (`Dataset`). `variableMeasured` must list
+**exactly** the column names of all the data files. Each entry can be a plain
+name or a `PropertyValue` object, which turns the JSON into a data dictionary:
+
+```json
+"variableMeasured": [
+  {
+    "@type": "PropertyValue",
+    "name": "rt_ms",
+    "description": "Reaction time from stimulus onset to response",
+    "unitText": "milliseconds",
+    "minValue": 200,
+    "maxValue": 3000
+  },
+  {
+    "@type": "PropertyValue",
+    "name": "condition",
+    "description": "Congruency between word and ink colour",
+    "value": "congruent | incongruent"
+  }
+]
+```
+
+Useful optional fields: `author` (Person with `name`, `identifier` = ORCID
+URL, `affiliation`), `license` (URL), `keywords`, `datePublished`,
+`temporalCoverage`, `spatialCoverage`, `measurementTechnique`, `citation`.
+
+The authoritative check is the web validator,
+https://psych-ds.github.io/validator/ (load the root folder of the deposit).
+`data/raw/` is ignored by the validator.
+
+## 11. Manuscript or preprint
+
+- The DOI of the deposit goes in the article's **Data availability** section.
+  "Data available on request" is not FAIR: most requests go unanswered.
+- The numbers in the results (descriptives, test statistics, effect sizes,
+  the number of participants and of exclusions) should be produced by the
+  deposited code. A number that no script prints cannot be checked by a reader.
+- The exclusions described in the methods (participants, trials, cut-offs)
+  should match what the scripts do.
+- What can be deposited: the preprint or the accepted manuscript (check the
+  journal's policy, e.g. on Sherpa Romeo), under CC BY 4.0, in `docs/`. The
+  publisher's typeset PDF usually cannot.

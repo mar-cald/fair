@@ -1,0 +1,6 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+participant,participant code,string,,p01-p40,,none in data,TODO,Same codes as the PsychoPy files.
+group,experimental group,categorical,,control; mindfulness,control = no training; mindfulness = four weeks of brief mindfulness training,none in data,TODO,Meaning of the groups from the preprint (docs/preprint.pdf).
+age,age,integer,years,20-27,,none in data,self-report,
+sex,sex,categorical,,F; M,F = female; M = male,none in data,self-report,
+maas_score,Mindful Attention Awareness Scale (MAAS) score,numeric,,1-6,,none in data,MAAS questionnaire,"Mean of the 15 items, each from 1 to 6; higher = more dispositional mindfulness: to check. Observed range 2.83-5.85."

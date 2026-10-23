@@ -1,8 +1,0 @@
-variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
-subj,participant number,integer,,1-24,,none in data,E-Prime export (Subject),Same participants as id in questionario_sonno.csv (subj 1 = S01). Participant 19 has no questionnaire.
-age,age,integer,years,TODO,,none in data,E-Prime export (Age),Participant 7 is 22 in block 1 and 2 in block 2: to check.
-block,block number,integer,,1-2,,none in data,E-Prime export (Block),24 trials per block.
-trial,trial number,integer,,1-48,,none in data,E-Prime export (Trial),Numbered 1-48 across both blocks.
-cond,flanker condition,categorical,,congruent; incongruent,congruent = flankers match the target; incongruent = flankers differ from the target,none in data,E-Prime export (Condition),Meaning of the codes from the standard Flanker design: to check. 6 trials of participants 4 and 15 are written 'Incongruent' and should be 'incongruent'.
-rt,reaction time,integer,milliseconds,TODO,,empty cell; 9999,E-Prime export (RT),Unit inferred from the values (242-9999): to check. 9999 looks like a timeout (no response): to check. 02_models.R excludes trials with rt >= 3000 and empty cells.
-acc,accuracy,integer,,0-1,0 = incorrect; 1 = correct,none in data,E-Prime export (ACC),Coding inferred from 02_models.R which keeps acc == 1 as correct trials: to check.

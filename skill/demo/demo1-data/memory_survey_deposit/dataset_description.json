@@ -1,0 +1,126 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Autobiographical memory questionnaire (MAQ-10): online survey data",
+  "description": "Responses of 60 adults to the MAQ-10, a 10-item questionnaire on autobiographical memory, collected online with Qualtrics in April 2025. One row per respondent. Identifying columns (IP address, location, e-mail) were removed before deposit.",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "keywords": [
+    "autobiographical memory",
+    "questionnaire",
+    "online survey"
+  ],
+  "temporalCoverage": "2025-04-01/2025-04-28",
+  "measurementTechnique": "Online questionnaire (Qualtrics), MAQ-10, 10 items on a 1-5 scale",
+  "author": "TODO",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "ResponseId",
+      "description": "Response identifier."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "StartDate",
+      "description": "Date and time the questionnaire was started."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "duration_s",
+      "description": "Time taken to complete the questionnaire.",
+      "unitText": "seconds",
+      "minValue": 61,
+      "maxValue": 898
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "age",
+      "description": "Age. Missing values: empty cell.",
+      "unitText": "years",
+      "minValue": 19,
+      "maxValue": 40
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Genere",
+      "description": "Gender. Coding: Donna = woman; Uomo = man; Non binario = non-binary.",
+      "value": "Donna | Uomo | Non binario"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "attention_check",
+      "description": "Instructed-response item (respondents were asked to select 3). Coding: 3 = correct response; any other value = failed.",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q1",
+      "description": "MAQ-10 item 1. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q2",
+      "description": "MAQ-10 item 2. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q3",
+      "description": "MAQ-10 item 3. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q4",
+      "description": "MAQ-10 item 4. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo). Missing values: empty cell.",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q5",
+      "description": "MAQ-10 item 5. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q6",
+      "description": "MAQ-10 item 6. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q7",
+      "description": "MAQ-10 item 7. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q8",
+      "description": "MAQ-10 item 8. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo). Missing values: empty cell.",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q9",
+      "description": "MAQ-10 item 9. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Q10",
+      "description": "MAQ-10 item 10. Coding: 1 = not at all (per nulla); 5 = very much (moltissimo).",
+      "minValue": 1,
+      "maxValue": 5
+    }
+  ]
+}

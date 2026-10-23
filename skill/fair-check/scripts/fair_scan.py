@@ -65,10 +65,10 @@ PERSONAL_NAME_PATTERNS = [
     (r"(?i)^(first_?name|last_?name|surname|full_?name|nome|cognome|name|nominativo)$", "name"),
     (r"(?i)e_?mail|^mail$|posta", "e-mail"),
     (r"(?i)phone|telefono|cellulare|^tel$|mobile", "phone number"),
+    (r"(?i)^ip$|ip_?address|ipaddress", "IP address"),
     (r"(?i)address|indirizzo|^via$|street|^cap$|zip_?code|postcode", "address"),
     (r"(?i)birth|nascita|^dob$|data_?di_?nascita|birthday", "birth date"),
     (r"(?i)codice_?fiscale|^cf$|fiscal|ssn|tax_?code", "tax / national ID"),
-    (r"(?i)^ip$|ip_?address|ipaddress", "IP address"),
     (r"(?i)^(lat|latitude|lon|lng|longitude|location_?latitude|location_?longitude)$", "GPS coordinates"),
     (r"(?i)matricola|student_?id|badge", "institutional ID"),
     (r"(?i)prolific_?pid|mturk|worker_?id|workerid", "crowdsourcing worker ID"),
@@ -80,7 +80,8 @@ DATE_RE = re.compile(r"^(\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\
 
 ID_LIKE = re.compile(r"(?i)(^id$|_id$|^id_|subj|participant|partecipante|soggetto|^sub$|^pp$|session)")
 # columns that identify the participant (for grouping rows), not trials or sessions
-PARTICIPANT_ID = re.compile(r"(?i)(^id$|^ids?_|_id$|subj|participant|partecipante|soggetto|^sub$|^pp$|^code$|^codice$)")
+PARTICIPANT_ID = re.compile(r"(?i)(^id$|^ids?_|_id$|subj|participant|partecipante|soggetto|^sub$|^pp$|^code$|^codice$|"
+                            r"response_?id|record_?id|^uid$)")
 # columns that describe the participant: one value per person, whatever the number of rows
 PERSON_LEVEL = re.compile(r"(?i)^(age|eta|age_years|gender|sex|sesso|genere|education|istruzione|years_of_education|"
                           r"handedness|lateralita|group|gruppo|nationality|nazionalita|native_language|language|lingua|occupation)$")
@@ -485,6 +486,53 @@ def compare_participants(tables):
     return out
 
 
+def group_file_sets(tables):
+    """Files with the same columns in the same folder (e.g. one PsychoPy file per
+    participant) are one dataset: check them together, report them once.
+
+    Returns (tables to use for the cross-file and dictionary checks, entries for
+    the report)."""
+    sets = defaultdict(list)
+    for t in tables:
+        if "columns" in t:
+            sets[(str(Path(t["file"]).parent), tuple(c["name"] for c in t["columns"]))].append(t)
+    for_checks, for_report = [], []
+    for (parent, header), ts in sets.items():
+        if len(ts) < 3:
+            for_checks += ts
+            for_report += ts
+            continue
+        ext = Path(ts[0]["file"]).suffix
+        name = f"{parent}/*{ext} ({len(ts)} files with the same columns)"
+        merged = defaultdict(dict)
+        for t in ts:
+            for pid, cols in t.get("_by_id", {}).items():
+                for h, v in cols.items():
+                    merged[pid].setdefault(h, set()).update(v)
+        rep = {"file": name, "columns": ts[0]["columns"], "participant_id_column": ts[0].get("participant_id_column"),
+               "_by_id": dict(merged)}
+        for_checks.append(rep)
+        per_file = {}
+        for t in ts:
+            found = t.get("header_issues", []) + t.get("issues", []) + t.get("within_participant_inconsistencies", []) + \
+                [f"{c['name']}: {i}" for c in t["columns"] for i in c.get("issues", []) if not i.startswith("constant column")]
+            if found:
+                per_file[Path(t["file"]).name] = found
+        types = defaultdict(set)
+        for t in ts:
+            for c in t["columns"]:
+                types[c["name"]].add(c.get("type"))
+        for_report.append({
+            "file_set": name, "n_files": len(ts), "n_rows_total": sum(t.get("n_rows", 0) for t in ts),
+            "participant_id_column": rep["participant_id_column"], "n_participants": len(merged),
+            "columns": [{"name": h, "types": sorted(x for x in types[h] if x)} for h in header],
+            "issues_by_file": per_file,
+            "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})})
+    for_checks += [t for t in tables if "columns" not in t]
+    for_report += [t for t in tables if "columns" not in t]
+    return for_checks, for_report  # "_by_id" is removed in main() after the cross-file check
+
+
 # --------------------------------------------------------------- dictionaries
 
 def norm(s):
@@ -543,10 +591,15 @@ def compare_dictionary(table, dic):
             continue
         if not e.get("label"):
             problems.append(f"{col['name']}: no label")
-        if col.get("type") in ("categorical", "boolean") or (col.get("type") == "integer" and col.get("values") and len(col["values"]) <= 6):
+        declared = (e.get("type") or "").lower()
+        if declared not in ("string", "date", "numeric") and (
+                col.get("type") in ("categorical", "boolean") or (col.get("type") == "integer" and col.get("values") and len(col["values"]) <= 6)):
             if "coding" in e and not e["coding"] and not e.get("allowed_values"):
                 problems.append(f"{col['name']}: categorical-looking column without coding")
             codes = parse_codes(e.get("coding", ""))
+            rng = re.match(r"^\s*(-?[\d.]+)\s*(?:-|–|to)\s*(-?[\d.]+)\s*$", e.get("allowed_values", ""))
+            if rng and "min" in col and float(rng.group(1)) <= col["min"] and col["max"] <= float(rng.group(2)):
+                codes = set()  # a scale: the coding labels its anchors, the range covers the values
             if codes and col.get("values"):
                 extra = [v for v in col["values"] if v not in codes]
                 if extra:
@@ -555,7 +608,8 @@ def compare_dictionary(table, dic):
         m = re.match(r"^\s*(-?[\d.]+)\s*(?:-|–|to|a|:)\s*(-?[\d.]+)\s*$", av)
         if m and "min" in col:
             lo, hi = float(m.group(1)), float(m.group(2))
-            if col["min"] < lo or col["max"] > hi:
+            declared_missing = {to_number(x) for x in re.split(r"[;,|]", e.get("missing_values", "")) if to_number(x) is not None}
+            if (col["min"] < lo and col["min"] not in declared_missing) or (col["max"] > hi and col["max"] not in declared_missing):
                 problems.append(f"{col['name']}: data range {col['min']}–{col['max']} outside allowed_values {av}")
         if col.get("n_missing") and "missing_values" in e and not e["missing_values"]:
             problems.append(f"{col['name']}: has {col['n_missing']} missing values but missing_values is empty")
@@ -607,7 +661,7 @@ def scan_code(path, root, all_files_rel):
     issues = []
     for m in re.finditer(r"setwd\s*\(([^)]*)\)", code):
         issues.append(f"setwd({m.group(1).strip()}) — ties the script to one computer")
-    abs_paths = set(re.findall(r"[\"']((?:[A-Za-z]:[\\/]|/Users/|/home/|~/|\\\\)[^\"']*)[\"']", code))
+    abs_paths = set(re.findall(r"[\"']((?:[A-Za-z]:[\\/]|/Users/|/home/|~/|\\\\[A-Za-z])[^\"']*)[\"']", code))
     for p in sorted(abs_paths)[:10]:
         issues.append(f"absolute path '{p}'")
     if re.search(r"rm\s*\(\s*list\s*=\s*ls\s*\(", code):
@@ -624,6 +678,9 @@ def scan_code(path, root, all_files_rel):
         if re.match(r"^(?:[A-Za-z]:[\\/]|/|~|https?:)", ref) or "*" in ref or "%" in ref or "{" in ref:
             continue
         cand = [root / ref, path.parent / ref, root / ref.lstrip("./")]
+        # a bare file name may be one piece of here("data", "x.csv") or file.path(...)
+        if "/" not in ref and any(Path(f).name == ref for f in all_files_rel):
+            continue
         if not any(c.exists() for c in cand):
             missing.append(ref)
     if missing:
@@ -651,6 +708,62 @@ def parse_env(root):
         if (root / name).exists():
             env[name] = "present"
     return env
+
+
+# -------------------------------------------------------- manuscript, psych-ds
+
+MANUSCRIPT_NAME = re.compile(r"(?i)(manuscript|manoscritto|paper|preprint|article|articolo|draft|submission|thesis|tesi)")
+MANUSCRIPT_EXT = {".pdf", ".docx", ".doc", ".odt", ".md", ".qmd", ".rmd", ".tex", ".html"}
+PSYCHDS_NAME = re.compile(r"^([a-z]+-[a-zA-Z0-9]+_)+data\.csv$")
+
+
+def find_manuscripts(root, files):
+    out = []
+    for f in files:
+        r = rel(f, root)
+        if f.suffix.lower() not in MANUSCRIPT_EXT or re.match(r"(?i)^(readme|leggimi|licen[cs]e|changelog)", f.name):
+            continue
+        in_docs = any(p.lower() in {"docs", "doc", "manuscript", "manoscritto", "paper", "preprint", "article", "articolo"}
+                      for p in Path(r).parts[:-1])
+        if in_docs or MANUSCRIPT_NAME.search(f.stem):
+            out.append({"file": r, "format": f.suffix.lower(), "size_kb": round(f.stat().st_size / 1024, 1)})
+    return out
+
+
+def psychds_check(root, tables):
+    """The minimum rules of Psych-DS, as listed on the booklet's page."""
+    res = {"data_dir": (root / "data").is_dir(), "problems": []}
+    dd = root / "dataset_description.json"
+    if not dd.exists():
+        res["problems"].append("no dataset_description.json in the root")
+        meta = None
+    else:
+        try:
+            meta = json.loads(dd.read_text())
+        except json.JSONDecodeError as e:
+            res["problems"].append(f"dataset_description.json is not valid JSON: {e}")
+            meta = None
+    if (root / "data" / "dataset_description.json").exists():
+        res["problems"].append("dataset_description.json is inside data/: it must be in the root")
+    in_data = [t for t in tables if t["file"].startswith("data/") and not t["file"].startswith("data/raw/")]
+    bad_names = [t["file"] for t in in_data if not PSYCHDS_NAME.match(Path(t["file"]).name)]
+    if bad_names:
+        res["problems"].append("files in data/ not named key-value_..._data.csv: " + ", ".join(bad_names))
+    if not res["data_dir"]:
+        res["problems"].append("no data/ folder in the root")
+    if meta is not None:
+        for req in ("name", "description", "variableMeasured"):
+            if not meta.get(req):
+                res["problems"].append(f"dataset_description.json: required field '{req}' missing or empty")
+        declared = {v if isinstance(v, str) else v.get("name") for v in meta.get("variableMeasured", [])}
+        cols = {c["name"] for t in in_data if PSYCHDS_NAME.match(Path(t["file"]).name) for c in t.get("columns", [])}
+        if cols - declared:
+            res["problems"].append("columns not in variableMeasured: " + ", ".join(sorted(cols - declared)))
+        if declared - cols and cols:
+            res["problems"].append("variableMeasured entries that are not columns of any data file: " + ", ".join(sorted(declared - cols)))
+        res["n_variables_described"] = sum(1 for v in meta.get("variableMeasured", []) if isinstance(v, dict) and v.get("description"))
+    res["valid_minimum"] = not res["problems"]
+    return res
 
 
 # --------------------------------------------------------------------- readme
@@ -693,7 +806,8 @@ def scan_readme(path, root, files_rel):
             mentioned.append(f)
         else:
             parent = str(Path(f).parent)
-            if parent != "." and (parent + "/" in text or parent + "\\" in text or f"{parent}/" in text):
+            if parent != "." and (parent + "/" in text or parent + "\\" in text or
+                                  (Path(parent).name not in ("data", "raw", "scripts", "code") and Path(parent).name + "/" in text)):
                 mentioned.append(f)
             else:
                 not_mentioned.append(f)
@@ -842,7 +956,8 @@ def main():
             else:
                 tables.append(scan_table(f, root))
     other_dicts = [r for r in files_rel if DICT_NAME.search(Path(r).stem) and Path(r).suffix.lower() not in OPEN_TABULAR]
-    report["data"] = tables
+    all_tables = tables
+    tables, report["data"] = group_file_sets(tables)
     # shared columns with different types across files
     by_name = defaultdict(set)
     for t in tables:
@@ -857,7 +972,7 @@ def main():
     if incons:
         report["cross_file_type_inconsistencies"] = incons
     report["cross_file_participants"] = compare_participants(tables)
-    for t in tables:
+    for t in tables + all_tables:
         t.pop("_by_id", None)
 
     dict_report = {"dictionary_files": [{k: v for k, v in d.items() if k != "entries"} | {"n_entries": len(d.get("entries", {}))} for d in dicts.values()],
@@ -910,12 +1025,19 @@ def main():
             if not c["referenced_files_not_found"]:
                 del c["referenced_files_not_found"]
     report["code"] = {"files": code, "environment": parse_env(root)}
+    report["manuscripts"] = find_manuscripts(root, files)
+    report["psychds"] = psychds_check(root, all_tables)
     allp = sorted({p for c in code for p in c.get("packages", [])})
     report["code"]["all_packages"] = allp
     lock = report["code"]["environment"].get("renv.lock", {})
     if isinstance(lock, dict) and lock.get("packages"):
         report["code"]["packages_not_in_renv_lock"] = [p for p in allp if p not in lock["packages"]]
 
+    report["materials_present"] = {
+        "data": bool(tables) or bool(fmt["proprietary_data"]),
+        "code": bool(code),
+        "manuscript": bool(report["manuscripts"]),
+    }
     text = json.dumps(report, indent=1, ensure_ascii=False, default=str)
     if args.out:
         Path(args.out).write_text(text)

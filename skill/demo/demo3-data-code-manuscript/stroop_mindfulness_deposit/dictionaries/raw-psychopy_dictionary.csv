@@ -1,0 +1,12 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+word,colour word shown,categorical,,BLU; GIALLO; ROSSO; VERDE,BLU = blue; GIALLO = yellow; ROSSO = red; VERDE = green,none in data,PsychoPy,Colour names in Italian.
+colour,ink colour of the word,categorical,,blue; green; red; yellow,,none in data,PsychoPy,
+congruent,congruent trial,integer,,0-1,0 = incongruent; 1 = congruent,none in data,PsychoPy,
+key_resp.keys,key pressed,categorical,,j; k,,none in data,PsychoPy,TODO: key-to-response mapping.
+key_resp.corr,correct response,integer,,0-1,0 = incorrect; 1 = correct,none in data,PsychoPy,
+key_resp.rt,reaction time from stimulus onset,numeric,seconds,,,none in data,PsychoPy,PsychoPy records times in seconds; converted to milliseconds in the trial data file.
+trials.thisN,trial index,integer,,0-95,,none in data,PsychoPy,Counts from 0.
+participant,participant code,string,,p01-p40,,none in data,PsychoPy,One file per participant.
+date,date and time of the session,string,,,,none in data,PsychoPy,Format YYYY-MM-DD_HHhMM.SS.mmm.
+expName,experiment name,string,,stroop_mind,,none in data,PsychoPy,
+frameRate,screen refresh rate,integer,Hz,60,,none in data,PsychoPy,

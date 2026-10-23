@@ -1,0 +1,96 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Brief mindfulness training and Stroop interference: data and code",
+  "description": "Trial-level Stroop data (96 trials per participant) and participant-level data (group, age, sex, MAAS score) of 40 university students assigned to a brief mindfulness training or a control group. Raw PsychoPy files are in data/raw/psychopy.",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Chiara Verdi",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Department of General Psychology, University of Padova"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Marco Neri",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Department of General Psychology, University of Padova"
+      }
+    }
+  ],
+  "keywords": [
+    "Stroop interference",
+    "mindfulness",
+    "MAAS",
+    "cognitive control"
+  ],
+  "temporalCoverage": "2025-03",
+  "spatialCoverage": "Padova, Italia",
+  "measurementTechnique": "Colour-word Stroop task (PsychoPy); Mindful Attention Awareness Scale (MAAS)",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "participant",
+      "description": "Participant code."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "group",
+      "description": "Experimental group. Coding: control = no training; mindfulness = four weeks of brief mindfulness training.",
+      "value": "control | mindfulness"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "age",
+      "description": "Age.",
+      "unitText": "years",
+      "minValue": 20,
+      "maxValue": 27
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "sex",
+      "description": "Sex. Coding: F = female; M = male.",
+      "value": "F | M"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "maas_score",
+      "description": "Mindful Attention Awareness Scale (MAAS) score.",
+      "minValue": 1,
+      "maxValue": 6
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "trial",
+      "description": "Trial number.",
+      "minValue": 1,
+      "maxValue": 96
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "congruent",
+      "description": "Congruent trial (word names the ink colour). Coding: TRUE = congruent; FALSE = incongruent.",
+      "value": "TRUE | FALSE"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "correct",
+      "description": "Correct response. Coding: 0 = incorrect; 1 = correct.",
+      "minValue": 0,
+      "maxValue": 1
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "rt_ms",
+      "description": "Reaction time from stimulus onset to response.",
+      "unitText": "milliseconds",
+      "minValue": 150,
+      "maxValue": 2500
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+subj,participant number,integer,,1-24,,none in data,E-Prime export (Subject),Same participants as id in the PSQI file (subj 1 = S01). Participant 19 has no questionnaire.
+age,age,integer,years,19-30,,none in data,E-Prime export (Age),"Participant 7 was 2 in block 2 of the export, corrected to 22 by scripts/01_import.R. Participant 9 is 30 here and 33 in the PSQI file: to check."
+block,block number,integer,,1-2,,none in data,E-Prime export (Block),24 trials per block.
+trial,trial number,integer,,1-48,,none in data,E-Prime export (Trial),Numbered 1-48 across both blocks.
+cond,flanker condition,categorical,,congruent; incongruent,congruent = flankers match the target; incongruent = flankers differ from the target,none in data,E-Prime export (Condition),Meaning of the codes from the standard Flanker design: to check. 6 trials written 'Incongruent' in the export are lower-cased by scripts/01_import.R.
+rt,reaction time,integer,milliseconds,TODO,,NA; 9999,E-Prime export (RT),Unit inferred from the values (242-9999): to check. 9999 looks like a timeout (no response): to check. scripts/02_models.R excludes trials with rt >= 3000 and NA.
+acc,accuracy,integer,,0-1,0 = incorrect; 1 = correct,none in data,E-Prime export (ACC),"Coding inferred from scripts/02_models.R, which keeps acc == 1 as correct trials: to check."

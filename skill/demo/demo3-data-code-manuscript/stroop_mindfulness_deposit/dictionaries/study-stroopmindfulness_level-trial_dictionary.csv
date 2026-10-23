@@ -1,0 +1,6 @@
+variable_name,label,type,unit,allowed_values,coding,missing_values,source,notes
+participant,participant code,string,,p01-p40,,none in data,PsychoPy (participant),38 participants: p13 and p28 were excluded for accuracy below 80% by scripts/01_preprocessing.R.
+trial,trial number,integer,,1-96,,none in data,PsychoPy (trials.thisN + 1),
+congruent,congruent trial (word names the ink colour),boolean,,TRUE; FALSE,TRUE = congruent; FALSE = incongruent,none in data,PsychoPy (congruent),Half of the trials are congruent.
+correct,correct response,integer,,0-1,0 = incorrect; 1 = correct,none in data,PsychoPy (key_resp.corr),
+rt_ms,reaction time from stimulus onset to response,numeric,milliseconds,150-2500,,none in data,PsychoPy (key_resp.rt x 1000),Trials outside 150-2500 ms were excluded by scripts/01_preprocessing.R (the preprint states 200-2000 ms: to check).

@@ -15,6 +15,11 @@ cannot find a file, it is retried from its own folder, and the result says so.
 Prints JSON: per script, the command, exit status, duration, the last lines of
 the error output, packages reported as missing, and the files it created.
 Packages are never installed by this script.
+
+--logs DIR saves what each script prints (DIR/<script>.log), to compare with
+the numbers in a manuscript. --in-place runs in the folder itself instead of a
+copy: use it only on the deposit version built by build_deposit.py, never on
+the researcher's own folder.
 """
 
 import argparse
@@ -88,12 +93,21 @@ def main():
     ap.add_argument("scripts", nargs="*")
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--keep", action="store_true", help="keep the temporary copy and print its path")
+    ap.add_argument("--logs", help="folder where to save each script's printed output (<script>.log)")
+    ap.add_argument("--in-place", action="store_true",
+                    help="run in the folder itself: only for the deposit version built by build_deposit.py")
     args = ap.parse_args()
 
     src = Path(args.folder).expanduser().resolve()
-    tmp = Path(tempfile.mkdtemp(prefix="fair-run-"))
-    work = tmp / src.name
-    shutil.copytree(src, work, ignore=IGNORE, symlinks=True)
+    if args.in_place:
+        tmp, work = None, src
+    else:
+        tmp = Path(tempfile.mkdtemp(prefix="fair-run-"))
+        work = tmp / src.name
+        shutil.copytree(src, work, ignore=IGNORE, symlinks=True)
+    logs = Path(args.logs).expanduser().resolve() if args.logs else None
+    if logs:
+        logs.mkdir(parents=True, exist_ok=True)
 
     if args.scripts:
         scripts = [work / s for s in args.scripts]
@@ -136,11 +150,16 @@ def main():
         after = snapshot(work)
         res["files_created"] = sorted(f for f in after if f not in before)[:40]
         res["files_modified"] = sorted(f for f in after if f in before and after[f] != before[f])[:40]
+        if logs:
+            log = logs / (relp.replace("/", "__") + ".log")
+            log.write_text((out or "") + "\n--- messages and errors ---\n" + (err or ""))
+            res["log"] = str(log)
         results.append(res)
 
-    print(json.dumps({"copy": str(work) if args.keep else "(deleted)", "environment": env_info,
+    where = "(in place)" if args.in_place else (str(work) if args.keep else "(deleted)")
+    print(json.dumps({"copy": where, "environment": env_info,
                       "results": results}, indent=1, ensure_ascii=False))
-    if not args.keep:
+    if tmp and not args.keep:
         shutil.rmtree(tmp, ignore_errors=True)
 
 

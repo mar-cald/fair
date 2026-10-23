@@ -1,0 +1,97 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Flanker and sleep quality: trial-level data and questionnaire",
+  "description": "Trial-level data from a Flanker task (24 participants, 48 trials each) and the Pittsburgh Sleep Quality Index of the same participants. One row per trial in the Flanker file, one row per participant in the PSQI file.",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "keywords": [
+    "Flanker task",
+    "sleep quality",
+    "PSQI",
+    "cognitive control"
+  ],
+  "measurementTechnique": "Flanker task (E-Prime); Pittsburgh Sleep Quality Index (PSQI)",
+  "author": "TODO",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "subj",
+      "description": "Participant number.",
+      "minValue": 1,
+      "maxValue": 24
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "age",
+      "description": "Age.",
+      "unitText": "years",
+      "minValue": 19,
+      "maxValue": 30
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "block",
+      "description": "Block number.",
+      "minValue": 1,
+      "maxValue": 2
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "trial",
+      "description": "Trial number.",
+      "minValue": 1,
+      "maxValue": 48
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "cond",
+      "description": "Flanker condition. Coding: congruent = flankers match the target; incongruent = flankers differ from the target.",
+      "value": "congruent | incongruent"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "rt",
+      "description": "Reaction time. Missing values: NA; 9999.",
+      "unitText": "milliseconds"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "acc",
+      "description": "Accuracy. Coding: 0 = incorrect; 1 = correct.",
+      "minValue": 0,
+      "maxValue": 1
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "id",
+      "description": "Participant code."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "sesso",
+      "description": "Sex. Coding: F = female; M = male.",
+      "value": "F | M"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "eta",
+      "description": "Age.",
+      "unitText": "years",
+      "minValue": 19,
+      "maxValue": 33
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "psqi_tot",
+      "description": "PSQI global score (Pittsburgh Sleep Quality Index). Missing values: 99.",
+      "minValue": 0,
+      "maxValue": 21
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "ore_sonno",
+      "description": "Hours of sleep per night.",
+      "unitText": "hours"
+    }
+  ]
+}
