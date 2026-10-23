@@ -11,6 +11,9 @@ project:
     - "materiali/struttura-2/**"  # i file dell'esempio Psych-DS finiscono nel sito cosi' come sono
     - "materiali.zip"             # esempio Psych-DS (pagina Struttura)
     - "booklet/vademecum.pdf"     # vademecum PDF (sorgente: booklet/vademecum.qmd)
+    - "deposito/**"                       # pagina "Prepara il deposito": interfaccia e bridge.py
+    - "skill/fair-check/scripts/*.py"     # gli script della skill, eseguiti nel browser da quella pagina
+    - "skill/fair-check/assets/licenses/*.txt"
 
 website:
   title: "Open Science"
@@ -42,6 +45,8 @@ website:
             text: Psych-DS
       - href: esempio.qmd
         text: Esempio
+      - href: deposito.qmd
+        text: Prepara il deposito
       - href: risorse.qmd
         text: Risorse
     right:

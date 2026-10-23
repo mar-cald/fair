@@ -715,6 +715,7 @@ def parse_env(root):
 MANUSCRIPT_NAME = re.compile(r"(?i)(manuscript|manoscritto|paper|preprint|article|articolo|draft|submission|thesis|tesi)")
 MANUSCRIPT_EXT = {".pdf", ".docx", ".doc", ".odt", ".md", ".qmd", ".rmd", ".tex", ".html"}
 PSYCHDS_NAME = re.compile(r"^([a-z]+-[a-zA-Z0-9]+_)+data\.csv$")
+PSYCHDS_KEYWORDS = {"study", "site", "subject", "session", "task", "condition", "trial", "stimulus", "description"}
 
 
 def find_manuscripts(root, files):
@@ -749,6 +750,10 @@ def psychds_check(root, tables):
     bad_names = [t["file"] for t in in_data if not PSYCHDS_NAME.match(Path(t["file"]).name)]
     if bad_names:
         res["problems"].append("files in data/ not named key-value_..._data.csv: " + ", ".join(bad_names))
+    unknown = sorted({k for t in in_data if PSYCHDS_NAME.match(Path(t["file"]).name)
+                      for k in re.findall(r"([a-z]+)-[a-zA-Z0-9]+_", Path(t["file"]).name) if k not in PSYCHDS_KEYWORDS})
+    if unknown:
+        res["warnings"] = ["keys not in the official Psych-DS list (" + ", ".join(sorted(PSYCHDS_KEYWORDS)) + "): " + ", ".join(unknown)]
     if not res["data_dir"]:
         res["problems"].append("no data/ folder in the root")
     if meta is not None:
@@ -845,15 +850,9 @@ def scan_licenses(root, files):
 
 # ----------------------------------------------------------------------- main
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("folder")
-    ap.add_argument("--out")
-    args = ap.parse_args()
-    root = Path(args.folder).expanduser().resolve()
-    if not root.is_dir():
-        sys.exit(f"Not a folder: {root}")
-
+def scan(root):
+    """Scan the folder `root` and return the report as a dict."""
+    root = Path(root).expanduser().resolve()
     files, dirs = walk(root)
     files_rel = [rel(f, root) for f in files]
     report = {"project": str(root), "n_files": len(files), "n_dirs": len(dirs)}
@@ -967,7 +966,7 @@ def main():
     incons = {}
     for n, s in by_name.items():
         types = {t for t, _ in s}
-        if len(types) > 1 and not types <= {"integer", "numeric"}:
+        if len(types) > 1 and not types <= {"integer", "numeric"} and not types <= {"string", "categorical"}:
             incons[n] = sorted(f"{f}: {t}" for t, f in s)
     if incons:
         report["cross_file_type_inconsistencies"] = incons
@@ -1038,6 +1037,18 @@ def main():
         "code": bool(code),
         "manuscript": bool(report["manuscripts"]),
     }
+    return report
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("folder")
+    ap.add_argument("--out")
+    args = ap.parse_args()
+    root = Path(args.folder).expanduser().resolve()
+    if not root.is_dir():
+        sys.exit(f"Not a folder: {root}")
+    report = scan(root)
     text = json.dumps(report, indent=1, ensure_ascii=False, default=str)
     if args.out:
         Path(args.out).write_text(text)

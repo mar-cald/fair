@@ -238,11 +238,18 @@
     "text": "Data Management Plan (DMP)\nIl DMP è un documento che si scrive all’inizio di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. È un documento che può essere aggiornato man mano che il progetto procede, e gli scostamenti dal piano iniziale vanno documentati e motivati.\n\nCatalogo dei template\nIl template ufficiale di Horizon Europe\nHorizon Europe, annotato da Unipd, con spiegazioni ed esempi per ogni domanda.\nArgos (OpenAIRE), DMPonline e DMPTool: strumenti online che guidano la compilazione."
   },
   {
-    "objectID": "confronto.html",
-    "href": "confronto.html",
-    "title": "Zenodo o PsychArchives?",
+    "objectID": "deposito.html",
+    "href": "deposito.html",
+    "title": "Prepara il deposito",
     "section": "",
-    "text": "Parole chiave: confronto confrontare differenze differenza scelta scegliere quale Zenodo PsychArchives.\n\n\n\n\n\n\n\n\n\n\nZenodo\nPsychArchives\n\n\n\n\nAmbito\nGeneralista\nPsicologia e discipline vicine\n\n\nSpazio\n50 GB per record\n1 GB per oggetto\n\n\nUn progetto si deposita come\nUno zip, oppure più record collegati\nUn unico invio (bundle) con più oggetti, uno per tipo, collegati fra loro\n\n\nControllo prima della pubblicazione\nNessuno sul contenuto, salvo nelle community con revisione\nControllo formale dello staff, di solito entro due giorni lavorativi\n\n\nCondividere prima di pubblicare\nLink segreto sulla bozza; l’anonimizzazione è a mano\nReviewer link, anonimizzato di default\n\n\nCorrezioni dopo la pubblicazione\nIn autonomia, entro 30 giorni\nSu richiesta, entro una settimana\n\n\nLicenze\nQualsiasi; di default CC BY 4.0\nCC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD\n\n\n\nI dettagli di ciascuno sono nelle pagine Depositare su Zenodo e Depositare su PsychArchives."
+    "text": "Parole chiave: controllo cartella verifica progetto FAIR deposito pronto zip Zenodo PsychArchives caricare; data dictionary automatico generare README licenza LICENSE Psych-DS dataset_description.json; strumento tool online browser.\nLa pagina legge la cartella del vostro progetto, la controlla con le regole di questa dispensa e costruisce una versione da depositare: le cartelle con nomi fissi (data/, scripts/, docs/…), i file di dati con i nomi di Psych-DS, un data dictionary per ogni file, il README, le licenze e uno zip da caricare su Zenodo.\nI file restano sul vostro computer. La pagina li legge nel browser con Python (Pyodide) e non li invia a nessun server; la vostra cartella non viene modificata. La prima volta il browser scarica Pyodide, circa 10 MB.\nCosa la pagina non fa:\nQueste verifiche, insieme a tutte le altre, le fa la skill fair-check per Claude."
+  },
+  {
+    "objectID": "deposito.html#scegliete-la-cartella",
+    "href": "deposito.html#scegliete-la-cartella",
+    "title": "Prepara il deposito",
+    "section": "1. Scegliete la cartella",
+    "text": "1. Scegliete la cartella\n\n  Trascinate qui la cartella del progetto, oppure\n  Scegli la cartella…\n  \n\n\n\n2. Il controllo\n\n\n\n\n3. La versione da depositare\n\nLo studio\n\n  Titolo del dataset\n  Nome breve dello studio solo lettere e numeri: entra nei nomi dei file (study-…)\n  Descrizione cosa contengono i dati, in poche righe\n  Come sono stati raccolti i dati quando, dove, con quale campione e quale strumento\n  Autori uno per riga: Nome Cognome, ORCID\n  Contatto e-mail istituzionale\n       Periodo di raccolta es. 2025-03/2025-05\n  Parole chiave separate da virgole\n  Lingua del READMEItalianoEnglish\n  DOI dell'articolo o del preprint\n  Preregistrazione\n\n\nDove va ogni file\nLa pagina propone una destinazione per ogni file; cambiatela dove serve. I file\nlasciati fuori non entrano nel deposito. I nomi sono già senza spazi, accenti o\nparole come \"finale\".\n\n\nDati personali\n\n\nData dictionary\n\n\nLicenze\n\n  Dati, dictionary e dataset_description.json\n    CC0 1.0 (consigliata)CC BY 4.0\n  CodiceGNU GPL 3.0\n  README, documenti, figure, materiali propriCC BY 4.0\n  Titolari del copyright per il LICENSE; di solito gli autori\n\nI testi completi delle licenze vengono copiati nel file LICENSE. Gli strumenti di terzi (test pubblicati, stimoli con copyright) vanno lasciati fuori e citati nel README.\n\n\nCrea la versione da depositare\n\n\n\n4. Il risultato"
   },
   {
     "objectID": "apertura.html",
@@ -250,6 +257,13 @@
     "title": "Che cosa sta succedendo a OSF",
     "section": "",
     "text": "Parole chiave: OSF chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura futuro cosa cambia.\n\nAd agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n   \nOSF a parte …"
+  },
+  {
+    "objectID": "confronto.html",
+    "href": "confronto.html",
+    "title": "Zenodo o PsychArchives?",
+    "section": "",
+    "text": "Parole chiave: confronto confrontare differenze differenza scelta scegliere quale Zenodo PsychArchives.\n\n\n\n\n\n\n\n\n\n\nZenodo\nPsychArchives\n\n\n\n\nAmbito\nGeneralista\nPsicologia e discipline vicine\n\n\nSpazio\n50 GB per record\n1 GB per oggetto\n\n\nUn progetto si deposita come\nUno zip, oppure più record collegati\nUn unico invio (bundle) con più oggetti, uno per tipo, collegati fra loro\n\n\nControllo prima della pubblicazione\nNessuno sul contenuto, salvo nelle community con revisione\nControllo formale dello staff, di solito entro due giorni lavorativi\n\n\nCondividere prima di pubblicare\nLink segreto sulla bozza; l’anonimizzazione è a mano\nReviewer link, anonimizzato di default\n\n\nCorrezioni dopo la pubblicazione\nIn autonomia, entro 30 giorni\nSu richiesta, entro una settimana\n\n\nLicenze\nQualsiasi; di default CC BY 4.0\nCC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD\n\n\n\nI dettagli di ciascuno sono nelle pagine Depositare su Zenodo e Depositare su PsychArchives."
   },
   {
     "objectID": "esempio.html",

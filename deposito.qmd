@@ -1,0 +1,107 @@
+---
+title: "Prepara il deposito"
+subtitle: "Controllate la cartella del progetto e scaricate la versione da caricare su Zenodo"
+toc: false
+---
+
+::: {.visually-hidden}
+Parole chiave: controllo cartella verifica progetto FAIR deposito pronto zip Zenodo PsychArchives caricare; data dictionary automatico generare README licenza LICENSE Psych-DS dataset_description.json; strumento tool online browser.
+:::
+
+```{=html}
+<link rel="stylesheet" href="deposito/app.css">
+<script src="deposito/app.js"></script>
+```
+
+La pagina legge la cartella del vostro progetto, la controlla con le regole di
+questa dispensa e costruisce una **versione da depositare**: le cartelle con
+nomi fissi (`data/`, `scripts/`, `docs/`…), i file di dati con i nomi di
+[Psych-DS](struttura-2.qmd), un data dictionary per ogni file, il README, le
+[licenze](licenze.qmd) e uno zip da caricare su [Zenodo](zenodo.qmd).
+
+**I file restano sul vostro computer.** La pagina li legge nel browser con
+Python ([Pyodide](https://pyodide.org/)) e non li invia a nessun server; la
+vostra cartella non viene modificata. La prima volta il browser scarica
+Pyodide, circa 10 MB.
+
+Cosa la pagina **non** fa:
+
+- **non esegue il codice**: aggiorna i percorsi dei file negli script, ma
+  dovete eseguirli voi, dalla cartella del deposito, per verificare che girino;
+- **non confronta i numeri del manoscritto** con l'output del codice;
+- **non corregge i dati**: segnala valori sospetti, ma decidete voi se sono
+  errori e li correggete voi.
+
+Queste verifiche, insieme a tutte le altre, le fa la skill
+[fair-check](https://github.com/mar-cald/fair/tree/main/skill) per Claude.
+
+::: {#fair-app}
+
+## 1. Scegliete la cartella
+
+```{=html}
+<div class="fa-drop" id="fa-drop">
+  <p>Trascinate qui la cartella del progetto, oppure</p>
+  <label class="fa-input-label" for="fa-input">Scegli la cartella…</label>
+  <input type="file" id="fa-input" webkitdirectory directory multiple>
+</div>
+<p class="fa-status" id="fa-status" role="status"></p>
+```
+
+```{=html}
+<section id="fa-report-section" hidden>
+<h2>2. Il controllo</h2>
+<div id="fa-report"></div>
+</section>
+
+<section id="fa-deposit-section" hidden>
+<h2>3. La versione da depositare</h2>
+
+<h3>Lo studio</h3>
+<div class="fa-form">
+  <div><label for="fa-title">Titolo del dataset</label><input id="fa-title" type="text"></div>
+  <div><label for="fa-study">Nome breve dello studio <span class="fa-help">solo lettere e numeri: entra nei nomi dei file (study-…)</span></label><input id="fa-study" type="text"></div>
+  <div class="fa-wide"><label for="fa-description">Descrizione <span class="fa-help">cosa contengono i dati, in poche righe</span></label><textarea id="fa-description" rows="3"></textarea></div>
+  <div class="fa-wide"><label for="fa-provenance">Come sono stati raccolti i dati <span class="fa-help">quando, dove, con quale campione e quale strumento</span></label><textarea id="fa-provenance" rows="3"></textarea></div>
+  <div><label for="fa-authors">Autori <span class="fa-help">uno per riga: Nome Cognome, ORCID</span></label><textarea id="fa-authors" rows="3"></textarea></div>
+  <div><label for="fa-contact">Contatto <span class="fa-help">e-mail istituzionale</span></label><input id="fa-contact" type="text">
+       <label for="fa-dates" style="margin-top:.6rem">Periodo di raccolta <span class="fa-help">es. 2025-03/2025-05</span></label><input id="fa-dates" type="text"></div>
+  <div><label for="fa-keywords">Parole chiave <span class="fa-help">separate da virgole</span></label><input id="fa-keywords" type="text"></div>
+  <div><label for="fa-lang">Lingua del README</label><select id="fa-lang"><option value="it">Italiano</option><option value="en">English</option></select></div>
+  <div><label for="fa-article">DOI dell'articolo o del preprint</label><input id="fa-article" type="text"></div>
+  <div><label for="fa-prereg">Preregistrazione</label><input id="fa-prereg" type="text"></div>
+</div>
+
+<h3>Dove va ogni file</h3>
+<p>La pagina propone una destinazione per ogni file; cambiatela dove serve. I file
+lasciati fuori non entrano nel deposito. I nomi sono già senza spazi, accenti o
+parole come "finale".</p>
+<div id="fa-files"></div>
+
+<h3>Dati personali</h3>
+<div id="fa-personal"></div>
+
+<h3>Data dictionary</h3>
+<div id="fa-dicts"></div>
+
+<h3>Licenze</h3>
+<div class="fa-form">
+  <div><label for="fa-lic-data">Dati, dictionary e dataset_description.json</label>
+    <select id="fa-lic-data"><option value="CC0-1.0">CC0 1.0 (consigliata)</option><option value="CC-BY-4.0">CC BY 4.0</option></select></div>
+  <div id="fa-lic-code-row"><label>Codice</label><p class="fa-muted">GNU GPL 3.0</p></div>
+  <div><label>README, documenti, figure, materiali propri</label><p class="fa-muted">CC BY 4.0</p></div>
+  <div><label for="fa-holder">Titolari del copyright <span class="fa-help">per il LICENSE; di solito gli autori</span></label><input id="fa-holder" type="text"></div>
+</div>
+<p class="fa-muted">I testi completi delle licenze vengono copiati nel file LICENSE. Gli strumenti di terzi (test pubblicati, stimoli con copyright) vanno lasciati fuori e citati nel README.</p>
+
+<div id="fa-errors" hidden></div>
+<p><button class="fa-button" id="fa-build" type="button">Crea la versione da depositare</button></p>
+</section>
+
+<section id="fa-result-section" hidden>
+<h2>4. Il risultato</h2>
+<div id="fa-result"></div>
+</section>
+```
+
+:::

@@ -1,0 +1,61 @@
+/* "Prepara il deposito": stesse tinte del sito (custom.scss). */
+#fair-app { --fa-accento: #8f1f27; --fa-riga: #c8c1b6; --fa-attenuato: #454039; --fa-fondo2: #f4f2ee; }
+
+.fa-drop {
+  border: 2px dashed var(--fa-riga); border-radius: 6px; padding: 1.6rem 1.2rem; text-align: center;
+  background: var(--fa-fondo2); margin-bottom: .8rem;
+}
+.fa-drop.fa-over { border-color: var(--fa-accento); background: #fbf3f3; }
+.fa-drop p { margin-bottom: .6rem; }
+.fa-input-label, .fa-button {
+  display: inline-block; background: var(--fa-accento); color: #fff !important; border: 0; border-radius: 4px;
+  padding: .45rem 1.1rem; font-weight: 600; cursor: pointer; text-decoration: none;
+}
+.fa-input-label:hover, .fa-button:hover { filter: brightness(1.1); }
+#fa-input { position: absolute; left: -9999px; }
+.fa-status { min-height: 1.6rem; color: var(--fa-attenuato); font-size: .95rem; }
+.fa-status.fa-ok { color: #2b6b45; }
+.fa-status.fa-bad, .fa-bad { color: var(--fa-accento); }
+
+.fa-summary, .fa-files { width: 100%; font-size: .9rem; margin-bottom: 1.2rem; }
+.fa-summary td, .fa-summary th, .fa-files td, .fa-files th { padding: .35rem .5rem; border-bottom: 1px solid var(--fa-riga); vertical-align: top; }
+.fa-icon { text-align: center; white-space: nowrap; }
+.fa-area { border-left: 3px solid var(--fa-riga); padding: .2rem .9rem; margin-bottom: .7rem; font-size: .93rem; }
+.fa-area summary { font-weight: 600; cursor: pointer; }
+.fa-area ul ul { margin-bottom: .3rem; }
+
+.fa-form { display: grid; grid-template-columns: 1fr; gap: .7rem 1.2rem; margin-bottom: 1.4rem; }
+@media (min-width: 760px) { .fa-form { grid-template-columns: 1fr 1fr; } .fa-form .fa-wide { grid-column: 1 / -1; } }
+.fa-form label { display: block; font-weight: 600; font-size: .88rem; margin-bottom: .15rem; }
+.fa-form .fa-help { font-weight: 400; color: var(--fa-attenuato); font-size: .82rem; }
+.fa-form input, .fa-form textarea, .fa-form select, .fa-files select, .fa-files input {
+  width: 100%; border: 1px solid var(--fa-riga); border-radius: 4px; padding: .3rem .45rem; font-size: .88rem; background: #fff;
+}
+.fa-files input { font-family: SFMono-Regular, Menlo, Consolas, monospace; font-size: .8rem; }
+.fa-files td:nth-child(2) { width: 13rem; }
+.fa-files td:nth-child(3) { width: 40%; }
+.fa-excluded td:first-child code { text-decoration: line-through; color: var(--fa-attenuato); }
+.fa-excluded input { opacity: .45; }
+.fa-reason { font-size: .78rem; color: var(--fa-attenuato); margin-top: .15rem; }
+.fa-muted { color: var(--fa-attenuato); font-size: .85rem; }
+
+.fa-check { display: block; font-size: .9rem; margin-bottom: .25rem; }
+.fa-scroll { overflow-x: auto; margin-bottom: 1.3rem; }
+.fa-dict { font-size: .78rem; border-collapse: collapse; min-width: 1100px; }
+.fa-dict th, .fa-dict td { border: 1px solid var(--fa-riga); padding: .15rem .25rem; }
+.fa-dict th { background: var(--fa-fondo2); font-weight: 600; }
+.fa-dict input { width: 100%; min-width: 7rem; border: 0; padding: .2rem; font-size: .78rem; background: transparent; }
+.fa-dict input.fa-todo, mark { background: #fff1c7; }
+.fa-dict input:focus { outline: 2px solid var(--fa-accento); }
+
+.fa-box { border-left: 3px solid var(--fa-riga); background: var(--fa-fondo2); padding: .6rem 1rem; margin: 1rem 0; font-size: .92rem; }
+.fa-box-warn { border-left-color: #8a6212; }
+.fa-verify { list-style: none; padding-left: 0; }
+#fa-errors { color: var(--fa-accento); }
+
+/* Telefono: la tabella dei file diventa una colonna sola */
+@media (max-width: 700px) {
+  .fa-files thead { display: none; }
+  .fa-files tr { display: block; border-bottom: 1px solid var(--fa-riga); padding: .4rem 0; }
+  .fa-files td { display: block; width: 100% !important; border: 0; padding: .2rem 0; }
+}

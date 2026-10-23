@@ -19,4 +19,4 @@ cat("Participants excluded for accuracy < 80%:", setdiff(acc$participant, keep),
 
 trials %>%
   filter(participant %in% keep) %>%
-  write_csv(here("data", "study-stroopmindfulness_level-trial_data.csv"))
+  write_csv(here("data", "study-stroopmindfulness_description-trials_data.csv"))

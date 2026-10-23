@@ -70,17 +70,12 @@ def property_value(entry):
     return pv
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("deposit")
-    ap.add_argument("--name")
-    ap.add_argument("--description")
-    ap.add_argument("--meta")
-    args = ap.parse_args()
-    root = Path(args.deposit).expanduser().resolve()
+def make_psychds(root, name=None, description=None, meta=None):
+    """Write <root>/dataset_description.json; returns a summary with problems."""
+    root = Path(root).expanduser().resolve()
     data_files = sorted(p for p in (root / "data").rglob("*_data.csv") if "raw" not in p.relative_to(root / "data").parts)
     if not data_files:
-        sys.exit("No data/*_data.csv files found")
+        raise ValueError("No data/*_data.csv files found")
 
     columns, entries, problems = {}, {}, []
     for f in data_files:
@@ -116,12 +111,12 @@ def main():
     desc = json.loads(out.read_text()) if out.exists() else {}
     base = {"@context": "https://schema.org/", "@type": "Dataset"}
     desc = {**base, **desc}
-    if args.name:
-        desc["name"] = args.name
-    if args.description:
-        desc["description"] = args.description
-    if args.meta:
-        desc.update(json.loads(Path(args.meta).read_text()))
+    if name:
+        desc["name"] = name
+    if description:
+        desc["description"] = description
+    if meta:
+        desc.update(meta)
     desc["variableMeasured"] = variables
     for req in ("name", "description"):
         if not desc.get(req):
@@ -130,8 +125,23 @@ def main():
     ordered.update({k: v for k, v in desc.items() if k not in ordered and k != "variableMeasured"})
     ordered["variableMeasured"] = variables
     out.write_text(json.dumps(ordered, indent=2, ensure_ascii=False) + "\n")
-    print(json.dumps({"written": str(out), "n_variables": len(variables), "data_files": [f.name for f in data_files],
-                      "problems": problems}, indent=1, ensure_ascii=False))
+    return {"written": str(out), "n_variables": len(variables), "data_files": [f.name for f in data_files],
+            "problems": problems}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("deposit")
+    ap.add_argument("--name")
+    ap.add_argument("--description")
+    ap.add_argument("--meta")
+    args = ap.parse_args()
+    meta = json.loads(Path(args.meta).read_text()) if args.meta else None
+    try:
+        result = make_psychds(args.deposit, args.name, args.description, meta)
+    except ValueError as e:
+        sys.exit(str(e))
+    print(json.dumps(result, indent=1, ensure_ascii=False))
 
 
 if __name__ == "__main__":

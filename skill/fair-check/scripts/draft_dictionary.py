@@ -30,30 +30,19 @@ from fair_scan import infer_column, personal_flags, read_table  # noqa: E402
 COLUMNS = ["variable_name", "label", "type", "unit", "allowed_values", "coding", "missing_values", "source", "notes"]
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("data", nargs="+")
-    ap.add_argument("--out")
-    ap.add_argument("--force", action="store_true")
-    args = ap.parse_args()
-
-    paths = [Path(d).expanduser().resolve() for d in args.data]
-    if len(paths) > 1 and not args.out:
-        sys.exit("With several files, say where to write the dictionary with --out")
-    path = paths[0]
-    header, body = None, []
+def draft(paths):
+    """Draft dictionary rows (list of dicts with COLUMNS) for one data file, or for
+    several files with the same columns described together."""
+    paths = [Path(p) for p in paths]
+    header, body, info = None, [], None
     for p in paths:
         rows, info = read_table(p)
         rows = [r for r in rows if any(c.strip() for c in r)]
         if header is None:
             header = rows[0]
         elif rows[0] != header:
-            sys.exit(f"{p.name} has different columns from {path.name}: describe it separately")
+            raise ValueError(f"{p.name} has different columns from {paths[0].name}: describe it separately")
         body += rows[1:]
-    stem = path.stem[:-5] if path.stem.lower().endswith("_data") else path.stem
-    out = Path(args.out) if args.out else path.with_name(f"{stem}_dictionary.csv")
-    if out.exists() and not args.force:
-        sys.exit(f"{out} already exists: not overwritten (use --force)")
 
     decimal_comma = info["delimiter"] == "semicolon" and any(
         re.match(r"^-?\d+,\d+$", c.strip()) for r in body[:500] for c in r)
@@ -89,11 +78,36 @@ def main():
                       "allowed_values": allowed, "coding": coding,
                       "missing_values": miss if miss else "none in data",
                       "source": "TODO", "notes": " | ".join(notes)})
+    return lines
 
-    with out.open("w", newline="", encoding="utf-8") as fh:
+
+def write_dictionary(lines, out):
+    with Path(out).open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=COLUMNS)
         w.writeheader()
         w.writerows(lines)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("data", nargs="+")
+    ap.add_argument("--out")
+    ap.add_argument("--force", action="store_true")
+    args = ap.parse_args()
+
+    paths = [Path(d).expanduser().resolve() for d in args.data]
+    if len(paths) > 1 and not args.out:
+        sys.exit("With several files, say where to write the dictionary with --out")
+    path = paths[0]
+    stem = path.stem[:-5] if path.stem.lower().endswith("_data") else path.stem
+    out = Path(args.out) if args.out else path.with_name(f"{stem}_dictionary.csv")
+    if out.exists() and not args.force:
+        sys.exit(f"{out} already exists: not overwritten (use --force)")
+    try:
+        lines = draft(paths)
+    except ValueError as e:
+        sys.exit(str(e))
+    write_dictionary(lines, out)
     print(f"Wrote {out} ({len(lines)} variables)")
 
 

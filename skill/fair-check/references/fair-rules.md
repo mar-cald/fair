@@ -304,11 +304,13 @@ Minimum rules (from `struttura-2.html`):
    underscore separates the pairs; keys are lowercase; values contain only
    letters and digits.
 
-Names used in the deposit: `study-<study name>` always first, then a key that
-says what the file contains when there is more than one, e.g.
-`study-flankersleep_task-flanker_data.csv` and
-`study-flankersleep_task-psqi_data.csv`. One file per participant adds
-`subject-<id>`.
+Psych-DS defines nine official keys: `study`, `site`, `subject`, `session`,
+`task`, `condition`, `trial`, `stimulus`, `description`. Use only these.
+Names used in the deposit: `study-<study name>` always first, then, when there
+is more than one file, `task-<task>` for task data or `description-<what it
+is>` otherwise, e.g. `study-flankersleep_task-flanker_data.csv`,
+`study-stroopmindfulness_description-participants_data.csv`. One file per
+participant adds `subject-<id>`.
 
 `dataset_description.json` uses the schema.org vocabulary. Required:
 `name`, `description`, `variableMeasured`; usually also `@context`

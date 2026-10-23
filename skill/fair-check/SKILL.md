@@ -342,9 +342,13 @@ python3 <skill-dir>/scripts/build_deposit.py build <project-folder> <tmp>/plan.j
 ```
 
 It copies only the listed files under their new names and rewrites the paths
-inside the scripts to point to the new locations. Check its output:
+inside the scripts to point to the new locations, including `here("data",
+"x.csv")` and `file.path(...)` calls. With a `"data"` entry in the plan, it also
+removes columns from the deposit's copy of a data file (personal data) and
+converts it to comma-separated UTF-8 with decimal points, adjusting
+`read.csv2()` and `sep = ";"` in the scripts that read it. Check its output:
 `unresolved_paths` lists path-like strings it could not map (absolute paths,
-`here()` with several pieces). Fix those by hand in the deposit's scripts.
+files it cannot find). Fix those by hand in the deposit's scripts.
 Also fix there the other portability problems found in 1f (`setwd()`,
 absolute output paths, `rm(list = ls())`), and apply the data corrections the
 researcher agreed to.

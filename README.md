@@ -23,6 +23,7 @@ Generale, Università di Padova, 23 settembre 2026).
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
 | `custom.scss` | Grafica del sito: colori (in cima al file), tipografia (Libre Franklin) e stile della navbar |
 | `booklet/` | Sorgente del vademecum in PDF (vedi sotto) |
+| `deposito.qmd`, `deposito/` | Pagina "Prepara il deposito": controlla una cartella e crea la versione da depositare nel browser, con gli script della skill eseguiti da Pyodide |
 | `skill/` | `fair-check`, la skill per Claude che controlla se un progetto è FAIR (vedi `skill/README.md`) |
 
 

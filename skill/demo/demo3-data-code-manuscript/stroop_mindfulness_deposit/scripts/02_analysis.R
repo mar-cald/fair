@@ -1,8 +1,8 @@
 library(tidyverse)
 library(here)
 
-trials <- read_csv(here("data", "study-stroopmindfulness_level-trial_data.csv"), show_col_types = FALSE)
-ppt <- read_csv(here("data", "study-stroopmindfulness_level-participant_data.csv"), show_col_types = FALSE)
+trials <- read_csv(here("data", "study-stroopmindfulness_description-trials_data.csv"), show_col_types = FALSE)
+ppt <- read_csv(here("data", "study-stroopmindfulness_description-participants_data.csv"), show_col_types = FALSE)
 
 interference <- trials %>%
   filter(correct == 1) %>%

@@ -81,6 +81,17 @@ viene mai modificata:
 Il controllo definitivo di Psych-DS si fa con il validator ufficiale
 (<https://psych-ds.github.io/validator/>).
 
+## Senza Claude: la pagina "Prepara il deposito"
+
+La pagina [Prepara il deposito](https://mar-cald.github.io/fair/deposito.html)
+del sito esegue gli stessi script nel browser, con Pyodide, senza AI e senza
+inviare i file a un server. Fa il controllo e costruisce la versione da
+depositare; le decisioni che con la skill prende Claude (dove va ogni file,
+descrizioni nel data dictionary, testo del README) le prende chi usa la pagina,
+in un modulo. Non esegue il codice e non controlla i numeri del manoscritto.
+I file della pagina sono in `deposito/` (interfaccia e `bridge.py`) e usano gli
+script di `fair-check/scripts/`: una correzione agli script vale per entrambe.
+
 ## Esempi
 
 In `demo/` ci sono tre progetti inventati (solo dati; dati e codice; dati,

@@ -24,11 +24,11 @@ dataset_description.json     metadati Psych-DS, con la descrizione di ogni colon
 stroop_mindfulness.Rproj     progetto RStudio: imposta la cartella di lavoro
 data/
   raw/psychopy/              un file per partecipante, esportato da PsychoPy (40 file)
-  study-stroopmindfulness_level-trial_data.csv        una riga per prova, dopo le esclusioni (38 partecipanti); prodotto da scripts/01_preprocessing.R
-  study-stroopmindfulness_level-participant_data.csv  una riga per partecipante: gruppo, età, sesso, punteggio MAAS (40)
+  study-stroopmindfulness_description-trials_data.csv        una riga per prova, dopo le esclusioni (38 partecipanti); prodotto da scripts/01_preprocessing.R
+  study-stroopmindfulness_description-participants_data.csv  una riga per partecipante: gruppo, età, sesso, punteggio MAAS (40)
 dictionaries/
-  study-stroopmindfulness_level-trial_dictionary.csv        le colonne del file delle prove
-  study-stroopmindfulness_level-participant_dictionary.csv  le colonne del file dei partecipanti
+  study-stroopmindfulness_description-trials_dictionary.csv        le colonne del file delle prove
+  study-stroopmindfulness_description-participants_dictionary.csv  le colonne del file dei partecipanti
   raw-psychopy_dictionary.csv                               le colonne dei file PsychoPy
 scripts/
   01_preprocessing.R         unisce i file PsychoPy, esclude prove e partecipanti, scrive il file delle prove
