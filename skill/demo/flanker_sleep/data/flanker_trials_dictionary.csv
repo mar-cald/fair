@@ -1,0 +1,7 @@
+variable_name,label,type
+subj,participant number,integer
+block,block,integer
+trial,trial number,integer
+condition,congruent or incongruent,string
+rt,reaction time,numeric
+acc,accuracy,integer

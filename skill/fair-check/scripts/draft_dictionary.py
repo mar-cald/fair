@@ -73,7 +73,7 @@ def main():
         for i in c.get("issues", []):
             notes.append(i)
         miss = "; ".join(c.get("missing_tokens", {}).keys())
-        lines.append({"variable_name": h, "label": "TODO", "type": t, "unit": "TODO" if t in ("integer", "numeric") else "",
+        lines.append({"variable_name": h, "label": "TODO", "type": t, "unit": "TODO" if t in ("integer", "numeric") and not idlike else "",
                       "allowed_values": allowed, "coding": coding,
                       "missing_values": miss if miss else "none in data",
                       "source": "TODO", "notes": " | ".join(notes)})
