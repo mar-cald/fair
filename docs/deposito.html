@@ -211,7 +211,8 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="deposito/app.css">
 <script src="deposito/app.js"></script>
 <p>La pagina legge la cartella del vostro progetto, la controlla con le regole di questa dispensa e costruisce una <strong>versione da depositare</strong>: le cartelle con nomi fissi (<code>data/</code>, <code>scripts/</code>, <code>docs/</code>…), i file di dati con i nomi di <a href="./struttura-2.html">Psych-DS</a>, un data dictionary per ogni file, il README, le <a href="./licenze.html">licenze</a> e uno zip da caricare su <a href="./zenodo.html">Zenodo</a>.</p>
-<p><strong>I file restano sul vostro computer.</strong> La pagina li legge nel browser con Python (<a href="https://pyodide.org/">Pyodide</a>) e non li invia a nessun server; la vostra cartella non viene modificata. La prima volta il browser scarica Pyodide, circa 10 MB.</p>
+<p><strong>I file restano sul vostro computer.</strong> La pagina li legge nel browser con Python (<a href="https://pyodide.org/">Pyodide</a>) e non li invia a nessun server; la vostra cartella non viene modificata. La prima volta il browser scarica Pyodide, circa 10 MB; se nella cartella ci sono file Excel, scarica anche la libreria che li legge (openpyxl, da PyPI).</p>
+<p>Riconosce i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed E-Prime: ne descrive da sola le colonne standard (per esempio <code>key_resp.rt</code>, in secondi), toglie le righe che questi programmi aggiungono attorno ai dati e fa una copia CSV dei dati che non sono in CSV (JSON, log di E-Prime, Excel). I file <code>.sav</code> di SPSS non si possono leggere nel browser: salvatene una copia CSV.</p>
 <p>Cosa la pagina <strong>non</strong> fa:</p>
 <ul>
 <li><strong>non esegue il codice</strong>: aggiorna i percorsi dei file negli script, ma dovete eseguirli voi, dalla cartella del deposito, per verificare che girino;</li>
@@ -256,6 +257,7 @@ ul.task-list li input[type="checkbox"] {
 lasciati fuori non entrano nel deposito. I nomi sono già senza spazi, accenti o
 parole come "finale".</p>
 <div id="fa-files"></div>
+<div id="fa-copies"></div>
 
 <h3 class="anchored">Dati personali</h3>
 <div id="fa-personal"></div>

@@ -12,21 +12,45 @@ to the new locations. The original project is never modified.
 
 plan.json:
 {
-  "data": {"data/x_data.csv": {"drop": ["email"]}},   optional: data files to rewrite
-                                     comma-separated UTF-8 (decimal point), without
-                                     the listed columns; scripts that read them with
-                                     read.csv2 / sep=";" are adjusted
   "files": [
     {"from": "data/stroop data.csv", "to": "data/study-stroop_task-flanker_data.csv"},
     {"from": "analysis/clean.R",     "to": "scripts/01_cleaning.R"}
   ],
-  "dirs": {"Results": "output"}      optional: old folder -> new folder, for
+  "dirs": {"Results": "output"},     optional: old folder -> new folder, for
                                      outputs that do not exist yet
+  "data": {                          optional: deposit copies to rewrite
+    "data/raw/survey.csv": {"drop": ["IPAddress", "LocationLatitude"]},
+    "data/x_data.csv": {"drop": ["email"], "normalise": true, "remove_export_rows": false}
+  },
+  "csv_copies": [                    optional: open CSV copies of other formats
+    {"from": "data/raw/gonogo.json", "to": "data/study-gonogo_data.csv", "drop": ["PROLIFIC_PID"]},
+    {"from": "data/raw/flanker.xlsx", "sheet": "data", "to": "data/study-flanker_data.csv"}
+  ]
 }
 
+"data" entries (paths in the deposit):
+  drop                columns to remove (personal data), in every row, label
+                      rows included;
+  normalise           (default true) write comma-separated UTF-8 with decimal
+                      points; scripts that read the file with read.csv2,
+                      sep = ";", dec = ",", or a UTF-16 encoding are adjusted.
+                      false keeps the file's own encoding and separator;
+  remove_export_rows  (default false) also remove what the export adds around
+                      the data: the line above the header (E-DataAid's file
+                      path), the label rows under it (Qualtrics question text
+                      and ImportId), the footer ("END OF FILE"), an empty last
+                      column (PsychoPy). Leave it false for files the scripts
+                      read: they may already skip those rows.
+
+"csv_copies" make a comma-separated UTF-8 file from JSON (jsPsych, JATOS), an
+E-Prime log, a TSV or a UTF-16 text export, an Excel sheet or an SPSS file
+(with pyreadstat), with the export rows removed and the listed columns
+dropped. "from" is a path in the deposit or, if not there, in the project.
+
 Prints JSON: files copied, files of the project left out, path rewrites made
-in each script, and path-like strings that could not be resolved (to fix by
-hand). Refuses to write into an existing <out_dir>.
+in each script, data changes, CSV copies made, path-like strings that could not
+be resolved and reading lines to check by hand. Refuses to write into an
+existing <out_dir>.
 
 `license` writes <out_dir>/LICENSE: a header saying which license applies to
 which part, then the full official text of each license used, copied from the
@@ -128,6 +152,13 @@ def rewrite_code(text, old_script, new_script, files_map, dirs_map):
         return f"{m.group('fn')}({', '.join(q + x + q for x in new.rstrip('/').split('/'))})"
 
     text = CALL.sub(sub_call, text)
+    # a bare folder name in calls that create or test a folder: dir.create("results")
+    for old, new in sorted(dirs_map.items(), key=lambda kv: -len(kv[0])):
+        pat = re.compile(r"(?P<fn>\b(?:dir\.create|dir\.exists|os\.makedirs|os\.mkdir|os\.path\.exists|os\.path\.isdir|"
+                         r"fs::dir_create|Path|mkdir)\s*\(\s*)(?P<q>[\"'])" + re.escape(old) + r"/?(?P=q)")
+        if pat.search(text):
+            rewrites.append(f"{old} -> {new} (folder creation)")
+            text = pat.sub(lambda m: f"{m.group('fn')}{m.group('q')}{new}{m.group('q')}", text)
     spans = [(m.start(), m.end()) for m in CALL.finditer(text)]
 
     def sub_outside_calls(m):
@@ -139,47 +170,125 @@ def rewrite_code(text, old_script, new_script, files_map, dirs_map):
     return out, rewrites, sorted(set(unresolved))
 
 
-def normalise_csv(path, drop=()):
-    """Rewrite a data file as comma-separated UTF-8 with decimal points, without
-    the columns in `drop`. Returns what changed."""
+def _fair_scan():
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from fair_scan import read_table
-    rows, info = read_table(path)
+    import fair_scan  # noqa: PLC0415
+    return fair_scan
+
+
+ENC_NAMES = {"utf-8": "utf-8", "cp1252": "cp1252", "latin-1": "latin-1", "utf-16": "utf-16",
+             "utf-16-le": "utf-16-le", "utf-16-be": "utf-16-be"}
+
+
+def _write_rows(path, rows, preamble=(), encoding="utf-8", delimiter=",", bom=False):
+    import csv  # noqa: PLC0415
+    enc = "utf-8-sig" if encoding == "utf-8" and bom else ENC_NAMES.get(encoding, "utf-8")
+    with open(path, "w", newline="", encoding=enc) as fh:
+        for line in preamble:
+            fh.write(line + "\r\n")
+        csv.writer(fh, delimiter=delimiter).writerows(rows)
+
+
+def normalise_csv(path, drop=(), normalise=True, remove_export_rows=False):
+    """Rewrite a data file in the deposit: without the columns in `drop`; as
+    comma-separated UTF-8 with decimal points (normalise); without the rows the
+    export adds around the data (remove_export_rows). Returns what changed."""
+    fs = _fair_scan()
+    rows, info = fs.read_table(path)
     rows = [r for r in rows if any(c.strip() for c in r)]
+    preamble = info.get("preamble", [])
+    changes = []
+    if remove_export_rows:
+        header, body, labels, layout = fs.split_export(rows)
+        rows = [header] + body
+        if preamble:
+            changes.append(f"removed {len(preamble)} line(s) above the header")
+            preamble = []
+        if layout.get("label_rows"):
+            changes.append(f"removed {layout['label_rows']} label row(s) under the header ({layout['label_rows_hold']})")
+        if layout.get("footer_rows"):
+            changes.append(f"removed {layout['footer_rows']} footer row(s) (END OF FILE)")
+        if layout.get("empty_last_column"):
+            changes.append("removed the empty unnamed last column")
     header = rows[0]
     keep = [i for i, h in enumerate(header) if h not in set(drop)]
-    changes = []
-    if info["delimiter"] != "comma":
-        changes.append(f"{info['delimiter']}-separated -> comma-separated")
-    dec = info["delimiter"] == "semicolon" and any(re.match(r"^-?\d+,\d+$", c.strip()) for r in rows[1:500] for c in r)
-    if dec:
-        changes.append("decimal comma -> decimal point")
-    if info.get("encoding") not in ("utf-8", None) or info.get("bom"):
-        changes.append(f"{info.get('encoding')}{' with BOM' if info.get('bom') else ''} -> UTF-8")
     removed = [h for h in header if h in set(drop)]
+    missing = [d for d in drop if d not in header]
     if removed:
         changes.append("columns removed: " + ", ".join(removed))
-    if not changes:
-        return []
+    if missing:
+        changes.append("columns to drop not found in the file: " + ", ".join(missing))
+    dec = fs.detect_decimal_comma(rows[1:], info.get("delimiter"))
+    if normalise:
+        if info["delimiter"] != "comma":
+            changes.append(f"{info['delimiter']}-separated -> comma-separated")
+        if dec:
+            changes.append("decimal comma -> decimal point")
+        if info.get("encoding") not in ("utf-8", None) or info.get("bom"):
+            changes.append(f"{info.get('encoding')}{' with BOM' if info.get('bom') else ''} -> UTF-8")
+    if not changes or changes == [c for c in changes if c.startswith("columns to drop not found")]:
+        return changes
     out = []
     for r in rows:
+        r = [r[i] if i < len(r) else "" for i in keep]
+        if normalise and dec:
+            r = [re.sub(r"^(-?\d+),(\d+)$", r"\1.\2", c.strip()) if re.match(r"^-?\d+,\d+$", c.strip()) else c for c in r]
+        out.append(r)
+    if normalise:
+        _write_rows(path, out, preamble)
+    else:
+        delim = {"comma": ",", "semicolon": ";", "tab": "\t", "pipe": "|"}[info["delimiter"]]
+        _write_rows(path, out, preamble, info.get("encoding") or "utf-8", delim, info.get("bom", False))
+    return changes
+
+
+def csv_copy(src, dst, sheet=None, drop=()):
+    """Write `dst` as a comma-separated UTF-8 copy of the table in `src`, with
+    the export rows removed and the `drop` columns left out."""
+    fs = _fair_scan()
+    rows, info = fs.load_table(src, sheet)
+    header, body, labels, layout = fs.split_export(rows)
+    keep = [i for i, h in enumerate(header) if h not in set(drop)]
+    dec = fs.detect_decimal_comma(body, info.get("delimiter"))
+    out = []
+    for r in [header] + body:
         r = [r[i] if i < len(r) else "" for i in keep]
         if dec:
             r = [re.sub(r"^(-?\d+),(\d+)$", r"\1.\2", c.strip()) if re.match(r"^-?\d+,\d+$", c.strip()) else c for c in r]
         out.append(r)
-    import csv
-    with open(path, "w", newline="", encoding="utf-8") as fh:
-        csv.writer(fh).writerows(out)
-    return changes
+    Path(dst).parent.mkdir(parents=True, exist_ok=True)
+    _write_rows(dst, out)
+    notes = [f"{len(body)} rows, {len(keep)} columns, from {info.get('format') or info.get('delimiter', '')} "
+             f"({info.get('encoding', '')})".replace(" ()", "")]
+    if info.get("preamble"):
+        notes.append(f"left out {len(info['preamble'])} line(s) above the header")
+    if layout.get("label_rows"):
+        notes.append(f"left out {layout['label_rows']} label row(s) ({layout['label_rows_hold']})")
+    if layout.get("footer_rows"):
+        notes.append("left out the footer (END OF FILE)")
+    removed = [h for h in header if h in set(drop)]
+    if removed:
+        notes.append("columns left out: " + ", ".join(removed))
+    if dec:
+        notes.append("decimal comma -> decimal point")
+    return notes
 
 
 READER_FIXES = [(r"read\.csv2\(", "read.csv("), (r"read_csv2\(", "read_csv("),
-                (r"(sep|delim|delimiter)\s*=\s*([\"']);\2", r"\1 = \2,\2"), (r"dec\s*=\s*([\"']),\1", r"dec = \1.\1")]
+                (r"(sep|delim|delimiter)\s*=\s*([\"']);\2", r"\1 = \2,\2"),
+                (r"(sep|delim|delimiter)\s*=\s*([\"'])\\t\2", r"\1 = \2,\2"),
+                (r"read\.delim2?\(", "read.csv("), (r"read_tsv\(", "read_csv("),
+                (r"dec\s*=\s*([\"']),\1", r"dec = \1.\1"),
+                (r"(?i)((?:file)?[Ee]ncoding\s*=\s*)([\"'])(utf-?16(?:-?le|-?be)?|ucs-?2(?:-?le)?)\2", r"\1\2UTF-8\2")]
+SUSPECT = re.compile(r"read\.csv2|read_csv2|read\.delim|read_tsv|sep\s*=\s*[\"'](;|\\t)|dec\s*=\s*[\"'],|(?i:utf-?16)")
 
 
-def fix_readers(text, converted_names):
-    """On lines that read a file converted to comma-separated, switch the reader."""
-    changes = []
+def fix_readers(text, converted_names, kept_names=()):
+    """On lines that read a file converted to comma-separated UTF-8, switch the
+    reader and its arguments. Returns (text, changes, lines to check by hand):
+    reading calls that may read a converted file through a variable (lines that
+    name a file that was not converted are fine)."""
+    changes, check = [], []
     lines = text.split("\n")
     for i, line in enumerate(lines):
         if any(n in line for n in converted_names):
@@ -189,7 +298,10 @@ def fix_readers(text, converted_names):
             if new != line:
                 changes.append(f"line {i + 1}: {line.strip()} -> {new.strip()}")
                 lines[i] = new
-    return "\n".join(lines), changes
+        elif converted_names and SUSPECT.search(line) and not line.lstrip().startswith("#") \
+                and not any(n in line for n in kept_names):
+            check.append(f"line {i + 1}: {line.strip()[:120]}")
+    return "\n".join(lines), changes, check
 
 
 def build_deposit(src, plan, out):
@@ -221,29 +333,61 @@ def build_deposit(src, plan, out):
 
     out.mkdir(parents=True)
     report = {"out": str(out), "copied": [], "rewrites": {}, "unresolved_paths": {}, "data_changes": {}}
+    for new in plan.get("dirs", {}).values():  # output folders the scripts write into
+        (out / norm(new)).mkdir(parents=True, exist_ok=True)
     for old, new in files_map.items():
         dst = out / new
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src / old, dst)
         report["copied"].append(f"{old} -> {new}" if old != new else new)
-    converted = []
+    converted, rows_removed = [], []
     for new, opts in plan.get("data", {}).items():
-        if (out / new).is_file():
-            ch = normalise_csv(out / new, opts.get("drop", ())) if opts.get("normalise", True) or opts.get("drop") else []
-            if ch:
-                report["data_changes"][new] = ch
-                if any("separated" in c for c in ch):
-                    converted.append(PurePosixPath(new).name)
+        new = norm(new)
+        if not (out / new).is_file():
+            report.setdefault("check_by_hand", []).append(f"data entry {new}: no such file in the deposit")
+            continue
+        ch = normalise_csv(out / new, opts.get("drop", ()), opts.get("normalise", True), opts.get("remove_export_rows", False))
+        if ch:
+            report["data_changes"][new] = ch
+            if any("-separated" in c or "-> UTF-8" in c or "decimal comma" in c for c in ch):
+                converted.append(PurePosixPath(new).name)
+            if any(c.startswith("removed") and "column" not in c for c in ch):
+                rows_removed.append(new)
+    for cp in plan.get("csv_copies", []):
+        frm, to = norm(cp["from"]), norm(cp["to"])
+        source = out / frm if (out / frm).is_file() else src / frm
+        if not source.is_file():
+            report.setdefault("check_by_hand", []).append(f"csv copy {to}: source {cp['from']} not found")
+            continue
+        if (out / to).exists():
+            report.setdefault("check_by_hand", []).append(f"csv copy {to}: already exists, not overwritten")
+            continue
+        try:
+            report.setdefault("csv_copies", {})[to] = csv_copy(source, out / to, cp.get("sheet"), cp.get("drop", ()))
+        except (ValueError, ImportError) as e:
+            report.setdefault("check_by_hand", []).append(f"csv copy {to}: {e}")
     for old, new in files_map.items():
         if Path(old).suffix.lower() in CODE_EXT:
             text = (src / old).read_text(errors="replace")
             text, rw, un = rewrite_code(text, old, new, files_map, dirs_map)
-            text, rd = fix_readers(text, converted)
+            kept = {PurePosixPath(v).name for v in files_map.values()} - set(converted)
+            text, rd, check = fix_readers(text, converted, kept)
             (out / new).write_text(text)
             if rw or rd:
                 report["rewrites"][new] = rw + rd
             if un:
                 report["unresolved_paths"][new] = un
+            if check:
+                report.setdefault("check_by_hand", []).append(
+                    {new: ["reads a file with a semicolon/tab separator, decimal comma or UTF-16, maybe a converted one "
+                           "through a variable"] + check})
+            names = {PurePosixPath(n).name for n in rows_removed} | \
+                {PurePosixPath(k).name for k, v in files_map.items() if v in rows_removed}
+            hit = [n for n in names if n in text]
+            if hit:
+                report.setdefault("check_by_hand", []).append(
+                    {new: [f"reads {', '.join(hit)}, whose export rows were removed: if the script skipped them "
+                           "(skip =, [-c(1, 2), ], qualtRics::read_survey), it would now drop real rows"]})
 
     all_files = []
     for dirpath, dirnames, filenames in os.walk(src):

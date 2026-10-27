@@ -22,7 +22,14 @@ nomi fissi (`data/`, `scripts/`, `docs/`…), i file di dati con i nomi di
 **I file restano sul vostro computer.** La pagina li legge nel browser con
 Python ([Pyodide](https://pyodide.org/)) e non li invia a nessun server; la
 vostra cartella non viene modificata. La prima volta il browser scarica
-Pyodide, circa 10 MB.
+Pyodide, circa 10 MB; se nella cartella ci sono file Excel, scarica anche la
+libreria che li legge (openpyxl, da PyPI).
+
+Riconosce i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed
+E-Prime: ne descrive da sola le colonne standard (per esempio `key_resp.rt`,
+in secondi), toglie le righe che questi programmi aggiungono attorno ai dati e
+fa una copia CSV dei dati che non sono in CSV (JSON, log di E-Prime, Excel).
+I file `.sav` di SPSS non si possono leggere nel browser: salvatene una copia CSV.
 
 Cosa la pagina **non** fa:
 
@@ -77,6 +84,7 @@ Queste verifiche, insieme a tutte le altre, le fa la skill
 lasciati fuori non entrano nel deposito. I nomi sono già senza spazi, accenti o
 parole come "finale".</p>
 <div id="fa-files"></div>
+<div id="fa-copies"></div>
 
 <h3>Dati personali</h3>
 <div id="fa-personal"></div>

@@ -7,6 +7,13 @@ Prints a JSON report with: file inventory, naming problems, formats, folder
 structure, README coverage, licenses, tabular data checks, data dictionary
 coverage, code dependencies and portability problems.
 
+Data files read: CSV/TSV and delimited .txt/.dat (any encoding, UTF-16
+included), JSON (jsPsych, JATOS), E-Prime logs (.txt), and Excel or SPSS/Stata
+files when openpyxl / pyreadstat are installed. Files from Qualtrics,
+PsychoPy, jsPsych, Gorilla, OpenSesame and E-Prime are recognised, and the
+rows their exports add above or below the data (question text, ImportId,
+"END OF FILE", a file path) are set aside before the checks.
+
 The script never modifies the folder. It prints summaries of the data
 (types, ranges, counts), not the rows themselves; columns that look like
 personal data are reported without example values.
@@ -14,6 +21,7 @@ personal data are reported without example values.
 
 import argparse
 import csv
+import io
 import json
 import os
 import re
@@ -22,7 +30,11 @@ import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from software import EXPERIMENT_EXT, detect_software, experiment_role, is_eprime_log, parse_eprime_log  # noqa: E402
+
 csv.field_size_limit(sys.maxsize)
+MAX_BYTES = 50_000_000  # larger text files are scanned on their first 50 MB
 
 SKIP_DIRS = {
     ".git", ".Rproj.user", ".quarto", "node_modules", "__pycache__",
@@ -32,19 +44,32 @@ SKIP_DIRS = {
 SKIP_FILES = {".DS_Store", "Thumbs.db", ".Rhistory", ".RData", ".Rapp.history"}
 
 OPEN_TABULAR = {".csv", ".tsv"}
+TEXT_DATA = {".txt", ".dat", ".iqdat"}  # read as data when they hold a table, JSON or an E-Prime log
+JSON_DATA = {".json", ".jsonl"}
+NOT_DATA_JSON = {"dataset_description.json", "package.json", "package-lock.json", "codemeta.json", ".zenodo.json",
+                 "tsconfig.json", "manifest.json", "renv.lock", "composer.json", "jatos.json"}
+NOT_DATA_TXT = re.compile(r"(?i)^(readme|leggimi|licen[cs]e|copying|notes?|changelog|requirements|citation|install|"
+                          r"session_?info|todo|authors|contributors)")
 OPEN_TEXT = {".txt", ".json", ".md", ".yaml", ".yml", ".xml", ".cff", ".tex", ".bib", ".html"}
 PROPRIETARY_DATA = {
     ".xlsx": "Excel", ".xls": "Excel", ".xlsm": "Excel", ".ods": "OpenDocument spreadsheet (open, but not plain text)",
     ".sav": "SPSS", ".zsav": "SPSS", ".por": "SPSS", ".dta": "Stata", ".sas7bdat": "SAS",
     ".mat": "MATLAB", ".rds": "R binary", ".rdata": "R binary", ".rda": "R binary",
     ".feather": "Arrow/Feather binary", ".parquet": "Parquet binary", ".pkl": "Python pickle",
-    ".pickle": "Python pickle", ".h5": "HDF5", ".numbers": "Apple Numbers",
+    ".pickle": "Python pickle", ".h5": "HDF5", ".hdf5": "HDF5 (e.g. PsychoPy ioHub, eye tracking)",
+    ".numbers": "Apple Numbers",
+    ".edat": "E-Prime data (opens only in E-DataAid)", ".edat2": "E-Prime 2 data (opens only in E-DataAid)",
+    ".edat3": "E-Prime 3 data (opens only in E-DataAid)", ".emrg": "E-Prime merged data (E-DataAid)",
+    ".emrg2": "E-Prime 2 merged data (E-DataAid)", ".emrg3": "E-Prime 3 merged data (E-DataAid)",
+    ".psydat": "PsychoPy pickle (opens only in Python with PsychoPy)",
+    ".edf": "EDF binary (EyeLink eye tracking, or EEG)", ".jasp": "JASP analysis file", ".omv": "jamovi analysis file",
 }
+ARCHIVES = {".zip", ".tar", ".gz", ".tgz", ".7z", ".rar", ".bz2", ".xz"}
 PROPRIETARY_DOCS = {".docx": "Word", ".doc": "Word", ".pptx": "PowerPoint", ".ppt": "PowerPoint", ".pages": "Apple Pages", ".odt": "OpenDocument text"}
 CODE_EXT = {
     ".r": "R", ".rmd": "R Markdown", ".qmd": "Quarto", ".py": "Python", ".ipynb": "Jupyter",
     ".m": "MATLAB", ".sps": "SPSS syntax", ".do": "Stata", ".jl": "Julia", ".sh": "Shell",
-    ".js": "JavaScript", ".psyexp": "PsychoPy", ".osexp": "OpenSesame", ".sas": "SAS",
+    ".js": "JavaScript", ".sas": "SAS",
 }
 ENV_FILES = ["renv.lock", "DESCRIPTION", "requirements.txt", "environment.yml", "environment.yaml",
              "pyproject.toml", "Pipfile", "Pipfile.lock", "poetry.lock", "setup.py", "Dockerfile",
@@ -57,7 +82,8 @@ VERSION_WORDS = re.compile(
 DUPLICATE_MARK = re.compile(r"\(\d+\)|\s\d+$| - Copy| - Copia|_copy\b")
 SAFE_NAME = re.compile(r"^[A-Za-z0-9._\-]+$")
 
-MISSING_TOKENS = {"", "na", "n/a", "nan", "null", "none", ".", "-", "--", "?", "missing", "mancante", "#n/d", "#n/a", "nd"}
+MISSING_TOKENS = {"", "na", "n/a", "nan", "null", "none", "undefined", ".", "-", "--", "?", "missing", "mancante",
+                  "#n/d", "#n/a", "nd"}
 SENTINELS = {"-9", "-99", "-999", "-9999", "99", "999", "9999", "-1", "-77", "-88", "-98"}
 BOOL_TOKENS = {"true", "false", "t", "f", "yes", "no", "y", "n", "si", "sì", "vero", "falso"}
 
@@ -71,17 +97,30 @@ PERSONAL_NAME_PATTERNS = [
     (r"(?i)codice_?fiscale|^cf$|fiscal|ssn|tax_?code", "tax / national ID"),
     (r"(?i)^(lat|latitude|lon|lng|longitude|location_?latitude|location_?longitude)$", "GPS coordinates"),
     (r"(?i)matricola|student_?id|badge", "institutional ID"),
-    (r"(?i)prolific_?pid|mturk|worker_?id|workerid", "crowdsourcing worker ID"),
+    (r"(?i)prolific_?pid|^prolific_?id$|mturk|worker_?id|workerid|participant_?public_?id",
+     "recruitment-platform ID (e.g. Prolific, MTurk; Gorilla's Public ID)"),
+    (r"(?i)^recipient_?(first|last)_?name$", "name"),
+    (r"(?i)^external_?(data_?)?reference$", "external reference (an identifier linked to the person)"),
+    (r"(?i)^user_?agent$", "browser user-agent string (an indirect identifier)"),
 ]
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$")
+IP_RE = re.compile(r"^(\d{1,3}\.){3}\d{1,3}$")
+PROLIFIC_RE = re.compile(r"^[0-9a-f]{24}$")
+USER_PATH_RE = re.compile(r"^(/Users/|/home/|[A-Za-z]:[\\/](Users|Documents and Settings)[\\/])")
+LIST_RE = re.compile(r"^\[.*\]$", re.S)
+OBJ_RE = re.compile(r"^\{.*\}$", re.S)
 CF_RE = re.compile(r"^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$", re.I)
 PHONE_RE = re.compile(r"^\+?[\d\s\-]{9,15}$")
 DATE_RE = re.compile(r"^(\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4})([ T]\d{1,2}:\d{2}(:\d{2})?)?$")
 
 ID_LIKE = re.compile(r"(?i)(^id$|_id$|^id_|subj|participant|partecipante|soggetto|^sub$|^pp$|session)")
-# columns that identify the participant (for grouping rows), not trials or sessions
-PARTICIPANT_ID = re.compile(r"(?i)(^id$|^ids?_|_id$|subj|participant|partecipante|soggetto|^sub$|^pp$|^code$|^codice$|"
-                            r"response_?id|record_?id|^uid$)")
+# columns that identify the participant (for grouping rows), not trials or sessions:
+# strong names first, generic "..._id" names only if no strong one is there
+PARTICIPANT_ID = re.compile(r"(?i)(^id$|subj|participant|partecipante|soggetto|^sub$|^pp$|^ppn$|response_?id|record_?id|^uid$)")
+PARTICIPANT_ID_WEAK = re.compile(r"(?i)(^ids?_|_id$|^code$|^codice$)")
+NOT_PARTICIPANT_ID = re.compile(r"(?i)(internal_?node|trial|item|stim|block|experiment|schedule|object|task|condition|node|"
+                                r"run|question|page|screen|event|zone|component|study|session|word|image|list)[ _.]?id$|"
+                                r"participant[ _.]?(status|starting|completion|device|os|browser|monitor|viewport)")
 # columns that describe the participant: one value per person, whatever the number of rows
 PERSON_LEVEL = re.compile(r"(?i)^(age|eta|age_years|gender|sex|sesso|genere|education|istruzione|years_of_education|"
                           r"handedness|lateralita|group|gruppo|nationality|nazionalita|native_language|language|lingua|occupation)$")
@@ -100,6 +139,24 @@ DICT_ALIASES = {
     "source": ["source", "fonte", "origin", "instrument", "strumento"],
     "notes": ["notes", "note", "comments", "commenti"],
 }
+
+# functions that draw random numbers, and ways of fixing the seed
+RANDOM_R = re.compile(
+    r"\b(sample|sample_n|sample_frac|slice_sample|rnorm|runif|rbinom|rpois|rgamma|rbeta|rexp|rchisq|rmultinom|rlnorm|"
+    r"rweibull|rnbinom|rmvnorm|mvrnorm|brm|stan|sampling|stan_glm|stan_glmer|stan_lmer|stan_polr|ulam|map2stan|"
+    r"MCMCglmm|jags|jags\.model|run\.jags|coda\.samples|boot|bootMer|bootstrap|bootstrap_model|bootstrap_parameters|"
+    r"mice|kmeans|anovaBF|ttestBF|lmBF|generalTestBF|regressionBF|correlationBF|contingencyTableBF|proportionBF|"
+    r"posterior|bridge_sampler|posterior_predict|posterior_epred|posterior_linpred|pp_check|blavaan|bsem|bcfa|bgrowth|"
+    r"simulate|permute|shuffle)\s*\(|\$sample\s*\(")
+SEED_R = re.compile(r"set\.seed\s*\(\s*[^)\s][^)]*\)|with_seed\s*\(|local_seed\s*\(|\bseed\s*=\s*[\w.]+")
+RANDOM_PY = re.compile(
+    r"np\.random\.\w+|numpy\.random\.\w+|\brandom\.(random|randint|choice|choices|shuffle|sample|uniform|gauss|normalvariate)\s*\(|"
+    r"default_rng\s*\(|\b(pm|pymc|pymc3)\.sample\s*\(|\bbootstrap\s*\(|\bresample\s*\(|train_test_split\s*\(|"
+    r"KMeans\s*\(|torch\.rand\w*\s*\(|\.sample\s*\(")
+SEED_PY = re.compile(r"\.seed\s*\(\s*\d|default_rng\s*\(\s*\d|RandomState\s*\(\s*\d|manual_seed\s*\(|"
+                     r"random_state\s*=\s*\d|random_seed\s*=\s*\d|\bseed\s*=\s*\d")
+RANDOM_M = re.compile(r"\b(rand|randn|randi|randperm|bootstrp|datasample)\s*\(")
+SEED_M = re.compile(r"\brng\s*\(")
 
 R_BASE = {"base", "stats", "utils", "graphics", "grDevices", "methods", "datasets", "tools",
           "parallel", "grid", "splines", "stats4", "tcltk", "compiler"}
@@ -196,28 +253,337 @@ def check_numbering(files, root):
 
 # ---------------------------------------------------------------- tabular data
 
-def read_table(path):
-    raw = path.read_bytes()
-    info = {"encoding": None, "bom": raw.startswith(b"\xef\xbb\xbf")}
-    for enc in ("utf-8-sig", "cp1252", "latin-1"):
+def decode_bytes(raw):
+    """Bytes of a text file -> (text, encoding, has_bom). Handles UTF-16 (E-Prime
+    logs and E-DataAid exports, Qualtrics TSV), with or without a BOM."""
+    if raw.startswith(b"\xef\xbb\xbf"):
+        return raw[3:].decode("utf-8", errors="replace"), "utf-8", True
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        return raw.decode("utf-16", errors="replace").lstrip("﻿"), "utf-16", True
+    head = raw[:4000]
+    if head and head.count(b"\x00") > len(head) // 4:
+        enc = "utf-16-le" if head[1::2].count(0) > head[0::2].count(0) else "utf-16-be"
+        return raw.decode(enc, errors="replace"), enc, False
+    for enc in ("utf-8", "cp1252"):
         try:
-            text = raw.decode(enc)
-            info["encoding"] = "utf-8" if enc == "utf-8-sig" else enc
-            break
+            return raw.decode(enc), enc, False
         except UnicodeDecodeError:
             continue
+    return raw.decode("latin-1"), "latin-1", False
+
+
+def read_text(path):
+    """Text of a file and how it is encoded. Files above MAX_BYTES are read up to
+    the last full line before that size, and say so in info["sampled"]."""
+    size = path.stat().st_size
+    with open(path, "rb") as fh:
+        raw = fh.read(MAX_BYTES if size > MAX_BYTES else -1)
+    info = {}
+    if size > MAX_BYTES:
+        utf16 = raw[:2] in (b"\xff\xfe", b"\xfe\xff") or raw[:4000].count(b"\x00") > 1000
+        nl = b"\n\x00" if utf16 and raw[:2] != b"\xfe\xff" else (b"\x00\n" if utf16 else b"\n")
+        cut = raw.rfind(nl)
+        if cut > 0:
+            raw = raw[:cut + len(nl)]
+        info["sampled"] = f"only the first {MAX_BYTES // 1_000_000} MB of {size / 1e6:.0f} MB were read"
+    text, enc, bom = decode_bytes(raw)
+    info.update({"encoding": enc, "bom": bom})
     if "\r\n" in text[:5000]:
         info["line_endings"] = "CRLF"
-    sample = text[:20000]
-    first_line = sample.split("\n", 1)[0]
-    if path.suffix.lower() == ".tsv":
-        delim = "\t"
-    else:
-        counts = {d: first_line.count(d) for d in [",", ";", "\t", "|"]}
-        delim = max(counts, key=counts.get) if max(counts.values()) > 0 else ","
-    info["delimiter"] = {",": "comma", ";": "semicolon", "\t": "tab", "|": "pipe"}[delim]
-    rows = list(csv.reader(text.splitlines(), delimiter=delim))
+    return text, info
+
+
+DELIMS = {",": "comma", ";": "semicolon", "\t": "tab", "|": "pipe"}
+
+
+def parse_delimited(text, suffix=".csv"):
+    """Parse delimited text. Returns (rows, info) or (None, info) when the text is
+    not a table. Quoted cells may span lines (free-text answers). Lines above the
+    header with a single field (E-DataAid writes the .edat path there) are set
+    aside in info["preamble"]."""
+    sample_lines = text[:50000].splitlines()[:40]
+    sample = "\n".join(sample_lines)
+    best = None
+    for d in ([("\t")] if suffix == ".tsv" else list(DELIMS)):
+        try:
+            counts = [len(r) for r in csv.reader(io.StringIO(sample), delimiter=d) if any(c.strip() for c in r)]
+        except csv.Error:
+            continue
+        if not counts:
+            continue
+        mode, n_mode = Counter(counts).most_common(1)[0]
+        if mode < 2:
+            continue
+        share = n_mode / len(counts)
+        key = (round(share, 1), mode)
+        if best is None or key > best[0]:
+            best = (key, d, mode, share)
+    info = {}
+    if best is None:
+        return None, info
+    _, delim, mode, share = best
+    info["delimiter"] = DELIMS[delim]
+    rows = list(csv.reader(io.StringIO(text), delimiter=delim))
+    pre = []
+    while rows and len(pre) < 5 and len(rows) > 2 and len([c for c in rows[0] if c.strip()]) <= 1 and len(rows[1]) >= max(2, mode // 2):
+        pre.append(" ".join(rows.pop(0)).strip()[:160])
+    if pre:
+        info["preamble"] = pre
+    info["_share"] = share
     return rows, info
+
+
+def read_table(path):
+    """Read a CSV/TSV or delimited text file: (rows, info). Raises ValueError if
+    the file does not hold a table."""
+    text, info = read_text(path)
+    rows, extra = parse_delimited(text, path.suffix.lower())
+    if rows is None:
+        if not text.strip():
+            return [], {**info, "delimiter": "comma"}
+        # a single column: still a table
+        rows = list(csv.reader(io.StringIO(text)))
+        extra = {"delimiter": "comma"}
+    extra.pop("_share", None)
+    info.update(extra)
+    return rows, info
+
+
+def _cell(v):
+    """A JSON / Excel / SPSS value as the text it would have in a CSV."""
+    if v is None:
+        return ""
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, float):
+        if v != v:
+            return ""
+        return str(int(v)) if v.is_integer() and abs(v) < 1e15 else repr(v)
+    if isinstance(v, (dict, list)):
+        return json.dumps(v, ensure_ascii=False)
+    if hasattr(v, "isoformat"):
+        return v.isoformat()
+    return str(v)
+
+
+def json_table(text):
+    """Records in a JSON data file -> rows, or None if it is not a table of records.
+
+    Accepts an array of objects (jsPsych's .json()), an object holding such an
+    array ("trials", "data", "values", "results"), and JSON lines with one object
+    or array per line (JATOS result files)."""
+    text = text.strip()
+    try:
+        items = [json.loads(text)]
+    except json.JSONDecodeError as whole:
+        items = []
+        for line in text.splitlines():
+            if not line.strip():
+                continue
+            try:
+                items.append(json.loads(line))
+            except json.JSONDecodeError:
+                raise ValueError(f"not valid JSON ({whole.msg}, line {whole.lineno}): truncated or damaged?") from None
+    records = []
+
+    def collect(o, depth=0):
+        if depth > 4:
+            return
+        if isinstance(o, list):
+            for x in o:
+                if isinstance(x, dict):
+                    records.append(x)
+                elif isinstance(x, list):
+                    collect(x, depth + 1)
+        elif isinstance(o, dict):
+            for key in ("trials", "data", "values", "results", "responses"):
+                v = o.get(key)
+                if isinstance(v, list) and v and all(isinstance(x, dict) for x in v[:20]):
+                    collect(v, depth + 1)
+                    return
+            records.append(o)
+
+    for it in items:
+        collect(it)
+    if len(records) < 2:
+        return None
+    cols = []
+    for r in records:
+        for k in r:
+            if k not in cols:
+                cols.append(k)
+    if len(cols) < 2:
+        return None
+    return [cols] + [[_cell(r.get(k)) for k in cols] for r in records]
+
+
+def load_xlsx(path, max_rows=200_000):
+    """Sheets of an Excel file as [(sheet, rows)], or raises ImportError/ValueError."""
+    import openpyxl  # noqa: PLC0415
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    out = []
+    for ws in wb.worksheets:
+        rows = []
+        for i, r in enumerate(ws.iter_rows(values_only=True)):
+            if i >= max_rows:
+                break
+            rows.append([_cell(v) for v in r])
+        rows = [r for r in rows if any(c.strip() for c in r)]
+        if not rows:
+            continue
+        width = max((max((j for j, c in enumerate(r) if c.strip()), default=-1) for r in rows), default=-1) + 1
+        out.append((ws.title, [r[:width] + [""] * (width - len(r[:width])) for r in rows]))
+    wb.close()
+    return out
+
+
+def load_stat(path):
+    """SPSS / Stata / SAS file -> (rows, labels) with pyreadstat, or raises ImportError."""
+    import pyreadstat  # noqa: PLC0415
+    suf = path.suffix.lower()
+    reader = {".sav": pyreadstat.read_sav, ".zsav": pyreadstat.read_sav, ".por": pyreadstat.read_por,
+              ".dta": pyreadstat.read_dta, ".sas7bdat": pyreadstat.read_sas7bdat}[suf]
+    df, meta = reader(str(path))
+    rows = [list(map(str, df.columns))] + [[_cell(v) for v in rec] for rec in df.itertuples(index=False, name=None)]
+    labels = {"variable_labels": {k: v for k, v in zip(meta.column_names, meta.column_labels or []) if v},
+              "value_labels": {k: {_cell(a): b for a, b in v.items()} for k, v in (meta.variable_value_labels or {}).items()}}
+    return rows, labels
+
+
+def load_any(path):
+    """Every table a data file holds: a list of (sheet or None, rows, info).
+    Empty list: not a data file. rows None: a data file that could not be read
+    here, with the reason in info["not_read"]."""
+    suf, name = path.suffix.lower(), path.name
+    if suf in OPEN_TABULAR:
+        rows, info = read_table(path)
+        return [(None, rows, info)]
+    if suf in JSON_DATA or suf in TEXT_DATA:
+        if name.lower() in NOT_DATA_JSON or (suf in TEXT_DATA and NOT_DATA_TXT.match(name)):
+            return []
+        text, info = read_text(path)
+        if suf in TEXT_DATA and is_eprime_log(text):
+            table, ep = parse_eprime_log(text)
+            info.update({"format": "E-Prime log (.txt written during the session)",
+                         "eprime_levels": ep["levels"], "rows_are": ep["row_level"]})
+            return [(None, table, info)]
+        if text.lstrip()[:1] in ("[", "{"):
+            if info.get("sampled"):
+                return [(None, None, {**info, "not_read": "JSON file too large to scan"})]
+            try:
+                table = json_table(text)
+            except ValueError as e:
+                return [(None, None, {**info, "not_read": str(e)})]
+            if table:
+                info["format"] = "JSON records" if suf != ".txt" else "JSON records in a .txt (e.g. a JATOS result file)"
+                return [(None, table, info)]
+            return []
+        if suf in JSON_DATA:
+            return []
+        rows, extra = parse_delimited(text, suf)
+        if rows is None or extra.get("_share", 0) < 0.8 or len(rows) < 3:
+            return []
+        extra.pop("_share", None)
+        info.update(extra)
+        return [(None, rows, info)]
+    if suf in (".xlsx", ".xlsm"):
+        try:
+            return [(sheet, rows, {"format": "Excel", "read_with": "openpyxl"}) for sheet, rows in load_xlsx(path)]
+        except ImportError:
+            return [(None, None, {"not_read": "openpyxl not installed: content not checked"})]
+        except Exception as e:  # noqa: BLE001
+            return [(None, None, {"not_read": f"could not read: {e}"})]
+    if suf in (".sav", ".zsav", ".por", ".dta", ".sas7bdat"):
+        try:
+            rows, labels = load_stat(path)
+            return [(None, rows, {"format": PROPRIETARY_DATA[suf], "read_with": "pyreadstat",
+                                  "n_variable_labels": len(labels["variable_labels"]),
+                                  "n_value_labels": len(labels["value_labels"])})]
+        except ImportError:
+            return [(None, None, {"not_read": "pyreadstat not installed: content not checked (R: haven::read_sav)"})]
+        except Exception as e:  # noqa: BLE001
+            return [(None, None, {"not_read": f"could not read: {e}"})]
+    return []
+
+
+def load_table(path, sheet=None):
+    """The one table in a data file (or the sheet asked for): (rows, info).
+    Used by the other scripts; raises ValueError when there is no table."""
+    path = Path(path)
+    found = load_any(path)
+    if sheet is not None:
+        found = [f for f in found if f[0] == sheet]
+    found = [f for f in found if f[1] is not None]
+    if not found:
+        if path.suffix.lower() in OPEN_TABULAR:
+            return read_table(path)
+        raise ValueError(f"{path.name}: no table found" + (f" in sheet {sheet}" if sheet else ""))
+    return found[0][1], found[0][2]
+
+
+END_MARK = re.compile(r"(?i)^\s*(end of file|eof)\s*$")
+
+
+def split_export(rows):
+    """Separate what an export adds around the data from the data itself.
+
+    Returns (header, body, labels, layout): `labels` are the rows under the
+    header that describe the columns (Qualtrics: question text and ImportId;
+    Gorilla's optional question-text row), `layout` says what was set aside:
+    label rows, footer rows ("END OF FILE"), an empty unnamed last column."""
+    rows = [r for r in rows if any(c.strip() for c in r)]
+    layout = {}
+    if not rows:
+        return [], [], [], layout
+    header, body = rows[0], rows[1:]
+    # footer
+    n_footer = 0
+    while body and n_footer < 3 and any(END_MARK.match(c) for c in body[-1] if c.strip()) and \
+            len([c for c in body[-1] if c.strip()]) <= 2:
+        body.pop()
+        n_footer += 1
+    if n_footer:
+        layout["footer_rows"] = n_footer
+    # label rows right under the header
+    n_labels = 0
+    if sum(bool(re.match(r"^V\d+$", h.strip())) for h in header) >= 3 and body and \
+            any(c.strip().lower() == "responseid" for c in body[0]):
+        n_labels = 1  # Qualtrics legacy export
+    for i in range(min(3, len(body))):
+        if any(c.strip().startswith('{"ImportId"') for c in body[i]):
+            n_labels = i + 1
+    if not n_labels:
+        for i in range(min(2, max(0, len(body) - 3))):
+            rest = body[i + 1:i + 301]
+            numeric = []
+            for j in range(len(header)):
+                vals = [r[j] for r in rest if j < len(r) and r[j].strip() and r[j].strip().lower() not in MISSING_TOKENS]
+                if len(vals) >= 3 and sum(to_number(v) is not None for v in vals) >= 0.9 * len(vals):
+                    numeric.append(j)
+            row = body[i]
+            text_in_numeric = [j for j in numeric if j < len(row) and row[j].strip()
+                               and row[j].strip().lower() not in MISSING_TOKENS and to_number(row[j]) is None]
+            if len(numeric) >= 2 and len(text_in_numeric) >= 0.6 * len(numeric):
+                n_labels = i + 1
+            else:
+                break
+    labels = body[:n_labels]
+    body = body[n_labels:]
+    if n_labels:
+        layout["label_rows"] = n_labels
+        if any('{"ImportId"' in c for r in labels for c in r):
+            layout["label_rows_hold"] = "question text and ImportId (Qualtrics)"
+        elif any(c.strip().lower() == "responseid" for c in labels[0]):
+            layout["label_rows_hold"] = "variable names and question text (Qualtrics legacy export)"
+        else:
+            layout["label_rows_hold"] = "labels such as the question text"
+    # an unnamed, empty last column (PsychoPy ends every row with a comma)
+    if len(header) > 1 and not header[-1].strip() and all(len(r) < len(header) or not r[len(header) - 1].strip() for r in body):
+        header = header[:-1]
+        body = [r[:len(header)] for r in body]
+        labels = [r[:len(header)] for r in labels]
+        layout["empty_last_column"] = True
+    return header, body, labels, layout
 
 
 def to_number(v, decimal_comma=False):
@@ -257,8 +623,40 @@ def infer_column(name, values, decimal_comma):
     lower = [v.lower() for v in present]
     uniq = Counter(present)
     col["n_unique"] = len(uniq)
+    n_list = sum(1 for v in present if LIST_RE.match(v))
+    n_obj = sum(1 for v in present if OBJ_RE.match(v))
 
-    if all(l in BOOL_TOKENS for l in lower) and len(set(lower)) <= 2:
+    if n_list + n_obj >= 0.5 * len(present):
+        col["type"] = "JSON object" if n_obj >= n_list else "list"
+        keys = Counter()
+        for v in present[:2000]:
+            try:
+                o = json.loads(v)
+            except (json.JSONDecodeError, ValueError):
+                continue
+            if isinstance(o, dict):
+                keys.update(o.keys())
+        if keys:
+            col["json_keys"] = [k for k, _ in keys.most_common(30)]
+        issues.append("cells hold " + ("JSON objects" if col["type"] == "JSON object" else "lists") +
+                      " (several values per cell): describe their structure in the dictionary, or unpack them into columns")
+    elif n_list + n_obj >= max(2, 0.1 * len(present)):
+        keys = Counter()
+        for v in present:
+            if OBJ_RE.match(v):
+                try:
+                    o = json.loads(v)
+                except (json.JSONDecodeError, ValueError):
+                    continue
+                if isinstance(o, dict):
+                    keys.update(o.keys())
+        if keys:
+            col["json_keys"] = [k for k, _ in keys.most_common(30)]
+        issues.append(f"{n_list + n_obj} of {len(present)} cells hold lists or JSON objects (e.g. survey answers) "
+                      "and the rest single values: describe both in the dictionary")
+    if col.get("type"):
+        pass
+    elif all(l in BOOL_TOKENS for l in lower) and len(set(lower)) <= 2:
         col["type"] = "boolean"
         col["values"] = sorted(uniq)
     elif len(num_ok) == len(present):
@@ -300,11 +698,18 @@ def infer_column(name, values, decimal_comma):
     return col
 
 
-def personal_flags(name, values):
+def personal_flags(name, values, label=""):
+    """Why a column may hold personal data, from its name, its label (e.g. the
+    question text of a Qualtrics export) and its values."""
     flags = []
-    for pat, label in PERSONAL_NAME_PATTERNS:
-        if re.search(pat, name):
-            flags.append(f"column name suggests {label}")
+    for nm in (name, label):
+        nm = re.sub(r"[ .\-]+", "_", (nm or "").strip())
+        if not nm or len(nm) > 40:
+            continue
+        hit = next((lab for pat, lab in PERSONAL_NAME_PATTERNS if re.search(pat, nm)), None)
+        if hit:
+            flags.append(f"column name suggests {hit}" if nm == re.sub(r"[ .\-]+", "_", name.strip())
+                         else f"its label ('{label.strip()[:40]}') suggests {hit}")
             break
     vals = [v.strip() for v in values if v.strip()][:2000]
     if vals:
@@ -314,6 +719,27 @@ def personal_flags(name, values):
             flags.append("values look like Italian tax codes (codice fiscale)")
         if sum(bool(PHONE_RE.match(v)) and len(re.sub(r"\D", "", v)) >= 9 for v in vals) > 0.5 * len(vals) and not re.search(r"(?i)(rt|time|ms|id|code)", name):
             flags.append("values look like phone numbers")
+        if sum(bool(IP_RE.match(v)) for v in vals) > 0.3 * len(vals):
+            flags.append("values look like IP addresses")
+        if sum(bool(PROLIFIC_RE.match(v)) for v in vals) > 0.5 * len(vals):
+            flags.append("values look like Prolific participant IDs")
+        if sum(bool(USER_PATH_RE.match(v)) for v in vals) > 0.3 * len(vals):
+            flags.append("values are file paths of a computer, with a user name in them")
+        uniq = set(vals)
+        texts = []
+        for v in uniq:
+            if OBJ_RE.match(v) or LIST_RE.match(v):
+                try:
+                    o = json.loads(v)
+                except (json.JSONDecodeError, ValueError):
+                    continue
+                leaves = o.values() if isinstance(o, dict) else o if isinstance(o, list) else []
+                texts += [x for x in leaves if isinstance(x, str)]
+            else:
+                texts.append(v)
+        long_text = [v for v in set(texts) if len(v) > 40 and " " in v]
+        if len(long_text) >= 3 and len(long_text) >= 0.3 * len(set(texts) or {1}):
+            flags.append("free-text answers: read them before sharing, they can contain names or other identifying details")
     return flags
 
 
@@ -327,6 +753,18 @@ def is_missing(v):
     return v.strip().lower() in MISSING_TOKENS
 
 
+def participant_id_index(header, privacy_cols=()):
+    """Column that identifies the participant: a strong name (participant,
+    subject, ResponseId ...) first, a generic one (..._id) only if there is none;
+    never a trial, item, node or other non-person ID, nor a personal-data column."""
+    for rx in (PARTICIPANT_ID, PARTICIPANT_ID_WEAK):
+        for j, h in enumerate(header):
+            hs = h.strip()
+            if hs and rx.search(hs) and not NOT_PARTICIPANT_ID.search(hs) and h not in privacy_cols:
+                return j
+    return None
+
+
 def participant_values(header, body, cols, privacy_cols):
     """Group participant-level columns by participant ID.
 
@@ -335,7 +773,7 @@ def participant_values(header, body, cols, privacy_cols):
     or when it has more than two values and is constant for at least 80% of the
     participants with two or more rows: then the remaining ones are likely errors.
     """
-    idx = next((j for j, h in enumerate(header) if PARTICIPANT_ID.search(h.strip()) and h not in privacy_cols), None)
+    idx = participant_id_index(header, privacy_cols)
     if idx is None:
         return None, {}, []
     groups = defaultdict(lambda: defaultdict(set))
@@ -366,21 +804,43 @@ def participant_values(header, body, cols, privacy_cols):
     return header[idx], by_id, problems
 
 
-def scan_table(path, root):
-    try:
-        rows, info = read_table(path)
-    except Exception as e:  # noqa: BLE001
-        return {"file": rel(path, root), "error": f"could not read: {e}"}
-    res = {"file": rel(path, root), **info}
-    rows = [r for r in rows if any(c.strip() for c in r)] if rows else rows
-    if not rows:
+def detect_decimal_comma(body, delimiter):
+    """True when numbers are written 1,5 (possible only if commas do not separate fields)."""
+    if delimiter in (None, "comma"):
+        return False
+    cells = [c.strip() for r in body[:500] for c in r]
+    comma = sum(1 for c in cells if re.match(r"^-?\d+,\d+$", c))
+    point = sum(1 for c in cells if re.match(r"^-?\d+\.\d+$", c))
+    return comma > 0 and comma >= point
+
+
+def scan_table(path, root, rows=None, info=None, sheet=None):
+    """Check one table. `rows`/`info` come from load_any(); without them the
+    file is read as delimited text."""
+    name = rel(path, root) + (f" [{sheet}]" if sheet else "")
+    if rows is None:
+        try:
+            rows, info = read_table(path)
+        except Exception as e:  # noqa: BLE001
+            return {"file": name, "error": f"could not read: {e}"}
+    res = {"file": name, **{k: v for k, v in (info or {}).items() if not k.startswith("_")}}
+    header, body, labels, layout = split_export(rows or [])
+    if not header:
         res["error"] = "empty file"
         return res
-    header = rows[0]
-    body = rows[1:]
+    prog, evidence = detect_software(header)
+    if not prog and labels:
+        prog, evidence = detect_software(labels[0])
+    if prog:
+        res["software"] = prog
+        res["software_evidence"] = evidence
+    if layout or res.get("preamble"):
+        if res.get("preamble"):
+            layout["preamble_lines"] = res.pop("preamble")
+        res["export_structure"] = layout
     res["n_rows"], res["n_cols"] = len(body), len(header)
     issues = []
-    ragged = [i + 2 for i, r in enumerate(body) if len(r) != len(header)]
+    ragged = [i + 2 + len(labels) for i, r in enumerate(body) if len(r) != len(header)]
     if ragged:
         issues.append(f"{len(ragged)} rows with a different number of fields than the header (first lines: {ragged[:5]})")
     hdr_issues = []
@@ -404,7 +864,7 @@ def scan_table(path, root):
     dupe_rows = sum(c - 1 for c in Counter(tuples).values() if c > 1)
     if dupe_rows:
         issues.append(f"{dupe_rows} exact duplicate rows")
-    decimal_comma = info["delimiter"] == "semicolon" and any(re.match(r"^-?\d+,\d+$", c.strip()) for r in body[:500] for c in r)
+    decimal_comma = detect_decimal_comma(body, (info or {}).get("delimiter"))
     if decimal_comma:
         res["decimal_comma"] = True
     cols = []
@@ -412,7 +872,7 @@ def scan_table(path, root):
     for j, h in enumerate(header):
         vals = [r[j] if j < len(r) else "" for r in body]
         c = infer_column(h, vals, decimal_comma)
-        pf = personal_flags(h, vals)
+        pf = personal_flags(h, vals, labels[0][j] if labels and j < len(labels[0]) else "")
         if pf:
             privacy.append({"column": h, "flags": pf})
             c.pop("values", None)  # do not echo possibly identifying values
@@ -420,6 +880,9 @@ def scan_table(path, root):
             c.pop("max", None)
         cols.append(c)
     res["columns"] = cols
+    exp_cols = [j for j, h in enumerate(header) if re.sub(r"[^a-z]", "", h.lower()) in ("experimentname", "experiment", "expname")]
+    if exp_cols:
+        res["_experiment"] = {r[j].strip().lower() for j in exp_cols for r in body if j < len(r) and r[j].strip()}
     if privacy:
         res["possible_personal_data"] = privacy
     id_col, by_id, within = participant_values(header, body, cols, {p["column"] for p in privacy})
@@ -427,19 +890,41 @@ def scan_table(path, root):
         res["participant_id_column"] = id_col
         res["n_participants"] = len(by_id)
         res["_by_id"] = by_id  # used for the cross-file comparison, removed before output
+        word_ids = [k for k in by_id if not re.search(r"\d", k) and re.match(r"^[^\W\d_]{2,}([ _.\-][^\W\d_]+)*$", k)]
+        if word_ids:
+            privacy.append({"column": id_col, "flags": [
+                f"{len(word_ids)} of {len(by_id)} IDs are letters only (initials or names?): check they cannot identify anyone"]})
+            res["possible_personal_data"] = privacy
+    else:
+        personal_id = participant_id_index(header)
+        if personal_id is not None and header[personal_id] in {p["column"] for p in privacy}:
+            res["participant_id_column_is_personal"] = (
+                f"'{header[personal_id]}' identifies the participants but holds personal data "
+                "(e.g. a Prolific ID): replace it with a study code before sharing")
     if within:
         res["within_participant_inconsistencies"] = within
     res["issues"] = issues
     return res
 
 
+# constant within a participant in one file, but different by design between
+# files (session, task, timestamps, software settings): not compared across files
+NOT_PERSON_ATTR = re.compile(r"(?i)(date|time|stamp|session|seed|version|task|node|schedule|experiment|exp_?name|file|path|"
+                             r"index|count|status|key|code|frame|rate|zone|screen|spreadsheet|procedure|running|clock|"
+                             r"browser|device|^os$|_os$|monitor|viewport|checkpoint|page|block|trial|run)")
+
+
 def compare_participants(tables):
     """For each pair of files with a participant ID: which IDs are only in one of
-    them, and whether shared participant-level columns (age, sex, ...) agree."""
+    them, and whether shared participant-level columns (age, sex, ...) agree.
+    Files from different experiments (different ExperimentName / expName) are
+    not compared."""
     out = []
     with_ids = [t for t in tables if t.get("_by_id")]
     for i, a in enumerate(with_ids):
         for b in with_ids[i + 1:]:
+            if a.get("_experiment") and b.get("_experiment") and not a["_experiment"] & b["_experiment"]:
+                continue
             ida, idb = set(a["_by_id"]), set(b["_by_id"])
             key = {"a": lambda v: v, "b": lambda v: v}
             note = None
@@ -469,6 +954,8 @@ def compare_participants(tables):
             disagreements = []
             for cn in sorted(set(cols_a) & set(cols_b)):
                 ha, hb = cols_a[cn], cols_b[cn]
+                if NOT_PERSON_ATTR.search(ha) and not PERSON_LEVEL.match(cn):
+                    continue
                 bad = []
                 for k in sorted(set(ma) & set(mb)):
                     va = {v.lower() for v in a["_by_id"][ma[k]].get(ha, set())}
@@ -487,30 +974,51 @@ def compare_participants(tables):
 
 
 def group_file_sets(tables):
-    """Files with the same columns in the same folder (e.g. one PsychoPy file per
-    participant) are one dataset: check them together, report them once.
+    """Files in the same folder with (nearly) the same columns, e.g. one PsychoPy,
+    OpenSesame or E-Prime file per participant, are one dataset: check them
+    together, report them once. Files whose columns overlap by at least 80% go
+    in the same set (a participant who never pressed a key may lack a column).
 
     Returns (tables to use for the cross-file and dictionary checks, entries for
     the report)."""
-    sets = defaultdict(list)
+    clusters = []  # [parent, software, header set, [tables], extension]
     for t in tables:
-        if "columns" in t:
-            sets[(str(Path(t["file"]).parent), tuple(c["name"] for c in t["columns"]))].append(t)
+        if "columns" not in t:
+            continue
+        parent = str(Path(t["file"].split(" [")[0]).parent)
+        cols = {c["name"] for c in t["columns"]}
+        ext = Path(t["file"].split(" [")[0]).suffix.lower()
+        for cl in clusters:
+            if cl[0] == parent and cl[1] == t.get("software") and cl[4] == ext and \
+                    len(cols & cl[2]) >= 0.8 * len(cols | cl[2]):
+                cl[3].append(t)
+                cl[2] |= cols
+                break
+        else:
+            clusters.append([parent, t.get("software"), set(cols), [t], ext])
     for_checks, for_report = [], []
-    for (parent, header), ts in sets.items():
+    for parent, software, _, ts, _ in clusters:
         if len(ts) < 3:
             for_checks += ts
             for_report += ts
             continue
-        ext = Path(ts[0]["file"]).suffix
-        name = f"{parent}/*{ext} ({len(ts)} files with the same columns)"
+        exts = sorted({Path(t["file"].split(" [")[0]).suffix for t in ts})
+        name = f"{parent}/*{exts[0] if len(exts) == 1 else ''} ({len(ts)} files with the same columns)"
         merged = defaultdict(dict)
         for t in ts:
             for pid, cols in t.get("_by_id", {}).items():
                 for h, v in cols.items():
                     merged[pid].setdefault(h, set()).update(v)
-        rep = {"file": name, "columns": ts[0]["columns"], "participant_id_column": ts[0].get("participant_id_column"),
-               "_by_id": dict(merged)}
+        order, coldef, present_in = [], {}, Counter()
+        for t in ts:
+            for c in t["columns"]:
+                present_in[c["name"]] += 1
+                if c["name"] not in coldef:
+                    order.append(c["name"])
+                    coldef[c["name"]] = c
+        exps = set().union(*[t.get("_experiment", set()) for t in ts])
+        rep = {"file": name, "columns": [coldef[h] for h in order], "software": software, "_experiment": exps,
+               "participant_id_column": ts[0].get("participant_id_column"), "_by_id": dict(merged)}
         for_checks.append(rep)
         per_file = {}
         for t in ts:
@@ -522,12 +1030,27 @@ def group_file_sets(tables):
         for t in ts:
             for c in t["columns"]:
                 types[c["name"]].add(c.get("type"))
-        for_report.append({
+        entry = {
             "file_set": name, "n_files": len(ts), "n_rows_total": sum(t.get("n_rows", 0) for t in ts),
+            "files": sorted(t["file"] for t in ts),
+            "software": software,
             "participant_id_column": rep["participant_id_column"], "n_participants": len(merged),
-            "columns": [{"name": h, "types": sorted(x for x in types[h] if x)} for h in header],
+            "columns": [{"name": h, "types": sorted(x for x in types[h] if x)} for h in order],
             "issues_by_file": per_file,
-            "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})})
+            "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})}
+        partial = {h: n for h, n in present_in.items() if n < len(ts)}
+        if partial:
+            entry["columns_not_in_every_file"] = {h: f"in {n} of {len(ts)} files" for h, n in partial.items()}
+        structures = {json.dumps(t.get("export_structure", {}), sort_keys=True) for t in ts}
+        if structures != {"{}"}:
+            entry["export_structure"] = [json.loads(x) for x in structures]
+        encodings = sorted({t.get("encoding") for t in ts if t.get("encoding")})
+        entry["encoding"] = encodings[0] if len(encodings) == 1 else encodings
+        for k in ("format", "rows_are"):
+            vals = {str(t.get(k)) for t in ts if t.get(k)}
+            if len(vals) == 1:
+                entry[k] = vals.pop()
+        for_report.append(entry)
     for_checks += [t for t in tables if "columns" not in t]
     for_report += [t for t in tables if "columns" not in t]
     return for_checks, for_report  # "_by_id" is removed in main() after the cross-file check
@@ -687,8 +1210,21 @@ def scan_code(path, root, all_files_rel):
         res["referenced_files_not_found"] = sorted(set(missing))[:20]
     res["issues"] = issues
     res["uses_here"] = bool(re.search(r"\bhere\s*::\s*here|library\s*\(\s*here\s*\)", code))
-    res["sets_seed"] = bool(re.search(r"set\.seed|np\.random\.seed|random\.seed|default_rng\(\s*\d", code))
-    res["random_calls"] = bool(re.search(r"\b(sample|rnorm|runif|rbinom|brm|stan|sampling|bootstrap|boot)\s*\(|np\.random|random\.", code))
+    if lang in ("R", "R Markdown", "Quarto") or res["language"] == "Jupyter (R)":
+        rnd, seed = RANDOM_R, SEED_R
+    elif lang == "MATLAB":
+        rnd, seed = RANDOM_M, SEED_M
+    else:
+        rnd, seed = RANDOM_PY, SEED_PY
+    funcs = sorted({re.sub(r"[\s(]+$", "", m.group(0)).lstrip("$") for m in rnd.finditer(code)})
+    seeds = sorted({m.group(0).strip()[:40] for m in seed.finditer(code)})
+    res["sets_seed"] = bool(seeds)
+    res["random_calls"] = bool(funcs)
+    if funcs:
+        res["randomness"] = {"functions": funcs[:12], "seed": seeds[:5] or None}
+        if not seeds:
+            issues.append("uses random numbers (" + ", ".join(funcs[:5]) + ") without fixing a seed: "
+                          "the results change slightly at every run")
     return res
 
 
@@ -944,16 +1480,46 @@ def scan(root):
     report["licenses"] = lic
 
     # data + dictionaries
-    tables, dicts = [], {}
+    tables, dicts, not_read, open_stems = [], {}, [], set()
     for f in files:
-        if f.suffix.lower() in OPEN_TABULAR:
-            if DICT_NAME.search(f.stem):
-                try:
-                    dicts[rel(f, root)] = parse_dictionary(f, root)
-                except Exception as e:  # noqa: BLE001
-                    dicts[rel(f, root)] = {"file": rel(f, root), "error": str(e)}
-            else:
-                tables.append(scan_table(f, root))
+        suf, r = f.suffix.lower(), rel(f, root)
+        if suf in OPEN_TABULAR and DICT_NAME.search(f.stem):
+            try:
+                d = parse_dictionary(f, root)
+            except Exception as e:  # noqa: BLE001
+                d = {"file": r, "error": str(e)}
+            if "error" in d or "variable_name" in d.get("columns_present", []):
+                dicts[r] = d
+                continue
+            # named like a dictionary, but no column of variable names: data
+        if not (suf in OPEN_TABULAR or suf in TEXT_DATA or suf in JSON_DATA or suf in PROPRIETARY_DATA):
+            continue
+        try:
+            found = load_any(f)
+        except Exception as e:  # noqa: BLE001
+            found = [(None, None, {"not_read": f"could not read: {e}"})]
+        for sheet, rows, info in found:
+            if rows is None:
+                not_read.append({"file": r, "reason": info.get("not_read")})
+                continue
+            tables.append(scan_table(f, root, rows, info, sheet))
+            if suf not in PROPRIETARY_DATA:
+                open_stems.add(f.stem.lower())
+    if not_read:
+        report["data_not_read"] = not_read
+    # proprietary files: is there an open copy, and does it hold the same table?
+    for e in report["formats"]["proprietary_data"]:
+        stem = Path(e["file"]).stem.lower()
+        if stem in open_stems:
+            e["open_copy_exists"] = True
+        mine = [t for t in tables if t["file"].split(" [")[0] == e["file"] and "columns" in t]
+        copies = [t for t in tables if "columns" in t and Path(t["file"].split(" [")[0]).stem.lower() == stem
+                  and Path(t["file"].split(" [")[0]).suffix.lower() not in PROPRIETARY_DATA]
+        if mine and copies:
+            a, b = mine[0], copies[0]
+            same_cols = [c["name"] for c in a["columns"]] == [c["name"] for c in b["columns"]]
+            e["open_copy_check"] = {"copy": b["file"], "same_columns": same_cols,
+                                    "rows": f"{a.get('n_rows')} here, {b.get('n_rows')} in the copy"}
     other_dicts = [r for r in files_rel if DICT_NAME.search(Path(r).stem) and Path(r).suffix.lower() not in OPEN_TABULAR]
     all_tables = tables
     tables, report["data"] = group_file_sets(tables)
@@ -971,8 +1537,9 @@ def scan(root):
     if incons:
         report["cross_file_type_inconsistencies"] = incons
     report["cross_file_participants"] = compare_participants(tables)
-    for t in tables + all_tables:
+    for t in tables + all_tables + report["data"]:
         t.pop("_by_id", None)
+        t.pop("_experiment", None)
 
     dict_report = {"dictionary_files": [{k: v for k, v in d.items() if k != "entries"} | {"n_entries": len(d.get("entries", {}))} for d in dicts.values()],
                    "non_csv_dictionaries": other_dicts, "coverage": []}
@@ -990,12 +1557,18 @@ def scan(root):
             continue
         tf = Path(t["file"])
         match = None
-        for dname, d in dicts.items():
-            dp = Path(dname)
-            dstem = DICT_NAME.sub("", dp.stem).strip("_- ").lower()
-            tstem = re.sub(r"(?i)[_-]?data$", "", tf.stem).lower()
-            if dstem and (dstem == tf.stem.lower() or dstem == tstem or tf.stem.lower().startswith(dstem) or dstem.startswith(tstem)):
-                match = d
+        tstem = re.sub(r"(?i)[_-]?data$", "", tf.stem).lower()
+        stems = {dname: DICT_NAME.sub("", Path(dname).stem).strip("_- ").lower() for dname in dicts}
+        # an exact name first (x_data.csv -> x_dictionary.csv), then a shared beginning
+        for exact in (True, False):
+            for dname, dstem in stems.items():
+                if not dstem:
+                    continue
+                if (dstem in (tf.stem.lower(), tstem)) if exact else \
+                        (tf.stem.lower().startswith(dstem) or dstem.startswith(tstem)):
+                    match = dicts[dname]
+                    break
+            if match is not None:
                 break
         if match is None:
             # a single generic dictionary that covers this file's columns
@@ -1014,8 +1587,18 @@ def scan(root):
             dict_report["coverage"].append({"data": t["file"], **compare_dictionary(t, match)})
     report["dictionaries"] = dict_report
 
-    # code
-    code_files = [f for f in files if f.suffix.lower() in CODE_EXT and not (f.suffix.lower() == ".m" and f.stat().st_size == 0)]
+    # experiment files (the instrument) and analysis code
+    experiment = []
+    for f in files:
+        suf = f.suffix.lower()
+        if suf in EXPERIMENT_EXT or (suf in (".py", ".js", ".html", ".htm", ".m") and f.stat().st_size < 5_000_000):
+            role = experiment_role(f, "" if suf in EXPERIMENT_EXT else f.read_text(errors="replace"))
+            if role:
+                experiment.append({"file": rel(f, root), "what": role})
+    report["experiment_files"] = experiment
+    exp_set = {e["file"] for e in experiment}
+    code_files = [f for f in files if f.suffix.lower() in CODE_EXT and rel(f, root) not in exp_set
+                  and not (f.suffix.lower() == ".m" and f.stat().st_size == 0)]
     code = [scan_code(f, root, files_rel) for f in code_files]
     written = {w for c in code for w in c.get("writes", [])}
     for c in code:
@@ -1032,10 +1615,14 @@ def scan(root):
     if isinstance(lock, dict) and lock.get("packages"):
         report["code"]["packages_not_in_renv_lock"] = [p for p in allp if p not in lock["packages"]]
 
+    archives = [rel(f, root) for f in files if f.suffix.lower() in ARCHIVES]
+    if archives:
+        report["archives"] = {"files": archives, "note": "contents not checked: extract them to a temporary folder and scan that"}
     report["materials_present"] = {
-        "data": bool(tables) or bool(fmt["proprietary_data"]),
+        "data": bool(tables) or bool(fmt["proprietary_data"]) or bool(not_read),
         "code": bool(code),
         "manuscript": bool(report["manuscripts"]),
+        "experiment": bool(experiment),
     }
     return report
 

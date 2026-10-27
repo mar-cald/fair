@@ -16,13 +16,29 @@ senso per quel materiale.
 | solo dati | dati, struttura e nomi, formati, README, data dictionary, licenza, dati personali |
 | dati e codice | i precedenti, più: il codice gira? quali pacchetti servono? |
 | dati, codice e manoscritto o preprint | tutti, più: i numeri riportati escono dal codice? |
+| file dell'esperimento | ci sono? si possono condividere (materiale proprio o di terzi)? |
+
+Riconosce i file di **Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS),
+Gorilla, OpenSesame ed E-Prime**: sa che cosa scrive ciascun programma, in che
+unità (per esempio `key_resp.rt` di PsychoPy in secondi, `Reaction Time` di
+Gorilla in millisecondi) e quali colonne contengono dati personali. Il
+riferimento è `fair-check/references/software-exports.md`.
 
 1. **Dati**:
-   - per ogni CSV/TSV: tipo di ogni colonna, intervallo dei valori, valori
+   - legge CSV/TSV, testo delimitato in qualunque codifica (anche UTF-16),
+     JSON di jsPsych e JATOS, log `.txt` di E-Prime, e file Excel e SPSS
+     quando sono installate le librerie per leggerli;
+   - mette da parte le righe che gli export aggiungono attorno ai dati (testo
+     delle domande di Qualtrics, "END OF FILE" di Gorilla, il percorso del
+     file in cima agli export di E-DataAid);
+   - per ogni tabella: tipo di ogni colonna, intervallo dei valori, valori
      mancanti codificati in più modi (`NA`, cella vuota, `-99`), categorie
-     scritte in modi diversi (`M` / `m`), righe duplicate, virgola decimale;
-   - colonne che sembrano dati personali (e-mail, indirizzo IP, coordinate,
-     codice fiscale, data di nascita);
+     scritte in modi diversi (`M` / `m`), righe duplicate, virgola decimale,
+     celle che contengono liste o oggetti JSON;
+   - colonne che sembrano dati personali, dal nome, dall'etichetta e dai
+     valori: e-mail, indirizzo IP, coordinate, codice fiscale, data di nascita,
+     ID di Prolific o MTurk, percorsi del computer con il nome dell'utente,
+     risposte a testo libero, ID fatti solo di lettere (iniziali?);
    - i partecipanti: la stessa persona con due età diverse, ID presenti in un
      file e non nell'altro, ID scritti in modi diversi (`sub-01` e `1`).
 
@@ -41,11 +57,19 @@ senso per quel materiale.
      perché gli altri si fermano;
    - se si fermano per un `setwd()` o un percorso assoluto, li riesegue in una
      seconda copia senza quella riga, per vedere se l'analisi funziona e se gli
-     errori nei dati arrivano fino al modello.
+     errori nei dati arrivano fino al modello;
+   - segnala gli script che usano numeri casuali (MCMC con `brm()`, bootstrap,
+     simulazioni, `sample()`) senza fissare il seed: i risultati cambiano a
+     ogni esecuzione;
+   - non esegue gli script dell'esperimento (PsychoPy, jsPsych, OpenSesame…):
+     sono materiale, vanno in `materials/`.
 8. **Manoscritto**:
-   - trova le statistiche riportate (M, SD, t, F, r, p, CI…) e le cerca
-     nell'output del codice: quali coincidono, quali no, quali nessuno script
-     le produce;
+   - trova le statistiche riportate, frequentiste (M, SD, t, F, r, p, CI…) e
+     bayesiane (BF10, BF01, probabilità a posteriori, R-hat, intervalli di
+     credibilità e HDI), e le cerca nell'output del codice: quali coincidono,
+     quali no, quali nessuno script le produce, quali compaiono in un'altra
+     forma (BF01 al posto di BF10, proporzione al posto di percentuale);
+   - legge anche i testi con la virgola decimale;
    - controlla anche la Data availability, il numero di partecipanti e le
      esclusioni.
 
@@ -88,7 +112,10 @@ del sito esegue gli stessi script nel browser, con Pyodide, senza AI e senza
 inviare i file a un server. Fa il controllo e costruisce la versione da
 depositare; le decisioni che con la skill prende Claude (dove va ogni file,
 descrizioni nel data dictionary, testo del README) le prende chi usa la pagina,
-in un modulo. Non esegue il codice e non controlla i numeri del manoscritto.
+in un modulo. Riconosce gli stessi programmi della skill, descrive da sola le
+loro colonne standard e fa le copie CSV dei dati che non sono in CSV (JSON,
+log di E-Prime, Excel). Non esegue il codice, non controlla i numeri del
+manoscritto e non legge i file SPSS.
 I file della pagina sono in `deposito/` (interfaccia e `bridge.py`) e usano gli
 script di `fair-check/scripts/`: una correzione agli script vale per entrambe.
 
@@ -125,8 +152,10 @@ percorsi e file citati, senza eseguirlo.
 |:--|:--|
 | `fair-check/SKILL.md` | Le istruzioni che Claude segue: controlli, rapporto, versione da depositare |
 | `fair-check/references/fair-rules.md` | Le regole della dispensa, con il link alla pagina del sito |
+| `fair-check/references/software-exports.md` | Che cosa scrivono Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed E-Prime, e dove vanno i loro file nel deposito |
 | `fair-check/assets/licenses/` | I testi ufficiali di CC0 1.0, GPL-3.0 e CC BY 4.0 |
 | `fair-check/scripts/fair_scan.py` | Scansione in sola lettura della cartella; rapporto JSON |
+| `fair-check/scripts/software.py` | Come riconoscere i file dei sei programmi e che cosa significano le loro colonne |
 | `fair-check/scripts/run_code.py` | Esegue gli script in una copia temporanea e ne salva l'output |
 | `fair-check/scripts/manuscript_numbers.py` | Estrae il testo del manoscritto e confronta i numeri con l'output del codice |
 | `fair-check/scripts/draft_dictionary.py` | Bozza di `<dataset>_dictionary.csv` con le nove colonne della dispensa |
@@ -134,7 +163,9 @@ percorsi e file citati, senza eseguirlo.
 | `fair-check/scripts/make_psychds.py` | Scrive `dataset_description.json` dai data dictionary |
 | `fair-check.skill` | La skill impacchettata, da caricare su claude.ai |
 
-Gli script usano solo Python 3 senza pacchetti aggiuntivi.
+Gli script usano Python 3 senza pacchetti aggiuntivi; per leggere i file
+Excel serve `openpyxl`, per quelli SPSS e Stata `pyreadstat` (se mancano, quei
+file vengono segnalati come non letti).
 
 Dopo aver modificato la skill, `fair-check.skill` va rigenerato
 (`cd skill && zip -r fair-check.skill fair-check -x '*/__pycache__/*' '*.DS_Store'`).

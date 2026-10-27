@@ -1,6 +1,6 @@
 ---
-name: fair-check
-description: 'Checks whether a research project folder is FAIR and ready to deposit on Zenodo, PsychArchives or another repository, following the Unipd "Hands-on Open Science" booklet, then builds a clean deposit version. It adapts to the material: data only (data consistency, names, formats, README, data dictionary, license, personal data), plus code (does it run, which packages), plus a manuscript or preprint (do the reported numbers come out of the code). The deposit version has fixed folder names, Psych-DS file names and dataset_description.json, CSV dictionaries, a complete README, licenses (CC0 data, GPL-3.0 code, CC BY 4.0 preprint) and a zip to upload. Use it whenever someone asks to check, review, clean up or make FAIR a research folder, dataset or OSF/GitHub/Zenodo deposit, or asks if their data, code or preprint are ready to share, even without saying "FAIR"; also for Italian requests like "controlla la mia cartella" or "prepara la cartella per Zenodo".'
+name: "fair-check"
+description: 'Checks whether a research project folder is FAIR and ready to deposit on Zenodo, PsychArchives or another repository, following the Unipd "Hands-on Open Science" booklet, then builds a clean deposit version. It adapts to the material: data (consistency, names, formats, README, dictionary, license, personal data), code (does it run, packages, seeds), manuscript (do the reported numbers, frequentist or Bayesian, come out of the code). It reads exports from Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame and E-Prime. The deposit has fixed folders, Psych-DS names and dataset_description.json, CSV dictionaries, a README, licenses (CC0 data, GPL-3.0 code, CC BY 4.0 preprint) and a zip. Use it whenever someone asks to check, review, clean up or make FAIR a research folder, dataset or OSF/GitHub/Zenodo deposit, or asks if their data, code or preprint are ready to share, even without saying "FAIR"; also for Italian requests like "controlla la mia cartella" or "prepara la cartella per Zenodo".'
 ---
 
 # FAIR check and deposit version of a research project
@@ -15,6 +15,11 @@ https://mar-cald.github.io/fair/). Read `references/fair-rules.md` before writin
 the report: it has the naming rules, the README sections, the data dictionary
 columns, the licenses, the fixed folder layout of the deposit, the Psych-DS
 rules and the manuscript checks, with the page to link for each topic.
+
+When the scan recognises files from Qualtrics, PsychoPy, jsPsych, Gorilla,
+OpenSesame or E-Prime (`software` in a data entry, or `experiment_files`), read
+also `references/software-exports.md`: what each program writes, the units of
+its columns, its personal-data columns, and where its files go in the deposit.
 
 ## How the work is organised
 
@@ -36,7 +41,9 @@ Italian). Keep file names, column names and code in their original form.
 ## Step 0 — Inventory
 
 If the researcher has not said which folder to check, ask. If they attached a
-zip, extract it to a temporary directory and work on that. Then run the scanner:
+zip, extract it to a temporary directory and work on that; do the same with
+archives inside the project (the scan lists them in `archives`: a Gorilla
+download or JATOS results often arrive zipped). Then run the scanner:
 
 ```bash
 python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.json
@@ -49,15 +56,27 @@ these sections:
 - **`inventory`, `root_entries`, `naming`, `formats`, `structure`**: what is in
   the folder, how files are named and in which formats.
 - **`readme`, `licenses`**.
-- **`data`**: one entry per CSV/TSV, with per-column type, range,
-  missing-value codes, detected issues, the participant ID column, and
-  `within_participant_inconsistencies`.
+- **`data`**: one entry per data table: CSV/TSV, delimited `.txt`/`.dat` in any
+  encoding (UTF-16 included), JSON records (jsPsych, JATOS), E-Prime logs, Excel
+  sheets and SPSS/Stata files when openpyxl/pyreadstat are installed
+  (`data_not_read` lists the others, with the reason). Per entry: the
+  `software` that wrote it, `export_structure` (rows the export adds around the
+  data, set aside before the checks), per-column type, range, missing-value
+  codes, cells holding lists or JSON, detected issues, the participant ID column
+  (or `participant_id_column_is_personal`), and
+  `within_participant_inconsistencies`. One file per participant is reported
+  once, as a file set.
 - **`cross_file_participants`**: IDs present in only one file, ID columns
   with different names, IDs written differently (`sub-01` vs `1`), and
   participant-level values (e.g. age) that disagree between files.
 - **`dictionaries`**: which data files have a dictionary, and which columns
   are missing from it.
-- **`code`**: packages, absolute paths, `setwd`, files referenced but missing.
+- **`code`**: packages, absolute paths, `setwd`, files referenced but missing,
+  and `randomness`: the functions that draw random numbers (`sample`, `brm`,
+  `boot`, `np.random` ...) and whether a seed is fixed.
+- **`experiment_files`**: the experiment itself (`.psyexp`, `.osexp`, `.es3`,
+  jsPsych HTML/JS, `.qsf`, PsychoPy's generated scripts). It is material, not
+  analysis code: it goes in `materials/` and is not run.
 - **`manuscripts`**: candidate manuscript or preprint files.
 - **`psychds`**: whether the folder already follows the minimum Psych-DS rules.
 
@@ -68,6 +87,7 @@ these sections:
 | data | 1a data, 1b structure and formats, 1c README, 1d dictionary, 1e license, 1h personal data |
 | data + code | the above, plus 1f the code runs, 1g packages |
 | data + code + manuscript | all of the above, plus 1i manuscript and reported numbers |
+| experiment files | also: are they in the folder, and can they be shared (own material vs. third-party) |
 
 A manuscript without code still gets the 1i checks that do not need the code
 (data availability statement, N and exclusions against the data, what can be
@@ -79,7 +99,10 @@ problem unless it is needed (a data-only deposit is complete without code).
 The scanner applies fixed rules (patterns in names, counts, ranges). Its
 findings are a starting point: verify what looks surprising, and drop false
 positives. For example, "possible numeric missing-value codes: 999" is a real
-problem in an age column and not in a column of trial numbers.
+problem in an age column and not in a column of trial numbers. Columns that
+experiment software writes on its own (constant settings, empty optional
+fields) produce many "constant column" and "entirely empty" lines: summarise
+them in one sentence, do not list them one by one.
 
 ## Step 1 — Check
 
@@ -97,6 +120,14 @@ README to judge, and look for:
   participant by participant;
 - the number of participants (`n_participants`) against what the README or
   the manuscript says;
+- what a row is. Experiment software often writes one row per event, screen
+  or routine, not per trial (Gorilla, jsPsych, PsychoPy): check which rows the
+  analysis keeps, and the units of the time columns (PsychoPy rt in seconds,
+  the others in ms; an E-Prime RT of 0 means no response). See
+  `references/software-exports.md`;
+- the rows an export adds around the data (`export_structure`): not errors in
+  a raw file, but the README must mention them and the scripts must handle
+  them;
 - proprietary files (`.xlsx`, `.sav`) with no open copy. If R is available,
   read them (`readxl::read_excel`, `haven::read_sav`) to check them like the
   CSVs, and to see whether they contain the same data as the CSV next to them.
@@ -111,7 +142,11 @@ those columns' values; report the column name and why it was flagged.
 
 From `naming`, `formats` and `structure`, against sections 1–3 of the rules.
 Note also what would not belong in a deposit (section 9 of the rules): old
-scripts, empty folders, system files, duplicates.
+scripts, empty folders, system files, duplicates, test runs (`quickrun.csv`).
+A proprietary file with an open copy (`open_copy_exists`) is fine; when the
+scan could read both, `open_copy_check` says whether they hold the same table.
+UTF-16 files (E-Prime, Qualtrics TSV) are open but awkward: the deposit's
+copies are UTF-8.
 
 ### 1c. README
 
@@ -161,6 +196,12 @@ If scripts fail because packages are missing, **do not install them on your
 own**: installing changes the researcher's R or Python setup. List the missing
 packages and ask. The fact that packages were missing is itself a finding.
 
+A script that reaches the timeout is stopped together with every process it
+started (parallel chains included) and reported as `timeout`, with the last
+lines it printed: say how far it got, and offer a run with a longer
+`--timeout`. Experiment scripts (PsychoPy's generated `.py`, files importing
+psychopy) are listed as "not run": that is correct, not a failure.
+
 When a script fails, the scripts after it often fail only because they read
 the files it should have produced. Report the first failure as the cause, and
 the later ones as consequences.
@@ -180,6 +221,16 @@ Also report scripts that **modify** files in `data/raw/`, and outputs the README
 promises that no script creates. If no interpreter is available (no R, a
 MATLAB or SPSS project), say so and limit the check to packages, paths, files.
 
+**Random numbers and seeds.** For each script with `randomness`, report the
+functions and whether a seed is fixed (`set.seed()`, `seed =` in `brm()`,
+`np.random.seed`, `default_rng(1)` ...). Without a seed, MCMC samples,
+bootstraps, simulations and random splits change at every run: the numbers in
+the manuscript cannot be reproduced exactly, only approximately. Say so, and
+suggest the one-line fix (`set.seed(<number>)` at the top, or the `seed`
+argument), to be added by the authors or, with their agreement, in the deposit
+(step 3b). A seed set in one script does not carry over to the next one: R
+starts a new session for each.
+
 ### 1g. Packages (if there is code)
 
 From `code.all_packages`, build the list of packages the project needs and
@@ -192,18 +243,35 @@ for the README.
 
 From `possible_personal_data` and the materials folder, against section 8 of
 the rules: identifying columns, published instruments, copyrighted stimuli,
-the publisher's PDF of the article.
+the publisher's PDF of the article. The scan flags columns by name, by their
+label (Qualtrics question text) and by their values:
+- names, e-mails, phone numbers, tax codes;
+- IP addresses and coordinates;
+- recruitment-platform IDs (Prolific, MTurk, Gorilla's Public ID);
+- IDs made of letters only (initials?);
+- absolute paths with a user name (OpenSesame logs, E-DataAid exports);
+- free-text answers.
+
+A participant ID that is itself personal (`participant_id_column_is_personal`)
+must be replaced by study codes before sharing. Free text is flagged, not
+judged: read a sample yourself (without printing it in the conversation) and
+say whether it holds identifying details.
 
 ### 1i. Manuscript and reported numbers (if there is a manuscript)
 
-Get the text: for `.docx`, `.odt`, `.md`, `.qmd`, `.Rmd`, `.tex`, `.html`,
+Get the text: for `.docx`, `.odt`, `.md`, `.qmd`, `.Rmd`, `.Rnw`, `.tex`, `.html`,
 
 ```bash
 python3 <skill-dir>/scripts/manuscript_numbers.py text <manuscript> --out <tmp>/manuscript.txt
 ```
 
 For a PDF the script uses `pdftotext` if installed; otherwise read the PDF
-with your file-reading tool and save its text to `<tmp>/manuscript.txt`.
+with your file-reading tool and save its text to `<tmp>/manuscript.txt`. For an
+R Markdown, Quarto or Sweave manuscript the script also counts the numbers
+written by inline code (`` `r x` ``, `{r} x`, `\Sexpr{x}`): they come from the
+code by construction. Say so in the report, and check those numbers by
+rendering the document if R is available; the script checks only the numbers
+typed by hand.
 
 Then check, against section 11 of the rules:
 
@@ -223,9 +291,15 @@ logs of the fixed copy. Then:
 python3 <skill-dir>/scripts/manuscript_numbers.py check <tmp>/manuscript.txt <tmp>/logs [<copy>/output]
 ```
 
-It lists every statistic in the text (M, SD, t, F, r, b, p, N, CI ...) with
-the sentence it is in, and whether a value that rounds to it appears in the
-output. Go through the result with judgement:
+It lists every statistic in the text with the sentence it is in, and whether
+a value that rounds to it appears in the output. It knows frequentist
+statistics (M, SD, t, F, chi2, r, b, d, eta2, R2, p, N, CI ...), Bayesian ones
+(BF10, BF01, log BF, posterior probabilities P(...), pd, R-hat, ESS, credible
+intervals and HDIs, WAIC/LOO), and reads the manuscript's number format
+(thousands separators; decimal commas in Italian texts). For each match it
+says whether the output names the statistic on that line or just above it
+(`context`), and in how many places the number appears (`n_places`). Go through
+the result with judgement:
 
 - a statistic **not found** may be computed by hand, in another program, or
   from a version of the data that is not in the folder: say which;
@@ -233,6 +307,12 @@ output. Go through the result with judgement:
   p-values; look at the output line it matched;
 - a value **found with the opposite sign** usually means a different
   reference level or contrast;
+- a value **found in another form** is the same number written differently: a
+  BF01 reported where the code prints BF10 (its reciprocal), a log Bayes
+  factor, a percentage printed as a proportion (95.8% vs 0.958), ms printed as
+  seconds. Report it as reproduced, and say how;
+- **number only** with many `n_places` is weak evidence: find the line that
+  really holds the statistic before calling it reproduced;
 - when the output has a value close to, but not the same as, the reported one
   (t = 2.45 reported, 2.61 in the output), it is a discrepancy to report.
 
@@ -310,7 +390,9 @@ stays as it is.
 Write a plan: for every file of the project, where it goes in the deposit and
 under which name, or why it stays out. Psych-DS names for the data files
 (section 10 of the rules), scripts in `scripts/` numbered in run order, the
-original exports in `data/raw/`, the preprint in `docs/`.
+original exports in `data/raw/`, the experiment files in `materials/`, the
+preprint in `docs/`. For each program's files, follow the "Deposit" paragraph
+of `references/software-exports.md`.
 
 Show the plan as a table, together with the decisions only the researcher can
 take, and wait for the answers:
@@ -343,15 +425,28 @@ python3 <skill-dir>/scripts/build_deposit.py build <project-folder> <tmp>/plan.j
 
 It copies only the listed files under their new names and rewrites the paths
 inside the scripts to point to the new locations, including `here("data",
-"x.csv")` and `file.path(...)` calls. With a `"data"` entry in the plan, it also
-removes columns from the deposit's copy of a data file (personal data) and
-converts it to comma-separated UTF-8 with decimal points, adjusting
-`read.csv2()` and `sep = ";"` in the scripts that read it. Check its output:
-`unresolved_paths` lists path-like strings it could not map (absolute paths,
-files it cannot find). Fix those by hand in the deposit's scripts.
-Also fix there the other portability problems found in 1f (`setwd()`,
-absolute output paths, `rm(list = ls())`), and apply the data corrections the
-researcher agreed to.
+"x.csv")` and `file.path(...)` calls. Two optional sections of the plan act on
+data (details in the script's header):
+
+- **`"data"`** (files in the deposit): `drop` removes columns (personal data);
+  `normalise` (default true) converts to comma-separated UTF-8 with decimal
+  points and adjusts the scripts that read the file (`read.csv2`,
+  `read.delim`, `sep = ";"`, `dec = ","`, `fileEncoding = "UTF-16"`). Set
+  `"normalise": false` for a raw export the scripts read as it is.
+  `remove_export_rows` also removes the rows the export adds around the data:
+  leave it false for files the scripts read, they may already skip them.
+- **`"csv_copies"`**: an open CSV made from a JSON file, an E-Prime log, a TSV
+  or UTF-16 export, an Excel sheet or an SPSS file, without the export rows
+  and the listed columns. This is how a raw export in `data/raw/` gets its
+  Psych-DS file in `data/` in a project without code.
+
+Check its output. `unresolved_paths` lists path-like strings it could not map
+(absolute paths, files it cannot find). `check_by_hand` lists reading lines it
+could not adjust (a converted file read through a variable) and scripts that
+read a file whose export rows were removed. Fix those by hand in the deposit's
+scripts. Also fix there the other portability problems found in 1f
+(`setwd()`, absolute output paths, `rm(list = ls())`), add the missing seeds if
+the researcher agreed, and apply the data corrections they agreed to.
 
 ### 3c. Dictionaries
 
@@ -367,11 +462,21 @@ e.g. `draft_dictionary.py <deposit>/data/raw/psychopy/*.csv --out
 <deposit>/dictionaries/raw-psychopy_dictionary.csv`. Raw exports in `data/raw/`
 get a dictionary too when they are the data the scripts start from.
 
-It writes the booklet's nine columns. `variable_name`, `type`,
-`allowed_values`, `missing_values` and the list of codes come from the data;
-`label`, `unit`, `source` and the meaning of each code are `TODO`. If the
-project had a dictionary, start from it instead: carry over what it says, add
-the missing rows and columns, and fix the names that do not match.
+It reads the same formats as the scanner (pass `--sheet` for an Excel file)
+and writes the booklet's nine columns:
+- From the data: `variable_name`, `type`, `allowed_values`, `missing_values`
+  and the list of codes.
+- From the file itself, when it says it: the question text of a Qualtrics
+  export, SPSS variable and value labels.
+- From `scripts/software.py`: label, unit and coding of the columns that
+  Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame and E-Prime write on their
+  own (`key_resp.rt` in seconds, `Reaction Time` in ms, `subject_nr` ...).
+  These carry "to check" in `notes`; they follow the programs' documentation,
+  but versions and settings vary.
+- Everything else is `TODO`.
+
+If the project had a dictionary, start from it instead: carry over what it
+says, add the missing rows and columns, and fix the names that do not match.
 
 Then fill the `TODO`s you can support with evidence: a label from the README
 or the manuscript, a unit from the code or the column name (`rt_ms`), the
@@ -434,7 +539,10 @@ download its official text (ask first) and add it by hand.
   tables it produces end up in `output/`:
   `run_code.py <deposit> --in-place --logs <tmp>/logs_deposit`. Every script
   should run. If a manuscript was checked, run `manuscript_numbers.py check`
-  again on the new logs: the results should be the same as in 1i.
+  again on the new logs: the results should be the same as in 1i. This is a
+  second, independent run of the analysis. Numbers that differ between the two
+  runs, in scripts that use random numbers without a seed, show concretely
+  what a reader would get: report the size of the differences.
 - Run `fair_scan.py` on the deposit and check that `psychds.valid_minimum` is
   true, there are no naming problems, every data file has a complete dictionary,
   and nothing personal is left.
@@ -452,8 +560,8 @@ writes `<deposit>.zip`, the single file to upload. Then tell the researcher:
 - where the deposit folder and the zip are;
 - what changed with respect to the original (renamed files, moved folders,
   rewritten paths, removed columns);
-- what is still `TODO` (authors, ORCID, dates, DOIs, labels without evidence)
-  and the open decisions;
+- what is still `TODO` (authors, ORCID, dates, DOIs, labels without evidence),
+  the dictionary entries marked "to check", and the open decisions;
 - to check the folder with the Psych-DS validator
   (https://psych-ds.github.io/validator/, load the deposit's root folder);
 - that once the DOI exists it goes into the README, `dataset_description.json`

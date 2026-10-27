@@ -10,7 +10,7 @@
   "use strict";
 
   const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/";
-  const PY_FILES = ["fair_scan.py", "draft_dictionary.py", "build_deposit.py", "make_psychds.py"];
+  const PY_FILES = ["software.py", "fair_scan.py", "draft_dictionary.py", "build_deposit.py", "make_psychds.py"];
   const LICENSES = ["CC0-1.0.txt", "GPL-3.0.txt", "CC-BY-4.0.txt"];
   const SKIP_DIRS = new Set([".git", ".Rproj.user", "node_modules", "__pycache__", ".ipynb_checkpoints", ".venv", "venv", ".quarto"]);
   const SITE = "https://mar-cald.github.io/fair/";
@@ -124,6 +124,14 @@
     await getPython();
     status(`Leggo ${entries.length} file (${(total / 1e6).toFixed(1)} MB)…`);
     await tick();
+    if (entries.some((e) => /\.xls[xm]$/i.test(e.path))) {
+      status("Preparo la lettura dei file Excel…");
+      // openpyxl is not in Pyodide's own packages: micropip takes the pure-Python wheel from PyPI
+      try {
+        await py.loadPackage("micropip");
+        await py.pyimport("micropip").install("openpyxl==3.1.5");
+      } catch (err) { console.warn("openpyxl non disponibile", err); }
+    }
     py.runPython("import shutil; shutil.rmtree('/work', ignore_errors=True)");
     for (const e of entries) {
       const bytes = e.bytes || new Uint8Array(await e.file.arrayBuffer());
@@ -151,6 +159,9 @@
     "name": "nome", "e-mail": "e-mail", "phone number": "numero di telefono", "address": "indirizzo",
     "birth date": "data di nascita", "tax / national ID": "codice fiscale", "IP address": "indirizzo IP",
     "GPS coordinates": "coordinate GPS", "institutional ID": "matricola", "crowdsourcing worker ID": "ID della piattaforma di reclutamento",
+    "recruitment-platform ID (e.g. Prolific, MTurk; Gorilla's Public ID)": "ID della piattaforma di reclutamento (Prolific, MTurk, Public ID di Gorilla)",
+    "external reference (an identifier linked to the person)": "riferimento esterno (un identificativo legato alla persona)",
+    "browser user-agent string (an indirect identifier)": "user-agent del browser (un identificativo indiretto)",
   };
   const TR = [
     [/^1 exact duplicate rows$/, "1 riga duplicata"],
@@ -174,6 +185,32 @@
     [/^'(.*)' should have one value per participant but has more for (\d+) of (\d+) participants \((.*)\)$/,
       "'$1' dovrebbe avere un solo valore per partecipante, ma ne ha più di uno per $2 partecipanti su $3 ($4)"],
     [/^column name suggests (.*)$/, (m, x) => "il nome della colonna fa pensare a: " + (FLAG[x] || x)],
+    [/^its label \('(.*)'\) suggests (.*)$/, (m, l, x) => `l'etichetta ("${l}") fa pensare a: ` + (FLAG[x] || x)],
+    [/^values look like IP addresses$/, "i valori sembrano indirizzi IP"],
+    [/^values look like Prolific participant IDs$/, "i valori sembrano ID di Prolific"],
+    [/^values are file paths of a computer, with a user name in them$/, "i valori sono percorsi di un computer, con il nome dell'utente"],
+    [/^free-text answers: .*$/, "risposte a testo libero: leggetele prima di condividerle, possono contenere nomi o altri dettagli che identificano"],
+    [/^(\d+) of (\d+) IDs are letters only \(initials or names\?\): .*$/, "$1 ID su $2 sono solo lettere (iniziali o nomi?): controllate che non identifichino nessuno"],
+    [/^cells hold (JSON objects|lists) \(several values per cell\): .*$/, (m, x) => `le celle contengono ${x === "lists" ? "liste" : "oggetti JSON"} (più valori per cella): descrivetene la struttura nel dictionary, o separateli in colonne`],
+    [/^(\d+) of (\d+) cells hold lists or JSON objects .*$/, "$1 celle su $2 contengono liste o oggetti JSON (per esempio risposte a questionari), le altre valori singoli: descrivete entrambi nel dictionary"],
+    [/^uses random numbers \((.*)\) without fixing a seed: .*$/, "usa numeri casuali ($1) senza fissare il seed: i risultati cambiano leggermente a ogni esecuzione"],
+    [/^(\S+?)( with BOM)? -> UTF-8$/, "codifica $1 convertita in UTF-8"],
+    [/^removed (\d+) line\(s\) above the header$/, "tolte $1 righe sopra l'intestazione"],
+    [/^left out (\d+) line\(s\) above the header$/, "tolte $1 righe sopra l'intestazione"],
+    [/^removed (\d+) label row\(s\) under the header \((.*)\)$/, "tolte $1 righe di etichette sotto l'intestazione ($2)"],
+    [/^left out (\d+) label row\(s\) \((.*)\)$/, "tolte $1 righe di etichette sotto l'intestazione ($2)"],
+    [/^removed (\d+) footer row\(s\) \(END OF FILE\)$/, "tolte $1 righe finali (END OF FILE)"],
+    [/^left out the footer \(END OF FILE\)$/, "tolta la riga finale (END OF FILE)"],
+    [/^removed the empty unnamed last column$/, "tolta l'ultima colonna vuota e senza nome"],
+    [/^columns left out: (.*)$/, "colonne tolte: $1"],
+    [/^columns to drop not found in the file: (.*)$/, "colonne da togliere non trovate nel file: $1"],
+    [/^(\d+) rows, (\d+) columns, from (.*)$/, "$1 righe, $2 colonne, da $3"],
+    [/^data entry (.*): no such file in the deposit$/, "$1: il file non è nel deposito"],
+    [/^csv copy (.*): source (.*) not found$/, "copia $1: il file $2 non è stato trovato"],
+    [/^csv copy (.*): already exists, not overwritten$/, "copia $1: esiste già, non è stata sovrascritta"],
+    [/^reads a file with a semicolon\/tab separator, .*$/, "legge un file separato da punto e virgola o tabulazioni, con virgola decimale o in UTF-16: forse uno dei file convertiti, letto attraverso una variabile. Controllate queste righe:"],
+    [/^reads (.*), whose export rows were removed: .*$/, "legge $1, da cui sono state tolte le righe aggiunte dall'export: se lo script le saltava (skip =, [-c(1, 2), ], qualtRics::read_survey), ora toglierebbe righe di dati"],
+    [/^line (\d+): (.*)$/, "riga $1: $2"],
     [/^values look like e-mail addresses$/, "i valori sembrano indirizzi e-mail"],
     [/^values look like Italian tax codes \(codice fiscale\)$/, "i valori sembrano codici fiscali"],
     [/^values look like phone numbers$/, "i valori sembrano numeri di telefono"],
@@ -213,6 +250,32 @@
     return p;
   }
 
+  function fmtName(f) {
+    return f.replace("E-Prime log (.txt written during the session)", "log di E-Prime (.txt scritto durante la sessione)")
+      .replace("JSON records in a .txt (e.g. a JATOS result file)", "record JSON in un .txt (per esempio un risultato di JATOS)")
+      .replace("JSON records", "record JSON");
+  }
+  function exportRows(es) {
+    if (!es) return "";
+    const list = Array.isArray(es) ? es : [es];
+    const parts = new Set();
+    list.forEach((e) => {
+      if (e.preamble_lines) parts.add(`${e.preamble_lines.length} righe sopra l'intestazione`);
+      if (e.label_rows) parts.add(`${e.label_rows} righe di etichette sotto l'intestazione` + (/Qualtrics/.test(e.label_rows_hold || "") ? " (testo delle domande di Qualtrics)" : ""));
+      if (e.footer_rows) parts.add("una riga finale END OF FILE");
+      if (e.empty_last_column) parts.add("un'ultima colonna vuota e senza nome");
+    });
+    return [...parts].join(", ");
+  }
+  function notRead(reason) {
+    return String(reason || "")
+      .replace(/^openpyxl not installed.*$/, "il browser non è riuscito a preparare la lettura dei file Excel")
+      .replace(/^pyreadstat not installed.*$/, "i file SPSS, Stata e SAS non si possono leggere nel browser: salvatene una copia CSV")
+      .replace(/^JSON file too large to scan$/, "file JSON troppo grande per essere controllato")
+      .replace(/^not valid JSON.*$/, "JSON non valido: forse troncato o danneggiato")
+      .replace(/^could not read: /, "impossibile leggerlo: ");
+  }
+
   // -------------------------------------------------------------- report
 
   const ICON = { ok: "✅", warn: "⚠️", bad: "❌", info: "ℹ️" };
@@ -221,17 +284,34 @@
     const A = [];
     // 1. data
     const di = [];
+    const routine = /^(constant column|column is entirely empty)/;
     for (const t of r.data) {
       const name = t.file || t.file_set;
       if (t.error) { di.push(`<code>${esc(name)}</code>: ${esc(t.error)}`); continue; }
       const its = [];
       (t.header_issues || []).forEach((x) => its.push(x.replace(/^'(.*)': (.*)$/, (m, c, ps) => `colonna '${c}': ${ps.split(", ").map(trName).join(", ")}`)));
       (t.issues || []).forEach((x) => its.push(tr(x)));
-      (t.columns || []).forEach((c) => (c.issues || []).forEach((x) => its.push(`<code>${esc(c.name)}</code>: ${esc(tr(x))}`)));
+      // columns the software writes on its own are often constant or empty: one line, not one per column
+      let nRoutine = 0;
+      (t.columns || []).forEach((c) => (c.issues || []).forEach((x) => {
+        if (t.software && routine.test(x)) nRoutine++;
+        else its.push(`<code>${esc(c.name)}</code>: ${esc(tr(x))}`);
+      }));
+      if (nRoutine) its.push(`${nRoutine} colonne costanti o vuote, quasi sempre impostazioni scritte da ${t.software}: descrivetele nel dictionary anche se non le usate`);
       (t.within_participant_inconsistencies || []).forEach((x) => its.push(tr(x)));
-      Object.entries(t.issues_by_file || {}).forEach(([f, xs]) => its.push(`<code>${esc(f)}</code>: ${xs.map(tr).map(esc).join("; ")}`));
-      if (its.length) di.push(`<code>${esc(name)}</code>${t.n_rows != null ? ` (${t.n_rows} righe)` : ""}<ul>${its.map((x) => `<li>${x.startsWith("<code>") ? x : esc(x)}</li>`).join("")}</ul>`);
+      Object.entries(t.issues_by_file || {}).forEach(([f, xs]) => {
+        const shown = xs.filter((x) => !(t.software && /: (constant column|column is entirely empty)/.test(x)));
+        if (shown.length) its.push(`<code>${esc(f)}</code>: ${shown.map((x) => x.replace(/^(.*?): (.*)$/, (m, c, i) => `${c}: ${tr(i)}`)).map(esc).join("; ")}`);
+      });
+      if (t.participant_id_column_is_personal) its.push(`l'unica colonna che identifica i partecipanti contiene dati personali (per esempio un ID di Prolific): va sostituita con codici dello studio`);
+      const cols = Object.keys(t.columns_not_in_every_file || {});
+      if (cols.length) its.push(`colonne che non sono in tutti i file: ${cols.slice(0, 8).join(", ")}${cols.length > 8 ? "…" : ""}`);
+      const what = [t.software && `scritto da ${t.software}`, t.format && fmtName(t.format), t.encoding === "utf-16" || /utf-16/.test(t.encoding || "") ? "in UTF-16" : ""].filter(Boolean).join(", ");
+      const exp = exportRows(t.export_structure);
+      if (exp) its.push(`l'export aggiunge ${exp}: non sono errori, ma il README deve dirlo e gli script devono saltarle`);
+      if (its.length || what) di.push(`<code>${esc(name)}</code>${t.n_rows != null ? ` (${t.n_rows} righe)` : t.n_rows_total != null ? ` (${t.n_rows_total} righe in tutto)` : ""}${what ? " — " + esc(what) : ""}${its.length ? `<ul>${its.map((x) => `<li>${x.startsWith("<code>") ? x : esc(x)}</li>`).join("")}</ul>` : ""}`);
     }
+    (r.data_not_read || []).forEach((x) => di.push(`<code>${esc(x.file)}</code>: non letto (${esc(notRead(x.reason))})`));
     for (const x of r.cross_file_participants || []) {
       const its = [];
       if (x.only_in_first.length) its.push(`ID solo in <code>${esc(x.files[0])}</code>: ${esc(x.only_in_first.join(", "))}`);
@@ -243,9 +323,10 @@
     }
     Object.entries(r.cross_file_type_inconsistencies || {}).forEach(([c, xs]) => di.push(`<code>${esc(c)}</code> ha tipi diversi nei vari file: ${esc(xs.join("; "))}`));
     const nData = r.data.length;
+    const nPoints = di.reduce((n, x) => n + (x.match(/<li>/g) || []).length + (/<li>/.test(x) || / — /.test(x) ? 0 : 1), 0);
     A.push({ title: "Dati e coerenza", link: "struttura-1.html#data-dictionary",
-      status: !nData ? "info" : di.length ? "warn" : "ok",
-      line: !nData ? "Nessun file CSV o TSV da controllare." : di.length ? `${di.reduce((n, x) => n + Math.max(1, (x.match(/<li>/g) || []).length), 0)} punti da controllare: decidete voi se sono errori.` : "Nessuna incoerenza trovata.",
+      status: !nData ? "info" : nPoints ? "warn" : "ok",
+      line: !nData ? "Nessun file di dati da controllare." : nPoints ? `${nPoints} punti da controllare: decidete voi se sono errori.` : "Nessuna incoerenza trovata.",
       items: di });
 
     // 2. structure and names
@@ -253,6 +334,7 @@
     r.naming.problems.forEach((p) => si.push(`<code>${esc(p.path)}</code>: ${esc(p.problems.map(trName).join(", "))}`));
     r.naming.numbering.forEach((n) => si.push(`in <code>${esc(n.folder)}</code> i numeri non hanno lo zero davanti (${esc(n.files.join(", "))}): meglio 01_, 02_…`));
     (r.structure.empty_dirs || []).forEach((d) => si.push(`cartella vuota: <code>${esc(d)}</code>`));
+    ((r.archives || {}).files || []).forEach((f) => si.push(`<code>${esc(f)}</code>: archivio compresso, la pagina non ne legge il contenuto. Estraetelo nella cartella e caricatela di nuovo`));
     A.push({ title: "Struttura e nomi", link: "struttura-1.html#regole-generali", status: si.length ? "warn" : "ok",
       line: si.length ? "Nomi da sistemare: nella versione da depositare i nomi vengono puliti." : "Nomi e cartelle in ordine.", items: si });
 
@@ -261,7 +343,9 @@
     let fmtBad = false;
     r.formats.proprietary_data.forEach((p) => {
       if (!p.open_copy_exists) fmtBad = true;
-      fi.push(`<code>${esc(p.file)}</code> (${esc(p.format)}): ${p.open_copy_exists ? "c'è anche una versione CSV" : "nessuna copia in formato aperto"}`);
+      const chk = p.open_copy_check;
+      fi.push(`<code>${esc(p.file)}</code> (${esc(p.format)}): ${p.open_copy_exists ? "c'è anche una versione in formato aperto" : "nessuna copia in formato aperto"}`
+        + (chk ? ` — <code>${esc(chk.copy)}</code>: ${chk.same_columns ? "stesse colonne" : "colonne diverse"}, ${esc(chk.rows.replace(" here, ", " qui, ").replace(" in the copy", " nella copia"))} righe` : ""));
     });
     r.formats.proprietary_docs.forEach((p) => fi.push(`<code>${esc(p.file)}</code> (${esc(p.format)}): meglio PDF, Markdown o testo`));
     A.push({ title: "Formati", link: "struttura-1.html#in-che-formato-salvarli", status: fmtBad ? "bad" : fi.length ? "warn" : "ok",
@@ -325,6 +409,13 @@
         line: `${r.code.files.length} script. La pagina li legge ma non li esegue: dopo il download, eseguiteli sul vostro computer dalla cartella del deposito.`, items: ci });
     }
 
+    // experiment files (the instrument)
+    if ((r.experiment_files || []).length) {
+      A.push({ title: "Esperimento", link: "esempio.html", status: "info",
+        line: `${r.experiment_files.length} file dell'esperimento: vanno in <code>materials/</code>, perché altri possano rifare la procedura. Non sono codice di analisi e non vanno eseguiti.`,
+        items: r.experiment_files.map((e) => `<code>${esc(e.file)}</code>: ${esc(e.what)}`) });
+    }
+
     // 8. personal data
     const pi = [];
     r.data.forEach((t) => (t.possible_personal_data || []).forEach((p) => pi.push(typeof p === "string"
@@ -344,7 +435,8 @@
   function renderReport() {
     const A = areas(state.report);
     const r = state.report;
-    const mats = ["dati", r.materials_present.code && "codice", r.materials_present.manuscript && "manoscritto"].filter(Boolean);
+    const mats = ["dati", r.materials_present.code && "codice", r.materials_present.experiment && "file dell'esperimento",
+      r.materials_present.manuscript && "manoscritto"].filter(Boolean);
     let h = `<p>La cartella contiene: ${mats.join(", ")}. ${r.n_files} file, ${r.total_size_mb} MB.</p>`;
     h += `<table class="fa-summary"><thead><tr><th>Area</th><th></th><th>In una riga</th></tr></thead><tbody>`;
     A.forEach((a, i) => { h += `<tr><td><a href="#fa-area-${i}">${esc(a.title)}</a></td><td class="fa-icon">${ICON[a.status]}</td><td>${a.line}</td></tr>`; });
@@ -359,28 +451,27 @@
   }
 
   // ---------------------------------------------------------------- form
+  //
+  // Three kinds of rows: files (one per file), file sets (one row for the files
+  // of one participant each), and CSV copies (an open copy in data/ of a table
+  // that is not CSV). The tables (state.units) decide personal data and
+  // dictionaries: a table counts when its file, its set or its copy is kept.
 
-  function personalCols(path) {
-    const t = state.report.data.find((d) => d.file === path);
-    return t ? (t.possible_personal_data || []).map((p) => p.column) : [];
-  }
-  function setPersonal(folder) {
-    const t = state.report.data.find((d) => d.file_set && d.file_set.split("/*")[0] === folder);
-    return t ? t.possible_personal_data || [] : [];
-  }
+  function unit(key) { return state.proposal.units.find((u) => u.key === key); }
 
   function rowsForForm() {
-    // one row per file, except file sets (one row per folder)
     const out = [], seen = new Set();
     state.proposal.files.forEach((f, i) => {
       if (f.set) {
         if (seen.has(f.set)) return;
         seen.add(f.set);
         const n = state.proposal.sets[f.set].length;
-        out.push({ id: "set:" + f.set, label: `${f.set}/ (${n} file con le stesse colonne)`, set: f.set, dest: f.dest,
-          name: f.name.includes("/") ? f.name.split("/").slice(0, -1).join("/") : "", reason: "un file per partecipante: restano insieme in data/raw/", kind: "set" });
+        const folder = f.name.includes("/") ? f.name.split("/").slice(0, -1).join("/") : "";
+        out.push({ id: "set:" + f.set, label: f.set, set: f.set, unit: f.set, dest: f.dest, name: folder, kind: "set",
+          reason: `un file per partecipante (${n}): restano insieme in data/raw/` });
       } else {
-        out.push({ id: "f:" + i, label: f.path, dest: f.dest, name: f.name, reason: f.reason, kind: f.kind, path: f.path });
+        out.push({ id: "f:" + i, label: f.path, path: f.path, dest: f.dest, name: f.name, reason: f.reason, kind: f.kind,
+          unit: f.unit || null, removeRows: !!f.remove_rows, what: f.what || "" });
       }
     });
     return out;
@@ -394,6 +485,7 @@
     state.personal = {};
     const rows = rowsForForm();
     state.rows = rows;
+    state.copies = p.copies.map((c) => ({ ...c }));
     let h = `<table class="fa-files"><thead><tr><th>File del progetto</th><th>Dove va</th><th>Nome nel deposito</th></tr></thead><tbody>`;
     rows.forEach((r, i) => {
       const opts = (r.kind === "set" ? ["data/raw", "exclude"] : p.destinations)
@@ -401,11 +493,11 @@
       h += `<tr class="${r.dest === "exclude" ? "fa-excluded" : ""}" data-row="${i}">
         <td><code>${esc(r.label)}</code>${r.reason ? `<div class="fa-reason">${esc(r.reason)}</div>` : ""}</td>
         <td><select data-dest="${i}" aria-label="Destinazione di ${esc(r.label)}">${opts}</select></td>
-        <td>${r.kind === "set" ? `<span class="fa-muted">data/raw/${esc(r.name)}/</span>` : `<input type="text" data-name="${i}" value="${esc(r.name)}" aria-label="Nome nel deposito di ${esc(r.label)}">`}</td></tr>`;
+        <td>${r.kind === "set" ? `<span class="fa-muted">data/raw/${esc(r.name)}${r.name ? "/" : ""}</span>` : `<input type="text" data-name="${i}" value="${esc(r.name)}" aria-label="Nome nel deposito di ${esc(r.label)}">`}</td></tr>`;
     });
     h += `</tbody></table>`;
     $("#fa-files").innerHTML = h;
-    $("#fa-files").querySelectorAll("select[data-dest]").forEach((s) => s.addEventListener("change", (e) => {
+    $("#fa-files").querySelectorAll("select[data-dest]").forEach((sel) => sel.addEventListener("change", (e) => {
       const i = +e.target.dataset.dest;
       rows[i].dest = e.target.value;
       e.target.closest("tr").classList.toggle("fa-excluded", rows[i].dest === "exclude");
@@ -416,142 +508,213 @@
       renderPersonal();
       renderDictionaries();
     }));
-    $("#fa-files").querySelectorAll("input[data-name]").forEach((inp) => inp.addEventListener("change", (e) => { rows[+e.target.dataset.name].name = e.target.value.trim(); }));
+    $("#fa-files").querySelectorAll("input[data-name]").forEach((inp) => inp.addEventListener("change", (e) => {
+      rows[+e.target.dataset.name].name = e.target.value.trim();
+      renderDictionaries();
+    }));
+    renderCopies();
     renderPersonal();
     state.drafts = null;
     renderDictionaries();
     renderLicenses();
   }
 
-  function keptData() {
-    // data files and sets kept in the deposit, with the paths to describe
-    return state.rows.filter((r) => r.dest !== "exclude" && ((r.dest === "data" && /\.(csv|tsv)$/i.test(r.label)) || (r.kind === "set" && r.dest === "data/raw")
-      || (r.dest === "data/raw" && /\.(csv|tsv)$/i.test(r.label))));
+  function renderCopies() {
+    const box = $("#fa-copies");
+    if (!state.copies.length) { box.innerHTML = ""; return; }
+    let h = `<h4>Copie in formato aperto</h4><p>Questi dati non sono in CSV (JSON, log di E-Prime, Excel…) oppure sono export grezzi
+      che nessuno script legge. In <code>data/</code> va una copia CSV in UTF-8, senza le righe aggiunte dall'export e senza le
+      colonne personali spuntate qui sotto.</p>`;
+    state.copies.forEach((c, i) => {
+      h += `<div class="fa-copy"><label class="fa-check"><input type="checkbox" data-copy="${i}"${c.include ? " checked" : ""}>
+        copia CSV di <code>${esc(c.label)}</code>${c.software ? ` (${esc(c.software)})` : ""}</label>
+        <input type="text" data-copyname="${i}" value="${esc(c.name)}" aria-label="Nome della copia di ${esc(c.label)}"></div>`;
+    });
+    box.innerHTML = h;
+    box.querySelectorAll("input[data-copy]").forEach((c) => c.addEventListener("change", (e) => {
+      state.copies[+e.target.dataset.copy].include = e.target.checked;
+      renderPersonal();
+      renderDictionaries();
+    }));
+    box.querySelectorAll("input[data-copyname]").forEach((c) => c.addEventListener("change", (e) => {
+      state.copies[+e.target.dataset.copyname].name = e.target.value.trim();
+      renderDictionaries();
+    }));
+  }
+
+  // the tables that go into the deposit, each with where it ends up
+  function keptTables() {
+    const out = [];
+    state.rows.forEach((r) => {
+      if (r.dest === "exclude" || !r.unit) return;
+      const u = unit(r.unit);
+      if (!u) return;
+      if (r.kind === "set" && r.dest === "data/raw") out.push({ key: "set:" + u.key, u, row: r, where: "data/raw/" + (r.name ? r.name + "/" : ""), csv: u.csv });
+      else if (r.kind === "data" && r.dest === "data") out.push({ key: "data:" + u.key, u, row: r, where: "data/" + r.name, csv: true });
+      else if (r.kind === "raw" && r.dest === "data/raw") out.push({ key: "raw:" + u.key, u, row: r, where: "data/raw/" + r.name, csv: true });
+      else if (r.kind === "export" && r.dest === "data/raw") {
+        // an original that is not CSV (Excel, JSON, E-Prime log): one dictionary per table it holds
+        state.proposal.units.filter((x) => !x.set && x.paths[0] === r.path).forEach((x) =>
+          out.push({ key: "orig:" + x.key, u: x, row: r, where: "data/raw/" + r.name + (x.sheet ? ` [${x.sheet}]` : ""), csv: false, original: true }));
+      }
+    });
+    state.copies.forEach((c) => {
+      if (c.include) out.push({ key: "copy:" + c.key, u: unit(c.key), copy: c, where: "data/" + c.name, csv: true });
+    });
+    return out;
+  }
+
+  function personalItems() {
+    const items = [];
+    keptTables().filter((t) => !t.original).forEach((t) => (t.u.personal || []).forEach((col) => items.push({ key: t.key + "|" + col, t, col })));
+    // originals that cannot be cleaned (not CSV) but are kept anyway
+    const warn = [];
+    state.rows.forEach((r) => {
+      if (r.dest === "exclude" || r.kind !== "export" || !r.unit) return;
+      const u = unit(r.unit);
+      if (u && u.personal.length) warn.push(`<code>${esc(r.label)}</code> contiene colonne personali (${esc(u.personal.join(", "))}) e non può essere ripulito: lasciatelo fuori, e usate la copia CSV`);
+    });
+    return { items, warn };
   }
 
   function renderPersonal() {
-    const items = [];
-    keptData().forEach((r) => {
-      const cols = r.kind === "set" ? setPersonal(r.set) : personalCols(r.path);
-      cols.forEach((c) => items.push({ key: r.id + "|" + c, file: r.label, col: c }));
-    });
-    state.personal = state.personal || {};
-    if (!items.length) { $("#fa-personal").innerHTML = "<p>Nessuna colonna riconosciuta come dato personale nei file che vanno nel deposito.</p>"; return; }
-    $("#fa-personal").innerHTML = "<p>Queste colonne sembrano identificare le persone. Quelle spuntate vengono tolte dalla copia nel deposito (i vostri file non cambiano).</p>"
-      + items.map((it) => {
-        const on = state.personal[it.key] !== false;
-        return `<label class="fa-check"><input type="checkbox" data-personal="${esc(it.key)}"${on ? " checked" : ""}> <code>${esc(it.col)}</code> in <code>${esc(it.file)}</code></label>`;
-      }).join("");
+    const { items, warn } = personalItems();
+    let h = "";
+    if (!items.length && !warn.length) {
+      h = "<p>Nessuna colonna riconosciuta come dato personale nei file che vanno nel deposito. Il controllo guarda nomi, etichette e valori delle colonne: verificate comunque.</p>";
+    } else {
+      if (items.length) h += "<p>Queste colonne sembrano identificare le persone. Quelle spuntate vengono tolte dalla copia nel deposito (i vostri file non cambiano).</p>"
+        + items.map((it) => `<label class="fa-check"><input type="checkbox" data-personal="${esc(it.key)}"${state.personal[it.key] !== false ? " checked" : ""}> <code>${esc(it.col)}</code> in <code>${esc(it.t.where)}</code></label>`).join("");
+      if (warn.length) h += `<div class="fa-box fa-box-warn"><ul>${warn.map((w) => `<li>${w}</li>`).join("")}</ul></div>`;
+    }
+    $("#fa-personal").innerHTML = h;
     $("#fa-personal").querySelectorAll("input[data-personal]").forEach((c) => c.addEventListener("change", (e) => {
       state.personal[e.target.dataset.personal] = e.target.checked;
       renderDictionaries();
     }));
   }
 
-  function dropped(r) {
-    const cols = r.kind === "set" ? setPersonal(r.set) : personalCols(r.path);
-    return cols.filter((c) => (state.personal || {})[r.id + "|" + c] !== false);
+  function dropped(t) {
+    return (t.u.personal || []).filter((c) => state.personal[t.key + "|" + c] !== false);
   }
 
-  function dictTarget(r) {
-    if (r.dest === "data") return { file: r.name.replace(/_data\.csv$/, "").replace(/\.(csv|tsv)$/i, "") + "_dictionary.csv", of: "data/" + r.name };
-    if (r.kind === "set") return { file: "raw-" + r.set.split("/").pop().replace(/[^A-Za-z0-9]/g, "").toLowerCase() + "_dictionary.csv", of: "data/raw/" + (r.name ? r.name + "/" : "") };
-    return { file: "raw-" + r.name.replace(/\.(csv|tsv)$/i, "").replace(/[^A-Za-z0-9]/g, "").toLowerCase() + "_dictionary.csv", of: "data/raw/" + r.name };
+  function dictFile(t) {
+    if (/^data\/[^/]+_data\.csv$/.test(t.where)) return t.where.slice(5).replace(/_data\.csv$/, "") + "_dictionary.csv";
+    const base = t.u.set ? t.u.key.split("/*")[0].split("/").pop()
+      : t.where.split("/").pop().replace(/ \[(.+)\]$/, "_$1").replace(/\.[^._]+(?=_|$)/, "");
+    return "raw-" + base.replace(/[^A-Za-z0-9]/g, "").toLowerCase() + "_dictionary.csv";
   }
 
   function renderDictionaries() {
-    const kept = keptData();
+    const kept = keptTables();
     const box = $("#fa-dicts");
     if (!kept.length) { box.innerHTML = "<p>Nessun file di dati nel deposito.</p>"; return; }
     if (!state.drafts) {
-      const req = state.rows.filter((r) => /\.(csv|tsv)$/i.test(r.label) || r.kind === "set")
-        .map((r) => ({ key: r.id, paths: r.kind === "set" ? state.proposal.sets[r.set] : [r.path] }));
+      const req = state.proposal.units.map((u) => ({ key: u.key, paths: u.paths, sheet: u.sheet }));
+      status("Preparo le bozze dei data dictionary…");
       state.drafts = callPy("drafts", state.root, JSON.stringify(req));
+      status(`Cartella "${state.project}": ${state.report.n_files} file controllati.`, "ok");
     }
-    let h = "<p>Una tabella per ogni file di dati: una riga per colonna. I campi con <mark>TODO</mark> li conoscete solo voi: scriveteli qui, oppure più tardi nei file CSV del deposito.</p>";
-    kept.forEach((r) => {
-      const d = state.drafts[r.id];
-      const tgt = dictTarget(r);
-      h += `<h4><code>${esc(tgt.of)}</code></h4>`;
+    let h = `<p>Una tabella per ogni file di dati: una riga per colonna. Le colonne che i programmi (PsychoPy, Qualtrics,
+      E-Prime…) scrivono da soli arrivano già descritte, con "to check" nelle note: verificatele. I campi con <mark>TODO</mark>
+      li conoscete solo voi: scriveteli qui, oppure più tardi nei file CSV del deposito.</p>`;
+    kept.forEach((t) => {
+      const d = state.drafts[t.u.key];
+      h += `<h4><code>${esc(t.where)}</code></h4>`;
       if (!d || d.error) { h += `<p class="fa-bad">${esc(d ? d.error : "nessuna bozza")}</p>`; return; }
-      const drop = new Set(dropped(r));
+      const drop = new Set(dropped(t));
       h += `<div class="fa-scroll"><table class="fa-dict"><thead><tr><th>variable_name</th>${DICT_COLS.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>`;
       d.rows.forEach((row, j) => {
         if (drop.has(row.variable_name)) return;
         h += `<tr><td><code>${esc(row.variable_name)}</code></td>` + DICT_COLS.map((c) =>
-          `<td><input type="text" data-dict="${esc(r.id)}" data-row="${j}" data-col="${c}" value="${esc(row[c])}" class="${/TODO/.test(row[c] || "") ? "fa-todo" : ""}" aria-label="${c} di ${esc(row.variable_name)}"></td>`).join("") + "</tr>";
+          `<td><input type="text" data-dict="${esc(t.u.key)}" data-row="${j}" data-col="${c}" value="${esc(row[c])}" class="${/TODO|to check/.test(row[c] || "") ? "fa-todo" : ""}" aria-label="${c} di ${esc(row.variable_name)}"></td>`).join("") + "</tr>";
       });
       h += "</tbody></table></div>";
     });
     box.innerHTML = h;
     box.querySelectorAll("input[data-dict]").forEach((inp) => inp.addEventListener("input", (e) => {
-      const t = e.target;
-      state.drafts[t.dataset.dict].rows[+t.dataset.row][t.dataset.col] = t.value;
-      t.classList.toggle("fa-todo", /TODO/.test(t.value));
+      const el = e.target;
+      state.drafts[el.dataset.dict].rows[+el.dataset.row][el.dataset.col] = el.value;
+      el.classList.toggle("fa-todo", /TODO|to check/.test(el.value));
     }));
   }
 
   function renderLicenses() {
-    const code = state.report.materials_present.code;
-    $("#fa-lic-code-row").hidden = !code;
+    $("#fa-lic-code-row").hidden = !state.report.materials_present.code;
   }
 
   // ----------------------------------------------------------------- build
+
+  const PSYCHDS = /^([a-z]+-[a-zA-Z0-9]+_)+data\.csv$/;
 
   function collect() {
     const study = $("#fa-study").value.trim();
     const errors = [];
     if (!/^[A-Za-z0-9]+$/.test(study)) errors.push("Il nome breve dello studio può contenere solo lettere e numeri, senza spazi.");
-    const files = [], data = {}, setSummary = {}, dicts = [];
+    const files = [], data = {}, setSummary = {}, csvCopies = [];
+    const kept = keptTables();
+    const keptBy = (key) => kept.find((t) => t.key === key);
     state.rows.forEach((r) => {
       if (r.dest === "exclude") return;
       if (r.kind === "set") {
-        const sub = r.name ? r.name + "/" : "";
-        state.proposal.sets[r.set].forEach((p) => {
-          const to = "data/raw/" + sub + p.split("/").pop();
-          files.push({ from: p, to, set: r.set });
-          const drop = dropped(r);
-          if (drop.length) data[to] = { drop, normalise: false };
+        const t = keptBy("set:" + r.set);
+        const drop = t ? dropped(t) : [];
+        state.proposal.files.filter((f) => f.set === r.set).forEach((f) => {
+          const to = "data/raw/" + f.name;
+          files.push({ from: f.path, to, set: r.set });
+          if (drop.length && /\.(csv|tsv)$/i.test(f.path)) data[to] = { drop, normalise: false };
         });
         setSummary["data/raw/" + (r.name || "")] = state.proposal.sets[r.set].length;
-      } else {
-        if (!r.name) { errors.push(`Manca il nome nel deposito per ${r.label}.`); return; }
-        const to = r.dest === "." ? r.name : r.dest + "/" + r.name;
-        files.push({ from: r.path, to });
-        if (r.dest === "data") {
-          if (!/^([a-z]+-[a-zA-Z0-9]+_)+data\.csv$/.test(r.name)) errors.push(`"${r.name}": i file in data/ devono chiamarsi chiave-valore_..._data.csv (per esempio study-${study}_data.csv).`);
-          data[to] = { drop: dropped(r) };
-        } else if (/\.(csv|tsv)$/i.test(r.name) && dropped(r).length) {
-          data[to] = { drop: dropped(r), normalise: false };
-        }
+        return;
       }
-      if (keptData().includes(r)) {
-        const d = state.drafts && state.drafts[r.id];
-        const tgt = dictTarget(r);
-        if (d && d.rows) dicts.push({ file: tgt.file, of: tgt.of, rows: d.rows, dropped: dropped(r) });
+      if (!r.name) { errors.push(`Manca il nome nel deposito per ${r.label}.`); return; }
+      const to = r.dest === "." ? r.name : r.dest + "/" + r.name;
+      files.push({ from: r.path, to, note: r.what ? (r.what) : "" });
+      if (r.dest === "data" && /\.(csv|tsv)$/i.test(r.path)) {
+        if (!PSYCHDS.test(r.name)) errors.push(`"${r.name}": i file in data/ devono chiamarsi chiave-valore_..._data.csv (per esempio study-${study}_data.csv).`);
+        const t = keptBy("data:" + r.unit);
+        data[to] = { drop: t ? dropped(t) : [], normalise: true, remove_export_rows: r.kind === "data" && r.removeRows };
+      } else if (r.dest === "data/raw" && /\.(csv|tsv)$/i.test(r.path)) {
+        const t = keptBy("raw:" + r.unit);
+        const drop = t ? dropped(t) : [];
+        if (drop.length) data[to] = { drop, normalise: false };
       }
     });
-    const tos = files.map((f) => f.to);
-    const dup = tos.filter((t, i) => tos.indexOf(t) !== i);
+    state.copies.forEach((c) => {
+      if (!c.include) return;
+      if (!PSYCHDS.test(c.name)) errors.push(`"${c.name}": le copie in data/ devono chiamarsi chiave-valore_..._data.csv.`);
+      const t = keptBy("copy:" + c.key);
+      csvCopies.push({ from: c.from, to: "data/" + c.name, sheet: c.sheet, drop: t ? dropped(t) : [] });
+    });
+    const dicts = [];
+    const dictNames = new Set();
+    kept.forEach((t) => {
+      const d = state.drafts && state.drafts[t.u.key];
+      let file = dictFile(t);
+      if (t.original && t.u.personal.length) return;  // cannot be cleaned: left out, see the warning
+      while (dictNames.has(file)) file = file.replace(/_dictionary\.csv$/, "x_dictionary.csv");
+      dictNames.add(file);
+      if (d && d.rows) dicts.push({ file, of: t.where, rows: d.rows, dropped: dropped(t) });
+    });
+    const tos = files.map((f) => f.to).concat(csvCopies.map((c) => c.to));
+    const dup = tos.filter((x, i) => tos.indexOf(x) !== i);
     if (dup.length) errors.push("Due file hanno lo stesso nome nel deposito: " + [...new Set(dup)].join(", "));
     const hasCode = files.some((f) => f.to.startsWith("scripts/"));
     const dataLic = $("#fa-lic-data").value;
-    const licenses = [{ what: "Dati (data/, dictionaries/, dataset_description.json)", license: dataLic }];
-    if (hasCode) licenses.push({ what: "Codice (scripts/)", license: "GPL-3.0" });
-    licenses.push({ what: "README, documenti, figure e materiali propri (docs/, output/, materials/)", license: "CC-BY-4.0" });
     const lang = $("#fa-lang").value;
-    if (lang === "en") {
-      licenses[0].what = "Data (data/, dictionaries/, dataset_description.json)";
-      if (hasCode) licenses[1].what = "Code (scripts/)";
-      licenses[licenses.length - 1].what = "README, documents, figures and own materials (docs/, output/, materials/)";
-    }
+    const L = lang === "en"
+      ? ["Data (data/, dictionaries/, dataset_description.json)", "Code (scripts/)", "README, documents, figures and own materials (docs/, output/, materials/)"]
+      : ["Dati (data/, dictionaries/, dataset_description.json)", "Codice (scripts/)", "README, documenti, figure e materiali propri (docs/, output/, materials/)"];
+    const licenses = [{ what: L[0], license: dataLic }];
+    if (hasCode) licenses.push({ what: L[1], license: "GPL-3.0" });
+    licenses.push({ what: L[2], license: "CC-BY-4.0" });
     const form = {
       lang, title: $("#fa-title").value.trim(), description: $("#fa-description").value.trim(),
       authors: $("#fa-authors").value, contact: $("#fa-contact").value.trim(), provenance: $("#fa-provenance").value.trim(),
       dates: $("#fa-dates").value.trim(), keywords: $("#fa-keywords").value.trim(), article: $("#fa-article").value.trim(),
       prereg: $("#fa-prereg").value.trim(), holder: $("#fa-holder").value.trim(), data_license: dataLic, licenses,
     };
-    return { errors, plan: { files, data, set_summary: setSummary }, dicts, form };
+    return { errors, plan: { files, data, csv_copies: csvCopies, set_summary: setSummary }, dicts, form };
   }
 
   async function build() {
@@ -596,12 +759,23 @@
     const rw = Object.entries(b.rewrites || {});
     if (rw.length) h += `<details><summary>Percorsi aggiornati negli script (${rw.reduce((s, [, x]) => s + x.length, 0)})</summary><ul>`
       + rw.map(([f, xs]) => `<li><code>${esc(f)}</code><ul>${xs.map((x) => `<li><code>${esc(x)}</code></li>`).join("")}</ul></li>`).join("") + "</ul></details>";
+    const cbh = b.check_by_hand || [];
+    if (cbh.length) {
+      const li = cbh.map((x) => typeof x === "string" ? `<li>${esc(tr(x))}</li>`
+        : Object.entries(x).map(([f, xs]) => `<li><code>${esc(f)}</code>: ${esc(tr(xs[0]))}${xs.length > 1 ? `<ul>${xs.slice(1).map((l) => `<li><code>${esc(tr(l))}</code></li>`).join("")}</ul>` : ""}</li>`).join("")).join("");
+      h += `<div class="fa-box fa-box-warn"><strong>Da controllare a mano</strong><ul>${li}</ul></div>`;
+    }
+    const cc = Object.entries(b.csv_copies || {});
+    if (cc.length) h += `<details><summary>Copie in formato aperto create (${cc.length})</summary><ul>`
+      + cc.map(([f, xs]) => `<li><code>${esc(f)}</code>: ${esc(xs.map(tr).join("; "))}</li>`).join("") + "</ul></details>";
     const dc = Object.entries(b.data_changes || {});
     if (dc.length) h += `<details><summary>Modifiche ai file di dati (${dc.length})</summary><ul>`
       + dc.map(([f, xs]) => `<li><code>${esc(f)}</code>: ${esc(xs.map(tr).join("; "))}</li>`).join("") + "</ul></details>";
     if (b.left_out.length) h += `<details><summary>Lasciati fuori (${b.left_out.length})</summary><ul>${b.left_out.map((x) => `<li><code>${esc(x)}</code></li>`).join("")}</ul></details>`;
     const todo = Object.entries(res.todo || {}).filter(([, n]) => n > 0);
     if (todo.length) h += `<p>Restano campi <mark>TODO</mark> da completare: ${todo.map(([f, n]) => `<code>${esc(f)}</code> (${n})`).join(", ")}.</p>`;
+    const chk = Object.entries(res.to_check || {}).filter(([, n]) => n > 0);
+    if (chk.length) h += `<p>Descrizioni scritte dalla pagina, da verificare ("to check" nelle note): ${chk.map(([f, n]) => `<code>${esc(f)}</code> (${n})`).join(", ")}.</p>`;
     const bytes = py.FS.readFile(res.zip);
     const url = URL.createObjectURL(new Blob([bytes], { type: "application/zip" }));
     const name = res.zip.split("/").pop();
@@ -642,6 +816,13 @@
           r.name = r.name.replace(/^study-[A-Za-z0-9]+_/, `study-${s}_`);
           const inp = $(`input[data-name="${i}"]`);
           if (inp) inp.value = r.name;
+        }
+      });
+      state.copies.forEach((c, i) => {
+        if (/^study-[A-Za-z0-9]+_/.test(c.name)) {
+          c.name = c.name.replace(/^study-[A-Za-z0-9]+_/, `study-${s}_`);
+          const inp = $(`input[data-copyname="${i}"]`);
+          if (inp) inp.value = c.name;
         }
       });
       renderDictionaries();

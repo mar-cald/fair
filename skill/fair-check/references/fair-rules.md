@@ -2,7 +2,9 @@
 
 These rules come from the booklet *Hands-on Open Science* (Università di Padova,
 https://mar-cald.github.io/fair/). Each section gives the page to cite in the
-report, so the researcher can read the full explanation.
+report, so the researcher can read the full explanation. Points marked
+*(skill)* are not in the booklet: they extend its rules to cases the skill
+meets (experiment software, random seeds). Do not link a booklet page for them.
 
 ## Contents
 
@@ -46,6 +48,12 @@ Base URL for all links: `https://mar-cald.github.io/fair/`
 - The original export of an instrument (E-Prime, Qualtrics, a `.sav`) can stay
   in `data/raw/` as read-only. Next to it goes the open-format version. So a
   proprietary file is a problem only when there is **no** open version beside it.
+- *(skill)* Experiment software has its own closed formats: E-Prime `.edat2`/
+  `.edat3` and `.emrg2`/`.emrg3` (open only in E-DataAid; the `.txt` log of
+  each session is the open copy), PsychoPy `.psydat` (a Python pickle; the CSV
+  is the open copy). JSON (jsPsych, JATOS) is open but not tabular: the
+  deposit adds a CSV copy. UTF-16 text (E-Prime, Qualtrics TSV) is open, but
+  the deposit's copies are UTF-8.
 
 ## 3. Folder structure
 
@@ -229,6 +237,16 @@ Things that stop code from running on another computer:
 - `rm(list = ls())` at the top: does not restart R, gives a false sense of a
   clean session.
 
+*(skill)* Things that make the code give different numbers at every run:
+
+- random numbers without a fixed seed: MCMC (`brm`, `stan`, `MCMCglmm`, JAGS),
+  bootstraps, simulations, `sample()`, random splits. Fix with `set.seed()` at
+  the top of each script (each `Rscript` run is a new session) or with the
+  function's own `seed` argument (`brm(..., seed = 1234)`). With a seed the
+  numbers are the same on the same software versions; across versions they can
+  still change slightly, which is one more reason to record the versions
+  (`renv.lock`).
+
 ## 8. Privacy and rights
 
 From the checklist "before depositing":
@@ -242,6 +260,21 @@ From the checklist "before depositing":
   stimuli owned by third parties.
 - Sensitive data: deposit with restricted access (metadata and DOI public, files
   only to approved people), not open.
+
+*(skill)* Personal data that experiment and survey software adds on its own
+(details in `software-exports.md`):
+
+- recruitment-platform IDs: Prolific `PROLIFIC_PID` (24 hex characters),
+  MTurk worker IDs, Gorilla's `Participant Public ID`. They link the data to a
+  person's account: replace them with study codes, and keep the key elsewhere;
+- Qualtrics `IPAddress`, `LocationLatitude`/`LocationLongitude`, recipient
+  name and e-mail, `ExternalReference`;
+- free-text answers: they can contain names, places, health details. Read
+  them before sharing;
+- IDs typed by hand at the start of a session (PsychoPy `participant`,
+  OpenSesame `subject_nr`) that are initials or names, also in the file names;
+- absolute paths of the lab computer with a user name (OpenSesame `logfile`,
+  `experiment_path`; the first line of E-DataAid exports).
 
 ## 9. The deposit version: fixed folder layout
 
@@ -282,7 +315,15 @@ What stays out of the deposit:
 - third-party material that cannot be redistributed (published tests,
   copyrighted stimuli, the publisher's PDF of the article);
 - personal data (see section 8): columns to remove, or files to deposit with
-  restricted access instead.
+  restricted access instead;
+- *(skill)* test runs of the experiment (OpenSesame `quickrun.csv`, pilot files
+  the analysis does not use), unless the authors want them, described in the
+  README.
+
+*(skill)* The experiment itself goes in `materials/`: PsychoPy `.psyexp` and
+conditions files, OpenSesame `.osexp`, E-Prime `.es3` (with the `.ebs3` text
+script), the jsPsych HTML/JS, the Qualtrics `.qsf`. It is what lets others
+rerun the procedure. Third-party questionnaires inside it follow section 8.
 
 The `.Rproj` file can stay: it sets the working directory in RStudio, and the
 scripts are written to run from the project root.
