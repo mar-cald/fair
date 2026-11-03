@@ -1,0 +1,191 @@
+---
+title: "La skill fair-check"
+subtitle: "Controllare la cartella del progetto con un assistente AI e prepararla per il deposito"
+---
+
+::: {.visually-hidden}
+Parole chiave: skill Agent Skills Claude ChatGPT Codex OpenAI Anthropic intelligenza artificiale AI assistente controllo cartella verifica progetto FAIR deposito pronto Zenodo PsychArchives; data dictionary automatico README licenza Psych-DS; codice riproducibile numeri manoscritto preprint; Qualtrics PsychoPy jsPsych Gorilla OpenSesame E-Prime.
+:::
+
+`fair-check` è una *skill*: una cartella di istruzioni e di script in Python
+che un assistente AI segue quando gli si chiede di controllare la cartella di
+un progetto di ricerca. Applica le regole di questa dispensa (nomi, formati,
+README, data dictionary, licenze, dati personali), prova a eseguire il codice,
+confronta i numeri del manoscritto con l'output degli script e, se volete,
+costruisce una versione della cartella pronta da caricare su
+[Zenodo](zenodo.qmd) o su un altro repository.
+
+La skill segue [Agent Skills](https://agentskills.io), un formato aperto:
+un file `SKILL.md` con le istruzioni, più gli script e i documenti che servono.
+Il formato è nato da Anthropic per Claude ed è stato adottato da altri
+strumenti, tra cui Codex di OpenAI, disponibile anche nell'app ChatGPT per
+computer. La stessa cartella funziona con tutti.
+
+::: {.callout-note title="Da scaricare"}
+[**fair-check.skill**](skill/fair-check.skill) (110 KB): un archivio zip con la
+cartella `fair-check`, istruzioni per installarla sotto. I sorgenti sono su
+[GitHub](https://github.com/mar-cald/fair/tree/main/skill/fair-check).
+:::
+
+## Che cosa fa
+
+### 1. Guarda che cosa c'è nella cartella
+
+Uno script legge tutti i file e prepara un inventario: dati, codice,
+manoscritto, file dell'esperimento. Non modifica niente.
+
+Riconosce i file di Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS),
+Gorilla, OpenSesame ed E-Prime. Sa che cosa scrive ciascun programma, in che
+unità (`key_resp.rt` di PsychoPy è in secondi, `Reaction Time` di Gorilla in
+millisecondi) e quali colonne contengono dati personali.
+
+### 2. Chiede che cosa fare
+
+Prima di cominciare i controlli, l'assistente fa poche domande, tutte in una
+volta. A ciascuna c'è una risposta predefinita, che vale se rispondete "fai
+tutto":
+
+| Domanda | Se non rispondete |
+|:--|:--|
+| Che cosa controllo? Dati e documentazione, il codice, i numeri del manoscritto, la versione da depositare | tutto |
+| Avete documenti che aiutano a capire lo studio? Preregistrazione, protocollo, codebook | no |
+| Il deposito deve seguire lo standard [Psych-DS](struttura-2.qmd)? | no |
+| Dove lo depositerete? | Zenodo |
+| Il codice nuovo, se serve, in R o in Python? | la lingua dei vostri script |
+| Divido gli script lunghi per fasi (pulizia, analisi, figure)? | sì |
+| Uso i modelli già stimati, invece di stimarli di nuovo? | sì, se ci sono |
+
+Le domande servono perché ogni controllo costa tempo e consuma l'uso del vostro
+abbonamento al servizio AI: eseguire un modello bayesiano può richiedere
+un'ora.
+
+### 3. Controlla
+
+I controlli dipendono da che cosa c'è nella cartella e da che cosa avete
+scelto:
+
+| Area | Che cosa guarda |
+|:--|:--|
+| Dati | valori fuori scala, valori mancanti scritti in più modi (`NA`, `-99`, cella vuota), categorie scritte in modi diversi, righe duplicate, la stessa persona con due età, ID che non coincidono fra i file |
+| Documentazione | nomi dei file, formati, il README e le sue otto sezioni, un data dictionary per ogni file di dati, licenze diverse per dati e codice |
+| Dati personali | nomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero |
+| Codice | esegue gli script in una copia della cartella, dice quali si fermano e perché (`setwd()`, percorsi assoluti, pacchetti mancanti), elenca i pacchetti, segnala i numeri casuali senza seed |
+| Manoscritto | cerca nell'output degli script ogni statistica riportata (M, SD, t, F, p, intervalli; anche fattori di Bayes e intervalli di credibilità), controlla N, esclusioni e Data availability |
+
+### 4. Scrive un rapporto
+
+Un'area per riga, con ✅, ⚠️ o ❌, e sotto i problemi trovati: il file, la
+colonna, la riga, che cosa troverebbe chi prova a riusare i dati. Alla fine,
+le cinque o sei cose da sistemare per prime, in ordine.
+
+### 5. Costruisce la versione da depositare
+
+Se lo chiedete, crea una nuova cartella accanto alla vostra, sempre con le
+stesse sottocartelle:
+
+```
+progetto_deposit/
+├── README.md         le otto sezioni della dispensa
+├── LICENSE           cosa vale per cosa, poi i testi completi
+├── data/             i dati, con nomi come study-stroop_task-flanker_data.csv
+│   └── raw/          gli export originali
+├── dictionaries/     un data dictionary per ogni file di dati
+├── scripts/          il codice, numerato nell'ordine in cui va eseguito
+├── output/           figure e tabelle prodotte dagli script
+├── materials/        l'esperimento e i materiali propri
+└── docs/             preprint, preregistrazione
+```
+
+Prima di costruirla vi mostra il piano e chiede le decisioni che spettano a
+voi: quali file lasciare fuori, quali colonne personali togliere, se correggere
+gli errori trovati nei dati, quali licenze usare (predefinite: CC0 per i dati,
+GPL-3.0 per il codice, CC BY 4.0 per preprint e materiali). Poi aggiorna i
+percorsi negli script, li esegue di nuovo nella cartella nuova per verificare
+che funzionino e prepara lo zip da caricare.
+
+## Le regole che segue
+
+- **La vostra cartella non viene mai modificata.** Tutto quello che la skill
+  scrive va in una cartella temporanea o nella versione da depositare.
+- **Cambia il meno possibile.** Nei vostri script corregge solo quello che
+  impedisce di eseguirli, nello stile del codice che c'è già, ed elenca ogni
+  modifica. Le correzioni ai dati le propone, non le applica senza il vostro
+  accordo.
+- **Non installa pacchetti da sola.** Se mancano, ve lo dice e chiede.
+- **Non inventa.** Nel data dictionary scrive solo quello che trova scritto
+  da qualche parte (nei dati, nel README, nel codice, nella documentazione dei
+  programmi); il resto resta `TODO`, da completare voi.
+
+## Come installarla
+
+Serve un assistente che sappia leggere i file ed eseguire comandi, sul vostro
+computer o nel suo ambiente: senza questo la skill non può lanciare i suoi
+script. Sul computer che esegue i comandi servono Python 3 e, per il codice in
+R, R; per leggere i file Excel e SPSS, le librerie Python `openpyxl` e
+`pyreadstat` (se mancano, la skill dice quali file non ha potuto leggere).
+
+**Claude** (app per computer e claude.ai). Nelle impostazioni di Claude, nella
+sezione dedicata alle skill, caricate il file
+[fair-check.skill](skill/fair-check.skill); serve che sia attiva l'esecuzione di
+codice. Da quel momento la skill è disponibile nelle conversazioni e,
+nell'app per computer, anche nella scheda Code.
+
+**Claude Code dal terminale.** Estraete l'archivio e copiate la cartella
+`fair-check` in `~/.claude/skills/`.
+
+**ChatGPT e Codex** (OpenAI). Codex legge le skill dalla cartella
+`~/.agents/skills/` nell'app ChatGPT per computer, nel terminale e
+nell'estensione per gli editor: estraete l'archivio e copiate lì la cartella
+`fair-check`. Le istruzioni aggiornate sono nella
+[documentazione di OpenAI](https://learn.chatgpt.com/docs/build-skills).
+
+**Altri assistenti.** Gli strumenti che supportano il formato Agent Skills
+leggono le skill da una cartella propria, indicata nella loro documentazione:
+copiate lì la cartella `fair-check`. Un assistente che non supporta le skill
+ma sa leggere file ed eseguire Python può comunque usarla: dategli la cartella
+`fair-check` insieme a quella del progetto e chiedetegli di seguire le
+istruzioni di `SKILL.md`.
+
+## Come usarla
+
+Aprite la cartella del progetto nell'assistente e scrivete, per esempio:
+
+- *Controlla se questa cartella è pronta da depositare su Zenodo.*
+- *Controlla solo il codice: gira su un altro computer?*
+- *I numeri del preprint escono dagli script?*
+- *Prepara la versione da depositare, con Psych-DS.*
+
+L'assistente riconosce dalla richiesta che la skill serve; potete anche
+richiamarla per nome (`/fair-check` in Claude Code, `$fair-check` in Codex).
+Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip; lì però
+R di solito non è installato, e il codice R viene letto ma non eseguito.
+
+L'assistente chiede l'autorizzazione prima di eseguire i comandi. La versione
+da depositare viene creata accanto alla cartella del progetto, fuori dalla
+cartella aperta: l'assistente chiede il permesso di scrivere lì.
+
+## Che cosa vede l'assistente
+
+Quando l'assistente lavora sul vostro computer (Claude Code, Codex), la
+cartella resta lì e gli script girano lì. L'assistente legge però l'output
+degli script e i file che apre (il README, il codice, qualche riga dei dati), e
+questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…)
+come parte della conversazione. La skill riduce quello che passa: l'inventario
+riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non
+mostra i valori delle colonne che sembrano dati personali.
+
+Nelle versioni web lo zip allegato viene caricato sui server del servizio.
+
+Prima di usarla con dati sensibili, controllate che cosa prevedono il consenso
+informato, le regole del vostro ateneo e le condizioni del servizio AI che
+usate, oppure togliete prima i dati personali.
+
+## Esempi
+
+Tre progetti inventati, con i problemi tipici, su cui è stata eseguita la
+skill: [solo dati](https://github.com/mar-cald/fair/tree/main/skill/demo/demo1-data),
+[dati e codice](https://github.com/mar-cald/fair/tree/main/skill/demo/demo2-data-code),
+[dati, codice e preprint](https://github.com/mar-cald/fair/tree/main/skill/demo/demo3-data-code-manuscript).
+Per ognuno ci sono la cartella originale, il rapporto e la versione da
+depositare. Sono stati prodotti con Claude e con una versione precedente della
+skill, che applicava sempre Psych-DS.

@@ -84,81 +84,144 @@
     "text": "Data dictionary\nIl README descrive il progetto. Il data dictionary descrive ogni singola colonna dei vostri dati: una riga per variabile, in un file a parte (&lt;nome-dataset&gt;_dictionary.csv). Per esempio:\n\n\n\n\n\n\n\n\nColonna\nCosa ci va\nEsempio\n\n\n\n\nvariable_name\nIl nome esatto della colonna, carattere per carattere\nrt\n\n\nlabel\nChe cosa misura\nTempo di reazione\n\n\ntype\ninteger, numeric, string, categorical, date, boolean\nnumeric\n\n\nunit\nUnità di misura. Vuoto se non ne ha\nmilliseconds\n\n\nallowed_values\nIntervallo o elenco dei valori possibili\n200-2000\n\n\ncoding\nIl significato di ogni codice, per le categoriali\n1 = Psicologia; 2 = Economia\n\n\nmissing_values\nCome sono rappresentati\ncella vuota o NA?\n\n\nsource\nDa dove viene il dato: strumento, questionario, calcolo\nPsychoPy\n\n\nnotes\nDecisioni prese, anomalie, avvertenze\n…"
   },
   {
-    "objectID": "risorse.html",
-    "href": "risorse.html",
-    "title": "Risorse e checklist",
+    "objectID": "segnala.html",
+    "href": "segnala.html",
+    "title": "Segnalare un errore o una correzione",
     "section": "",
-    "text": "Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni; pdf vademecum scaricare stampare."
+    "text": "Hai trovato un refuso, un link che non funziona o qualcosa da correggere? Ogni segnalazione è utile, grazie."
   },
   {
-    "objectID": "risorse.html#da-scaricare",
-    "href": "risorse.html#da-scaricare",
-    "title": "Risorse e checklist",
-    "section": "Da scaricare",
-    "text": "Da scaricare\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo)."
+    "objectID": "segnala.html#scrivimi-una-email",
+    "href": "segnala.html#scrivimi-una-email",
+    "title": "Segnalare un errore o una correzione",
+    "section": "Scrivimi una email",
+    "text": "Scrivimi una email\nIndirizzo: margherita.calderan@unipd.it\nNella mail indica:\n\nla pagina dove hai notato il problema (il titolo, oppure l’indirizzo che vedi nella barra del browser);\ncosa hai notato e, se ti va, come lo correggeresti."
   },
   {
-    "objectID": "risorse.html#checklist-prima-di-depositare",
-    "href": "risorse.html#checklist-prima-di-depositare",
-    "title": "Risorse e checklist",
-    "section": "Checklist prima di depositare",
-    "text": "Checklist prima di depositare\n\nContenuto\n\nC’è un README chiaro\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\nDiritti e riservatezza\n\nC’è un file LICENSE, e/o il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo\n\n\n\nCollegamenti\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
-  },
-  {
-    "objectID": "risorse.html#link-utili",
-    "href": "risorse.html#link-utili",
-    "title": "Risorse e checklist",
-    "section": "Link utili",
-    "text": "Link utili\n\nRepository\n\nZenodo — generalista, CERN, la scelta predefinita\nResearch Data Unipd — repository di ateneo, con supporto dei bibliotecari\nPsychArchives — disciplinare per la psicologia (ZPID)\nHarvard Dataverse, Dryad, Figshare, B2SHARE\nOpenNeuro, NeuroVault, Databrary, LDbase,\nre3data.org — per cercare il repository giusto\n\n\n\nOSF: cosa cambia\n\nCOS — OSF Changes (pagina ufficiale)\nOSF Support — Projects Transition e le FAQ\nOSF Registries e PsyArXiv, che restano attivi\n\n\n\nStandard e documentazione\n\nPsych-DS e il suo validator\nBIDS per il neuroimaging\nGO FAIR — testo dei principi\nWilkinson et al. (2016) — l’articolo originale sui principi FAIR\nCitation File Format — il file CITATION.cff\nFAIR-Aware e F-UJI — autovalutazione\n\n\n\nLicenze\n\nCreative Commons Chooser — per dati, testi e materiali\nchoosealicense.com — per il codice"
-  },
-  {
-    "objectID": "risorse.html#glossario-minimo",
-    "href": "risorse.html#glossario-minimo",
-    "title": "Risorse e checklist",
-    "section": "Glossario minimo",
-    "text": "Glossario minimo\n\n\n\n\n\n\n\nTermine\nSignificato\n\n\n\n\nDOI\nIdentificatore persistente che punta a un oggetto digitale. Continua a funzionare anche se l’indirizzo cambia, perché è un sistema di reindirizzamento gestito.\n\n\nMetadati\nDati sui dati: titolo, autori, data, descrizione, licenza. Sono ciò che rende un dataset trovabile.\n\n\nData dictionary / codebook\nDocumento che descrive ogni variabile: significato, tipo, unità, codifica, valori mancanti.\n\n\nORCID\nIdentificatore univoco per le persone che fanno ricerca. Risolve il problema degli omonimi e dei cambi di cognome.\n\n\nEmbargo\nPeriodo durante il quale i metadati sono pubblici ma i file non sono scaricabili. Si usa per attendere la pubblicazione dell’articolo.\n\n\nAccesso ristretto\nI file si ottengono solo dopo una richiesta approvata, di solito con un accordo scritto (Data Use Agreement).\n\n\nPseudonimizzazione\nSostituire gli identificativi con codici, mantenendo altrove la chiave di collegamento. Il dato resta personale.\n\n\nAnonimizzazione\nRendere impossibile risalire alla persona, in modo irreversibile.\n\n\nVersionamento\nConservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi.\n\n\nRiproducibilità\nOttenere gli stessi risultati dagli stessi dati con lo stesso codice."
-  },
-  {
-    "objectID": "risorse.html#fonti",
-    "href": "risorse.html#fonti",
-    "title": "Risorse e checklist",
-    "section": "Fonti",
-    "text": "Fonti\nAlcune parti del sito sono tradotte e adattate dalle fonti qui sotto, tutte rilasciate con licenza CC BY 4.0.\n\nWilkinson, M. D. et al. (2016). The FAIR Guiding Principles for scientific data management and stewardship. Scientific Data, 3. doi:10.1038/sdata.2016.18 — i principi in Principi FAIR.\nVipavc Brvar, I. e Gogl, S. (2025). Balancing FAIR Data Principles with GDPR Compliance: A Guide for Researchers. IASSIST 2025. doi:10.5281/zenodo.15696827 — la tabella FAIR e GDPR in Principi FAIR.\nSito di BIDS e corso di Research Data Management di DataLad — le regole sui nomi dei file in README e data dictionary e lo schema dei nomi in Psych-DS.\nDocumentazione di Psych-DS — regole ed esempio di dataset_description.json in Psych-DS.\n\n\nQuesta dispensa. Materiali per “Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati”, Dipartimento di Psicologia Generale, Università di Padova, 23 settembre 2026. Testi a cura di Margherita Calderan & Claude, rilasciati con licenza CC BY 4.0. I dataset di esempio sono fittizi e rilasciati in CC0."
-  },
-  {
-    "objectID": "psycharchives.html",
-    "href": "psycharchives.html",
-    "title": "Depositare su PsychArchives",
+    "objectID": "repository.html",
+    "href": "repository.html",
+    "title": "Dove archiviare",
     "section": "",
-    "text": "Parole chiave: reviewer link revisione anonima peer review; scientific use file uso scientifico; DRO bundle invio oggetti tipi sharing level condivisione.\nPsychArchives è il repository disciplinare della psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita tramite il PsychArchives Submission Assistant, accedendo con ORCID o con un account Leibniz Psychology. Deposito e download sono gratuiti fino a 1 GB per oggetto; per oggetti più grandi si chiede il servizio dedicato scrivendo a psycharchives-submission@leibniz-psychology.org."
+    "text": "Parole chiave: dove depositare archivio caricare pubblicare mettere Dataverse Dryad Figshare OpenNeuro; dati personali sensibili anonimizzare anonimizzazione privacy consenso identificabili accesso ristretto restricted riservati; limiti limite spazio quota GB capienza dimensione peso."
   },
   {
-    "objectID": "psycharchives.html#un-progetto-più-oggetti",
-    "href": "psycharchives.html#un-progetto-più-oggetti",
-    "title": "Depositare su PsychArchives",
-    "section": "Un progetto, più oggetti",
-    "text": "Un progetto, più oggetti\nPsychArchives chiama ogni deposito digital research object (DRO) e ne distingue una ventina di tipi, fra cui Research Data, Code, Preprint, Article, Preregistration, Test, Course Material, Report, Image, Sound e Moving Image.\nUn progetto non si deposita come un’unica cartella compressa, ma in un unico invio che raccoglie un bundle di più DRO: i dati come Research Data, gli script come Code, un questionario costruito da voi come Test, il materiale didattico come Course Material, la preregistrazione come Preregistration. Ogni DRO del bundle ha il suo tipo, i suoi file, il suo livello di condivisione con la relativa licenza e i suoi metadati; gli oggetti dello stesso invio restano collegati fra loro.\nLe linee guida chiedono formati aperti e adatti alla conservazione a lungo termine, come CSV per i dati e PDF/A per i documenti."
+    "objectID": "repository.html#repository-generalisti",
+    "href": "repository.html#repository-generalisti",
+    "title": "Dove archiviare",
+    "section": "Repository generalisti",
+    "text": "Repository generalisti\n\n\n\nServizio\nGestito da\nSpazio\nNote\n\n\n\n\nZenodo\nCERN, con finanziamenti UE\n50 GB per singolo record (max 100 files) Altre info\nAccetta diversi tipi di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.\n\n\nResearch Data Unipd\nUniversità di Padova (Sistema Bibliotecario)\n2,5 GB per singolo file\nRequisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd\n\n\nDryad\nno-profit organization\n10GB per file, di più su richiesta. Altre info\nCuration umana, il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista.\n\n\nFigshare\nDigital Science (commerciale)\n20 GB per record; altre info\nInfrastrutture statunitensi (Amazon Web Services), europee nel caso di accordi con l’università.\n\n\n\nLe quote cambiano: quelle qui sopra sono verificate a settembre 2026."
   },
   {
-    "objectID": "psycharchives.html#livello-di-condivisione-e-licenza",
-    "href": "psycharchives.html#livello-di-condivisione-e-licenza",
-    "title": "Depositare su PsychArchives",
-    "section": "Livello di condivisione e licenza",
-    "text": "Livello di condivisione e licenza\nDurante l’invio si scelgono il livello di condivisione e la licenza:\n\nlivello 0 e 0+ (Public Use File): accesso aperto;\nlivello 1 (Scientific Use File): uso solo scientifico, e chi scarica deve accettare un contratto di licenza.\n\nPer testi e dati le licenze disponibili sono CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice LGPL-3.0, Apache-2.0 e 0BSD. Come scegliere, e cosa comporta la licenza per scopi scientifici, è spiegato nella pagina sulle licenze."
+    "objectID": "repository.html#repository-disciplinari-per-la-psicologia",
+    "href": "repository.html#repository-disciplinari-per-la-psicologia",
+    "title": "Dove archiviare",
+    "section": "Repository disciplinari per la psicologia",
+    "text": "Repository disciplinari per la psicologia\n\n\n\nServizio\nCosa accetta\nSpazio\nNote\n\n\n\n\nPsychArchives (ZPID, Leibniz Institute for Psychology)\nCirca venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali\n1 GB per oggetto, gratuito.\nGratuito, oggetti dello stesso studio collegati fra loro. Offre anche licenze per solo uso scientifico.\n\n\nOpenNeuro\nDati di neuroimaging (MRI, MEG, EEG, iEEG, PET)\nNessun tetto pubblicato.\nGratuito. Richiede il formato BIDS, che viene validato automaticamente al caricamento.\n\n\n\nPer cercare in modo sistematico, repository disciplinari e non: re3data.org."
   },
   {
-    "objectID": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
-    "href": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
-    "title": "Depositare su PsychArchives",
-    "section": "Condividere prima di pubblicare: il reviewer link",
-    "text": "Condividere prima di pubblicare: il reviewer link\nDurante l’invio si può chiedere un reviewer link, da dare per esempio ai revisori di una rivista:\n\nne ricevete uno solo per tutto l’invio, qualunque sia il numero di DRO del bundle;\nil deposito è anonimizzato di default: i metadati che identificano gli autori vengono nascosti, e l’anonimizzazione si può disattivare;\nchiunque abbia il link può vedere il deposito;\nfinché non lo pubblicate, potete modificarlo, cancellarlo o pubblicarlo;\nil reviewer link non è un DOI: il DOI viene assegnato solo alla pubblicazione.\n\nL’anonimizzazione riguarda i metadati: i riferimenti a voi dentro i file (README, intestazioni degli script, percorsi come /Users/nome/...) vanno tolti."
+    "objectID": "repository.html#dati-che-non-si-possono-aprire",
+    "href": "repository.html#dati-che-non-si-possono-aprire",
+    "title": "Dove archiviare",
+    "section": "Dati che non si possono aprire",
+    "text": "Dati che non si possono aprire\nSe i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili:\n\nMetadati pubblici e deposito ad accesso ristretto con procedura di richiesta documentata.\nDataset derivato: pubblicare aggregati, statistiche sufficienti.\nDati sintetici che riproducono la struttura del dataset reale."
   },
   {
-    "objectID": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
-    "href": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
-    "title": "Depositare su PsychArchives",
-    "section": "Pubblicazione, correzioni e nuove versioni",
-    "text": "Pubblicazione, correzioni e nuove versioni\nDopo l’invio lo staff di PsychArchives fa un controllo formale: verifica che il contenuto sia adatto al repository e che i metadati siano completi. Di solito richiede uno o due giorni lavorativi. Alla pubblicazione il deposito riceve un DOI .\n\nEntro una settimana dalla pubblicazione, file e metadati si possono correggere su richiesta.\nDopo, si crea una nuova versione: si manda a psycharchives-submission@leibniz-psychology.org il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.\nI riferimenti dell’articolo collegato si possono aggiungere ai metadati in qualsiasi momento, senza creare una nuova versione."
+    "objectID": "ma.html",
+    "href": "ma.html",
+    "title": "OSF a parte: che cosa condividiamo?",
+    "section": "",
+    "text": "Proviamo, a coppie: scambiatevi le cartelle, l’ultimo lavoro che avete pubblicato. Chi non ha il computer o una cartella pronta si unisce a una coppia.\nAprite la cartella che avete ricevuto e, senza chiedere niente a chi l’ha prodotta, spuntate quello che riuscite a trovare:\n\nun file che descrive cosa contiene la cartella\ni dati sono in un formato aperto (CSV, TXT), non solo .xlsx\nogni colonna nel dataset è spiegata da qualche parte: nome, unità, codifica\ni file hanno nomi che dicono che cosa contengono\nc’è una licenza, quindi si sa a quali condizioni riusare i dati\nsi capisce quale script produce quali risultati, e in che ordine\nsi capisce di cosa tratta lo studio"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Strumenti per una gestione FAIR",
+    "section": "",
+    "text": "Vademecum\n\n\n\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo).\n\n\nDove mettere dati, codice e materiali, e cosa allegarci.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff"
+  },
+  {
+    "objectID": "esempio.html",
+    "href": "esempio.html",
+    "title": "Un esempio completo",
+    "section": "",
+    "text": "Parole chiave: esempio completo modello template progetto riusabile cartella pronta fatto bene tutto insieme."
+  },
+  {
+    "objectID": "esempio.html#la-cartella",
+    "href": "esempio.html#la-cartella",
+    "title": "Un esempio completo",
+    "section": "La cartella",
+    "text": "La cartella\nstroop-anxiety/\n├── README.md                        cos'è e come si riproduce\n├── CITATION.cff                     come citare il progetto (non essenziale)\n├── LICENSE                          licenze di dati, codice, materiali\n├── renv.lock                        versioni esatte dei pacchetti R\n├── stroop-anxiety.Rproj             progetto RStudio (working directory)\n├── data/\n│   ├── raw/                         export originali, sola lettura\n│   ├── stroop_data.csv              un trial per riga\n│   ├── stroop_dictionary.csv        definizione di ogni colonna\n│   ├── questionnaire_data.csv       un partecipante per riga\n│   └── questionnaire_dictionary.csv definizione di ogni colonna\n├── materials/                       task e istruzioni\n├── scripts/\n│   ├── 01_preprocessing.R           dai grezzi ai dati puliti\n│   └── 02_analysis.R                analisi e figure\n└── docs/                            preregistrazione, preprint\nNomi senza spazi né accenti, script numerati nell’ordine di esecuzione, i dati grezzi separati e in sola lettura."
+  },
+  {
+    "objectID": "esempio.html#il-readme",
+    "href": "esempio.html#il-readme",
+    "title": "Un esempio completo",
+    "section": "Il README",
+    "text": "Il README\n# Stroop and trait anxiety\n\nStroop interference as a function of trait anxiety.\n100 adults; colour-word Stroop task (PsychoPy) and a STAI-Y questionnaire,\ncollected in the lab in March 2026.\n\n## Contents\n- data/stroop_data.csv — one trial per row\n- data/stroop_dictionary.csv — its columns\n- data/questionnaire_data.csv — one participant per row\n- data/questionnaire_dictionary.csv — its columns\n- data/raw/ — original exports, read-only\n- scripts/01_preprocessing.R — cleans and merges the data\n- scripts/02_analysis.R — models and figures\n- materials/ — task and instructions\n- renv.lock — exact R package versions\n- stroop-anxiety.Rproj — RStudio project\n\n## How to reproduce\nOpen stroop-anxiety.Rproj in RStudio (R &gt;= 4.3), then:\n  renv::restore()   # installs the exact package versions (renv.lock)\n  source(\"scripts/01_preprocessing.R\")\n  source(\"scripts/02_analysis.R\")\n\n## License\nData CC0-1.0, code GPL-3.0, materials CC BY 4.0 (see LICENSE).\nSTAI-Y is a third-party instrument: not included, cite it.\n\n## How to cite\nSee CITATION.cff. Dataset: https://doi.org/10.5281/zenodo.XXXXXXX\n\n## Links\nArticle: https://doi.org/10.xxxx/xxxxx\nPreregistration: https://doi.org/10.17605/OSF.IO/XXXXX"
+  },
+  {
+    "objectID": "esempio.html#il-data-dictionary",
+    "href": "esempio.html#il-data-dictionary",
+    "title": "Un esempio completo",
+    "section": "Il data dictionary",
+    "text": "Il data dictionary\nUn estratto di data/stroop_dictionary.csv: una riga per ogni colonna del dataset (questionnaire_dictionary.csv fa lo stesso per il questionario).\n\n\n\n\n\n\n\n\n\n\n\nvariable_name\nlabel\ntype\nunit\nallowed_values\nmissing_values\n\n\n\n\nparticipant\nparticipant code\nstring\n\np01-p100\n\n\n\nblock\nblock number\ninteger\n\n1-4\n\n\n\ncongruent\ncongruent trial (word = colour)\nboolean\n\nTRUE / FALSE\n\n\n\nrt_ms\nreaction time\ninteger\nms\n200-2000\nempty cell\n\n\ncorrect\ncorrect response\nboolean\n\nTRUE / FALSE"
+  },
+  {
+    "objectID": "esempio.html#le-licenze",
+    "href": "esempio.html#le-licenze",
+    "title": "Un esempio completo",
+    "section": "Le licenze",
+    "text": "Le licenze\n\n\n\nComponente\nLicenza\n\n\n\n\nDati (data/)\nCC0-1.0\n\n\nCodice (scripts/)\nGPL-3.0\n\n\nMateriali propri (materials/)\nCC BY 4.0\n\n\nStrumenti di terzi (STAI-Y)\nnessuna: non si depositano, si citano"
+  },
+  {
+    "objectID": "apertura.html",
+    "href": "apertura.html",
+    "title": "Che cosa sta succedendo a OSF",
+    "section": "",
+    "text": "Parole chiave: OSF chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura futuro cosa cambia.\n\nAd agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n   \nOSF a parte …"
+  },
+  {
+    "objectID": "confronto.html",
+    "href": "confronto.html",
+    "title": "Zenodo o PsychArchives?",
+    "section": "",
+    "text": "Parole chiave: confronto confrontare differenze differenza scelta scegliere quale Zenodo PsychArchives.\n\n\n\n\n\n\n\n\n\n\nZenodo\nPsychArchives\n\n\n\n\nAmbito\nGeneralista\nPsicologia e discipline vicine\n\n\nSpazio\n50 GB per record\n1 GB per oggetto\n\n\nUn progetto si deposita come\nUno zip, oppure più record collegati\nUn unico invio (bundle) con più oggetti, uno per tipo, collegati fra loro\n\n\nControllo prima della pubblicazione\nNessuno sul contenuto, salvo nelle community con revisione\nControllo formale dello staff, di solito entro due giorni lavorativi\n\n\nCondividere prima di pubblicare\nLink segreto sulla bozza; l’anonimizzazione è a mano\nReviewer link, anonimizzato di default\n\n\nCorrezioni dopo la pubblicazione\nIn autonomia, entro 30 giorni\nSu richiesta, entro una settimana\n\n\nLicenze\nQualsiasi; di default CC BY 4.0\nCC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD\n\n\n\nI dettagli di ciascuno sono nelle pagine Depositare su Zenodo e Depositare su PsychArchives."
+  },
+  {
+    "objectID": "fair.html",
+    "href": "fair.html",
+    "title": "I principi FAIR",
+    "section": "",
+    "text": "Parole chiave: FAIR findable accessible interoperable reusable trovabile accessibile interoperabile riusabile principi; DMP data management plan piano gestione Horizon Europe finanziamento template.\nCome faccio in modo che questo lavoro sia utilizzabile da qualcuno che non può chiedermi niente?"
+  },
+  {
+    "objectID": "fair.html#quanto-siete-fair",
+    "href": "fair.html#quanto-siete-fair",
+    "title": "I principi FAIR",
+    "section": "Quanto siete FAIR?",
+    "text": "Quanto siete FAIR?\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricare i vostri dati/materiali/script?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita? E differenziata per dati, script e materiali?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
+  },
+  {
+    "objectID": "fair.html#da-dove-vengono",
+    "href": "fair.html#da-dove-vengono",
+    "title": "I principi FAIR",
+    "section": "Da dove vengono",
+    "text": "Da dove vengono\nI principi FAIR nascono da un articolo del 2016 su Scientific Data (Wilkinson e colleghi, 10.1038/sdata.2016.18), scritto da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici. L’idea di partenza è che l’enorme quantità di dati prodotti dalla ricerca resta sostanzialmente inutilizzabile, non perché sia segreta, ma perché è indescrivibile, introvabile e illeggibile per chi non l’ha prodotta.\nOggi sono il riferimento esplicito per Horizon Europe, ERC e PRIN. In Italia il MUR li ha adottati nel Piano Nazionale per la Scienza Aperta 2021-2027, dove si legge che “Occorre promuovere la gestione FAIR quale standard di riferimento nel processo di produzione dei risultati della ricerca finanziata con risorse pubbliche”.\n\n\n\n\n\n\nFAIR4RS\n\n\n\n\n\nEsiste anche una versione dei principi per il software, FAIR4RS (Barker et al., 2022): identificatore e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo."
+  },
+  {
+    "objectID": "fair.html#i-principi",
+    "href": "fair.html#i-principi",
+    "title": "I principi FAIR",
+    "section": "I principi",
+    "text": "I principi\n\nF — Findable\nIl repository alla pubblicazione assegna un DOI (per esempio 10.5281/zenodo.XXXXXXX), lo riporta nei metadati come identificatore del deposito, ed espone i metadati agli aggregatori (via OAI-PMH, raccolti e indicizzati da OpenAIRE).\n\n\nNoi, in aggiunta, possiamo compilare metadati ricchi al caricamento: titolo, autori con ORCID, descrizione e parole chiave (per esempio “Stroop”, “cognitive control”). Più il deposito è descritto, più è trovabile.\n\n\n\n\n\n\n\n\n\n\n\n\n\nA — Accessible: E’ possibile ottenere i dati? Se sì, come?\nDal DOI si arriva ai file con un qualunque browser via HTTPS, senza software aggiuntivo né abbonamenti; e se un deposito viene ritirato, il DOI continua a funzionare e porta a una pagina che ne indica il motivo, al posto dei file.\nNoi, in aggiunta, possiamo scegliere il livello di accesso. Se i dati sono sensibili si caricano con accesso restricted: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L’accesso può essere limitato, purché la procedura per richiederlo sia pubblica.\n\n\n\n\n\n\n\n\nI — Interoperable\nSalvare i dati in formati aperti (CSV invece di .xlsx). Un file che si apre solo con un programma specifico è già un ostacolo.\nDare un significato esplicito ai dati. Una tabella di soli numeri non dice cosa contiene: la colonna score un’accuratezza o il punteggio a un test. Si usa una forma strutturata, con intestazioni chiare, leggibile da persone e macchine. Usare i termini di un vocabolario condiviso invece di sigle inventate.\n\n\nCollegare i file fra loro con relazioni dal nome preciso.\n\n\n\n\n\n\n\n\n\n\n\n\n\nR — Reusable\nDocumentare. Un README che descrive lo studio e un data dictionary con una riga per ogni colonna dei dati.\nDichiarare la licenza. In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.\nIndicare la provenienza nel README: come sono stati raccolti e trattati i dati (e.g., “raccolti in laboratorio fra marzo e luglio 2025”).\nSeguire gli standard della disciplina, se esistono: BIDS per il neuroimaging, Psych-DS per i dati comportamentali, DDI per i questionari nelle scienze sociali. Se non esistono, si usano gli stessi nomi, formati e codifiche in tutti i file."
+  },
+  {
+    "objectID": "fair.html#data-management-plan-dmp",
+    "href": "fair.html#data-management-plan-dmp",
+    "title": "I principi FAIR",
+    "section": "Data Management Plan (DMP)",
+    "text": "Data Management Plan (DMP)\nIl DMP è un documento che si scrive all’inizio di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. È un documento che può essere aggiornato man mano che il progetto procede, e gli scostamenti dal piano iniziale vanno documentati e motivati.\n\nCatalogo dei template\nIl template ufficiale di Horizon Europe\nHorizon Europe, annotato da Unipd, con spiegazioni ed esempi per ogni domanda.\nArgos (OpenAIRE), DMPonline e DMPTool: strumenti online che guidano la compilazione."
   },
   {
     "objectID": "licenze.html",
@@ -203,158 +266,130 @@
     "text": "Come si applica una licenza, in pratica\n\nIl campo licenza del repository compilato al momento del deposito.\nUn file LICENSE nella root del progetto, con il testo integrale della/e licenza/e scelta/e.\nUna sezione nel README che spieghi a parole cosa vale per cosa, soprattutto se avete licenze diverse per componenti diversi.\n\nEsempio di sezione da incollare nel README di un progetto misto:\n## Licenza\n\n- Dati (`data/`): CC0 1.0 Universal (CC0-1.0)\n- Codice (`analysis/`): GPL-3.0\n- Testi e materiali propri (`docs/`, `materials/`): CC BY 4.0\n- Materiali di terzi: non ridistribuiti, soggetti alle\n  condizioni dei rispettivi titolari\n\nSe usate i contenuti di questo repository, citate:\nCognome, N. (2026). Titolo del dataset (Version 1.0) [Data set].\nZenodo. https://doi.org/10.5281/zenodo.XXXXXXX"
   },
   {
-    "objectID": "fair.html",
-    "href": "fair.html",
-    "title": "I principi FAIR",
+    "objectID": "psycharchives.html",
+    "href": "psycharchives.html",
+    "title": "Depositare su PsychArchives",
     "section": "",
-    "text": "Parole chiave: FAIR findable accessible interoperable reusable trovabile accessibile interoperabile riusabile principi; DMP data management plan piano gestione Horizon Europe finanziamento template.\nCome faccio in modo che questo lavoro sia utilizzabile da qualcuno che non può chiedermi niente?"
+    "text": "Parole chiave: reviewer link revisione anonima peer review; scientific use file uso scientifico; DRO bundle invio oggetti tipi sharing level condivisione.\nPsychArchives è il repository disciplinare della psicologia, gestito dallo ZPID (Leibniz Institute for Psychology). Si deposita tramite il PsychArchives Submission Assistant, accedendo con ORCID o con un account Leibniz Psychology. Deposito e download sono gratuiti fino a 1 GB per oggetto; per oggetti più grandi si chiede il servizio dedicato scrivendo a psycharchives-submission@leibniz-psychology.org."
   },
   {
-    "objectID": "fair.html#quanto-siete-fair",
-    "href": "fair.html#quanto-siete-fair",
-    "title": "I principi FAIR",
-    "section": "Quanto siete FAIR?",
-    "text": "Quanto siete FAIR?\n\nEsiste un identificatore persistente (DOI) per i dati/progetto, non solo per l’articolo?\nUna persona esterna può scaricare i vostri dati/materiali/script?\nI file sono in formati aperti (CSV, TXT, JSON) e non solo .xlsx?\nOgni colonna di ogni file è documentata da qualche parte?\nC’è una licenza esplicita? E differenziata per dati, script e materiali?\nSi capisce quali script hanno prodotto quali risultati, e in che ordine vanno eseguiti?\nDataset, codice, preregistrazione e articolo sono collegati l’uno all’altro?"
+    "objectID": "psycharchives.html#un-progetto-più-oggetti",
+    "href": "psycharchives.html#un-progetto-più-oggetti",
+    "title": "Depositare su PsychArchives",
+    "section": "Un progetto, più oggetti",
+    "text": "Un progetto, più oggetti\nPsychArchives chiama ogni deposito digital research object (DRO) e ne distingue una ventina di tipi, fra cui Research Data, Code, Preprint, Article, Preregistration, Test, Course Material, Report, Image, Sound e Moving Image.\nUn progetto non si deposita come un’unica cartella compressa, ma in un unico invio che raccoglie un bundle di più DRO: i dati come Research Data, gli script come Code, un questionario costruito da voi come Test, il materiale didattico come Course Material, la preregistrazione come Preregistration. Ogni DRO del bundle ha il suo tipo, i suoi file, il suo livello di condivisione con la relativa licenza e i suoi metadati; gli oggetti dello stesso invio restano collegati fra loro.\nLe linee guida chiedono formati aperti e adatti alla conservazione a lungo termine, come CSV per i dati e PDF/A per i documenti."
   },
   {
-    "objectID": "fair.html#da-dove-vengono",
-    "href": "fair.html#da-dove-vengono",
-    "title": "I principi FAIR",
-    "section": "Da dove vengono",
-    "text": "Da dove vengono\nI principi FAIR nascono da un articolo del 2016 su Scientific Data (Wilkinson e colleghi, 10.1038/sdata.2016.18), scritto da un gruppo eterogeneo di ricercatori, editori, enti finanziatori e informatici. L’idea di partenza è che l’enorme quantità di dati prodotti dalla ricerca resta sostanzialmente inutilizzabile, non perché sia segreta, ma perché è indescrivibile, introvabile e illeggibile per chi non l’ha prodotta.\nOggi sono il riferimento esplicito per Horizon Europe, ERC e PRIN. In Italia il MUR li ha adottati nel Piano Nazionale per la Scienza Aperta 2021-2027, dove si legge che “Occorre promuovere la gestione FAIR quale standard di riferimento nel processo di produzione dei risultati della ricerca finanziata con risorse pubbliche”.\n\n\n\n\n\n\nFAIR4RS\n\n\n\n\n\nEsiste anche una versione dei principi per il software, FAIR4RS (Barker et al., 2022): identificatore e versione, dipendenze dichiarate, licenza, istruzioni per eseguirlo."
+    "objectID": "psycharchives.html#livello-di-condivisione-e-licenza",
+    "href": "psycharchives.html#livello-di-condivisione-e-licenza",
+    "title": "Depositare su PsychArchives",
+    "section": "Livello di condivisione e licenza",
+    "text": "Livello di condivisione e licenza\nDurante l’invio si scelgono il livello di condivisione e la licenza:\n\nlivello 0 e 0+ (Public Use File): accesso aperto;\nlivello 1 (Scientific Use File): uso solo scientifico, e chi scarica deve accettare un contratto di licenza.\n\nPer testi e dati le licenze disponibili sono CC BY 4.0, CC BY-SA 4.0, CC0 1.0 e la licenza per scopi scientifici; per il codice LGPL-3.0, Apache-2.0 e 0BSD. Come scegliere, e cosa comporta la licenza per scopi scientifici, è spiegato nella pagina sulle licenze."
   },
   {
-    "objectID": "fair.html#i-principi",
-    "href": "fair.html#i-principi",
-    "title": "I principi FAIR",
-    "section": "I principi",
-    "text": "I principi\n\nF — Findable\nIl repository alla pubblicazione assegna un DOI (per esempio 10.5281/zenodo.XXXXXXX), lo riporta nei metadati come identificatore del deposito, ed espone i metadati agli aggregatori (via OAI-PMH, raccolti e indicizzati da OpenAIRE).\n\n\nNoi, in aggiunta, possiamo compilare metadati ricchi al caricamento: titolo, autori con ORCID, descrizione e parole chiave (per esempio “Stroop”, “cognitive control”). Più il deposito è descritto, più è trovabile.\n\n\n\n\n\n\n\n\n\n\n\n\n\nA — Accessible: E’ possibile ottenere i dati? Se sì, come?\nDal DOI si arriva ai file con un qualunque browser via HTTPS, senza software aggiuntivo né abbonamenti; e se un deposito viene ritirato, il DOI continua a funzionare e porta a una pagina che ne indica il motivo, al posto dei file.\nNoi, in aggiunta, possiamo scegliere il livello di accesso. Se i dati sono sensibili si caricano con accesso restricted: la scheda descrittiva e il DOI restano pubblici, mentre i file sono accessibili solo alle persone approvate da chi ha depositato. L’accesso può essere limitato, purché la procedura per richiederlo sia pubblica.\n\n\n\n\n\n\n\n\nI — Interoperable\nSalvare i dati in formati aperti (CSV invece di .xlsx). Un file che si apre solo con un programma specifico è già un ostacolo.\nDare un significato esplicito ai dati. Una tabella di soli numeri non dice cosa contiene: la colonna score un’accuratezza o il punteggio a un test. Si usa una forma strutturata, con intestazioni chiare, leggibile da persone e macchine. Usare i termini di un vocabolario condiviso invece di sigle inventate.\n\n\nCollegare i file fra loro con relazioni dal nome preciso.\n\n\n\n\n\n\n\n\n\n\n\n\n\nR — Reusable\nDocumentare. Un README che descrive lo studio e un data dictionary con una riga per ogni colonna dei dati.\nDichiarare la licenza. In assenza di licenza valgono tutti i diritti riservati, e nessuno può riusare legalmente i dati.\nIndicare la provenienza nel README: come sono stati raccolti e trattati i dati (e.g., “raccolti in laboratorio fra marzo e luglio 2025”).\nSeguire gli standard della disciplina, se esistono: BIDS per il neuroimaging, Psych-DS per i dati comportamentali, DDI per i questionari nelle scienze sociali. Se non esistono, si usano gli stessi nomi, formati e codifiche in tutti i file."
+    "objectID": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
+    "href": "psycharchives.html#condividere-prima-di-pubblicare-il-reviewer-link",
+    "title": "Depositare su PsychArchives",
+    "section": "Condividere prima di pubblicare: il reviewer link",
+    "text": "Condividere prima di pubblicare: il reviewer link\nDurante l’invio si può chiedere un reviewer link, da dare per esempio ai revisori di una rivista:\n\nne ricevete uno solo per tutto l’invio, qualunque sia il numero di DRO del bundle;\nil deposito è anonimizzato di default: i metadati che identificano gli autori vengono nascosti, e l’anonimizzazione si può disattivare;\nchiunque abbia il link può vedere il deposito;\nfinché non lo pubblicate, potete modificarlo, cancellarlo o pubblicarlo;\nil reviewer link non è un DOI: il DOI viene assegnato solo alla pubblicazione.\n\nL’anonimizzazione riguarda i metadati: i riferimenti a voi dentro i file (README, intestazioni degli script, percorsi come /Users/nome/...) vanno tolti."
   },
   {
-    "objectID": "fair.html#data-management-plan-dmp",
-    "href": "fair.html#data-management-plan-dmp",
-    "title": "I principi FAIR",
-    "section": "Data Management Plan (DMP)",
-    "text": "Data Management Plan (DMP)\nIl DMP è un documento che si scrive all’inizio di un progetto e dice che dati produrrete, come li documenterete, dove li conserverete, con quale licenza e per quanto tempo. È un documento che può essere aggiornato man mano che il progetto procede, e gli scostamenti dal piano iniziale vanno documentati e motivati.\n\nCatalogo dei template\nIl template ufficiale di Horizon Europe\nHorizon Europe, annotato da Unipd, con spiegazioni ed esempi per ogni domanda.\nArgos (OpenAIRE), DMPonline e DMPTool: strumenti online che guidano la compilazione."
+    "objectID": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
+    "href": "psycharchives.html#pubblicazione-correzioni-e-nuove-versioni",
+    "title": "Depositare su PsychArchives",
+    "section": "Pubblicazione, correzioni e nuove versioni",
+    "text": "Pubblicazione, correzioni e nuove versioni\nDopo l’invio lo staff di PsychArchives fa un controllo formale: verifica che il contenuto sia adatto al repository e che i metadati siano completi. Di solito richiede uno o due giorni lavorativi. Alla pubblicazione il deposito riceve un DOI .\n\nEntro una settimana dalla pubblicazione, file e metadati si possono correggere su richiesta.\nDopo, si crea una nuova versione: si manda a psycharchives-submission@leibniz-psychology.org il DOI dell’oggetto, i file aggiornati e un changelog di massimo 255 caratteri, spazi compresi. La versione precedente resta, collegata alla nuova in una cronologia pubblica.\nI riferimenti dell’articolo collegato si possono aggiungere ai metadati in qualsiasi momento, senza creare una nuova versione."
   },
   {
-    "objectID": "deposito.html",
-    "href": "deposito.html",
-    "title": "Prepara il deposito",
+    "objectID": "risorse.html",
+    "href": "risorse.html",
+    "title": "Risorse e checklist",
     "section": "",
-    "text": "Parole chiave: controllo cartella verifica progetto FAIR deposito pronto zip Zenodo PsychArchives caricare; data dictionary automatico generare README licenza LICENSE Psych-DS dataset_description.json; strumento tool online browser.\nLa pagina legge la cartella del vostro progetto, la controlla con le regole di questa dispensa e costruisce una versione da depositare: le cartelle con nomi fissi (data/, scripts/, docs/…), i file di dati con i nomi di Psych-DS, un data dictionary per ogni file, il README, le licenze e uno zip da caricare su Zenodo.\nI file restano sul vostro computer. La pagina li legge nel browser con Python (Pyodide) e non li invia a nessun server; la vostra cartella non viene modificata. La prima volta il browser scarica Pyodide, circa 10 MB; se nella cartella ci sono file Excel, scarica anche la libreria che li legge (openpyxl, da PyPI).\nRiconosce i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed E-Prime: ne descrive da sola le colonne standard (per esempio key_resp.rt, in secondi), toglie le righe che questi programmi aggiungono attorno ai dati e fa una copia CSV dei dati che non sono in CSV (JSON, log di E-Prime, Excel). I file .sav di SPSS non si possono leggere nel browser: salvatene una copia CSV.\nCosa la pagina non fa:\nQueste verifiche, insieme a tutte le altre, le fa la skill fair-check per Claude."
+    "text": "Parole chiave: checklist verifica controllo controllare prima depositare pronto lista; glossario sigle acronimi DOI ORCID termini definizioni; pdf vademecum scaricare stampare."
   },
   {
-    "objectID": "deposito.html#scegliete-la-cartella",
-    "href": "deposito.html#scegliete-la-cartella",
-    "title": "Prepara il deposito",
-    "section": "1. Scegliete la cartella",
-    "text": "1. Scegliete la cartella\n\n  Trascinate qui la cartella del progetto, oppure\n  Scegli la cartella…\n  \n\n\n\n2. Il controllo\n\n\n\n\n3. La versione da depositare\n\nLo studio\n\n  Titolo del dataset\n  Nome breve dello studio solo lettere e numeri: entra nei nomi dei file (study-…)\n  Descrizione cosa contengono i dati, in poche righe\n  Come sono stati raccolti i dati quando, dove, con quale campione e quale strumento\n  Autori uno per riga: Nome Cognome, ORCID\n  Contatto e-mail istituzionale\n       Periodo di raccolta es. 2025-03/2025-05\n  Parole chiave separate da virgole\n  Lingua del READMEItalianoEnglish\n  DOI dell'articolo o del preprint\n  Preregistrazione\n\n\nDove va ogni file\nLa pagina propone una destinazione per ogni file; cambiatela dove serve. I file\nlasciati fuori non entrano nel deposito. I nomi sono già senza spazi, accenti o\nparole come \"finale\".\n\n\n\nDati personali\n\n\nData dictionary\n\n\nLicenze\n\n  Dati, dictionary e dataset_description.json\n    CC0 1.0 (consigliata)CC BY 4.0\n  CodiceGNU GPL 3.0\n  README, documenti, figure, materiali propriCC BY 4.0\n  Titolari del copyright per il LICENSE; di solito gli autori\n\nI testi completi delle licenze vengono copiati nel file LICENSE. Gli strumenti di terzi (test pubblicati, stimoli con copyright) vanno lasciati fuori e citati nel README.\n\n\nCrea la versione da depositare\n\n\n\n4. Il risultato"
+    "objectID": "risorse.html#da-scaricare",
+    "href": "risorse.html#da-scaricare",
+    "title": "Risorse e checklist",
+    "section": "Da scaricare",
+    "text": "Da scaricare\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo)."
   },
   {
-    "objectID": "apertura.html",
-    "href": "apertura.html",
-    "title": "Che cosa sta succedendo a OSF",
+    "objectID": "risorse.html#checklist-prima-di-depositare",
+    "href": "risorse.html#checklist-prima-di-depositare",
+    "title": "Risorse e checklist",
+    "section": "Checklist prima di depositare",
+    "text": "Checklist prima di depositare\n\nContenuto\n\nC’è un README chiaro\nC’è un data dictionary che copre tutte le colonne di tutti i file\nI file sono in formati aperti (CSV, TXT, JSON, PNG), non solo .sav, .xlsx, .docx\nIl codice gira su un altro computer, partendo da una cartella pulita\n\n\n\nDiritti e riservatezza\n\nC’è un file LICENSE, e/o il campo licenza del repository è compilato\nHo verificato di poter ridistribuire tutto ciò che sto depositando (attenzione a test, questionari e stimoli di terzi)\nNon ci sono date di nascita complete, indirizzi, o combinazioni di variabili che identificano una persona\nI coautori sanno che sto depositando e sono d’accordo\n\n\n\nCollegamenti\n\nIl deposito è collegato all’articolo, alla preregistrazione e al codice\nTutti gli autori hanno l’ORCID nei metadati\nIl DOI del dataset/progetto è nella sezione Data availability dell’articolo"
+  },
+  {
+    "objectID": "risorse.html#link-utili",
+    "href": "risorse.html#link-utili",
+    "title": "Risorse e checklist",
+    "section": "Link utili",
+    "text": "Link utili\n\nRepository\n\nZenodo — generalista, CERN, la scelta predefinita\nResearch Data Unipd — repository di ateneo, con supporto dei bibliotecari\nPsychArchives — disciplinare per la psicologia (ZPID)\nHarvard Dataverse, Dryad, Figshare, B2SHARE\nOpenNeuro, NeuroVault, Databrary, LDbase,\nre3data.org — per cercare il repository giusto\n\n\n\nOSF: cosa cambia\n\nCOS — OSF Changes (pagina ufficiale)\nOSF Support — Projects Transition e le FAQ\nOSF Registries e PsyArXiv, che restano attivi\n\n\n\nStandard e documentazione\n\nPsych-DS e il suo validator\nBIDS per il neuroimaging\nGO FAIR — testo dei principi\nWilkinson et al. (2016) — l’articolo originale sui principi FAIR\nCitation File Format — il file CITATION.cff\nFAIR-Aware e F-UJI — autovalutazione\n\n\n\nLicenze\n\nCreative Commons Chooser — per dati, testi e materiali\nchoosealicense.com — per il codice"
+  },
+  {
+    "objectID": "risorse.html#glossario-minimo",
+    "href": "risorse.html#glossario-minimo",
+    "title": "Risorse e checklist",
+    "section": "Glossario minimo",
+    "text": "Glossario minimo\n\n\n\n\n\n\n\nTermine\nSignificato\n\n\n\n\nDOI\nIdentificatore persistente che punta a un oggetto digitale. Continua a funzionare anche se l’indirizzo cambia, perché è un sistema di reindirizzamento gestito.\n\n\nMetadati\nDati sui dati: titolo, autori, data, descrizione, licenza. Sono ciò che rende un dataset trovabile.\n\n\nData dictionary / codebook\nDocumento che descrive ogni variabile: significato, tipo, unità, codifica, valori mancanti.\n\n\nORCID\nIdentificatore univoco per le persone che fanno ricerca. Risolve il problema degli omonimi e dei cambi di cognome.\n\n\nEmbargo\nPeriodo durante il quale i metadati sono pubblici ma i file non sono scaricabili. Si usa per attendere la pubblicazione dell’articolo.\n\n\nAccesso ristretto\nI file si ottengono solo dopo una richiesta approvata, di solito con un accordo scritto (Data Use Agreement).\n\n\nPseudonimizzazione\nSostituire gli identificativi con codici, mantenendo altrove la chiave di collegamento. Il dato resta personale.\n\n\nAnonimizzazione\nRendere impossibile risalire alla persona, in modo irreversibile.\n\n\nVersionamento\nConservare la storia delle modifiche, in modo che ogni versione resti citabile. Lo fanno git per il codice e i repository per i depositi.\n\n\nRiproducibilità\nOttenere gli stessi risultati dagli stessi dati con lo stesso codice."
+  },
+  {
+    "objectID": "risorse.html#fonti",
+    "href": "risorse.html#fonti",
+    "title": "Risorse e checklist",
+    "section": "Fonti",
+    "text": "Fonti\nAlcune parti del sito sono tradotte e adattate dalle fonti qui sotto, tutte rilasciate con licenza CC BY 4.0.\n\nWilkinson, M. D. et al. (2016). The FAIR Guiding Principles for scientific data management and stewardship. Scientific Data, 3. doi:10.1038/sdata.2016.18 — i principi in Principi FAIR.\nVipavc Brvar, I. e Gogl, S. (2025). Balancing FAIR Data Principles with GDPR Compliance: A Guide for Researchers. IASSIST 2025. doi:10.5281/zenodo.15696827 — la tabella FAIR e GDPR in Principi FAIR.\nSito di BIDS e corso di Research Data Management di DataLad — le regole sui nomi dei file in README e data dictionary e lo schema dei nomi in Psych-DS.\nDocumentazione di Psych-DS — regole ed esempio di dataset_description.json in Psych-DS.\n\n\nQuesta dispensa. Materiali per “Hands-on Open Science: alternative a OSF e strumenti per la gestione FAIR dei dati”, Dipartimento di Psicologia Generale, Università di Padova, 23 settembre 2026. Testi a cura di Margherita Calderan & Claude, rilasciati con licenza CC BY 4.0. I dataset di esempio sono fittizi e rilasciati in CC0."
+  },
+  {
+    "objectID": "skill.html",
+    "href": "skill.html",
+    "title": "La skill fair-check",
     "section": "",
-    "text": "Parole chiave: OSF chiusura dismissione migrare migrazione alternativa alternative scadenze sola lettura futuro cosa cambia.\n\nAd agosto 2026 il Center for Open Science ha annunciato la dismissione del workflow di OSF Projects. In pratica OSF smette di funzionare come spazio di collaborazione, archivio dati e gestione file.\n\n16 novembre 2026 — non è più possibile creare nuovi progetti né nuovi componenti dentro progetti esistenti. Quelli che già esistono restano modificabili.\n19 febbraio 2027 — tutti i progetti, pubblici e privati, diventano di sola lettura: non si possono più aggiungere, modificare o aggiornare contenuti.\nIn futuro (data non annunciata) — COS prevede di rimuovere i progetti privati, con almeno 12 mesi di preavviso.\n\n\n\nChe cosa NON cambia\n\nOSF Registrations continua a funzionare\nOSF Preprints (quindi PsyArXiv) continua a funzionare\nDOI e link ai progetti\nI progetti pubblici restano visibili, citabili e scaricabili\nLa ricerca interna al sito resta attiva\n\n\n\nChe cosa cambia\n\nNiente più caricamento e aggiornamento file\nNiente più OSF come spazio di lavoro condiviso del gruppo\nNiente più nuovi progetti dal 16/11/2026\nI progetti privati non sono un posto sicuro dove lasciare l’unica copia dei dati\n\n\n\n   \nOSF a parte …"
+    "text": "Parole chiave: skill Agent Skills Claude ChatGPT Codex OpenAI Anthropic intelligenza artificiale AI assistente controllo cartella verifica progetto FAIR deposito pronto Zenodo PsychArchives; data dictionary automatico README licenza Psych-DS; codice riproducibile numeri manoscritto preprint; Qualtrics PsychoPy jsPsych Gorilla OpenSesame E-Prime.\nfair-check è una skill: una cartella di istruzioni e di script in Python che un assistente AI segue quando gli si chiede di controllare la cartella di un progetto di ricerca. Applica le regole di questa dispensa (nomi, formati, README, data dictionary, licenze, dati personali), prova a eseguire il codice, confronta i numeri del manoscritto con l’output degli script e, se volete, costruisce una versione della cartella pronta da caricare su Zenodo o su un altro repository.\nLa skill segue Agent Skills, un formato aperto: un file SKILL.md con le istruzioni, più gli script e i documenti che servono. Il formato è nato da Anthropic per Claude ed è stato adottato da altri strumenti, tra cui Codex di OpenAI, disponibile anche nell’app ChatGPT per computer. La stessa cartella funziona con tutti."
   },
   {
-    "objectID": "confronto.html",
-    "href": "confronto.html",
-    "title": "Zenodo o PsychArchives?",
-    "section": "",
-    "text": "Parole chiave: confronto confrontare differenze differenza scelta scegliere quale Zenodo PsychArchives.\n\n\n\n\n\n\n\n\n\n\nZenodo\nPsychArchives\n\n\n\n\nAmbito\nGeneralista\nPsicologia e discipline vicine\n\n\nSpazio\n50 GB per record\n1 GB per oggetto\n\n\nUn progetto si deposita come\nUno zip, oppure più record collegati\nUn unico invio (bundle) con più oggetti, uno per tipo, collegati fra loro\n\n\nControllo prima della pubblicazione\nNessuno sul contenuto, salvo nelle community con revisione\nControllo formale dello staff, di solito entro due giorni lavorativi\n\n\nCondividere prima di pubblicare\nLink segreto sulla bozza; l’anonimizzazione è a mano\nReviewer link, anonimizzato di default\n\n\nCorrezioni dopo la pubblicazione\nIn autonomia, entro 30 giorni\nSu richiesta, entro una settimana\n\n\nLicenze\nQualsiasi; di default CC BY 4.0\nCC BY, CC BY-SA, CC0 e licenza per scopi scientifici; per il codice LGPL, Apache, 0BSD\n\n\n\nI dettagli di ciascuno sono nelle pagine Depositare su Zenodo e Depositare su PsychArchives."
+    "objectID": "skill.html#che-cosa-fa",
+    "href": "skill.html#che-cosa-fa",
+    "title": "La skill fair-check",
+    "section": "Che cosa fa",
+    "text": "Che cosa fa\n\n1. Guarda che cosa c’è nella cartella\nUno script legge tutti i file e prepara un inventario: dati, codice, manoscritto, file dell’esperimento. Non modifica niente.\nRiconosce i file di Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS), Gorilla, OpenSesame ed E-Prime. Sa che cosa scrive ciascun programma, in che unità (key_resp.rt di PsychoPy è in secondi, Reaction Time di Gorilla in millisecondi) e quali colonne contengono dati personali.\n\n\n2. Chiede che cosa fare\nPrima di cominciare i controlli, l’assistente fa poche domande, tutte in una volta. A ciascuna c’è una risposta predefinita, che vale se rispondete “fai tutto”:\n\n\n\nDomanda\nSe non rispondete\n\n\n\n\nChe cosa controllo? Dati e documentazione, il codice, i numeri del manoscritto, la versione da depositare\ntutto\n\n\nAvete documenti che aiutano a capire lo studio? Preregistrazione, protocollo, codebook\nno\n\n\nIl deposito deve seguire lo standard Psych-DS?\nno\n\n\nDove lo depositerete?\nZenodo\n\n\nIl codice nuovo, se serve, in R o in Python?\nla lingua dei vostri script\n\n\nDivido gli script lunghi per fasi (pulizia, analisi, figure)?\nsì\n\n\nUso i modelli già stimati, invece di stimarli di nuovo?\nsì, se ci sono\n\n\n\nLe domande servono perché ogni controllo costa tempo e consuma l’uso del vostro abbonamento al servizio AI: eseguire un modello bayesiano può richiedere un’ora.\n\n\n3. Controlla\nI controlli dipendono da che cosa c’è nella cartella e da che cosa avete scelto:\n\n\n\n\n\n\n\nArea\nChe cosa guarda\n\n\n\n\nDati\nvalori fuori scala, valori mancanti scritti in più modi (NA, -99, cella vuota), categorie scritte in modi diversi, righe duplicate, la stessa persona con due età, ID che non coincidono fra i file\n\n\nDocumentazione\nnomi dei file, formati, il README e le sue otto sezioni, un data dictionary per ogni file di dati, licenze diverse per dati e codice\n\n\nDati personali\nnomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero\n\n\nCodice\nesegue gli script in una copia della cartella, dice quali si fermano e perché (setwd(), percorsi assoluti, pacchetti mancanti), elenca i pacchetti, segnala i numeri casuali senza seed\n\n\nManoscritto\ncerca nell’output degli script ogni statistica riportata (M, SD, t, F, p, intervalli; anche fattori di Bayes e intervalli di credibilità), controlla N, esclusioni e Data availability\n\n\n\n\n\n4. Scrive un rapporto\nUn’area per riga, con ✅, ⚠️ o ❌, e sotto i problemi trovati: il file, la colonna, la riga, che cosa troverebbe chi prova a riusare i dati. Alla fine, le cinque o sei cose da sistemare per prime, in ordine.\n\n\n5. Costruisce la versione da depositare\nSe lo chiedete, crea una nuova cartella accanto alla vostra, sempre con le stesse sottocartelle:\nprogetto_deposit/\n├── README.md         le otto sezioni della dispensa\n├── LICENSE           cosa vale per cosa, poi i testi completi\n├── data/             i dati, con nomi come study-stroop_task-flanker_data.csv\n│   └── raw/          gli export originali\n├── dictionaries/     un data dictionary per ogni file di dati\n├── scripts/          il codice, numerato nell'ordine in cui va eseguito\n├── output/           figure e tabelle prodotte dagli script\n├── materials/        l'esperimento e i materiali propri\n└── docs/             preprint, preregistrazione\nPrima di costruirla vi mostra il piano e chiede le decisioni che spettano a voi: quali file lasciare fuori, quali colonne personali togliere, se correggere gli errori trovati nei dati, quali licenze usare (predefinite: CC0 per i dati, GPL-3.0 per il codice, CC BY 4.0 per preprint e materiali). Poi aggiorna i percorsi negli script, li esegue di nuovo nella cartella nuova per verificare che funzionino e prepara lo zip da caricare."
   },
   {
-    "objectID": "esempio.html",
-    "href": "esempio.html",
-    "title": "Un esempio completo",
-    "section": "",
-    "text": "Parole chiave: esempio completo modello template progetto riusabile cartella pronta fatto bene tutto insieme."
+    "objectID": "skill.html#le-regole-che-segue",
+    "href": "skill.html#le-regole-che-segue",
+    "title": "La skill fair-check",
+    "section": "Le regole che segue",
+    "text": "Le regole che segue\n\nLa vostra cartella non viene mai modificata. Tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare.\nCambia il meno possibile. Nei vostri script corregge solo quello che impedisce di eseguirli, nello stile del codice che c’è già, ed elenca ogni modifica. Le correzioni ai dati le propone, non le applica senza il vostro accordo.\nNon installa pacchetti da sola. Se mancano, ve lo dice e chiede.\nNon inventa. Nel data dictionary scrive solo quello che trova scritto da qualche parte (nei dati, nel README, nel codice, nella documentazione dei programmi); il resto resta TODO, da completare voi."
   },
   {
-    "objectID": "esempio.html#la-cartella",
-    "href": "esempio.html#la-cartella",
-    "title": "Un esempio completo",
-    "section": "La cartella",
-    "text": "La cartella\nstroop-anxiety/\n├── README.md                        cos'è e come si riproduce\n├── CITATION.cff                     come citare il progetto (non essenziale)\n├── LICENSE                          licenze di dati, codice, materiali\n├── renv.lock                        versioni esatte dei pacchetti R\n├── stroop-anxiety.Rproj             progetto RStudio (working directory)\n├── data/\n│   ├── raw/                         export originali, sola lettura\n│   ├── stroop_data.csv              un trial per riga\n│   ├── stroop_dictionary.csv        definizione di ogni colonna\n│   ├── questionnaire_data.csv       un partecipante per riga\n│   └── questionnaire_dictionary.csv definizione di ogni colonna\n├── materials/                       task e istruzioni\n├── scripts/\n│   ├── 01_preprocessing.R           dai grezzi ai dati puliti\n│   └── 02_analysis.R                analisi e figure\n└── docs/                            preregistrazione, preprint\nNomi senza spazi né accenti, script numerati nell’ordine di esecuzione, i dati grezzi separati e in sola lettura."
+    "objectID": "skill.html#come-installarla",
+    "href": "skill.html#come-installarla",
+    "title": "La skill fair-check",
+    "section": "Come installarla",
+    "text": "Come installarla\nServe un assistente che sappia leggere i file ed eseguire comandi, sul vostro computer o nel suo ambiente: senza questo la skill non può lanciare i suoi script. Sul computer che esegue i comandi servono Python 3 e, per il codice in R, R; per leggere i file Excel e SPSS, le librerie Python openpyxl e pyreadstat (se mancano, la skill dice quali file non ha potuto leggere).\nClaude (app per computer e claude.ai). Nelle impostazioni di Claude, nella sezione dedicata alle skill, caricate il file fair-check.skill; serve che sia attiva l’esecuzione di codice. Da quel momento la skill è disponibile nelle conversazioni e, nell’app per computer, anche nella scheda Code.\nClaude Code dal terminale. Estraete l’archivio e copiate la cartella fair-check in ~/.claude/skills/.\nChatGPT e Codex (OpenAI). Codex legge le skill dalla cartella ~/.agents/skills/ nell’app ChatGPT per computer, nel terminale e nell’estensione per gli editor: estraete l’archivio e copiate lì la cartella fair-check. Le istruzioni aggiornate sono nella documentazione di OpenAI.\nAltri assistenti. Gli strumenti che supportano il formato Agent Skills leggono le skill da una cartella propria, indicata nella loro documentazione: copiate lì la cartella fair-check. Un assistente che non supporta le skill ma sa leggere file ed eseguire Python può comunque usarla: dategli la cartella fair-check insieme a quella del progetto e chiedetegli di seguire le istruzioni di SKILL.md."
   },
   {
-    "objectID": "esempio.html#il-readme",
-    "href": "esempio.html#il-readme",
-    "title": "Un esempio completo",
-    "section": "Il README",
-    "text": "Il README\n# Stroop and trait anxiety\n\nStroop interference as a function of trait anxiety.\n100 adults; colour-word Stroop task (PsychoPy) and a STAI-Y questionnaire,\ncollected in the lab in March 2026.\n\n## Contents\n- data/stroop_data.csv — one trial per row\n- data/stroop_dictionary.csv — its columns\n- data/questionnaire_data.csv — one participant per row\n- data/questionnaire_dictionary.csv — its columns\n- data/raw/ — original exports, read-only\n- scripts/01_preprocessing.R — cleans and merges the data\n- scripts/02_analysis.R — models and figures\n- materials/ — task and instructions\n- renv.lock — exact R package versions\n- stroop-anxiety.Rproj — RStudio project\n\n## How to reproduce\nOpen stroop-anxiety.Rproj in RStudio (R &gt;= 4.3), then:\n  renv::restore()   # installs the exact package versions (renv.lock)\n  source(\"scripts/01_preprocessing.R\")\n  source(\"scripts/02_analysis.R\")\n\n## License\nData CC0-1.0, code GPL-3.0, materials CC BY 4.0 (see LICENSE).\nSTAI-Y is a third-party instrument: not included, cite it.\n\n## How to cite\nSee CITATION.cff. Dataset: https://doi.org/10.5281/zenodo.XXXXXXX\n\n## Links\nArticle: https://doi.org/10.xxxx/xxxxx\nPreregistration: https://doi.org/10.17605/OSF.IO/XXXXX"
+    "objectID": "skill.html#come-usarla",
+    "href": "skill.html#come-usarla",
+    "title": "La skill fair-check",
+    "section": "Come usarla",
+    "text": "Come usarla\nAprite la cartella del progetto nell’assistente e scrivete, per esempio:\n\nControlla se questa cartella è pronta da depositare su Zenodo.\nControlla solo il codice: gira su un altro computer?\nI numeri del preprint escono dagli script?\nPrepara la versione da depositare, con Psych-DS.\n\nL’assistente riconosce dalla richiesta che la skill serve; potete anche richiamarla per nome (/fair-check in Claude Code, $fair-check in Codex). Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip; lì però R di solito non è installato, e il codice R viene letto ma non eseguito.\nL’assistente chiede l’autorizzazione prima di eseguire i comandi. La versione da depositare viene creata accanto alla cartella del progetto, fuori dalla cartella aperta: l’assistente chiede il permesso di scrivere lì."
   },
   {
-    "objectID": "esempio.html#il-data-dictionary",
-    "href": "esempio.html#il-data-dictionary",
-    "title": "Un esempio completo",
-    "section": "Il data dictionary",
-    "text": "Il data dictionary\nUn estratto di data/stroop_dictionary.csv: una riga per ogni colonna del dataset (questionnaire_dictionary.csv fa lo stesso per il questionario).\n\n\n\n\n\n\n\n\n\n\n\nvariable_name\nlabel\ntype\nunit\nallowed_values\nmissing_values\n\n\n\n\nparticipant\nparticipant code\nstring\n\np01-p100\n\n\n\nblock\nblock number\ninteger\n\n1-4\n\n\n\ncongruent\ncongruent trial (word = colour)\nboolean\n\nTRUE / FALSE\n\n\n\nrt_ms\nreaction time\ninteger\nms\n200-2000\nempty cell\n\n\ncorrect\ncorrect response\nboolean\n\nTRUE / FALSE"
+    "objectID": "skill.html#che-cosa-vede-claude",
+    "href": "skill.html#che-cosa-vede-claude",
+    "title": "La skill fair-check",
+    "section": "Che cosa vede Claude",
+    "text": "Che cosa vede Claude\nIn Claude Code la cartella resta sul vostro computer e gli script girano lì. Claude legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di Anthropic come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.\nSu claude.ai lo zip allegato viene caricato nell’ambiente della conversazione.\nPrima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato e le regole del vostro ateneo, oppure togliete prima i dati personali."
   },
   {
-    "objectID": "esempio.html#le-licenze",
-    "href": "esempio.html#le-licenze",
-    "title": "Un esempio completo",
-    "section": "Le licenze",
-    "text": "Le licenze\n\n\n\nComponente\nLicenza\n\n\n\n\nDati (data/)\nCC0-1.0\n\n\nCodice (scripts/)\nGPL-3.0\n\n\nMateriali propri (materials/)\nCC BY 4.0\n\n\nStrumenti di terzi (STAI-Y)\nnessuna: non si depositano, si citano"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Strumenti per una gestione FAIR",
-    "section": "",
-    "text": "Vademecum\n\n\n\nVademecum FAIR (PDF, 8 pagine): l’essenziale per rendere FAIR un deposito (formati aperti, README, data dictionary, licenze, Zenodo).\n\n\nDove mettere dati, codice e materiali, e cosa allegarci.\n\n\n1. DATI\nDove: Zenodo (50 GB per record) · PsychArchives (1 GB per oggetto) · Research Data Unipd\nLicenza: CC0, o CC BY 4.0 se volete l’obbligo attribuzione.\nCon: README e data dictionary\n\n\n2. MATERIALI\nDove: nello stesso deposito dei dati. Oppure su GitHub o GitLab (es. task sviluppati su PsychoPy/Pavlovia)\nLicenza: CC BY 4.0\nMai: i test commerciali. Si citano, non si depositano\n\n\n3. CODICE\nDove: GitHub per lavorare, una release archiviata su Zenodo per avere il DOI\nLicenza: GPL-3.0 per il copyleft, MIT per la massima libertà\nCon: un file CITATION.cff"
-  },
-  {
-    "objectID": "ma.html",
-    "href": "ma.html",
-    "title": "OSF a parte: che cosa condividiamo?",
-    "section": "",
-    "text": "Proviamo, a coppie: scambiatevi le cartelle, l’ultimo lavoro che avete pubblicato. Chi non ha il computer o una cartella pronta si unisce a una coppia.\nAprite la cartella che avete ricevuto e, senza chiedere niente a chi l’ha prodotta, spuntate quello che riuscite a trovare:\n\nun file che descrive cosa contiene la cartella\ni dati sono in un formato aperto (CSV, TXT), non solo .xlsx\nogni colonna nel dataset è spiegata da qualche parte: nome, unità, codifica\ni file hanno nomi che dicono che cosa contengono\nc’è una licenza, quindi si sa a quali condizioni riusare i dati\nsi capisce quale script produce quali risultati, e in che ordine\nsi capisce di cosa tratta lo studio"
-  },
-  {
-    "objectID": "repository.html",
-    "href": "repository.html",
-    "title": "Dove archiviare",
-    "section": "",
-    "text": "Parole chiave: dove depositare archivio caricare pubblicare mettere Dataverse Dryad Figshare OpenNeuro; dati personali sensibili anonimizzare anonimizzazione privacy consenso identificabili accesso ristretto restricted riservati; limiti limite spazio quota GB capienza dimensione peso."
-  },
-  {
-    "objectID": "repository.html#repository-generalisti",
-    "href": "repository.html#repository-generalisti",
-    "title": "Dove archiviare",
-    "section": "Repository generalisti",
-    "text": "Repository generalisti\n\n\n\nServizio\nGestito da\nSpazio\nNote\n\n\n\n\nZenodo\nCERN, con finanziamenti UE\n50 GB per singolo record (max 100 files) Altre info\nAccetta diversi tipi di file, gestisce versioni, integrazione automatica con GitHub, accesso aperto/embargo/ristretto/chiuso, “communities” per raccogliere i prodotti di un progetto o di un laboratorio.\n\n\nResearch Data Unipd\nUniversità di Padova (Sistema Bibliotecario)\n2,5 GB per singolo file\nRequisiti dei finanziatori. Sede naturale per i dati dei progetti Unipd, purchè si sia sicuri di rimanere Unipd\n\n\nDryad\nno-profit organization\n10GB per file, di più su richiesta. Altre info\nCuration umana, il personale controlla davvero i file prima della pubblicazione. Richiede licenza CC0 per i dati. A pagamento per deposito, spesso coperto da abbonamento istituzionale o dalla rivista.\n\n\nFigshare\nDigital Science (commerciale)\n20 GB per record; altre info\nInfrastrutture statunitensi (Amazon Web Services), europee nel caso di accordi con l’università.\n\n\n\nLe quote cambiano: quelle qui sopra sono verificate a settembre 2026."
-  },
-  {
-    "objectID": "repository.html#repository-disciplinari-per-la-psicologia",
-    "href": "repository.html#repository-disciplinari-per-la-psicologia",
-    "title": "Dove archiviare",
-    "section": "Repository disciplinari per la psicologia",
-    "text": "Repository disciplinari per la psicologia\n\n\n\nServizio\nCosa accetta\nSpazio\nNote\n\n\n\n\nPsychArchives (ZPID, Leibniz Institute for Psychology)\nCirca venti tipi di oggetti: articoli, preprint, dati, codice, materiali supplementari, preregistrazioni, test e strumenti, materiali multimediali\n1 GB per oggetto, gratuito.\nGratuito, oggetti dello stesso studio collegati fra loro. Offre anche licenze per solo uso scientifico.\n\n\nOpenNeuro\nDati di neuroimaging (MRI, MEG, EEG, iEEG, PET)\nNessun tetto pubblicato.\nGratuito. Richiede il formato BIDS, che viene validato automaticamente al caricamento.\n\n\n\nPer cercare in modo sistematico, repository disciplinari e non: re3data.org."
-  },
-  {
-    "objectID": "repository.html#dati-che-non-si-possono-aprire",
-    "href": "repository.html#dati-che-non-si-possono-aprire",
-    "title": "Dove archiviare",
-    "section": "Dati che non si possono aprire",
-    "text": "Dati che non si possono aprire\nSe i dati sono identificabili o il consenso non copre la condivisione, restano alcune strade praticabili:\n\nMetadati pubblici e deposito ad accesso ristretto con procedura di richiesta documentata.\nDataset derivato: pubblicare aggregati, statistiche sufficienti.\nDati sintetici che riproducono la struttura del dataset reale."
-  },
-  {
-    "objectID": "segnala.html",
-    "href": "segnala.html",
-    "title": "Segnalare un errore o una correzione",
-    "section": "",
-    "text": "Hai trovato un refuso, un link che non funziona o qualcosa da correggere? Ogni segnalazione è utile, grazie."
-  },
-  {
-    "objectID": "segnala.html#scrivimi-una-email",
-    "href": "segnala.html#scrivimi-una-email",
-    "title": "Segnalare un errore o una correzione",
-    "section": "Scrivimi una email",
-    "text": "Scrivimi una email\nIndirizzo: margherita.calderan@unipd.it\nNella mail indica:\n\nla pagina dove hai notato il problema (il titolo, oppure l’indirizzo che vedi nella barra del browser);\ncosa hai notato e, se ti va, come lo correggeresti."
+    "objectID": "skill.html#esempi",
+    "href": "skill.html#esempi",
+    "title": "La skill fair-check",
+    "section": "Esempi",
+    "text": "Esempi\nTre progetti inventati, con i problemi tipici, su cui è stata eseguita la skill: solo dati, dati e codice, dati, codice e preprint. Per ognuno ci sono la cartella originale, il rapporto e la versione da depositare. Sono stati prodotti con Claude e con una versione precedente della skill, che applicava sempre Psych-DS."
   },
   {
     "objectID": "struttura-2.html",
@@ -397,5 +432,12 @@
     "title": "Psych-DS",
     "section": "Neuroimaging: BIDS",
     "text": "Neuroimaging: BIDS\nSe lavorate con MRI, EEG, MEG o fNIRS, lo standard è BIDS: molto più prescrittivo, (validator, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.\n\nSchema dei nomi dei file adattato dal sito di BIDS; regole ed esempio di dataset_description.json adattati dalla documentazione di Psych-DS."
+  },
+  {
+    "objectID": "skill.html#che-cosa-vede-lassistente",
+    "href": "skill.html#che-cosa-vede-lassistente",
+    "title": "La skill fair-check",
+    "section": "Che cosa vede l’assistente",
+    "text": "Che cosa vede l’assistente\nQuando l’assistente lavora sul vostro computer (Claude Code, Codex), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.\nNelle versioni web lo zip allegato viene caricato sui server del servizio.\nPrima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato, le regole del vostro ateneo e le condizioni del servizio AI che usate, oppure togliete prima i dati personali."
   }
 ]
