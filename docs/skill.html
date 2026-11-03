@@ -185,12 +185,23 @@ ul.task-list li input[type="checkbox"] {
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">In questa pagina</h2>
    
+  <ul>
+  <li><a href="#per-cominciare" id="toc-per-cominciare" class="nav-link active" data-scroll-target="#per-cominciare">Per cominciare</a>
   <ul class="collapse">
-  <li><a href="#che-cosa-fa" id="toc-che-cosa-fa" class="nav-link active" data-scroll-target="#che-cosa-fa">Che cosa fa</a></li>
+  <li><a href="#installatela" id="toc-installatela" class="nav-link" data-scroll-target="#installatela">1. Installatela</a></li>
+  <li><a href="#chiedete-il-controllo" id="toc-chiedete-il-controllo" class="nav-link" data-scroll-target="#chiedete-il-controllo">2. Chiedete il controllo</a></li>
+  <li><a href="#leggete-il-rapporto" id="toc-leggete-il-rapporto" class="nav-link" data-scroll-target="#leggete-il-rapporto">3. Leggete il rapporto</a></li>
+  </ul></li>
+  <li><a href="#nel-dettaglio" id="toc-nel-dettaglio" class="nav-link" data-scroll-target="#nel-dettaglio">Nel dettaglio</a>
+  <ul class="collapse">
+  <li><a href="#che-cosa-controlla" id="toc-che-cosa-controlla" class="nav-link" data-scroll-target="#che-cosa-controlla">Che cosa controlla</a></li>
+  <li><a href="#le-domande-iniziali" id="toc-le-domande-iniziali" class="nav-link" data-scroll-target="#le-domande-iniziali">Le domande iniziali</a></li>
+  <li><a href="#la-versione-da-depositare" id="toc-la-versione-da-depositare" class="nav-link" data-scroll-target="#la-versione-da-depositare">La versione da depositare</a></li>
   <li><a href="#le-regole-che-segue" id="toc-le-regole-che-segue" class="nav-link" data-scroll-target="#le-regole-che-segue">Le regole che segue</a></li>
-  <li><a href="#come-installarla" id="toc-come-installarla" class="nav-link" data-scroll-target="#come-installarla">Come installarla</a></li>
-  <li><a href="#come-usarla" id="toc-come-usarla" class="nav-link" data-scroll-target="#come-usarla">Come usarla</a></li>
+  <li><a href="#che-cosa-serve-sul-computer" id="toc-che-cosa-serve-sul-computer" class="nav-link" data-scroll-target="#che-cosa-serve-sul-computer">Che cosa serve sul computer</a></li>
   <li><a href="#che-cosa-vede-lassistente" id="toc-che-cosa-vede-lassistente" class="nav-link" data-scroll-target="#che-cosa-vede-lassistente">Che cosa vede l’assistente</a></li>
+  <li><a href="#il-formato" id="toc-il-formato" class="nav-link" data-scroll-target="#il-formato">Il formato</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -218,10 +229,14 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="visually-hidden">
-<p>Parole chiave: skill Agent Skills Claude ChatGPT Codex OpenAI Anthropic intelligenza artificiale AI assistente controllo cartella verifica progetto FAIR deposito pronto Zenodo PsychArchives; data dictionary automatico README licenza Psych-DS; codice riproducibile numeri manoscritto preprint; Qualtrics PsychoPy jsPsych Gorilla OpenSesame E-Prime.</p>
+<p>Parole chiave: skill Agent Skills Claude ChatGPT Codex OpenAI Anthropic intelligenza artificiale AI assistente controllo cartella verifica progetto FAIR deposito pronto Zenodo PsychArchives; data dictionary automatico README licenza Psych-DS; codice riproducibile numeri manoscritto preprint; punteggi totali item invertiti; Qualtrics PsychoPy jsPsych Gorilla OpenSesame E-Prime.</p>
 </div>
-<p><code>fair-check</code> è una <em>skill</em>: una cartella di istruzioni e di script in Python che un assistente AI segue quando gli si chiede di controllare la cartella di un progetto di ricerca. Applica le regole di questa dispensa (nomi, formati, README, data dictionary, licenze, dati personali), prova a eseguire il codice, confronta i numeri del manoscritto con l’output degli script e, se volete, costruisce una versione della cartella pronta da caricare su <a href="./zenodo.html">Zenodo</a> o su un altro repository.</p>
-<p>La skill segue <a href="https://agentskills.io">Agent Skills</a>, un formato aperto: un file <code>SKILL.md</code> con le istruzioni, più gli script e i documenti che servono. Il formato è nato da Anthropic per Claude ed è stato adottato da altri strumenti, tra cui Codex di OpenAI, disponibile anche nell’app ChatGPT per desktop. La stessa cartella funziona con tutti.</p>
+<p><code>fair-check</code> è una <em>skill</em>: una cartella di istruzioni e di script in Python che un assistente AI (Claude, ChatGPT/Codex e altri) segue quando gli chiedete di controllare la cartella di un progetto di ricerca. Applica le regole di questa dispensa e vi restituisce due cose:</p>
+<ul>
+<li><strong>un rapporto</strong>: che cosa impedirebbe a un estraneo di trovare, aprire, capire e riusare i vostri dati e il vostro codice, file per file, e quali numeri del manoscritto non tornano con i dati o con l’output degli script;</li>
+<li><strong>se lo chiedete, una versione della cartella pronta da depositare</strong> su <a href="./zenodo.html">Zenodo</a> o su un altro repository, con README, data dictionary, licenze e lo zip da caricare.</li>
+</ul>
+<p>La vostra cartella non viene modificata.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Da scaricare">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -232,19 +247,121 @@ Da scaricare
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a>: un archivio zip con la cartella <code>fair-check</code>, istruzioni per installarla sotto.</p>
+<p><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a>: un archivio zip che contiene la cartella <code>fair-check</code>.</p>
 </div>
 </div>
-<section id="che-cosa-fa" class="level2">
-<h2 class="anchored" data-anchor-id="che-cosa-fa">Che cosa fa</h2>
-<section id="guarda-che-cosa-cè-nella-cartella" class="level3">
-<h3 class="anchored" data-anchor-id="guarda-che-cosa-cè-nella-cartella">1. Guarda che cosa c’è nella cartella</h3>
-<p>Uno script legge tutti i file e prepara un inventario: dati, codice, manoscritto, file dell’esperimento. Non modifica niente.</p>
-<p>Riconosce i file di Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS), Gorilla, OpenSesame ed E-Prime. Sa che cosa scrive ciascun programma, in che unità (<code>key_resp.rt</code> di PsychoPy è in secondi, <code>Reaction Time</code> di Gorilla in millisecondi) e quali colonne contengono dati personali.</p>
+<section id="per-cominciare" class="level2">
+<h2 class="anchored" data-anchor-id="per-cominciare">Per cominciare</h2>
+<section id="installatela" class="level3">
+<h3 class="anchored" data-anchor-id="installatela">1. Installatela</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Assistente</th>
+<th style="text-align: left;">Come</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Claude</strong> (app per computer e claude.ai)</td>
+<td style="text-align: left;">nelle impostazioni, sezione dedicata alle skill, caricate <a href="skill/fair-check.skill">fair-check.skill</a>; serve che sia attiva l’esecuzione di codice. La skill è poi disponibile in tutte le conversazioni e nella scheda Code dell’app</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Claude Code</strong> dal terminale</td>
+<td style="text-align: left;">estraete l’archivio e copiate la cartella <code>fair-check</code> in <code>~/.claude/skills/</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>ChatGPT e Codex</strong> (OpenAI)</td>
+<td style="text-align: left;">estraete l’archivio e copiate la cartella <code>fair-check</code> in <code>~/.agents/skills/</code>: la leggono l’app ChatGPT per computer, Codex nel terminale e l’estensione per gli editor (<a href="https://learn.chatgpt.com/docs/build-skills">documentazione di OpenAI</a>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Altri assistenti</strong></td>
+<td style="text-align: left;">se supportano il formato <a href="https://agentskills.io">Agent Skills</a>, copiate <code>fair-check</code> nella cartella delle skill indicata nella loro documentazione; altrimenti, se sanno leggere file ed eseguire Python, date loro la cartella <code>fair-check</code> insieme a quella del progetto e chiedete di seguire <code>SKILL.md</code></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="chiede-che-cosa-fare" class="level3">
-<h3 class="anchored" data-anchor-id="chiede-che-cosa-fare">2. Chiede che cosa fare</h3>
-<p>Prima di cominciare i controlli, l’assistente fa poche domande, tutte in una volta. A ciascuna c’è una risposta predefinita, che vale se rispondete “fai tutto”:</p>
+<section id="chiedete-il-controllo" class="level3">
+<h3 class="anchored" data-anchor-id="chiedete-il-controllo">2. Chiedete il controllo</h3>
+<p>Aprite la cartella del progetto nell’assistente e scrivete, per esempio:</p>
+<ul>
+<li><em>Controlla se questa cartella è pronta da depositare su Zenodo.</em></li>
+<li><em>Controlla solo il codice: gira su un altro computer?</em></li>
+<li><em>I numeri del preprint escono dai dati e dagli script?</em></li>
+<li><em>Prepara la versione da depositare.</em></li>
+</ul>
+<p>L’assistente capisce dalla richiesta che serve la skill; potete anche richiamarla per nome (<code>/fair-check</code> in Claude Code, <code>$fair-check</code> in Codex). Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip.</p>
+<p>Prima di cominciare vi fa alcune domande, tutte insieme (che cosa controllare, dove depositare…). Se rispondete “fai tutto”, usa le risposte predefinite, elencate <a href="#le-domande-iniziali">più sotto</a>. Prima di eseguire comandi chiede il vostro permesso.</p>
+</section>
+<section id="leggete-il-rapporto" class="level3">
+<h3 class="anchored" data-anchor-id="leggete-il-rapporto">3. Leggete il rapporto</h3>
+<p>Il rapporto è nella vostra lingua ed è ordinato per importanza:</p>
+<ol type="1">
+<li><strong>Risultati che potrebbero cambiare</strong>, se ce ne sono: un errore nei dati che entra nelle analisi, un punteggio totale calcolato diversamente dai suoi item, un numero del manoscritto che non esce dai dati o dal codice. Per ciascuno: il valore riportato, quello trovato, la tabella o la frase che cambierebbe. Qui potrebbe servire una correzione all’articolo, non solo alla cartella.</li>
+<li><strong>Una tabella con lo stato di ogni area</strong>: dati, struttura e nomi, formati, README, data dictionary, licenza, codice, pacchetti, manoscritto, dati personali.</li>
+<li><strong>I problemi area per area</strong>, ciascuno con il file, la colonna o la riga e il dato che lo dimostra (“in 211 righe su 234”, “nel file 96.16, nella Tabella 1 89.77”).</li>
+<li><strong>Le cinque o sei cose da sistemare per prime</strong>, in ordine.</li>
+</ol>
+<p>Quello che non è stato possibile controllare è detto esplicitamente, con il motivo: per esempio “gli script non sono stati eseguiti perché in questo ambiente non c’è R”. Non viene contato come un problema della cartella.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Dati personali">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dati personali
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>L’assistente legge i file che apre e l’output degli script, e questi passano dai server di chi fornisce il servizio AI. Prima di usare la skill su dati sensibili, controllate consenso informato, regole del vostro ateneo e condizioni del servizio, oppure togliete prima i dati personali. <a href="#che-cosa-vede-lassistente">Dettagli</a>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="nel-dettaglio" class="level2">
+<h2 class="anchored" data-anchor-id="nel-dettaglio">Nel dettaglio</h2>
+<section id="che-cosa-controlla" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosa-controlla">Che cosa controlla</h3>
+<p>Uno script legge prima tutti i file e prepara un riassunto per l’assistente: che cosa c’è (dati, codice, manoscritto, file dell’esperimento) e che cosa non va. Ogni segnalazione è marcata come <em>certa</em> (stabilita dallo script) o <em>da verificare</em>: l’assistente controlla queste ultime nei dati, nel README o nel codice prima di riportarle. I controlli dipendono da che cosa c’è nella cartella e da che cosa avete scelto:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Area</th>
+<th style="text-align: left;">Che cosa guarda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dati</td>
+<td style="text-align: left;">riconosce che cosa misura ogni colonna (età, genere, tempi di reazione, accuratezza, item di un questionario, condizione) e cerca gli errori tipici di quel dato: un’età di 999, date di nascita al posto dell’età, tempi in secondi mescolati a millisecondi, un 7 fra item da 1 a 5, <code>F</code> e <code>Femmina</code> come due categorie. Ricalcola riga per riga gli item invertiti e i punteggi totali e di sottoscala: un item “invertito” che non lo è, o un totale che somma una colonna in più, cambiano i risultati. Poi: valori mancanti scritti in più modi (<code>NA</code>, <code>-99</code>, cella vuota), righe duplicate, file identici, la stessa persona con valori diversi in due file, ID che non coincidono fra i file</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Documentazione</td>
+<td style="text-align: left;">nomi di file e colonne, formati, il README e le sue sezioni, un data dictionary per ogni file di dati, licenze diverse per dati e codice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dati personali</td>
+<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Codice</td>
+<td style="text-align: left;">esegue gli script in una copia della cartella e dice quali si fermano e perché (<code>setwd()</code>, percorsi assoluti, file mancanti, pacchetti mancanti, un ordine di esecuzione che non funziona); elenca i pacchetti e li confronta con <code>renv.lock</code>; segnala i numeri casuali senza seed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manoscritto</td>
+<td style="text-align: left;">cerca nell’output degli script ogni statistica riportata, frequentista o bayesiana; controlla il testo con sé stesso (reclutati meno esclusi uguale N, gruppi che sommano a N, percentuali, gradi di libertà, scale di risposta e fasce d’età dichiarate); controlla esclusioni, versione del PDF e Data availability</td>
+</tr>
+</tbody>
+</table>
+<p>Riconosce i file di Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS), Gorilla, OpenSesame ed E-Prime: sa che cosa scrive ciascun programma, in che unità (<code>key_resp.rt</code> di PsychoPy è in secondi, <code>Reaction Time</code> di Gorilla in millisecondi) e quali colonne contengono dati personali.</p>
+</section>
+<section id="le-domande-iniziali" class="level3">
+<h3 class="anchored" data-anchor-id="le-domande-iniziali">Le domande iniziali</h3>
+<p>Controllare tutto costa tempo e consuma l’uso del vostro abbonamento al servizio AI (stimare di nuovo un modello bayesiano può richiedere un’ora): per questo la skill chiede prima che cosa fare. Le domande sono solo quelle che valgono per la vostra cartella.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -283,53 +400,10 @@ Da scaricare
 </tr>
 </tbody>
 </table>
-<p>Le domande servono perché ogni controllo costa tempo e consuma l’uso del vostro abbonamento al servizio AI: eseguire un modello bayesiano può richiedere un’ora.</p>
 </section>
-<section id="controlla" class="level3">
-<h3 class="anchored" data-anchor-id="controlla">3. Controlla</h3>
-<p>I controlli dipendono da che cosa c’è nella cartella e da che cosa avete scelto:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Area</th>
-<th style="text-align: left;">Che cosa guarda</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Dati</td>
-<td style="text-align: left;">riconosce che cosa misura ogni colonna (età, genere, tempi di reazione, accuratezza, item di un questionario, condizione) e cerca gli errori tipici di quel dato: un’età di 999, date di nascita al posto dell’età, tempi in secondi mescolati a millisecondi, un 7 fra item da 1 a 5, <code>F</code> e <code>Femmina</code> come due categorie. Ricalcola riga per riga gli item invertiti e i punteggi totali e di sottoscala: un item “invertito” che non lo è, o un totale che somma una colonna in più, cambiano i risultati. Poi: valori mancanti scritti in più modi (<code>NA</code>, <code>-99</code>, cella vuota), righe duplicate, la stessa persona con due età, ID che non coincidono fra i file</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Documentazione</td>
-<td style="text-align: left;">nomi dei file, formati, il README, un data dictionary per ogni file di dati, licenze diverse per dati e codice</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Dati personali</td>
-<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Codice</td>
-<td style="text-align: left;">esegue gli script in una copia della cartella, dice quali si fermano e perché (<code>setwd()</code>, percorsi assoluti, pacchetti mancanti), elenca i pacchetti e li confronta con <code>renv.lock</code>, segnala i numeri casuali senza seed</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Manoscritto</td>
-<td style="text-align: left;">cerca nell’output degli script ogni statistica riportata, controlla N, esclusioni e Data availability; controlla anche il testo con sé stesso: reclutati meno esclusi uguale N, gruppi che sommano a N, percentuali, gradi di libertà. I numeri che potrebbero essere sbagliati vanno in un blocco a parte, in cima al rapporto</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="scrive-un-rapporto" class="level3">
-<h3 class="anchored" data-anchor-id="scrive-un-rapporto">4. Scrive un rapporto</h3>
-<p>Un’area per riga, con ✅, ⚠️ o ❌, e sotto i problemi trovati: il file, la colonna, la riga, che cosa troverebbe chi prova a riusare i dati. Alla fine, le cinque o sei cose da sistemare per prime, in ordine.</p>
-</section>
-<section id="costruisce-la-versione-da-depositare" class="level3">
-<h3 class="anchored" data-anchor-id="costruisce-la-versione-da-depositare">5. Costruisce la versione da depositare</h3>
-<p>Se lo chiedete, crea una nuova cartella accanto alla vostra, sempre con le stesse sottocartelle:</p>
+<section id="la-versione-da-depositare" class="level3">
+<h3 class="anchored" data-anchor-id="la-versione-da-depositare">La versione da depositare</h3>
+<p>Viene creata accanto alla vostra cartella, sempre con le stesse sottocartelle:</p>
 <pre><code>progetto_deposit/
 ├── README.md         le otto sezioni della dispensa
 ├── LICENSE           cosa vale per cosa, poi i testi completi
@@ -340,45 +414,68 @@ Da scaricare
 ├── output/           figure e tabelle prodotte dagli script
 ├── materials/        l'esperimento e i materiali propri
 └── docs/             preprint, preregistrazione</code></pre>
-<p>Prima di costruirla vi mostra il piano e chiede le decisioni che spettano a voi: quali file lasciare fuori, quali colonne personali togliere, se correggere gli errori trovati nei dati, quali licenze usare (predefinite: CC0 per i dati, GPL-3.0 per il codice, CC BY 4.0 per preprint e materiali). Poi aggiorna i percorsi negli script, li esegue di nuovo nella cartella nuova per verificare che funzionino e prepara lo zip da caricare.</p>
+<p>Prima di costruirla, l’assistente vi mostra il piano e chiede le decisioni che spettano a voi: quali file lasciare fuori, quali colonne personali togliere, se correggere gli errori trovati nei dati, quali licenze usare (predefinite: CC0 per i dati, GPL-3.0 per il codice, CC BY 4.0 per preprint e materiali). Poi aggiorna i percorsi negli script, li esegue di nuovo nella cartella nuova per verificare che funzionino e prepara lo zip da caricare.</p>
 </section>
-</section>
-<section id="le-regole-che-segue" class="level2">
-<h2 class="anchored" data-anchor-id="le-regole-che-segue">Le regole che segue</h2>
+<section id="le-regole-che-segue" class="level3">
+<h3 class="anchored" data-anchor-id="le-regole-che-segue">Le regole che segue</h3>
 <ul>
 <li><strong>La vostra cartella non viene mai modificata.</strong> Tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare.</li>
 <li><strong>Cambia il meno possibile.</strong> Nei vostri script corregge solo quello che impedisce di eseguirli, nello stile del codice che c’è già, ed elenca ogni modifica. Le correzioni ai dati le propone, non le applica senza il vostro accordo.</li>
-<li><strong>Non installa pacchetti da sola.</strong> Se mancano, ve lo dice e chiede. L’eccezione sono i progetti con renv: nella copia esegue <code>renv::restore()</code>, che installa le versioni scritte in <code>renv.lock</code> nella libreria del progetto copiato, non in quella del vostro R.</li>
+<li><strong>Non installa pacchetti nel vostro R.</strong> Se mancano, ve lo dice e chiede. Nei progetti con renv esegue <code>renv::restore()</code> nella copia: le versioni scritte in <code>renv.lock</code> finiscono nella libreria del progetto copiato.</li>
 <li><strong>Non inventa.</strong> Nel data dictionary scrive solo quello che trova scritto da qualche parte (nei dati, nel README, nel codice, nella documentazione dei programmi); il resto resta <code>TODO</code>, da completare voi.</li>
 </ul>
 </section>
-<section id="come-installarla" class="level2">
-<h2 class="anchored" data-anchor-id="come-installarla">Come installarla</h2>
-<p>Serve un assistente che sappia leggere i file ed eseguire comandi, sul vostro computer o nel suo ambiente: senza questo la skill non può lanciare i suoi script. Sul computer che esegue i comandi servono Python 3 e, per il codice in R, R; per leggere i file Excel e SPSS, le librerie Python <code>openpyxl</code> e <code>pyreadstat</code> (se mancano, la skill dice quali file non ha potuto leggere).</p>
-<p><strong>Claude</strong> (app per computer e claude.ai). Nelle impostazioni di Claude, nella sezione dedicata alle skill, caricate il file <a href="skill/fair-check.skill">fair-check.skill</a>; serve che sia attiva l’esecuzione di codice. Da quel momento la skill è disponibile nelle conversazioni e, nell’app per computer, anche nella scheda Code.</p>
-<p><strong>Claude Code dal terminale.</strong> Estraete l’archivio e copiate la cartella <code>fair-check</code> in <code>~/.claude/skills/</code>.</p>
-<p><strong>ChatGPT e Codex</strong> (OpenAI). Codex legge le skill dalla cartella <code>~/.agents/skills/</code> nell’app ChatGPT per computer, nel terminale e nell’estensione per gli editor: estraete l’archivio e copiate lì la cartella <code>fair-check</code>. Le istruzioni aggiornate sono nella <a href="https://learn.chatgpt.com/docs/build-skills">documentazione di OpenAI</a>.</p>
-<p><strong>Altri assistenti.</strong> Gli strumenti che supportano il formato Agent Skills leggono le skill da una cartella propria, indicata nella loro documentazione: copiate lì la cartella <code>fair-check</code>. Un assistente che non supporta le skill ma sa leggere file ed eseguire Python può comunque usarla: dategli la cartella <code>fair-check</code> insieme a quella del progetto e chiedetegli di seguire le istruzioni di <code>SKILL.md</code>.</p>
+<section id="che-cosa-serve-sul-computer" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosa-serve-sul-computer">Che cosa serve sul computer</h3>
+<p>L’assistente deve poter leggere i file ed eseguire comandi, sul vostro computer o nel suo ambiente. Sul computer che esegue i comandi servono:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Che cosa</th>
+<th style="text-align: left;">A che cosa serve</th>
+<th style="text-align: left;">Se manca</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Python 3</td>
+<td style="text-align: left;">gli script della skill</td>
+<td style="text-align: left;">la skill non funziona</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R</td>
+<td style="text-align: left;">eseguire il codice R</td>
+<td style="text-align: left;">il codice viene letto ma non eseguito</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>openpyxl</code>, <code>pyreadstat</code> (librerie Python)</td>
+<td style="text-align: left;">leggere i file Excel e SPSS/Stata</td>
+<td style="text-align: left;">quei file non vengono controllati</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>pdftotext</code>, Ghostscript o <code>pypdf</code></td>
+<td style="text-align: left;">leggere il testo di un manoscritto in PDF</td>
+<td style="text-align: left;">l’assistente lo legge da sé, se può</td>
+</tr>
+</tbody>
+</table>
+<p>Il rapporto si apre con quello che manca e con le sue conseguenze. Nelle versioni web (claude.ai, ChatGPT) R di solito non c’è.</p>
 </section>
-<section id="come-usarla" class="level2">
-<h2 class="anchored" data-anchor-id="come-usarla">Come usarla</h2>
-<p>Aprite la cartella del progetto nell’assistente e scrivete, per esempio:</p>
-<ul>
-<li><em>Controlla se questa cartella è pronta da depositare su Zenodo.</em></li>
-<li><em>Controlla solo il codice: gira su un altro computer?</em></li>
-<li><em>I numeri del preprint escono dagli script?</em></li>
-<li><em>Prepara la versione da depositare, con Psych-DS.</em></li>
-</ul>
-<p>L’assistente riconosce dalla richiesta che la skill serve; potete anche richiamarla per nome (<code>/fair-check</code> in Claude Code, <code>$fair-check</code> in Codex). Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip; lì però R di solito non è installato, e il codice R viene letto ma non eseguito.</p>
-<p>L’assistente chiede l’autorizzazione prima di eseguire i comandi. La versione da depositare viene creata accanto alla cartella del progetto, fuori dalla cartella aperta: l’assistente chiede il permesso di scrivere lì.</p>
+<section id="che-cosa-vede-lassistente" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosa-vede-lassistente">Che cosa vede l’assistente</h3>
+<p>Quando l’assistente lavora sul vostro computer (Claude Code, Codex, l’app Claude per computer), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: lo script riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali. Nelle versioni web, invece, lo zip allegato viene caricato sui server del servizio.</p>
 </section>
-<section id="che-cosa-vede-lassistente" class="level2">
-<h2 class="anchored" data-anchor-id="che-cosa-vede-lassistente">Che cosa vede l’assistente</h2>
-<p>Quando l’assistente lavora sul vostro computer (Claude Code, Codex), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.</p>
-<p>Nelle versioni web lo zip allegato viene caricato sui server del servizio.</p>
-<p>Prima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato, le regole del vostro ateneo e le condizioni del servizio AI che usate, oppure togliete prima i dati personali.</p>
+<section id="il-formato" class="level3">
+<h3 class="anchored" data-anchor-id="il-formato">Il formato</h3>
+<p>La skill segue <a href="https://agentskills.io">Agent Skills</a>, un formato aperto: un file <code>SKILL.md</code> con le istruzioni, più gli script e i documenti che servono. Il formato è nato da Anthropic per Claude ed è stato adottato da altri strumenti, tra cui Codex di OpenAI: la stessa cartella funziona con tutti. I sorgenti sono nella cartella <a href="https://github.com/mar-cald/fair/tree/main/skill"><code>skill/</code></a> del repository di questo sito.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
