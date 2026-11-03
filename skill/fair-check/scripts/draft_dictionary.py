@@ -12,9 +12,12 @@ Writes <stem>_dictionary.csv next to the data file (or to --out), one row per
 column: variable_name, label, type, unit, allowed_values, coding,
 missing_values, source, notes.
 
-Filled from the data: variable_name, type, allowed_values (range or list of
-observed values), missing_values (how missing cells appear). For categorical
-columns, coding gets the observed codes with an empty meaning ("1 = ; 2 = ").
+Filled from the data: variable_name, type, missing_values (how missing cells
+appear). For categorical columns, allowed_values and coding get the observed
+codes ("1 = TODO; 2 = TODO"): categories nobody chose are missing. For numeric
+columns allowed_values stays TODO and the observed range goes in notes: the
+values in the data are not the scale (a 1-8 scale may be used only from 1 to
+6), so the scale comes from the instrument, the README or the experiment file.
 
 Filled from the file itself, when it says it:
 - label from the rows an export puts under the header (Qualtrics question
@@ -100,7 +103,14 @@ def draft(paths, sheet=None):
         idlike = IDLIKE.search(h)
         if t in ("integer", "numeric") and "min" in c and not private:
             lo, hi = (num_text(x) for x in (c["min"], c["max"]))
-            allowed = f"{lo} to {hi}" if c["min"] < 0 else f"{lo}-{hi}"
+            seen = f"{lo} to {hi}" if c["min"] < 0 else f"{lo}-{hi}"
+            if idlike:
+                allowed = seen  # the form of the codes, not a scale
+            else:
+                # the values in the data are not the scale: a 1-8 scale may be used only from 1 to 6
+                allowed = "TODO"
+                notes.append(f"observed in the data: {seen}; allowed_values is the documented scale or valid "
+                             "range (instrument, README, experiment file), which can be wider")
             if c.get("values") and len(c["values"]) <= 6 and not idlike:
                 coding = "; ".join(f"{v} = TODO" for v in c["values"])
                 notes.append("integer with few values: categorical? if so set type and coding")

@@ -13,7 +13,10 @@ and are checked by rendering the document, not by this script.
 
 `check` finds the statistics in the text and looks for each number in the
 outputs: run_code.py logs, and tables or text files produced by the scripts
-(folders are searched recursively for .log .txt .csv .tsv .md .html .json).
+(folders are searched recursively for .log .txt .csv .tsv .md .html .json;
+.csv/.tsv longer than --max-table-lines, default 2000, are skipped there:
+trial-level data match reported numbers by chance). Only numbers: figures
+are not compared.
 
 Statistics recognised:
   frequentist  M, SD, SE, Mdn, IQR, t, F, z, r, rho, tau, chi2, b, B, beta, OR,
@@ -238,14 +241,35 @@ def find_stats(text):
     return stats, dc
 
 
-def load_outputs(paths):
-    lines = []
+WRITTEN_BY_PEOPLE = re.compile(r"(?i)^(readme|leggimi|manuscript|manoscritto|paper|preprint|article|articolo|"
+                               r"draft|bozza|submission|thesis|tesi|cover|letter|response)")
+
+
+def load_outputs(paths, max_table_lines=2000, manuscript_text="", manuscript_file=None):
+    """Lines with numbers from the outputs. In folders, data tables longer than
+    max_table_lines (trial-level data, not results) are skipped: their thousands
+    of values match reported numbers by chance; so are texts written by people
+    (README, the manuscript itself), which would match the manuscript's numbers
+    with themselves. Files named explicitly are read. Lines copied verbatim from
+    the manuscript are never counted."""
+    lines, skipped = [], []
+    copied = {ln.strip() for ln in manuscript_text.splitlines() if len(ln.strip()) > 30}
     for p in paths:
         p = Path(p)
         files = [p] if p.is_file() else [f for f in p.rglob("*") if f.is_file() and f.suffix.lower() in OUTPUT_EXT]
         for f in files:
+            if manuscript_file and f.resolve() == Path(manuscript_file).resolve():
+                continue
+            if not p.is_file() and WRITTEN_BY_PEOPLE.search(f.name):
+                skipped.append(f"{f} (written by people, not by the code)")
+                continue
             all_lines = f.read_text(errors="replace").splitlines()
+            if not p.is_file() and f.suffix.lower() in (".csv", ".tsv") and len(all_lines) > max_table_lines:
+                skipped.append(f"{f} ({len(all_lines)} lines)")
+                continue
             for i, line in enumerate(all_lines, 1):
+                if line.strip() in copied:
+                    continue
                 nums = []
                 semicolon = ";" in line
                 for m in NUMBER.finditer(line):
@@ -258,7 +282,7 @@ def load_outputs(paths):
                 if nums:
                     around = "\n".join(all_lines[max(0, i - 4):i])
                     lines.append((str(f), i, line.strip()[:160], nums, around))
-    return lines
+    return lines, skipped
 
 
 def transforms(stat):
@@ -295,7 +319,7 @@ def context_rx(label):
 def check(args):
     text = Path(args.text).read_text(errors="replace")
     stats, dc = find_stats(text)
-    outputs = load_outputs(args.outputs)
+    outputs, skipped = load_outputs(args.outputs, args.max_table_lines, text, args.text)
     results = []
     for s in stats:
         r = {k: s[k] for k in ("label", "df", "reported", "sentence") if s.get(k) not in (None, "")}
@@ -339,8 +363,12 @@ def check(args):
     keys = ["found", "found with opposite sign", "not found", "inequality: check by hand"]
     summary = {k: sum(1 for r in results if r["status"] == k) for k in keys}
     summary["found in another form"] = sum(1 for r in results if r["status"].startswith("found ") and r["status"] not in keys)
-    print(json.dumps({"n_statistics": len(results), "decimal_comma": dc, "summary": summary, "results": results},
-                     indent=1, ensure_ascii=False))
+    out = {"n_statistics": len(results), "decimal_comma": dc, "summary": summary, "results": results}
+    if skipped:
+        out["tables_skipped"] = {"files": skipped, "note": "not searched in the folders given: long data tables "
+                                 "(chance matches) and texts written by people (README, the manuscript). Name a file "
+                                 "explicitly, or raise --max-table-lines, to search it"}
+    print(json.dumps(out, indent=1, ensure_ascii=False))
 
 
 def main():
@@ -352,6 +380,8 @@ def main():
     c = sub.add_parser("check")
     c.add_argument("text")
     c.add_argument("outputs", nargs="+")
+    c.add_argument("--max-table-lines", type=int, default=2000,
+                   help="in folders, skip .csv/.tsv longer than this (trial-level data); default 2000")
     args = ap.parse_args()
     if args.cmd == "text":
         path = Path(args.manuscript)

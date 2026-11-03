@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: manuscript-numbers-not-figures
+expected_outcome: |
+  A table of the manuscript's statistics with their status: N = 40 and t(39) = 2.45 with p = .019
+  found in output/results.txt, the mean accuracy M = 0.87 not found in any output. Numbers in the long
+  trial-level file are not used as matches. Figure 1 is not compared with any plot.
+context:
+  scaffold_script: place-files.sh

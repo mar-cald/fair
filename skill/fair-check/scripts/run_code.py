@@ -14,7 +14,9 @@ from the project root (like an RStudio project). If a script fails because it
 cannot find a file, it is retried from its own folder, and the result says so.
 
 Prints JSON: per script, the command, exit status, duration, the last lines of
-the error output, packages reported as missing, and the files it created.
+the error output, packages reported as missing, the files it created, and the
+files whose content it changed (compared by SHA-256: a file rewritten with the
+same content is listed apart, as files_rewritten_same_content).
 Packages are never installed into the user's R library by this script.
 
 --timeout is per script (default 600 s). A script that reaches it is stopped
@@ -89,6 +91,27 @@ def command(path):
 
 def snapshot(root):
     return {str(p.relative_to(root)): p.stat().st_mtime for p in root.rglob("*") if p.is_file()}
+
+
+def sha256(path, chunk=1 << 20):
+    import hashlib  # noqa: PLC0415
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(chunk), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def hashes(root, limit=200_000_000):
+    """Content fingerprints of the files present before the scripts run (files up to `limit` bytes)."""
+    out = {}
+    for p in root.rglob("*"):
+        if p.is_file() and p.stat().st_size <= limit and ".Rproj.user" not in p.parts and "renv" not in p.parts[:1]:
+            try:
+                out[str(p.relative_to(root))] = sha256(p)
+            except OSError:
+                pass
+    return out
 
 
 def _text(b):
@@ -215,6 +238,7 @@ def main():
     elif uses_renv:
         renv = {"restore": "skipped" if args.no_renv else "no Rscript"}
 
+    content = hashes(work)  # to tell a file whose content changed from one rewritten identical
     for s in scripts:
         relp = str(s.relative_to(work))
         cmd = command(s)
@@ -246,7 +270,18 @@ def main():
             res["n_warnings"] = len(warn)
         after = snapshot(work)
         res["files_created"] = sorted(f for f in after if f not in before)[:40]
-        res["files_modified"] = sorted(f for f in after if f in before and after[f] != before[f])[:40]
+        touched = [f for f in after if f in before and after[f] != before[f]]
+        changed, same = [], []
+        for f in touched:
+            if f in content:
+                h = sha256(work / f)
+                (same if h == content[f] else changed).append(f)
+                content[f] = h
+            else:
+                changed.append(f)
+        res["files_modified"] = sorted(changed)[:40]
+        if same:
+            res["files_rewritten_same_content"] = sorted(same)[:40]
         if logs:
             log = logs / (relp.replace("/", "__") + ".log")
             log.write_text((out or "") + "\n--- messages and errors ---\n" + (err or ""))

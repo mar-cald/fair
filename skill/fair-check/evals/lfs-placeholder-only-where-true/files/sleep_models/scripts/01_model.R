@@ -1,0 +1,5 @@
+library(brms)
+set.seed(1)
+d <- readRDS("data/processed/trials.rds")
+fit <- readRDS("models/fit_sleep.rds")
+summary(fit)

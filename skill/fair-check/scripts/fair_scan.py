@@ -29,6 +29,7 @@ import sys
 import time
 import unicodedata
 from collections import Counter, defaultdict
+from itertools import combinations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -148,7 +149,9 @@ RANDOM_R = re.compile(
     r"MCMCglmm|jags|jags\.model|run\.jags|coda\.samples|boot|bootMer|bootstrap|bootstrap_model|bootstrap_parameters|"
     r"mice|kmeans|anovaBF|ttestBF|lmBF|generalTestBF|regressionBF|correlationBF|contingencyTableBF|proportionBF|"
     r"posterior|bridge_sampler|posterior_predict|posterior_epred|posterior_linpred|pp_check|blavaan|bsem|bcfa|bgrowth|"
-    r"simulate|permute|shuffle)\s*\(|\$sample\s*\(")
+    r"simulate|permute|shuffle|gqs|vb|optimizing|rlogis|rcauchy|rgeom|rhyper|rdirichlet|rcat|rtruncnorm|"
+    r"brm_multiple|kfold|reloo|bayes_factor|predicted_draws|add_predicted_draws|"
+    r"generate_quantities)\s*\(|\$(?:sample|generate_quantities|variational|pathfinder|laplace)\s*\(")
 SEED_R = re.compile(r"set\.seed\s*\(\s*[^)\s][^)]*\)|with_seed\s*\(|local_seed\s*\(|\bseed\s*=\s*[\w.]+")
 RANDOM_PY = re.compile(
     r"np\.random\.\w+|numpy\.random\.\w+|\brandom\.(random|randint|choice|choices|shuffle|sample|uniform|gauss|normalvariate)\s*\(|"
@@ -195,6 +198,73 @@ LICENSE_SIGNATURES = [
 ]
 
 
+def file_sha256(path, chunk=1 << 20):
+    """SHA-256 of a file's bytes: the same value means the same content, byte by byte."""
+    import hashlib  # noqa: PLC0415
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(chunk), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def identical_files(files, root, skip=()):
+    """Groups of files with exactly the same content (same SHA-256), whatever their names."""
+    by_size = defaultdict(list)
+    for f in files:
+        r = rel(f, root)
+        if r in skip:
+            continue
+        size = f.stat().st_size
+        if size > 0:
+            by_size[size].append(f)
+    groups = []
+    for same in by_size.values():
+        if len(same) < 2:
+            continue
+        by_hash = defaultdict(list)
+        for f in same:
+            try:
+                by_hash[file_sha256(f)].append(rel(f, root))
+            except OSError:
+                pass
+        groups += [sorted(g) for g in by_hash.values() if len(g) > 1]
+    return sorted(groups)
+
+
+LFS_HEADER = b"version https://git-lfs.github.com/spec/"
+
+
+def lfs_pointer(path):
+    """A Git LFS pointer: a small text file left in place of the real file when
+    the repository was copied without its LFS content (a GitHub "Download ZIP",
+    a clone without git-lfs). Decided only from the file's first bytes: a file
+    tracked by LFS in .gitattributes is a real file when LFS content was pulled."""
+    try:
+        if path.stat().st_size > 1024:
+            return None
+        raw = path.read_bytes()
+    except OSError:
+        return None
+    if not raw.startswith(LFS_HEADER):
+        return None
+    text = raw.decode("utf-8", "replace")
+    size = re.search(r"(?m)^size (\d+)", text)
+    oid = re.search(r"(?m)^oid sha256:([0-9a-f]+)", text)
+    return {"size_of_real_file_bytes": int(size.group(1)) if size else None,
+            "sha256": oid.group(1) if oid else None}
+
+
+# text decoded with the wrong encoding at some point: UTF-8 read as Latin-1/cp1252 ("perchÃ©" for "perché")
+MOJIBAKE = re.compile("Ã[\u0080-\u00bf\u2018-\u203a\u20ac\u0152\u0153\u0160\u0161\u0178\u017d\u017e]|"
+                      "â€|Â[\u00a0-\u00bf]|\ufffd")
+R_RESERVED = {"if", "else", "repeat", "while", "function", "for", "next", "break", "TRUE", "FALSE", "NULL",
+              "Inf", "NaN", "NA", "NA_integer_", "NA_real_", "NA_character_", "in"}
+PY_RESERVED = {"False", "None", "True", "and", "as", "assert", "async", "await", "break", "class", "continue",
+               "def", "del", "elif", "else", "except", "finally", "for", "from", "global", "if", "import", "in",
+               "is", "lambda", "nonlocal", "not", "or", "pass", "raise", "return", "try", "while", "with", "yield"}
+
+
 def rel(p, root):
     return str(Path(p).relative_to(root))
 
@@ -216,6 +286,13 @@ def walk(root):
                 continue
             files.append(Path(dirpath) / f)
     return files, dirs
+
+
+def _group_by(key, items):
+    groups = defaultdict(list)
+    for x in items:
+        groups[key(x)].append(x)
+    return list(groups.values())
 
 
 def name_problems(name, is_dir=False):
@@ -613,6 +690,11 @@ def infer_column(name, values, decimal_comma):
     ws = sum(1 for v in values if v != v.strip() and v.strip())
     if ws:
         issues.append(f"{ws} values with leading/trailing spaces")
+    broken = Counter(m.group(0) for v in present for m in [MOJIBAKE.search(v)] if m)
+    if broken:
+        col["broken_accents"] = sum(broken.values())
+        issues.append(f"{sum(broken.values())} cells with broken accents ({', '.join(repr(k) for k in list(broken)[:4])}: "
+                      "'perchÃ©' for 'perché'): a UTF-8 file was opened as Latin-1 and saved again at some point")
     if not present:
         col["type"] = "empty"
         issues.append("column is entirely empty")
@@ -682,7 +764,13 @@ def infer_column(name, values, decimal_comma):
         col["type"] = "date"
         formats = {re.sub(r"\d", "9", v) for v in present}
         if len(formats) > 1:
-            issues.append("dates written in more than one format: " + ", ".join(sorted(formats)[:4]))
+            issues.append("dates written in more than one format: " + ", ".join(sorted(formats)[:4]) +
+                          " (ISO 8601, 2025-03-14, is the unambiguous one)")
+        dm = [re.match(r"^(\d{1,2})[-/.](\d{1,2})[-/.]\d{2,4}", v) for v in present]
+        dm = [m for m in dm if m]
+        if len(dm) >= 3 and all(int(m.group(1)) <= 12 and int(m.group(2)) <= 12 for m in dm):
+            issues.append("day and month cannot be told apart from the values (every part is 12 or less: "
+                          "03/04 is 3 April or 4 March?): the dictionary must say the order, or use ISO 8601")
     else:
         col["type"] = "categorical" if len(uniq) <= max(12, 0.05 * n) else "string"
         if col["type"] == "categorical":
@@ -837,7 +925,8 @@ def column_role(name, col, values, decimal_comma):
                 if bad_neg:
                     issues.append(f"negative ages: {show(bad_neg)}")
                 if bad_lo:
-                    issues.append(f"ages far below the others (median {med:g}): {show(bad_lo)} (typing errors?)")
+                    issues.append(f"ages far below the others (median {med:g}): {show(bad_lo)} (typing errors, "
+                                  "or a sample with a wide age range? check with the recruitment criteria)")
     elif role == "gender":
         if numeric:
             label = "gender (numeric codes)"
@@ -927,8 +1016,10 @@ ITEM_NAME = re.compile(r"^(.*?[A-Za-z][A-Za-z_.\-]*?)[_.\-]?(\d{1,3})(?:[_.]?(?:
 def item_families(header, cols, body, decimal_comma):
     """Questionnaire items: columns with the same prefix and a number (SDQ_1,
     SDQ_2 ... or Q1_1 ...) holding small whole numbers. A value outside the
-    range the other items of the family use (a 7 among items scored 1-5) is
-    probably a typing error."""
+    range most items of the family reach (a 7 among items that go up to 5) is
+    only something to check: the observed range is not the scale's range (a
+    1-7 scale is often not used in full), so it is an error only if it falls
+    outside the instrument's documented response scale."""
     fam = defaultdict(list)
     for j, (h, c) in enumerate(zip(header, cols)):
         m = ITEM_NAME.match(h.strip())
@@ -943,18 +1034,28 @@ def item_families(header, cols, body, decimal_comma):
         lo, hi = lows.most_common(1)[0][0], highs.most_common(1)[0][0]
         if hi - lo < 2:
             continue
-        info = {"family": prefix, "items": len(idx), "range": f"{lo}-{hi}"}
+        info = {"family": prefix, "items": len(idx), "observed_range_of_most_items": f"{lo}-{hi}"}
+        rev = re.compile(r"[_.]?(?:r|rev|R|inv|reversed?)$")
+        shapes = {re.sub(r"\d+", "#", rev.sub("", header[j].strip())) for j in idx}
+        marks = {m.group(0).lstrip("_.") for j in idx for m in [rev.search(header[j].strip())] if m}
+        if len(shapes) > 1:
+            info["naming_patterns"] = sorted(shapes)
+            info["naming_note"] = "the items of one scale are named in more than one way: one pattern is easier to use"
+        if marks:
+            info["reversed_marks"] = sorted(marks)
         odd = []
         for j in idx:
             vals = [to_number(r[j], decimal_comma) for r in body if j < len(r) and not is_missing(r[j])]
             bad = Counter(int(x) for x in vals if x is not None and (x < lo or x > hi))
             if bad:
                 odd.append(f"{header[j]}: " + ", ".join(f"{v} (x{n})" if n > 1 else str(v) for v, n in sorted(bad.items())))
-                cols[j].setdefault("issues", []).append(
-                    f"values outside {lo}-{hi}, the range of the other {prefix} items: " + odd[-1].split(": ", 1)[1])
-            cols[j]["role"] = f"questionnaire item ({prefix}, {lo}-{hi})"
+                cols[j].setdefault("to_check", []).append(
+                    f"values outside {lo}-{hi}, the range most {prefix} items reach: " + odd[-1].split(": ", 1)[1] +
+                    " (an error only if outside the questionnaire's response scale: check it)")
+            cols[j]["role"] = f"questionnaire item ({prefix}, most items {lo}-{hi})"
         if odd:
-            info["values_outside_range"] = odd
+            info["values_beyond_most_items"] = odd
+            info["note"] = "not necessarily errors: compare with the documented response scale"
         out.append(info)
     return out
 
@@ -1097,9 +1198,20 @@ def scan_table(path, root, rows=None, info=None, sheet=None):
                 hdr_issues.append(f"'{h}': {', '.join(p)}")
             if re.match(r"^\d", h.strip()):
                 hdr_issues.append(f"'{h}': starts with a digit")
+            if h.strip() in R_RESERVED | PY_RESERVED:
+                hdr_issues.append(f"'{h}': a reserved word in R or Python (needs backticks or quotes in code)")
+            if MOJIBAKE.search(h):
+                hdr_issues.append(f"'{h}': broken accents in the name (wrong encoding at some point)")
+    long_names = [h.strip() for h in header if len(h.strip()) > 32]
+    if long_names:
+        hdr_issues.append(f"{plural(long_names, 'name')} longer than 32 characters (SPSS and Stata cut them; "
+                          f"question text used as names?), e.g. '{long_names[0][:40]}...'")
     dups = [h for h, c in Counter(header).items() if c > 1 and h.strip()]
     if dups:
         hdr_issues.append("duplicated column names: " + ", ".join(dups))
+    case_dups = [sorted(g) for g in _group_by(lambda x: x.strip().lower(), {h for h in header if h.strip()}) if len(g) > 1]
+    if case_dups:
+        hdr_issues.append("names that differ only in upper/lower case: " + "; ".join(" / ".join(g) for g in case_dups))
     if all(to_number(h) is not None for h in header if h.strip()):
         hdr_issues.append("the first row looks like data, not column names (no header?)")
     if hdr_issues:
@@ -1279,7 +1391,8 @@ def group_file_sets(tables):
         per_file = {}
         for t in ts:
             found = t.get("header_issues", []) + t.get("issues", []) + t.get("within_participant_inconsistencies", []) + \
-                [f"{c['name']}: {i}" for c in t["columns"] for i in c.get("issues", []) if not i.startswith("constant column")]
+                [f"{c['name']}: {i}" for c in t["columns"] for i in c.get("issues", []) if not i.startswith("constant column")] + \
+                [f"{c['name']}: to check: {i}" for c in t["columns"] for i in c.get("to_check", [])]
             if found:
                 per_file[Path(t["file"]).name] = found
         types = defaultdict(set)
@@ -1429,6 +1542,49 @@ def r_package_vectors(code):
     return found
 
 
+FILE_REF_EXT = (r"csv|tsv|txt|dat|xlsx|xls|sav|dta|sas7bdat|rds|RData|rdata|rda|json|mat|feather|parquet|pkl|"
+                r"pickle|h5|npy|npz|stan|R|r|py|png|jpe?g|pdf|tiff?|svg")
+FILE_LITERAL = re.compile(r"[\"']([^\"'\n]+\.(?:" + FILE_REF_EXT + r"))[\"']")
+WRITE_CALL = re.compile(
+    r"(?<![\w.])(?:write\.csv2?|write\.table|write\.xlsx|write_csv2?|write_tsv|write_delim|write_rds|write_xlsx|"
+    r"write_sav|write_dta|write_json|write_parquet|write_feather|writeLines|saveRDS|save|ggsave|fwrite|sink|png|pdf|"
+    r"jpeg|tiff|svg|cairo_pdf|savefig|to_csv|to_excel|to_parquet|to_pickle|to_json|savetxt|np\.save|dump|"
+    r"save_plot|tab_model|kable_save|save_kable|export)\s*\(")
+SOURCE_CALL = re.compile(r"(?<![\w.])(?:source|sys\.source)\s*\(")
+NOW_CALL = re.compile(r"\bSys\.Date\s*\(|\bSys\.time\s*\(|\btoday\s*\(\s*\)|\bnow\s*\(\s*\)|"
+                      r"datetime\.(?:date\.)?(?:now|today)\s*\(|\bdate\.today\s*\(")
+DATA_REF_EXT = {".csv", ".tsv", ".txt", ".dat", ".xlsx", ".xls", ".sav", ".dta", ".sas7bdat", ".rds", ".rdata",
+                ".rda", ".json", ".mat", ".feather", ".parquet", ".pkl", ".pickle", ".h5", ".npy", ".npz"}
+
+
+def call_args(code, open_paren):
+    """The text between the parenthesis at `open_paren` and its closing one."""
+    depth, i, quote = 0, open_paren, None
+    while i < len(code):
+        ch = code[i]
+        if quote:
+            if ch == "\\":
+                i += 1
+            elif ch == quote:
+                quote = None
+        elif ch in "\"'":
+            quote = ch
+        elif ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                return code[open_paren + 1:i]
+        i += 1
+    return code[open_paren + 1:]
+
+
+def file_literals(text):
+    """File names written literally in the code; patterns ("*.csv", "\\.csv$") are not files."""
+    return [n for n in (m.group(1) for m in FILE_LITERAL.finditer(text))
+            if not re.search(r"[*?\[\]$^\\]", n) and not n.startswith(".")]
+
+
 def scan_code(path, root, all_files_rel):
     text = path.read_text(errors="replace")
     ext = path.suffix.lower()
@@ -1477,9 +1633,37 @@ def scan_code(path, root, all_files_rel):
         issues.append(f"absolute path '{p}'")
     if re.search(r"install\.packages\s*\(|pip install|!pip", code):
         issues.append("installs packages inside the script")
-    # files the script writes (so a later script reading them is not a "missing file")
-    res["writes"] = sorted({Path(m.group(1)).name for m in re.finditer(
-        r"(?:write[._]\w*|to_csv|to_excel|saveRDS|save|ggsave|fwrite|sink|savefig|png|pdf|jpeg)\s*\([^)]*?[\"']([^\"'\n]+\.\w+)[\"']", code)})
+    # files the script writes and reads, from the file names written in the code (literal names only:
+    # paste0("x_", i, ".csv") is not seen). A file the script writes and then reads back is its own.
+    written_here, sourced = set(), set()
+    for m in WRITE_CALL.finditer(code):
+        args = call_args(code, m.end() - 1)
+        if m.group(0).startswith("dump") and re.search(r"\bopen\s*\(", args):
+            continue  # json.dump(x, open("f", "w")): the open() loop below decides
+        written_here.update(file_literals(args))
+    for m in re.finditer(r"\bopen\s*\(", code):  # Python open(f, "w")
+        args = call_args(code, m.end() - 1)
+        if re.search(r",\s*(?:mode\s*=\s*)?[\"'][wax]", args):
+            written_here.update(file_literals(args))
+    for m in SOURCE_CALL.finditer(code):
+        sourced.update(file_literals(call_args(code, m.end() - 1)))
+    res["writes"] = sorted({Path(n).name for n in written_here})
+    reads = []
+    for n in file_literals(code):
+        name = Path(n).name
+        if n in written_here or name in res["writes"] or n in sourced:
+            continue
+        if Path(n).suffix.lower() in DATA_REF_EXT | {".stan"}:
+            reads.append(n)
+    res["reads"] = sorted(set(reads))
+    if sourced:
+        res["sources"] = sorted(sourced)
+    now = sorted({re.sub(r"\s+", "", m.group(0)) for m in NOW_CALL.finditer(code)})
+    if now:
+        lines = [i for i, l in enumerate(text.splitlines(), 1) if NOW_CALL.search(l) and not l.lstrip().startswith("#")]
+        res["uses_current_date"] = {"calls": now, "lines": lines[:10],
+                                    "note": "values computed from today's date (an age, a time since) change "
+                                            "with the day the script runs: check what they are used for"}
     # file references that do not exist
     missing = []
     for m in re.finditer(r"[\"']([^\"'\n]+\.(?:csv|tsv|txt|xlsx|xls|sav|rds|RData|rda|json|dta|mat|feather|parquet))[\"']", code):
@@ -1512,6 +1696,144 @@ def scan_code(path, root, all_files_rel):
             issues.append("uses random numbers (" + ", ".join(funcs[:5]) + ") without fixing a seed: "
                           "the results change slightly at every run")
     return res
+
+
+# common R functions and the packages that provide them: a call with none of them loaded fails
+# ("could not find function"). tidyverse attaches its core packages.
+R_FUNCS = {
+    "kable": {"knitr", "kableExtra"}, "kable_styling": {"kableExtra"}, "save_kable": {"kableExtra"},
+    "read_csv": {"readr"}, "read_csv2": {"readr"}, "read_tsv": {"readr"}, "read_delim": {"readr"},
+    "write_csv": {"readr"}, "read_excel": {"readxl"}, "read_xlsx": {"readxl"}, "read_sav": {"haven"},
+    "read_dta": {"haven"}, "ggplot": {"ggplot2"}, "aes": {"ggplot2"}, "ggsave": {"ggplot2"},
+    "mutate": {"dplyr"}, "summarise": {"dplyr"}, "summarize": {"dplyr"}, "group_by": {"dplyr"},
+    "left_join": {"dplyr"}, "inner_join": {"dplyr"}, "bind_rows": {"dplyr"}, "case_when": {"dplyr"},
+    "pivot_longer": {"tidyr"}, "pivot_wider": {"tidyr"}, "map_df": {"purrr"}, "map_dfr": {"purrr"},
+    "str_detect": {"stringr"}, "str_replace": {"stringr"}, "ymd": {"lubridate"}, "dmy": {"lubridate"},
+    "mdy": {"lubridate"}, "brm": {"brms"}, "stan": {"rstan"}, "sampling": {"rstan"}, "gqs": {"rstan"},
+    "stan_model": {"rstan"}, "lmer": {"lme4", "lmerTest"}, "glmer": {"lme4", "lmerTest"},
+    "emmeans": {"emmeans"}, "here": {"here"}, "fread": {"data.table"}, "fwrite": {"data.table"},
+    "ggarrange": {"ggpubr"}, "plot_grid": {"cowplot"}, "tab_model": {"sjPlot"},
+    "describe_posterior": {"bayestestR"}, "mcmc_areas": {"bayesplot"}, "wrap_plots": {"patchwork"},
+}
+TIDYVERSE = {"dplyr", "readr", "tidyr", "purrr", "stringr", "ggplot2", "tibble", "forcats", "lubridate"}
+# packages that attach others when loaded (Depends in their DESCRIPTION)
+ATTACHES = {"tidyverse": TIDYVERSE, "ggpubr": {"ggplot2"}, "survminer": {"ggplot2", "ggpubr"},
+            "GGally": {"ggplot2"}, "lmerTest": {"lme4"}, "afex": {"lme4"}, "rstanarm": {"Rcpp"},
+            "ggstatsplot": set(), "sjPlot": set(), "papaja": {"tinylabels"}, "MuMIn": set()}
+
+
+def r_functions_without_package(code_entries, texts):
+    """Per R script, calls of well-known functions whose package is not loaded
+    (in the script or in the helper scripts it sources)."""
+    defined = set()
+    for t in texts.values():
+        defined |= set(re.findall(r"(?m)^\s*([A-Za-z.][\w.]*)\s*(?:<-|=)\s*function\s*\(", t))
+    by_name = {Path(c["file"]).name: c for c in code_entries}
+    for c in code_entries:
+        if not str(c.get("language", "")).startswith(("R", "Quarto")) and c.get("language") != "Jupyter (R)":
+            continue
+        loaded = set(c.get("packages", []))
+        for s_ in c.get("sources", []):
+            loaded |= set(by_name.get(Path(s_).name, {}).get("packages", []))
+        for pk in list(loaded):
+            loaded |= ATTACHES.get(pk, set())
+        text = texts.get(c["file"], "")
+        found = []
+        for i, line in enumerate(text.splitlines(), 1):
+            if line.lstrip().startswith("#"):
+                continue
+            for m in re.finditer(r"(?<![\w.:$@])([A-Za-z_][\w.]*)\s*\(", line):
+                fn = m.group(1)
+                if fn in R_FUNCS and fn not in defined and not (R_FUNCS[fn] & loaded):
+                    found.append(f"{fn}() at line {i}: none of {', '.join(sorted(R_FUNCS[fn]))} is loaded")
+        if found:
+            c["functions_without_their_package"] = found[:10]
+
+
+RAW_PARTS = {"raw", "raw_data", "rawdata", "grezzi", "sourcedata", "original", "originali"}
+OUTPUT_PARTS = {"output", "outputs", "out", "results", "risultati", "figures", "figure", "figs", "plots", "plot",
+                "tables", "processed", "derived", "clean"}
+
+
+def natural_key(path):
+    return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", path)]
+
+
+def leading_number(path):
+    m = re.match(r"^(\d+)", Path(path).name)
+    return int(m.group(1)) if m else None
+
+
+def dependencies(code, files_rel):
+    """Which script needs which: script A writes x.csv, script B reads it, so A
+    runs before B. Finds scripts numbered before the script they depend on,
+    circular dependencies, inputs that no script writes although they sit with
+    the outputs. Figures are not tracked. Based on literal file names in
+    the code, matched by name: a sketch to verify, not proof."""
+    by_name = defaultdict(list)
+    for f in files_rel:
+        by_name[Path(f).name].append(f)
+    sourced = {Path(s_).name for c in code for s_ in c.get("sources", [])}
+    runnable = sorted((c for c in code if Path(c["file"]).name not in sourced), key=lambda c: natural_key(c["file"]))
+    producers = defaultdict(list)
+    for c in runnable:
+        for w in c.get("writes", []):
+            producers[w].append(c["file"])
+    edges = defaultdict(set)
+    why = {}
+    no_producer = defaultdict(list)
+    for c in runnable:
+        for r in c.get("reads", []):
+            name = Path(r).name
+            prods = [p_ for p_ in producers.get(name, []) if p_ != c["file"]]
+            for p_ in prods:
+                edges[p_].add(c["file"])
+                why.setdefault((p_, c["file"]), name)
+            if not prods and Path(r).suffix.lower() in DATA_REF_EXT:
+                present = by_name.get(name, [])
+                if present and not any(set(p_.lower() for p_ in Path(x).parts[:-1]) & RAW_PARTS for x in present):
+                    no_producer[present[0]].append(c["file"])
+    out = {}
+    problems = []
+    for p_, cons in edges.items():
+        for c_ in cons:
+            np_, nc = leading_number(p_), leading_number(c_)
+            if Path(p_).parent == Path(c_).parent and np_ is not None and nc is not None and np_ > nc:
+                problems.append(f"{c_} reads {why[(p_, c_)]}, written by {p_}, which is numbered later")
+    if problems:
+        out["numbered_before_what_they_need"] = sorted(problems)
+    # order: each script after the ones it needs; ties in the order of the names
+    indeg = {c["file"]: 0 for c in runnable}
+    for p_, cons in edges.items():
+        for c_ in cons:
+            if c_ in indeg and p_ in indeg:
+                indeg[c_] += 1
+    ready = sorted((f for f, d in indeg.items() if d == 0), key=natural_key)
+    order = []
+    while ready:
+        f = ready.pop(0)
+        order.append(f)
+        for c_ in sorted(edges.get(f, ()), key=natural_key):
+            if c_ in indeg:
+                indeg[c_] -= 1
+                if indeg[c_] == 0:
+                    ready.append(c_)
+                    ready.sort(key=natural_key)
+    stuck = [f for f in indeg if f not in order]
+    if stuck:
+        out["circular"] = {"scripts": sorted(stuck, key=natural_key),
+                           "note": "these scripts need each other's outputs: no order runs them all from a clean folder"}
+    if edges:
+        out["run_order_from_files"] = order + sorted(stuck, key=natural_key)
+        out["needs"] = {c_: sorted(f"{p_} ({why[(p_, c_)]})" for p_ in edges if c_ in edges[p_])
+                        for c_ in order + stuck if any(c_ in edges[p_] for p_ in edges)}
+    if no_producer:
+        out["inputs_written_by_no_script"] = [
+            {"file": f, "read_by": sorted(set(r))} for f, r in sorted(no_producer.items())
+            if set(p_.lower() for p_ in Path(f).parts[:-1]) & OUTPUT_PARTS]
+        if not out["inputs_written_by_no_script"]:
+            del out["inputs_written_by_no_script"]
+    return out
 
 
 def parse_env(root):
@@ -1625,6 +1947,9 @@ def scan_readme(path, root, files_rel):
     res["orcid_ids"] = re.findall(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", text)
     res["dois"] = sorted(set(re.findall(r"10\.\d{4,9}/[^\s)\]>\"']+", text)))[:10]
     res["placeholders"] = sorted(set(re.findall(r"(?i)(TODO|TBD|XXXX+|lorem ipsum|\[insert[^\]]*\])", text)))
+    broken = MOJIBAKE.findall(text)
+    if broken:
+        res["broken_accents"] = f"{len(broken)} places ({', '.join(repr(b) for b in sorted(set(broken))[:4])}): wrong encoding at some point"
     mentioned, not_mentioned = [], []
     for f in files_rel:
         if Path(f).name.lower().startswith(("readme", "leggimi")):
@@ -1679,13 +2004,42 @@ def scan(root):
     files_rel = [rel(f, root) for f in files]
     report = {"project": str(root), "n_files": len(files), "n_dirs": len(dirs)}
 
+    # Git LFS pointers: not the files they stand for (checked byte by byte, never guessed)
+    lfs = {}
+    for f in files:
+        ptr = lfs_pointer(f)
+        if ptr:
+            lfs[rel(f, root)] = ptr
+    if lfs:
+        report["lfs_pointers"] = {
+            "files": [{"file": k, **v} for k, v in sorted(lfs.items())],
+            "note": "in this copy these files are Git LFS pointers (a few lines of text starting with "
+                    "'version https://git-lfs...'), not the data: reading them fails. Usual cause: the folder "
+                    "was downloaded as a ZIP from GitHub, or cloned without git-lfs. The researcher's working "
+                    "copy may have the real files: ask, and put the real files in the deposit"}
+    same = identical_files(files, root, skip=set(lfs))
+    if same:
+        report["identical_files"] = {
+            "groups": same[:30],
+            "note": "same content byte by byte (SHA-256), under different names or folders: copies. "
+                    "Keep one in the deposit, unless the copy is the original export kept in data/raw"}
+    gattr = root / ".gitattributes"
+    if gattr.exists():
+        pats = re.findall(r"(?m)^\s*(\S+)\s+.*filter=lfs", gattr.read_text(errors="replace"))
+        if pats:
+            report["git_lfs_tracked_patterns"] = {
+                "patterns": pats,
+                "note": "context only: files matching these are real when LFS content was downloaded; "
+                        "only lfs_pointers (checked byte by byte) says which ones are not"}
+
     # inventory
     inv = []
     total = 0
     for f in files:
         size = f.stat().st_size
         total += size
-        inv.append({"path": rel(f, root), "size_kb": round(size / 1024, 1)})
+        inv.append({"path": rel(f, root), "size_kb": round(size / 1024, 1),
+                    **({"lfs_pointer": True} if rel(f, root) in lfs else {})})
     report["total_size_mb"] = round(total / 1e6, 2)
     report["inventory"] = inv[:400]
     if len(inv) > 400:
@@ -1714,6 +2068,7 @@ def scan(root):
         r = rel(f, root)
         if ext in PROPRIETARY_DATA:
             fmt["proprietary_data"].append({"file": r, "format": PROPRIETARY_DATA[ext],
+                                            **({"lfs_pointer": True} if r in lfs else {}),
                                             "open_copy_exists": (f.parent, f.stem.lower()) in stems_open or f.stem.lower() in stems_open_any,
                                             "in_raw_folder": "raw" in [p.lower() for p in Path(r).parts[:-1]]})
         elif ext in PROPRIETARY_DOCS:
@@ -1780,6 +2135,9 @@ def scan(root):
             # named like a dictionary, but no column of variable names: data
         if not (suf in OPEN_TABULAR or suf in TEXT_DATA or suf in JSON_DATA or suf in PROPRIETARY_DATA):
             continue
+        if r in lfs:
+            not_read.append({"file": r, "reason": "Git LFS pointer in this copy, not the data (see lfs_pointers)"})
+            continue
         try:
             found = load_any(f)
         except Exception as e:  # noqa: BLE001
@@ -1822,6 +2180,44 @@ def scan(root):
             incons[n] = sorted(f"{f}: {t}" for t, f in s)
     if incons:
         report["cross_file_type_inconsistencies"] = incons
+    # the same column name in different files, with values that cannot be the same variable or coding
+    cols_by_name = defaultdict(list)
+    for t in tables:
+        for c in t.get("columns", []):
+            if c.get("type") not in (None, "empty"):
+                cols_by_name[c["name"]].append((t["file"], c))
+    differ = []
+    for n, occ in cols_by_name.items():
+        in_files, whys = set(), []
+        for (f1, a), (f2, b) in combinations(occ, 2):
+            if f1 == f2 or a.get("n_unique") == 1 and b.get("n_unique") == 1:
+                continue  # a constant column per file (Session = 1 in one file, 2 in the other) is not a recoding
+            why = None
+            if a.get("type") in ("categorical", "string") and b.get("type") in ("categorical", "string") \
+                    and a.get("values") and b.get("values") and len(a["values"]) <= 20 and len(b["values"]) <= 20 \
+                    and not set(a["values"]) & set(b["values"]):
+                sides = sorted([", ".join(a["values"][:4]), ", ".join(b["values"][:4])])
+                why = f"no value in common: {sides[0]} vs {sides[1]}"
+            elif a.get("type") in ("integer", "numeric") and b.get("type") in ("integer", "numeric") \
+                    and None not in (a.get("min"), a.get("max"), b.get("min"), b.get("max")):
+                if (a["min"], a["max"]) > (b["min"], b["max"]):
+                    a, b = b, a
+                wa, wb = a["max"] - a["min"], b["max"] - b["min"]
+                if a["max"] < b["min"] or b["max"] < a["min"]:
+                    why = f"ranges do not overlap: {a['min']:g}-{a['max']:g} vs {b['min']:g}-{b['max']:g}"
+                elif min(wa, wb) <= 2 and max(wa, wb) >= 10 * max(min(wa, wb), 1):
+                    why = f"very different ranges: {a['min']:g}-{a['max']:g} vs {b['min']:g}-{b['max']:g}"
+            if why:
+                in_files |= {f1, f2}
+                if why not in whys:
+                    whys.append(why)
+        if in_files:
+            differ.append({"name": n, "files": sorted(in_files), "why": whys[:3]})
+    if differ:
+        report["same_name_different_values"] = {
+            "columns": differ[:30],
+            "note": "to check: the same variable coded differently (document both codings, or recode one), "
+                    "or two different variables under one name (rename one, or say so in the dictionary)"}
     report["cross_file_participants"] = compare_participants(tables)
     for t in tables + all_tables + report["data"]:
         t.pop("_by_id", None)
@@ -1884,6 +2280,7 @@ def scan(root):
     report["experiment_files"] = experiment
     exp_set = {e["file"] for e in experiment}
     code_files = [f for f in files if f.suffix.lower() in CODE_EXT and rel(f, root) not in exp_set
+                  and rel(f, root) not in lfs
                   and not (f.suffix.lower() == ".m" and f.stat().st_size == 0)
                   and rel(f, root) != "renv/activate.R"]  # written by renv, not by the researchers
     code = [scan_code(f, root, files_rel) for f in code_files]
@@ -1894,6 +2291,10 @@ def scan(root):
             if not c["referenced_files_not_found"]:
                 del c["referenced_files_not_found"]
     report["code"] = {"files": code, "environment": parse_env(root)}
+    r_functions_without_package(code, {rel(f, root): f.read_text(errors="replace") for f in code_files})
+    deps = dependencies(code, files_rel)
+    if deps:
+        report["code"]["dependencies"] = deps
     report["manuscripts"] = find_manuscripts(root, files)
     report["psychds"] = psychds_check(root, all_tables)
     allp = sorted({p for c in code for p in c.get("packages", [])})

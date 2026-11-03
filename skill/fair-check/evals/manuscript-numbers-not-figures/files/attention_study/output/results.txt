@@ -1,0 +1,5 @@
+N = 40
+
+	Paired t-test
+
+t = 2.4512, df = 39, p-value = 0.01891

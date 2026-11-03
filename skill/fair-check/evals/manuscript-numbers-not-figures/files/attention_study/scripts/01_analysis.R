@@ -1,0 +1,7 @@
+library(readr)
+d <- read_csv("data/trials.csv")
+sink("output/results.txt")
+cat("N =", length(unique(d$id)), "\n")
+print(t.test(d$rt[d$acc == 1], mu = 0.5))
+sink()
+png("output/fig1.png"); hist(d$rt); dev.off()

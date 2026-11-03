@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: data-only-consistency
+expected_outcome: |
+  A report in Italian on a data-only folder (no code, no manuscript). Blocking: dates of birth in
+  partecipanti.csv. The sleepiness rating (1-6 and one 8, no scale documented) and the item with a 7
+  are not called errors: the report asks what the response scale is. It reports the group column coded
+  ctrl/exp in one file and A/B in another, the broken accents in the diary notes, the dates whose day and
+  month cannot be told apart, and the two identical files; no license; a dictionary is missing.
+  Naming and encoding details are a short list at the end.
+context:
+  scaffold_script: place-files.sh

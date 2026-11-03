@@ -58,6 +58,20 @@ skill's assets/licenses/ (CC0-1.0, GPL-3.0, CC-BY-4.0).
 
 `zip` writes <out_dir>.zip with the folder inside, skipping hidden files and
 system files, ready to upload as a single file (Zenodo shows its contents).
+It stops if a file is a Git LFS pointer (--allow-lfs to zip anyway), and
+prints the zip's MD5, to compare with the one Zenodo shows after the upload.
+
+`citation` drafts <out_dir>/CITATION.cff (Citation File Format 1.2.0) from
+--title, --author "Family, Given, ORCID" (repeated), --doi, --license
+(repeated), --date, --article-doi; what is not given is left as TODO.
+
+`checksums` (optional, only if the researcher wants it) writes
+<out_dir>/checksums-sha256.txt, one '<sha256>  <path>' line per file, the
+format `sha256sum -c` checks. Run it last, just before `zip`.
+
+`build` also verifies that every copied file is byte-identical to the original
+(SHA-256), unless the plan changed it on purpose (columns dropped, conversion,
+rewritten paths); anything else that differs goes in check_by_hand.
 """
 
 import argparse
@@ -397,7 +411,37 @@ def build_deposit(src, plan, out):
                 continue
             all_files.append(norm(os.path.relpath(Path(dirpath) / fn, src)))
     report["left_out"] = sorted(f for f in all_files if f not in files_map)
+    # every copied file is byte-identical to the original, unless the plan changed it on purpose
+    fs = _fair_scan()
+    meant = set(report["data_changes"]) | set(report["rewrites"]) | \
+        {v for k, v in files_map.items() if Path(k).suffix.lower() in CODE_EXT}
+    identical, unexpected = 0, []
+    for old, new in files_map.items():
+        if new in meant:
+            continue
+        if fs.file_sha256(src / old) == fs.file_sha256(out / new):
+            identical += 1
+        else:
+            unexpected.append(f"{old} -> {new}")
+    report["verified_identical_to_original"] = identical
+    if unexpected:
+        report.setdefault("check_by_hand", []).append({"changed on copy, not by the plan": unexpected})
     return report
+
+
+def write_checksums(out, name="checksums-sha256.txt"):
+    """One line per file, '<sha256>  <path>', the format `sha256sum -c` reads, so a reader can check
+    every file after unzipping. Optional: Zenodo already shows an MD5 for each uploaded file."""
+    out = Path(out).expanduser().resolve()
+    fs = _fair_scan()
+    lines = []
+    for p in sorted(out.rglob("*")):
+        rel = p.relative_to(out)
+        if not p.is_file() or p.name == name or any(part.startswith(".") for part in rel.parts) or p.name in SKIP:
+            continue
+        lines.append(f"{fs.file_sha256(p)}  {PurePosixPath(*rel.parts)}")
+    (out / name).write_text("\n".join(lines) + "\n")
+    return out / name, len(lines)
 
 
 LICENSE_NAMES = {"CC0-1.0": "Creative Commons Zero v1.0 Universal (CC0-1.0)",
@@ -427,9 +471,14 @@ def write_license(out, parts, holder=None, year=None, assets=None):
     return used
 
 
-def zip_deposit(out):
-    """Write <out>.zip with the folder inside; returns (zip path, number of files)."""
+def zip_deposit(out, allow_lfs=False):
+    """Write <out>.zip with the folder inside; returns (zip path, number of files).
+    Refuses when a file is a Git LFS pointer instead of the real file."""
     out = Path(out).expanduser().resolve()
+    lfs = [str(p.relative_to(out)) for p in out.rglob("*") if p.is_file() and _fair_scan().lfs_pointer(p)]
+    if lfs and not allow_lfs:
+        raise ValueError("these files are Git LFS pointers, not the real files: replace them before zipping "
+                         "(or pass --allow-lfs to zip anyway): " + ", ".join(sorted(lfs)))
     target = out.with_suffix(".zip")
     n = 0
     with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as z:
@@ -463,9 +512,71 @@ def cli_license(args):
     print(f"Wrote {Path(args.out_dir) / 'LICENSE'} ({', '.join(used)})")
 
 
+def _cff_str(v):
+    return '"' + str(v).replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def write_citation(out, title, authors, doi=None, licenses=(), date=None, version=None, kind="dataset",
+                   article_doi=None, keywords=()):
+    """Draft CITATION.cff (Citation File Format 1.2.0): GitHub shows it as "Cite this repository".
+    authors: "Family, Given[, ORCID]" strings. Unknown values are written as TODO."""
+    lines = ["cff-version: 1.2.0",
+             'message: "If you use these data or this code, please cite them as below."',
+             f"title: {_cff_str(title or 'TODO')}", f"type: {kind}", "authors:"]
+    for a in authors or ["TODO, TODO"]:
+        parts = [x.strip() for x in a.split(",")]
+        lines.append(f"  - family-names: {_cff_str(parts[0] or 'TODO')}")
+        lines.append(f"    given-names: {_cff_str(parts[1] if len(parts) > 1 and parts[1] else 'TODO')}")
+        if len(parts) > 2 and parts[2]:
+            orcid = parts[2] if parts[2].startswith("http") else "https://orcid.org/" + parts[2]
+            lines.append(f"    orcid: {_cff_str(orcid)}")
+    lines.append(f"doi: {_cff_str(doi)}" if doi else "# doi: add the deposit's DOI once it exists")
+    if version:
+        lines.append(f"version: {_cff_str(version)}")
+    lines.append(f"date-released: {_cff_str(date)}" if date else "# date-released: YYYY-MM-DD")
+    if licenses:
+        lines.append("license:" if len(licenses) > 1 else f"license: {licenses[0]}")
+        if len(licenses) > 1:
+            lines += [f"  - {x}" for x in licenses]
+    if keywords:
+        lines.append("keywords:")
+        lines += [f"  - {_cff_str(k)}" for k in keywords]
+    if article_doi:
+        lines += ["identifiers:", "  - type: doi", f"    value: {_cff_str(article_doi)}",
+                  '    description: "The article these data and code belong to"']
+    target = Path(out).expanduser().resolve() / "CITATION.cff"
+    if target.exists():
+        raise ValueError(f"{target} exists: not overwritten")
+    target.write_text("\n".join(lines) + "\n")
+    return target
+
+
+def cli_citation(args):
+    try:
+        t = write_citation(args.out_dir, args.title, args.author, args.doi, args.license or (), args.date,
+                           args.version, args.type, args.article_doi, args.keyword or ())
+    except ValueError as e:
+        sys.exit(str(e))
+    print(f"Wrote {t}")
+
+
+def cli_checksums(args):
+    target, n = write_checksums(args.out_dir)
+    print(f"Wrote {target} ({n} files). Check with: sha256sum -c {target.name} (from inside the folder)")
+
+
 def cli_zip(args):
-    target, n = zip_deposit(args.out_dir)
-    print(f"Wrote {target} ({n} files, {round(target.stat().st_size / 1024)} KB)")
+    try:
+        target, n = zip_deposit(args.out_dir, args.allow_lfs)
+    except ValueError as e:
+        sys.exit(str(e))
+    import hashlib  # noqa: PLC0415
+    md5 = hashlib.md5()
+    with open(target, "rb") as fh:
+        for block in iter(lambda: fh.read(1 << 20), b""):
+            md5.update(block)
+    print(f"Wrote {target} ({n} files, {round(target.stat().st_size / 1024)} KB)\n"
+          f"MD5 {md5.hexdigest()}: after the upload Zenodo shows md5:... next to the file; the two must be equal")
 
 
 def main():
@@ -482,8 +593,23 @@ def main():
     lc.add_argument("--year", default=str(__import__("datetime").date.today().year))
     z = sub.add_parser("zip")
     z.add_argument("out_dir")
+    z.add_argument("--allow-lfs", action="store_true", help="zip even if some files are Git LFS pointers")
+    k = sub.add_parser("checksums")
+    k.add_argument("out_dir")
+    c = sub.add_parser("citation")
+    c.add_argument("out_dir")
+    c.add_argument("--title")
+    c.add_argument("--author", action="append", help='"Family, Given, ORCID" (repeat for each author)')
+    c.add_argument("--doi", help="the deposit's DOI, once it exists")
+    c.add_argument("--license", action="append", help="SPDX id, e.g. CC0-1.0 (repeat for each)")
+    c.add_argument("--date", help="date-released, YYYY-MM-DD")
+    c.add_argument("--version")
+    c.add_argument("--type", default="dataset", choices=["dataset", "software"])
+    c.add_argument("--article-doi", help="DOI of the article the deposit belongs to")
+    c.add_argument("--keyword", action="append")
     args = ap.parse_args()
-    {"build": cli_build, "license": cli_license, "zip": cli_zip}[args.cmd](args)
+    {"build": cli_build, "license": cli_license, "zip": cli_zip, "checksums": cli_checksums,
+     "citation": cli_citation}[args.cmd](args)
 
 
 if __name__ == "__main__":
