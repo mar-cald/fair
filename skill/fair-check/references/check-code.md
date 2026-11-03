@@ -30,7 +30,17 @@ many scripts there are.
 - *No saved fits.* Run with the longer timeout the researcher gave, or skip
   them and say which results were not checked.
 
-**Missing packages: do not install them on your own** (it changes the
+**Projects with renv** (`renv.lock` and `renv/activate.R`): `run_code.py`
+runs `renv::restore()` in the copy before the scripts, as renv intends. It
+installs renv if needed and the versions in `renv.lock` into the copy's own
+library (and renv's cache), not into the researcher's R library. Tell the
+researcher it may take several minutes the first time; `--no-renv` skips it.
+Report the outcome (`renv` in the output). Packages the scripts load but
+`renv.lock` does not list (`code.packages_not_in_renv_lock`) will be missing in
+the copy: that is a finding (the fix is `renv::snapshot()`), not something to
+install.
+
+**Other missing packages: do not install them on your own** (it changes the
 researcher's setup). List them and ask; that they were missing is a finding.
 
 A script reaching the timeout is stopped with all its processes and reported
@@ -62,7 +72,9 @@ R session).
 
 ## 1g. Packages
 
-From `code.all_packages`, list what the project needs and compare it with what
+From `code.all_packages`, list what the project needs (the scanner also reads
+vectors of names loaded in a loop: `pkg <- c(...)` with
+`lapply(pkg, library, character.only = TRUE)`, `for`, `ipak()`) and compare it with what
 is declared (`renv.lock`, `requirements.txt`, README). If R is available, get
 the installed versions for the README:
 `Rscript -e 'cat(sapply(c("pkg1","pkg2"), function(p) as.character(packageVersion(p))))'`.

@@ -2,9 +2,24 @@
 
 ## 1a. Data
 
-The scanner reports types, ranges and repeated values; it cannot tell whether
-a value makes sense. Use the column names, the dictionary and the README to
-judge, and look for:
+The scanner reports types, ranges and repeated values, and guesses from the
+name and the values what each column measures (`role`):
+
+| `role` | What the scanner checks |
+|:--|:--|
+| age | dates (dates of birth: personal data), years of birth, ages above 110, negative, far below the others, months instead of years |
+| gender | numeric codes to explain in the dictionary; the same category written in different ways (`F`, `f`, `Femmina`, `female`) |
+| reaction time | unit (seconds or milliseconds, from the median); values in the other unit; negative, 0, faster than 100 ms |
+| accuracy | 0/1, proportion or percentage; other values |
+| questionnaire item | families of items with the same prefix (`SA_1` ... `SA_8`); values outside the range the other items use (`questionnaire_items`) |
+| condition or group | a factor written as numbers |
+| education, percentage, proportion | values outside the possible range |
+
+The role is a guess: confirm it with the README, the dictionary or the code,
+and drop what does not apply (a column named `rt` in a table of results). A
+value outside the range is reported, not corrected: say what it is likely to
+be and let the researcher decide. Beyond that, use the column names, the
+dictionary and the README to judge, and look for:
 
 - values outside a plausible range (negative reaction times, age 250, a Likert
   item scored 8 on a 1–7 scale, a total above the questionnaire's maximum);
@@ -69,8 +84,19 @@ From `possible_personal_data` and the materials, against section 8 of the
 rules. The scan flags columns by name, label (Qualtrics question text) and
 values: names, e-mails, phone numbers, tax codes; IP addresses, coordinates;
 recruitment-platform IDs (Prolific, MTurk, Gorilla Public ID); letter-only IDs
-(initials?); absolute paths with a user name (OpenSesame, E-DataAid); free text.
+(initials?); absolute paths with a user name (OpenSesame, E-DataAid); free text;
+dates of birth, also in a column with another name (an `Age` column holding
+dates).
 Also: published instruments, copyrighted stimuli, the publisher's PDF.
+
+Age, gender, education, school, class and similar columns
+(`indirect_identifiers`) do not identify anyone alone, and are often needed for
+the analysis. Together they can: `unique_combinations` counts the participants
+who are the only one with their combination of values. Many unique
+combinations matter most when the sample comes from a small, known group (one
+school, one class, a department) or the data are sensitive; suggest coarser
+values (age in bands, a class without its section) or dropping the columns the
+analysis does not use, and leave the decision to the researcher.
 
 A participant ID that is itself personal (`participant_id_column_is_personal`)
 must become a study code before sharing. Free text is flagged, not judged: read

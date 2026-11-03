@@ -234,8 +234,9 @@ Things that stop code from running on another computer:
 - Packages loaded but not declared anywhere.
 - `install.packages()` inside analysis scripts: installs every time, and
   without version control.
-- `rm(list = ls())` at the top: does not restart R, gives a false sense of a
-  clean session.
+
+`rm(list = ls())` at the top of a script is not a problem: each script runs in
+a new R session anyway (`Rscript`), so do not report it.
 
 *(skill)* Things that make the code give different numbers at every run:
 

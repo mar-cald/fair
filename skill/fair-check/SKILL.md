@@ -54,7 +54,9 @@ python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.
 Main sections of the JSON: `materials_present` (data, code, manuscript);
 `inventory`, `naming`, `formats`, `structure`; `readme`, `licenses`; `data`
 (one entry per table: software, export rows, column types and ranges,
-missing-value codes, issues, participant ID); `cross_file_participants`;
+missing-value codes, what each column measures (`role`: age, gender, reaction
+time, accuracy, questionnaire item ...) with the errors typical of it, issues,
+participant ID, `indirect_identifiers`); `cross_file_participants`;
 `dictionaries`; `code` (packages, paths, `setwd`, missing files, `randomness`
 and seeds); `experiment_files` (material, not analysis code: never run);
 `manuscripts`; `psychds`; `possible_personal_data`.

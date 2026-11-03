@@ -26,6 +26,7 @@ import json
 import os
 import re
 import sys
+import time
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -723,6 +724,10 @@ def personal_flags(name, values, label=""):
             flags.append("values look like IP addresses")
         if sum(bool(PROLIFIC_RE.match(v)) for v in vals) > 0.5 * len(vals):
             flags.append("values look like Prolific participant IDs")
+        years = [int(y) for v in vals if DATE_RE.match(v) for y in re.findall(r"(?<!\d)(19\d\d|20[0-2]\d)(?!\d)", v)[:1]]
+        if len(years) > 0.5 * len(vals) and len(years) >= 5 and max(years) - min(years) >= 15 \
+                and sorted(years)[len(years) // 2] <= time.localtime().tm_year - 12:
+            flags.append(f"dates spread over {max(years) - min(years)} years, mostly decades ago: dates of birth?")
         if sum(bool(USER_PATH_RE.match(v)) for v in vals) > 0.3 * len(vals):
             flags.append("values are file paths of a computer, with a user name in them")
         uniq = set(vals)
@@ -741,6 +746,245 @@ def personal_flags(name, values, label=""):
         if len(long_text) >= 3 and len(long_text) >= 0.3 * len(set(texts) or {1}):
             flags.append("free-text answers: read them before sharing, they can contain names or other identifying details")
     return flags
+
+
+def name_tokens(name):
+    """'key_resp.rt' -> ['key', 'resp', 'rt']; 'meanRT' -> ['mean', 'rt']; 'Età' -> ['eta']."""
+    folded = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
+    folded = re.sub(r"([a-z])([A-Z])", r"\1 \2", folded)
+    return [t for t in re.split(r"[^A-Za-z0-9]+|(?<=[A-Za-z])(?=\d)|(?<=\d)(?=[A-Za-z])", folded.lower()) if t]
+
+
+ROLE_TOKENS = [
+    ("age", {"age", "eta", "anni"}),
+    ("gender", {"gender", "sex", "sesso", "genere"}),
+    ("reaction time", {"rt", "rts", "latency", "latenza"}),
+    ("accuracy", {"acc", "accuracy", "correct", "corr", "accuratezza", "corretto", "corretta", "iscorrect"}),
+    ("education", {"education", "istruzione", "scolarita", "edu"}),
+    ("percentage", {"pct", "percent", "percentage", "perc", "percentuale"}),
+    ("proportion", {"prop", "proportion", "proporzione"}),
+    ("condition or group", {"condition", "cond", "condizione", "group", "gruppo", "treatment", "trattamento", "arm"}),
+]
+ROLE_PHRASES = [
+    ("reaction time", re.compile(r"(?i)(reaction|response)_?time|tempo_?di_?reazione|tempi_?di_?reazione")),
+    ("education", re.compile(r"(?i)years_?(of_?)?education|anni_?(di_?)?istruzione")),
+]
+# synonyms of the usual gender categories, to see the same category written in different ways
+GENDER_SYNONYMS = {
+    "f": "F", "female": "F", "femmina": "F", "femminile": "F", "donna": "F", "woman": "F", "w": "F", "girl": "F",
+    "ragazza": "F", "femme": "F", "weiblich": "F", "mujer": "F",
+    "m": "M", "male": "M", "maschio": "M", "maschile": "M", "uomo": "M", "man": "M", "boy": "M", "ragazzo": "M",
+    "homme": "M", "mannlich": "M", "hombre": "M",
+}
+INDIRECT_ROLES = {"age", "gender", "education"}
+INDIRECT_NAME = re.compile(r"(?i)^(nationality|nazionalita|native_?language|lingua_?madre|occupation|professione|"
+                           r"lavoro|job|school|scuola|class|classe|sezione|section|city|citta|province|provincia|"
+                           r"region|regione|country|paese|handedness|lateralita|ethnicity|etnia|marital_?status)$")
+
+
+def plural(xs, word):
+    n = xs if isinstance(xs, int) else len(xs)
+    return f"{n} {word}" + ("" if n == 1 else "s")
+
+
+def column_role(name, col, values, decimal_comma):
+    """What a column measures, guessed from its name and values (age, gender,
+    reaction time ...), and the errors typical of that kind of variable."""
+    toks = name_tokens(name)
+    joined = "_".join(toks)
+    role = next((r for r, rx in ROLE_PHRASES if rx.search(joined)), None)
+    if not role:
+        role = next((r for r, words in ROLE_TOKENS if words & set(toks)), None)
+    # "rt" also in key_resp.rt (PsychoPy), "corr" in key_resp.corr; not "age" inside "page" (tokens, not substrings)
+    if not role:
+        return None, []
+    # a summary of many people (Mean Age, Sd Age, rt_sd in a table of results), not a measure of one
+    if {"sd", "se", "ds", "var", "range", "iqr"} & set(toks) or \
+            role in INDIRECT_ROLES and {"mean", "median", "media", "avg", "m", "min", "max"} & set(toks):
+        return None, []
+    present = [v.strip() for v in values if not is_missing(v)]
+    nums = [to_number(v, decimal_comma) for v in present]
+    nums = [x for x in nums if x is not None]
+    issues, label = [], role
+    numeric = col.get("type") in ("integer", "numeric")
+
+    def show(xs, k=6):
+        c = Counter(int(x) if float(x).is_integer() else round(x, 3) for x in xs)
+        return ", ".join(f"{v} (x{n})" if n > 1 else f"{v}" for v, n in sorted(c.items())[:k])
+
+    if role == "age":
+        if col.get("type") == "date":
+            label = "age, but the values are dates"
+            issues.append("the values are dates, not ages: probably dates of birth, which are personal data. "
+                          "Replace them with the age in years before sharing")
+        elif numeric and nums:
+            med = sorted(nums)[len(nums) // 2]
+            if max(nums) <= 1:  # eta, eta2: an effect size, not an age
+                return None, []
+            if 1900 <= med <= 2025:
+                label = "age, but the values look like years of birth"
+                issues.append("the values look like years of birth: say so in the dictionary, or compute the age")
+            else:
+                unit = "months" if med > 120 else "years"
+                label = f"age ({unit})"
+                hi = 1500 if unit == "months" else 110
+                bad_hi = [x for x in nums if x > hi]
+                bad_neg = [x for x in nums if x < 0]
+                low_cut = med / 4 if med >= 12 else 0
+                bad_lo = [x for x in nums if 0 <= x < low_cut]
+                if bad_hi:
+                    issues.append(f"ages above {hi}: {show(bad_hi)} (missing-value codes or typing errors?)")
+                if bad_neg:
+                    issues.append(f"negative ages: {show(bad_neg)}")
+                if bad_lo:
+                    issues.append(f"ages far below the others (median {med:g}): {show(bad_lo)} (typing errors?)")
+    elif role == "gender":
+        if numeric:
+            label = "gender (numeric codes)"
+            issues.append("gender written as numbers (" + ", ".join(str(v) for v in col.get("values", [])[:6]) +
+                          "): the dictionary must say what each code means")
+        else:
+            groups = defaultdict(set)
+            for v in set(present):
+                key = unicodedata.normalize("NFKD", v.lower()).encode("ascii", "ignore").decode().strip(" .")
+                groups[GENDER_SYNONYMS.get(key, key)].add(v)
+            clash = [sorted(s) for s in groups.values() if len(s) > 1]
+            if clash:
+                issues.append("the same gender category written in different ways: " +
+                              "; ".join(" / ".join(c) for c in clash))
+    elif role == "reaction time" and numeric and nums:
+        pos = [x for x in nums if x > 0]
+        med = sorted(pos)[len(pos) // 2] if pos else 0
+        unit = "seconds" if 0 < med < 10 else "milliseconds" if med >= 50 else "unknown unit"
+        label = f"reaction time (probably {unit})"
+        neg = [x for x in nums if x < 0]
+        zero = sum(1 for x in nums if x == 0)
+        if neg:
+            issues.append(f"{plural(neg, 'negative reaction time')}")
+        if zero:
+            issues.append(f"{plural(zero, 'reaction time')} equal to 0 (no response? E-Prime writes 0 when there is none)")
+        if unit == "milliseconds":
+            small = [x for x in pos if x < 10]
+            fast = [x for x in pos if 10 <= x < 100]
+            huge = [x for x in pos if x > 100_000]
+            if small:
+                issues.append(f"{plural(small, 'value')} below 10 among values in milliseconds: seconds mixed with milliseconds?")
+            if fast:
+                issues.append(f"{plural(fast, 'response')} faster than 100 ms (anticipations? the analysis usually excludes them)")
+            if huge:
+                issues.append(f"{plural(huge, 'value')} above 100 s: a unit converted twice, or a pause?")
+        elif unit == "seconds":
+            big = [x for x in pos if x > 100]
+            fast = [x for x in pos if x < 0.1]
+            if big:
+                issues.append(f"{plural(big, 'value')} above 100 among values in seconds: milliseconds mixed with seconds?")
+            if fast:
+                issues.append(f"{plural(fast, 'response')} faster than 0.1 s (anticipations? the analysis usually excludes them)")
+    elif role == "accuracy":
+        if numeric and nums:
+            vals = set(nums)
+            if vals <= {0, 1}:
+                label = "accuracy (0/1)"
+            elif min(nums) >= 0 and max(nums) <= 1:
+                label = "accuracy (proportion 0-1)"
+            elif min(nums) >= 0 and max(nums) <= 100 and len(vals) > 2:
+                label = "accuracy (percentage or count)"
+            else:
+                label = "accuracy"
+                issues.append("values other than 0/1 or a proportion: " + show([x for x in nums if x not in (0, 1)]))
+            if min(nums) < 0:  # a correlation ("corr") or a difference, not an accuracy
+                return None, []
+            share_big = [x for x in nums if x > 1]
+            if label == "accuracy (proportion 0-1)" and share_big:
+                issues.append(f"proportions above 1: {show(share_big)}")
+        elif col.get("type") == "boolean":
+            label = "accuracy (true/false)"
+    elif role == "percentage" and numeric and nums:
+        bad = [x for x in nums if x < 0 or x > 100]
+        if bad:
+            issues.append(f"percentages outside 0-100: {show(bad)}")
+    elif role == "proportion" and numeric and nums:
+        bad = [x for x in nums if x < 0 or x > 1]
+        if bad:
+            issues.append(f"proportions outside 0-1: {show(bad)}")
+    elif role == "condition or group":
+        label = "condition or group (factor)"
+        if col.get("type") == "integer" and col.get("n_unique", 0) <= 10:
+            label = "condition or group (factor written as numbers)"
+            issues.append("a factor written as numbers: the dictionary must say what each code means, "
+                          "and the analysis must treat it as a factor")
+    elif role == "education" and numeric and nums:
+        label = "education (years)" if max(nums) > 8 else "education (levels)"
+        bad = [x for x in nums if x < 0 or x > 30]
+        if bad:
+            issues.append(f"years of education outside 0-30: {show(bad)}")
+    return label, issues
+
+
+ITEM_NAME = re.compile(r"^(.*?[A-Za-z][A-Za-z_.\-]*?)[_.\-]?(\d{1,3})(?:[_.]?(?:r|rev|R))?$")
+
+
+def item_families(header, cols, body, decimal_comma):
+    """Questionnaire items: columns with the same prefix and a number (SDQ_1,
+    SDQ_2 ... or Q1_1 ...) holding small whole numbers. A value outside the
+    range the other items of the family use (a 7 among items scored 1-5) is
+    probably a typing error."""
+    fam = defaultdict(list)
+    for j, (h, c) in enumerate(zip(header, cols)):
+        m = ITEM_NAME.match(h.strip())
+        if m and c.get("type") == "integer" and c.get("max") is not None and c["max"] - c["min"] <= 12:
+            fam[m.group(1).rstrip("_.-")].append(j)
+    out = []
+    for prefix, idx in fam.items():
+        if len(idx) < 3:
+            continue
+        lows = Counter(cols[j]["min"] for j in idx)
+        highs = Counter(cols[j]["max"] for j in idx)
+        lo, hi = lows.most_common(1)[0][0], highs.most_common(1)[0][0]
+        if hi - lo < 2:
+            continue
+        info = {"family": prefix, "items": len(idx), "range": f"{lo}-{hi}"}
+        odd = []
+        for j in idx:
+            vals = [to_number(r[j], decimal_comma) for r in body if j < len(r) and not is_missing(r[j])]
+            bad = Counter(int(x) for x in vals if x is not None and (x < lo or x > hi))
+            if bad:
+                odd.append(f"{header[j]}: " + ", ".join(f"{v} (x{n})" if n > 1 else str(v) for v, n in sorted(bad.items())))
+                cols[j].setdefault("issues", []).append(
+                    f"values outside {lo}-{hi}, the range of the other {prefix} items: " + odd[-1].split(": ", 1)[1])
+            cols[j]["role"] = f"questionnaire item ({prefix}, {lo}-{hi})"
+        if odd:
+            info["values_outside_range"] = odd
+        out.append(info)
+    return out
+
+
+def indirect_identifiers(header, cols, body, id_col):
+    """Columns that do not identify anyone alone (age, gender, education,
+    school ...) but can together; how many participants are the only one with
+    their combination of values."""
+    idx = [j for j, (h, c) in enumerate(zip(header, cols))
+           if (c.get("role") or "").split(" (")[0].split(",")[0] in INDIRECT_ROLES
+           or INDIRECT_NAME.match(canon_name(h))]
+    idx = [j for j in idx if cols[j].get("type") not in ("empty", "date")]
+    if not idx:
+        return None
+    res = {"columns": [header[j] for j in idx]}
+    if len(idx) >= 2:
+        if id_col and id_col in header:
+            k = header.index(id_col)
+            people = {}
+            for r in body:
+                if k < len(r) and r[k].strip():
+                    people.setdefault(r[k].strip(), tuple(r[j].strip() if j < len(r) else "" for j in idx))
+            combos = list(people.values())
+        else:
+            combos = [tuple(r[j].strip() if j < len(r) else "" for j in idx) for r in body]
+        cnt = Counter(combos)
+        unique = sum(1 for c in combos if cnt[c] == 1)
+        res["participants"] = len(combos)
+        res["unique_combinations"] = unique
+    return res
 
 
 def canon_name(name):
@@ -873,12 +1117,21 @@ def scan_table(path, root, rows=None, info=None, sheet=None):
         vals = [r[j] if j < len(r) else "" for r in body]
         c = infer_column(h, vals, decimal_comma)
         pf = personal_flags(h, vals, labels[0][j] if labels and j < len(labels[0]) else "")
+        role, role_issues = column_role(h, c, vals, decimal_comma)
+        if role:
+            c["role"] = role
+            c["issues"] = c.get("issues", []) + role_issues
+            if role == "age, but the values are dates" and not any("birth" in x for x in pf):
+                pf.append("the column is called age but holds dates: dates of birth?")
         if pf:
             privacy.append({"column": h, "flags": pf})
             c.pop("values", None)  # do not echo possibly identifying values
             c.pop("min", None)
             c.pop("max", None)
         cols.append(c)
+    fams = item_families(header, cols, body, decimal_comma)
+    if fams:
+        res["questionnaire_items"] = fams
     res["columns"] = cols
     exp_cols = [j for j, h in enumerate(header) if re.sub(r"[^a-z]", "", h.lower()) in ("experimentname", "experiment", "expname")]
     if exp_cols:
@@ -903,6 +1156,9 @@ def scan_table(path, root, rows=None, info=None, sheet=None):
                 "(e.g. a Prolific ID): replace it with a study code before sharing")
     if within:
         res["within_participant_inconsistencies"] = within
+    ind = indirect_identifiers(header, cols, body, id_col)
+    if ind:
+        res["indirect_identifiers"] = ind
     res["issues"] = issues
     return res
 
@@ -1035,7 +1291,8 @@ def group_file_sets(tables):
             "files": sorted(t["file"] for t in ts),
             "software": software,
             "participant_id_column": rep["participant_id_column"], "n_participants": len(merged),
-            "columns": [{"name": h, "types": sorted(x for x in types[h] if x)} for h in order],
+            "columns": [{"name": h, "types": sorted(x for x in types[h] if x),
+                         **({"role": coldef[h]["role"]} if coldef[h].get("role") else {})} for h in order],
             "issues_by_file": per_file,
             "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})}
         partial = {h: n for h, n in present_in.items() if n < len(ts)}
@@ -1142,6 +1399,36 @@ def compare_dictionary(table, dic):
 
 # ----------------------------------------------------------------------- code
 
+R_LOADER = r"(?:library|require|requireNamespace|p_load|ipak|install\.packages|shelf|loadNamespace)\b"
+
+
+def r_package_vectors(code):
+    """Packages written as a vector of names and loaded in a loop or a helper:
+    pkg <- c("dplyr", "brms"); invisible(lapply(pkg, library, character.only = TRUE)),
+    for (p in pkg) library(p, character.only = TRUE), ipak(pkg),
+    lapply(c("dplyr", "brms"), require, character.only = TRUE)."""
+    found = set()
+    for m in re.finditer(r"(?:\b([A-Za-z.][\w.]*)\s*(?:<-|=)\s*)?\bc\s*\(([^()]*)\)", code):
+        names = re.findall(r"[\"']([A-Za-z][A-Za-z0-9.]*)[\"']", m.group(2))
+        rest = re.sub(r"[\"'][^\"']*[\"']|[\s,]", "", m.group(2))
+        if not names or rest:
+            continue
+        line_end = code.find("\n", m.end())
+        same_statement = code[m.start():line_end if line_end != -1 else len(code)]
+        if re.search(R_LOADER, same_statement):
+            found.update(names)
+            continue
+        var = m.group(1)
+        if not var:
+            continue
+        later = code[m.end():].splitlines()
+        # the vector is used on a line that loads packages, or just above one (a for loop)
+        if any(re.search(rf"\b{re.escape(var)}\b", l) and re.search(R_LOADER, l + (" " + nxt if re.search(r"\bfor\s*\(", l) else ""))
+               for l, nxt in zip(later, later[1:] + [""])):
+            found.update(names)
+    return found
+
+
 def scan_code(path, root, all_files_rel):
     text = path.read_text(errors="replace")
     ext = path.suffix.lower()
@@ -1168,6 +1455,7 @@ def scan_code(path, root, all_files_rel):
                 p = p.strip("\"' ")
                 if re.match(r"^[A-Za-z][A-Za-z0-9.]*$", p) and "=" not in p:
                     pkgs.add(p)
+        pkgs |= r_package_vectors(code)
         pkgs -= R_BASE
         if ext == ".rmd" or ext == ".qmd":
             pkgs.add("rmarkdown" if ext == ".rmd" else "knitr")
@@ -1187,8 +1475,6 @@ def scan_code(path, root, all_files_rel):
     abs_paths = set(re.findall(r"[\"']((?:[A-Za-z]:[\\/]|/Users/|/home/|~/|\\\\[A-Za-z])[^\"']*)[\"']", code))
     for p in sorted(abs_paths)[:10]:
         issues.append(f"absolute path '{p}'")
-    if re.search(r"rm\s*\(\s*list\s*=\s*ls\s*\(", code):
-        issues.append("rm(list = ls()) — does not give a clean session; restart R instead")
     if re.search(r"install\.packages\s*\(|pip install|!pip", code):
         issues.append("installs packages inside the script")
     # files the script writes (so a later script reading them is not a "missing file")
@@ -1598,7 +1884,8 @@ def scan(root):
     report["experiment_files"] = experiment
     exp_set = {e["file"] for e in experiment}
     code_files = [f for f in files if f.suffix.lower() in CODE_EXT and rel(f, root) not in exp_set
-                  and not (f.suffix.lower() == ".m" and f.stat().st_size == 0)]
+                  and not (f.suffix.lower() == ".m" and f.stat().st_size == 0)
+                  and rel(f, root) != "renv/activate.R"]  # written by renv, not by the researchers
     code = [scan_code(f, root, files_rel) for f in code_files]
     written = {w for c in code for w in c.get("writes", [])}
     for c in code:

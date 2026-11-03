@@ -15,11 +15,17 @@ cannot find a file, it is retried from its own folder, and the result says so.
 
 Prints JSON: per script, the command, exit status, duration, the last lines of
 the error output, packages reported as missing, and the files it created.
-Packages are never installed by this script.
+Packages are never installed into the user's R library by this script.
 
 --timeout is per script (default 600 s). A script that reaches it is stopped
 together with every process it started (e.g. MCMC chains run in parallel), and
 reported with status "timeout" and what it printed until then.
+
+Projects that use renv (renv.lock, plus renv/activate.R started by .Rprofile)
+get their packages the renv way before the scripts run: renv::restore() in
+the copy installs the versions in renv.lock into the copy's own library (and
+renv's cache), not into the user's R library; renv itself is installed first
+if needed. --no-renv skips this; --renv-timeout limits it (default 1800 s).
 
 --logs DIR saves what each script prints (DIR/<script>.log), to compare with
 the numbers in a manuscript. --in-place runs in the folder itself instead of a
@@ -155,6 +161,8 @@ def main():
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--keep", action="store_true", help="keep the temporary copy and print its path")
     ap.add_argument("--logs", help="folder where to save each script's printed output (<script>.log)")
+    ap.add_argument("--no-renv", action="store_true", help="do not run renv::restore() in renv projects")
+    ap.add_argument("--renv-timeout", type=int, default=1800)
     ap.add_argument("--in-place", action="store_true",
                     help="run in the folder itself: only for the deposit version built by build_deposit.py")
     args = ap.parse_args()
@@ -193,6 +201,19 @@ def main():
     if env_info["Rscript"]:
         v = subprocess.run(["Rscript", "-e", "cat(R.version.string)"], capture_output=True, text=True)
         env_info["R_version"] = v.stdout.strip()
+
+    renv = None
+    uses_renv = (work / "renv.lock").is_file() and (work / "renv" / "activate.R").is_file()
+    if uses_renv and env_info["Rscript"] and not args.no_renv:
+        # .Rprofile activates renv (and installs renv itself if missing); restore installs renv.lock
+        code, out, err, dur = run_one(["Rscript", "-e", "renv::restore(prompt = FALSE)"], work, args.renv_timeout)
+        renv = {"restore": "ok" if code == 0 else ("timeout" if code == "timeout" else "error"), "seconds": dur}
+        if code != 0:
+            renv["error_tail"] = ((out or "") + "\n" + (err or "")).strip().splitlines()[-15:]
+        if not (work / ".Rprofile").is_file():
+            renv["note"] = "no .Rprofile: renv is not activated when the scripts run, they use the user's R library"
+    elif uses_renv:
+        renv = {"restore": "skipped" if args.no_renv else "no Rscript"}
 
     for s in scripts:
         relp = str(s.relative_to(work))
@@ -233,8 +254,10 @@ def main():
         results.append(res)
 
     where = "(in place)" if args.in_place else (str(work) if args.keep else "(deleted)")
-    print(json.dumps({"copy": where, "environment": env_info,
-                      "results": results}, indent=1, ensure_ascii=False))
+    out = {"copy": where, "environment": env_info}
+    if renv:
+        out["renv"] = renv
+    print(json.dumps({**out, "results": results}, indent=1, ensure_ascii=False))
     if tmp and not args.keep:
         shutil.rmtree(tmp, ignore_errors=True)
 

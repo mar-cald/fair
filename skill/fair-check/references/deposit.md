@@ -81,8 +81,8 @@ sections:
 Check the output: `unresolved_paths` (absolute paths, missing files) and
 `check_by_hand` (reading lines it could not adjust, scripts reading a file
 whose export rows were removed): fix them in the deposit's scripts. Fix there
-also the portability problems of 1f (`setwd()`, absolute paths,
-`rm(list = ls())`), add agreed seeds, apply agreed data corrections. Each fix
+also the portability problems of 1f (`setwd()`, absolute paths), add agreed
+seeds, apply agreed data corrections. Each fix
 is the smallest possible and in the style of the surrounding code; new code
 written from scratch is in the language chosen in the triage, in the style of
 the researcher's scripts (or their style skill, if they have one).

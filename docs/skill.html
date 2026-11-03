@@ -302,7 +302,7 @@ Da scaricare
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Dati</td>
-<td style="text-align: left;">valori fuori scala, valori mancanti scritti in più modi (<code>NA</code>, <code>-99</code>, cella vuota), categorie scritte in modi diversi, righe duplicate, la stessa persona con due età, ID che non coincidono fra i file</td>
+<td style="text-align: left;">riconosce che cosa misura ogni colonna (età, genere, tempi di reazione, accuratezza, item di un questionario, condizione) e cerca gli errori tipici di quel dato: un’età di 999, date di nascita al posto dell’età, tempi in secondi mescolati a millisecondi, un 7 fra item da 1 a 5, <code>F</code> e <code>Femmina</code> come due categorie. Poi: valori mancanti scritti in più modi (<code>NA</code>, <code>-99</code>, cella vuota), righe duplicate, la stessa persona con due età, ID che non coincidono fra i file</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Documentazione</td>
@@ -310,11 +310,11 @@ Da scaricare
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Dati personali</td>
-<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero</td>
+<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Codice</td>
-<td style="text-align: left;">esegue gli script in una copia della cartella, dice quali si fermano e perché (<code>setwd()</code>, percorsi assoluti, pacchetti mancanti), elenca i pacchetti, segnala i numeri casuali senza seed</td>
+<td style="text-align: left;">esegue gli script in una copia della cartella, dice quali si fermano e perché (<code>setwd()</code>, percorsi assoluti, pacchetti mancanti), elenca i pacchetti e li confronta con <code>renv.lock</code>, segnala i numeri casuali senza seed</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Manoscritto</td>
@@ -348,7 +348,7 @@ Da scaricare
 <ul>
 <li><strong>La vostra cartella non viene mai modificata.</strong> Tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare.</li>
 <li><strong>Cambia il meno possibile.</strong> Nei vostri script corregge solo quello che impedisce di eseguirli, nello stile del codice che c’è già, ed elenca ogni modifica. Le correzioni ai dati le propone, non le applica senza il vostro accordo.</li>
-<li><strong>Non installa pacchetti da sola.</strong> Se mancano, ve lo dice e chiede.</li>
+<li><strong>Non installa pacchetti da sola.</strong> Se mancano, ve lo dice e chiede. L’eccezione sono i progetti con renv: nella copia esegue <code>renv::restore()</code>, che installa le versioni scritte in <code>renv.lock</code> nella libreria del progetto copiato, non in quella del vostro R.</li>
 <li><strong>Non inventa.</strong> Nel data dictionary scrive solo quello che trova scritto da qualche parte (nei dati, nel README, nel codice, nella documentazione dei programmi); il resto resta <code>TODO</code>, da completare voi.</li>
 </ul>
 </section>
