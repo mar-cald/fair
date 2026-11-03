@@ -20,7 +20,9 @@ questa dispensa e vi restituisce due cose:
   [Zenodo](zenodo.qmd) o su un altro repository, con README, data dictionary,
   licenze e lo zip da caricare.
 
-La vostra cartella non viene modificata.
+La vostra cartella non viene modificata. Questa pagina spiega come usarla;
+[fair-check, passo per passo](skill-dettagli.qmd) descrive per intero tutto
+quello che fa.
 
 ::: {.callout-note title="Da scaricare"}
 [**fair-check.skill**](skill/fair-check.skill): un archivio zip che contiene
@@ -87,6 +89,9 @@ condizioni del servizio, oppure togliete prima i dati personali.
 :::
 
 ## Nel dettaglio
+
+Ogni passo e ogni controllo, per intero, sono in
+[fair-check, passo per passo](skill-dettagli.qmd).
 
 ### Che cosa controlla
 

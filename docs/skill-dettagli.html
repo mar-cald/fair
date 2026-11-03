@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>fair-check, passo per passo – Open Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nessun risultato",
+    "search-matching-documents-text": "documenti trovati",
+    "search-copy-link-title": "Copiare il link nella ricerca",
+    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
+    "search-more-match-text": "ci sono altri risultati in questo documento",
+    "search-more-matches-text": "ulteriori risultati in questo documento",
+    "search-clear-button-title": "Pulire",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancellare",
+    "search-submit-button-title": "Inviare",
+    "search-label": "Ricerca"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Open Science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Ricerca"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Attiva/disattiva la navigazione" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./apertura.html"> 
+<span class="menu-text">Intro</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./fair.html"> 
+<span class="menu-text">Principi FAIR</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-archiviare" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Archiviare</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-archiviare">    
+        <li>
+    <a class="dropdown-item" href="./repository.html">
+ <span class="dropdown-text">Dove archiviare</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./zenodo.html">
+ <span class="dropdown-text">Depositare su Zenodo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./psycharchives.html">
+ <span class="dropdown-text">Depositare su PsychArchives</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./confronto.html">
+ <span class="dropdown-text">Zenodo o PsychArchives?</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./licenze.html"> 
+<span class="menu-text">Licenze</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-struttura" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Struttura</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-struttura">    
+        <li>
+    <a class="dropdown-item" href="./struttura-1.html">
+ <span class="dropdown-text">README e Data dictionary</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./struttura-2.html">
+ <span class="dropdown-text">Psych-DS</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./esempio.html"> 
+<span class="menu-text">Esempio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./skill.html"> 
+<span class="menu-text">Skill fair-check</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./risorse.html"> 
+<span class="menu-text">Risorse</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-bug" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-bug" role="img" aria-label="Segnala un errore o una correzione">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-bug">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/mar-cald/fair/issues/new?title=Segnalazione&amp;body=Pagina%3A%20%0ACosa%20ho%20notato%3A%20">
+ <span class="dropdown-text">Apri una issue su GitHub</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./segnala.html">
+ <span class="dropdown-text">Scrivimi una email</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In questa pagina</h2>
+   
+  <ul>
+  <li><a href="#passo-0.-inventario" id="toc-passo-0.-inventario" class="nav-link active" data-scroll-target="#passo-0.-inventario">Passo 0. Inventario</a>
+  <ul class="collapse">
+  <li><a href="#che-cosa-legge-lo-script" id="toc-che-cosa-legge-lo-script" class="nav-link" data-scroll-target="#che-cosa-legge-lo-script">Che cosa legge lo script</a></li>
+  <li><a href="#programmi-per-esperimenti-e-questionari" id="toc-programmi-per-esperimenti-e-questionari" class="nav-link" data-scroll-target="#programmi-per-esperimenti-e-questionari">Programmi per esperimenti e questionari</a></li>
+  </ul></li>
+  <li><a href="#passo-0b.-le-domande" id="toc-passo-0b.-le-domande" class="nav-link" data-scroll-target="#passo-0b.-le-domande">Passo 0b. Le domande</a></li>
+  <li><a href="#passo-1.-i-controlli" id="toc-passo-1.-i-controlli" class="nav-link" data-scroll-target="#passo-1.-i-controlli">Passo 1. I controlli</a>
+  <ul class="collapse">
+  <li><a href="#a.-dati-e-coerenza" id="toc-a.-dati-e-coerenza" class="nav-link" data-scroll-target="#a.-dati-e-coerenza">1a. Dati e coerenza</a></li>
+  <li><a href="#b.-struttura-nomi-e-formati" id="toc-b.-struttura-nomi-e-formati" class="nav-link" data-scroll-target="#b.-struttura-nomi-e-formati">1b. Struttura, nomi e formati</a></li>
+  <li><a href="#c.-readme" id="toc-c.-readme" class="nav-link" data-scroll-target="#c.-readme">1c. README</a></li>
+  <li><a href="#d.-data-dictionary" id="toc-d.-data-dictionary" class="nav-link" data-scroll-target="#d.-data-dictionary">1d. Data dictionary</a></li>
+  <li><a href="#e.-licenza" id="toc-e.-licenza" class="nav-link" data-scroll-target="#e.-licenza">1e. Licenza</a></li>
+  <li><a href="#f.-il-codice-gira" id="toc-f.-il-codice-gira" class="nav-link" data-scroll-target="#f.-il-codice-gira">1f. Il codice gira?</a></li>
+  <li><a href="#g.-pacchetti" id="toc-g.-pacchetti" class="nav-link" data-scroll-target="#g.-pacchetti">1g. Pacchetti</a></li>
+  <li><a href="#h.-dati-personali-e-materiale-di-terzi" id="toc-h.-dati-personali-e-materiale-di-terzi" class="nav-link" data-scroll-target="#h.-dati-personali-e-materiale-di-terzi">1h. Dati personali e materiale di terzi</a></li>
+  <li><a href="#i.-manoscritto-e-numeri-riportati" id="toc-i.-manoscritto-e-numeri-riportati" class="nav-link" data-scroll-target="#i.-manoscritto-e-numeri-riportati">1i. Manoscritto e numeri riportati</a></li>
+  </ul></li>
+  <li><a href="#passo-2.-il-rapporto" id="toc-passo-2.-il-rapporto" class="nav-link" data-scroll-target="#passo-2.-il-rapporto">Passo 2. Il rapporto</a></li>
+  <li><a href="#passo-3.-la-versione-da-depositare" id="toc-passo-3.-la-versione-da-depositare" class="nav-link" data-scroll-target="#passo-3.-la-versione-da-depositare">Passo 3. La versione da depositare</a>
+  <ul class="collapse">
+  <li><a href="#che-cosa-cambia-con-psych-ds" id="toc-che-cosa-cambia-con-psych-ds" class="nav-link" data-scroll-target="#che-cosa-cambia-con-psych-ds">Che cosa cambia con Psych-DS</a></li>
+  <li><a href="#piano" id="toc-piano" class="nav-link" data-scroll-target="#piano">3a. Il piano e le decisioni</a></li>
+  <li><a href="#b.-la-costruzione" id="toc-b.-la-costruzione" class="nav-link" data-scroll-target="#b.-la-costruzione">3b. La costruzione</a></li>
+  <li><a href="#c.-i-data-dictionary" id="toc-c.-i-data-dictionary" class="nav-link" data-scroll-target="#c.-i-data-dictionary">3c. I data dictionary</a></li>
+  <li><a href="#d.-readme-e-license" id="toc-d.-readme-e-license" class="nav-link" data-scroll-target="#d.-readme-e-license">3d. README e LICENSE</a></li>
+  <li><a href="#e.-la-verifica" id="toc-e.-la-verifica" class="nav-link" data-scroll-target="#e.-la-verifica">3e. La verifica</a></li>
+  <li><a href="#f.-lo-zip-e-la-consegna" id="toc-f.-lo-zip-e-la-consegna" class="nav-link" data-scroll-target="#f.-lo-zip-e-la-consegna">3f. Lo zip e la consegna</a></li>
+  </ul></li>
+  <li><a href="#le-regole-che-valgono-sempre" id="toc-le-regole-che-valgono-sempre" class="nav-link" data-scroll-target="#le-regole-che-valgono-sempre">Le regole che valgono sempre</a></li>
+  <li><a href="#i-file-della-skill" id="toc-i-file-della-skill" class="nav-link" data-scroll-target="#i-file-della-skill">I file della skill</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">fair-check, passo per passo</h1>
+<p class="subtitle lead">Tutto quello che la skill fa, nell’ordine in cui lo fa</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Questa pagina descrive per intero il lavoro della skill <a href="./skill.html">fair-check</a>: ogni passo, ogni controllo, ogni file che scrive. Per installarla e usarla basta la <a href="./skill.html">pagina principale</a>.</p>
+<p>La skill è fatta di due parti. Le <strong>istruzioni</strong> (<code>SKILL.md</code> e i file in <code>references/</code>) dicono all’assistente che cosa fare e come giudicare. Gli <strong>script</strong> in Python (in <code>scripts/</code>) fanno il lavoro meccanico: leggono i file, ricalcolano, eseguono il codice, costruiscono la cartella del deposito. Gli script danno fatti; l’assistente decide che cosa è un problema per chi riuserà i dati, quanto è grave e che cosa fare.</p>
+<section id="passo-0.-inventario" class="level2">
+<h2 class="anchored" data-anchor-id="passo-0.-inventario">Passo 0. Inventario</h2>
+<p>Se l’assistente non sa quale cartella controllare, lo chiede. Gli archivi zip (allegati o dentro il progetto) vengono estratti in una cartella temporanea. Poi lo script <code>fair_scan.py</code> legge tutta la cartella, senza modificarla, e scrive due file:</p>
+<ul>
+<li>un <strong>JSON completo</strong>, con ogni dettaglio (su un progetto reale anche più di 160.000 caratteri);</li>
+<li>un <strong>riassunto</strong> di poche pagine, che l’assistente legge per primo. Il JSON lo apre solo per il dettaglio di un punto.</li>
+</ul>
+<p>Il riassunto si apre con <strong>che cosa può fare l’ambiente</strong> in cui gira: se ci sono R, Quarto, Jupyter, un programma per leggere il testo dei PDF (<code>pdftotext</code>, Ghostscript o <code>pypdf</code>) e le librerie Python per Excel (<code>openpyxl</code>) e SPSS/Stata (<code>pyreadstat</code>). Per ognuno che manca dice che cosa non si potrà controllare. Elenca anche i file che non è riuscito a leggere, e perché.</p>
+<p>Poi elenca le segnalazioni divise per le aree del rapporto, ognuna con file, colonna o riga e un’etichetta:</p>
+<ul>
+<li><strong>certa</strong>: un fatto stabilito dallo script (una data di nascita, un file mancante, <code>setwd()</code>, un totale che non è la somma dei suoi item);</li>
+<li><strong>da verificare</strong>: una regola che è scattata ma potrebbe non valere (un valore fuori dall’intervallo degli altri item, due file che codificano una colonna in modo diverso). L’assistente la controlla nei dati, nel README o nel codice prima di riportarla, e la scarta se non regge.</li>
+</ul>
+<p>Le piccole cose (colonne costanti o vuote, spazi attorno ai valori) sono raggruppate per tipo, e nel rapporto valgono una frase ciascuna.</p>
+<section id="che-cosa-legge-lo-script" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosa-legge-lo-script">Che cosa legge lo script</h3>
+<ul>
+<li><strong>Dati tabellari</strong>: CSV, TSV e <code>.txt</code>/<code>.dat</code> delimitati in qualsiasi codifica (anche UTF-16), JSON (jsPsych, JATOS), log di E-Prime, Excel (con <code>openpyxl</code>), SPSS, Stata e SAS (con <code>pyreadstat</code>).</li>
+<li><strong>Codice</strong>: R, R Markdown, Quarto, Python, notebook Jupyter, MATLAB, sintassi SPSS, Stata, Julia, shell, JavaScript, SAS.</li>
+<li><strong>Manoscritti</strong>: i file con nomi come <code>manuscript</code>, <code>preprint</code>, <code>paper</code>, <code>tesi</code>, o dentro cartelle come <code>docs/</code> o <code>manoscritto/</code>. Gli altri PDF e file Word vengono elencati come “potrebbe essere il manoscritto”, da aprire.</li>
+<li><strong>File dell’esperimento</strong> (<code>.psyexp</code>, <code>.osexp</code>, <code>.es3</code>, script di jsPsych…): sono materiale, non codice di analisi, e non vengono mai eseguiti.</li>
+</ul>
+<p>Lo script ignora le cartelle di sistema e degli strumenti (<code>.git</code>, <code>.Rproj.user</code>, <code>renv/library</code>, <code>__pycache__</code>, <code>node_modules</code>…) e il file <code>renv/activate.R</code>, che scrive renv e non chi ha fatto lo studio.</p>
+</section>
+<section id="programmi-per-esperimenti-e-questionari" class="level3">
+<h3 class="anchored" data-anchor-id="programmi-per-esperimenti-e-questionari">Programmi per esperimenti e questionari</h3>
+<p>Riconosce i file di <strong>Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS), Gorilla, OpenSesame ed E-Prime</strong> dalle colonne che ciascun programma scrive da sé. Un export di Qualtrics viene riconosciuto anche se alcune colonne sono state tolte (bastano <code>Progress</code>, <code>Duration (in seconds)</code> e <code>Finished</code>).</p>
+<p>Per ogni programma sa:</p>
+<ul>
+<li>quali righe aggiunge attorno ai dati, che non sono errori ma vanno dette nel README e gestite negli script: le righe con il testo delle domande sotto l’intestazione (Qualtrics), il percorso del file sopra l’intestazione (E-DataAid), “END OF FILE” in fondo (Gorilla), l’ultima colonna vuota (PsychoPy);</li>
+<li>in che unità scrive i tempi (<code>key_resp.rt</code> di PsychoPy in secondi, <code>Reaction Time</code> di Gorilla in millisecondi, il RT 0 di E-Prime che vuol dire “nessuna risposta”);</li>
+<li>quale riga corrisponde a che cosa: spesso non a una prova, ma a un evento o a una schermata;</li>
+<li>quali colonne contengono dati personali (indirizzo IP, coordinate, ID di Prolific o del Public ID di Gorilla, percorsi del computer con il nome dell’utente).</li>
+</ul>
+<p>L’assistente legge la sezione delle istruzioni dedicata al programma trovato, non quella degli altri.</p>
+</section>
+</section>
+<section id="passo-0b.-le-domande" class="level2">
+<h2 class="anchored" data-anchor-id="passo-0b.-le-domande">Passo 0b. Le domande</h2>
+<p>Dopo l’inventario, e prima di qualsiasi controllo, l’assistente fa le domande che valgono per quella cartella, tutte in una volta. Salta quelle a cui la richiesta ha già risposto (“controlla solo il codice”). Se rispondete “fai tutto”, o se nessuno risponde, usa le risposte predefinite. Il rapporto dice in apertura quali scelte ha usato.</p>
+<ol type="1">
+<li><strong>Che cosa controllo?</strong> Dati e documentazione · il codice · i numeri del manoscritto · la versione da depositare. <em>Predefinito: tutto.</em> Le aree non scelte compaiono come “non controllate, su richiesta”, non come problemi. I dati personali vengono controllati comunque ogni volta che si guardano i dati o si costruisce il deposito: un deposito pubblico non si può ritirare.</li>
+<li><strong>Avete documenti che aiutano a capire lo studio?</strong> Preregistrazione, protocollo, codebook, note, il manoscritto se non è nella cartella. <em>Predefinito: no.</em> Servono come prove per il data dictionary e il README; non vengono copiati nel deposito se non lo chiedete.</li>
+<li><strong>Il deposito deve seguire <a href="./struttura-2.html">Psych-DS</a>?</strong> <em>Predefinito: no.</em> La differenza è descritta <a href="#che-cosa-cambia-con-psych-ds">nel passo 3</a>.</li>
+<li><strong>Dove lo depositerete?</strong> Zenodo (predefinito), PsychArchives o altro.</li>
+</ol>
+<p>Solo se c’è codice e lo si controlla, o si costruisce il deposito:</p>
+<ol start="5" type="1">
+<li><strong>R o Python</strong> per il codice che la skill scrive da zero (uno script che crea copie aperte, uno script di pulizia in un progetto senza codice). <em>Predefinito: la lingua dei vostri script, R se non ce ne sono.</em></li>
+<li><strong>Divido gli script lunghi per fasi?</strong> <em>Predefinito: sì.</em> Vedi <a href="#piano">il passo 3a</a>.</li>
+<li><strong>Uso i modelli già stimati?</strong> Solo con modelli pesanti (brms, Stan, simulazioni, bootstrap). <em>Predefinito: sì, se ci sono i file salvati;</em> altrimenti un tempo massimo più lungo, o si saltano.</li>
+</ol>
+</section>
+<section id="passo-1.-i-controlli" class="level2">
+<h2 class="anchored" data-anchor-id="passo-1.-i-controlli">Passo 1. I controlli</h2>
+<section id="a.-dati-e-coerenza" class="level3">
+<h3 class="anchored" data-anchor-id="a.-dati-e-coerenza">1a. Dati e coerenza</h3>
+<p><strong>Ogni colonna.</strong> Lo script ne ricava il tipo (intero, numerico, categorico, data, booleano, testo, liste o oggetti JSON nelle celle), l’intervallo, i valori distinti e i valori mancanti. Segnala:</p>
+<ul>
+<li>valori mancanti scritti in più modi (<code>NA</code>, <code>-99</code>, cella vuota, <code>.</code>);</li>
+<li>codici numerici di mancante (<code>999</code>, <code>-99</code>) quando sono lontani dagli altri valori;</li>
+<li>colonne quasi numeriche con qualche testo dentro (<code>'5/6'</code>, <code>'cinque'</code>);</li>
+<li>la stessa categoria scritta in modi diversi (<code>FS</code> e <code>fs</code>);</li>
+<li>date scritte in più formati, e date in cui giorno e mese non si distinguono (03/04 è il 3 aprile o il 4 marzo?);</li>
+<li>virgola decimale dentro un file separato da virgole;</li>
+<li>accenti rotti (<code>perchÃ©</code> per <code>perché</code>): un file UTF-8 aperto e salvato come Latin-1;</li>
+<li>celle con liste o oggetti JSON (più risposte in una cella), da descrivere nel dictionary;</li>
+<li>spazi attorno ai valori, colonne costanti o vuote.</li>
+</ul>
+<p><strong>Che cosa misura ogni colonna.</strong> Dal nome e dai valori lo script riconosce il ruolo di alcune colonne e cerca gli errori tipici di ciascuno:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Ruolo</th>
+<th style="text-align: left;">Che cosa controlla</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">età</td>
+<td style="text-align: left;">date al posto dell’età (date di nascita, cioè dati personali), anni di nascita, età sopra 110, negative, molto più basse delle altre, mesi invece di anni</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">genere</td>
+<td style="text-align: left;">codici numerici da spiegare nel dictionary; la stessa categoria scritta in modi diversi (<code>F</code>, <code>f</code>, <code>Femmina</code>, <code>female</code>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tempi di reazione</td>
+<td style="text-align: left;">unità (secondi o millisecondi, dalla mediana); valori nell’altra unità mescolati; negativi, uguali a 0, più veloci di 100 ms; sopra i 100 secondi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">accuratezza</td>
+<td style="text-align: left;">0/1, proporzione o percentuale; altri valori</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">item di questionario</td>
+<td style="text-align: left;">famiglie di item con lo stesso prefisso (<code>SA_1</code>…<code>SA_8</code>); valori fuori dall’intervallo che usano gli altri item; item della stessa scala nominati in modi diversi</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">condizione o gruppo</td>
+<td style="text-align: left;">un fattore scritto con numeri</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">istruzione, percentuali, proporzioni</td>
+<td style="text-align: left;">valori fuori dall’intervallo possibile</td>
+</tr>
+</tbody>
+</table>
+<p>Il ruolo è un’ipotesi: l’assistente lo conferma con il README, il dictionary o il codice. Colonne che riassumono più persone (<code>Mean Age</code>, <code>Sd Age</code>) non vengono trattate come dati dei partecipanti.</p>
+<p><strong>Punteggi ricalcolati riga per riga.</strong> Dove ci sono item di questionario:</p>
+<ul>
+<li>un <strong>item invertito</strong> (<code>SDQ_2r</code>) deve valere (massimo + minimo) − l’item, con la stessa costante in ogni riga. Lo script riporta le righe in cui non è così, o che la colonna non è affatto l’inverso dell’item;</li>
+<li>un <strong>totale o una media</strong> deve essere la somma o la media dei suoi item, con le versioni invertite dove esistono. Lo script prova la scala intera, un item ogni <em>s</em> (i domini di molti questionari: 1, 6, 11…) e blocchi consecutivi; riporta le righe in cui il punteggio non torna, e il caso di un totale che è la somma degli item più una colonna in più. Segnala anche i punteggi presenti in righe in cui alcuni item mancano (calcolati su meno item?).</li>
+</ul>
+<p>Sono fatti sul file, non ipotesi, e cambiano ogni statistica calcolata su quei punteggi. I punteggi che tornano servono comunque: dicono al data dictionary come è calcolato ciascuno.</p>
+<p><strong>Righe e partecipanti.</strong> Righe duplicate identiche, righe con un numero di campi diverso dall’intestazione, la colonna che identifica i partecipanti e quanti sono. Una colonna che dovrebbe avere un solo valore per persona (età, genere, gruppo) ma ne ha di più per lo stesso partecipante.</p>
+<p><strong>Fra file diversi.</strong> Lo script confronta i file fra loro:</p>
+<ul>
+<li>ID presenti in un file e non in un altro;</li>
+<li>la stessa persona con valori diversi nella stessa variabile (il gruppo <code>exp</code> in un file e <code>b</code> nell’altro);</li>
+<li>la stessa colonna con tipi diversi, o con valori che non hanno niente in comune (<code>FS, SD</code> contro <code>SR_WR, WR_WR</code>);</li>
+<li>file identici byte per byte sotto nomi diversi;</li>
+<li>“file set”: un file per partecipante o per sessione con le stesse colonne, riportati una volta sola, con le colonne che mancano in alcuni file.</li>
+</ul>
+<p><strong>File che non sono quello che sembrano.</strong> I segnaposto di Git LFS: file di poche righe che stanno al posto dei dati veri quando la cartella è stata scaricata da GitHub come zip. Lo script li riconosce byte per byte e l’assistente chiede se la vostra copia ha i file veri.</p>
+</section>
+<section id="b.-struttura-nomi-e-formati" class="level3">
+<h3 class="anchored" data-anchor-id="b.-struttura-nomi-e-formati">1b. Struttura, nomi e formati</h3>
+<ul>
+<li><strong>Nomi di file e cartelle</strong>: spazi, lettere accentate, caratteri speciali, parole di versione manuale (<code>finale</code>, <code>def</code>, <code>nuovo</code>, <code>bozza</code>), segni di copia (<code>(1)</code>, <code>- Copia</code>), file numerati senza zeri iniziali (<code>1_</code>, <code>10_</code> invece di <code>01_</code>, <code>10_</code>).</li>
+<li><strong>Nomi delle colonne</strong>: senza nome, duplicati, uguali a meno di maiuscole/minuscole, che cominciano con una cifra, parole riservate di R o Python, più lunghi di 32 caratteri (SPSS e Stata li tagliano), accenti rotti.</li>
+<li><strong>Struttura</strong>: quali cartelle ci sono (dati, dati grezzi, codice, output, materiali, documenti), quanti file stanno nella cartella principale, cartelle vuote, altri README nelle sottocartelle.</li>
+<li><strong>Formati</strong>: file di dati proprietari (Excel, SPSS, Stata, <code>.edat</code>, <code>.rds</code>) e se ne esiste una copia aperta; quando esiste, lo script confronta che contengano la stessa tabella. Un <code>.rds</code> senza copia aperta va bene se è un modello stimato, non se sono dati. Documenti in Word. Archivi zip, il cui contenuto va estratto e controllato a parte.</li>
+</ul>
+<p>Le cose che non vanno in un deposito (script vecchi, duplicati, file di sistema, prove come <code>quickrun.csv</code>) vengono indicate da togliere.</p>
+</section>
+<section id="c.-readme" class="level3">
+<h3 class="anchored" data-anchor-id="c.-readme">1c. README</h3>
+<p>L’assistente lo legge per intero. Lo script cerca le otto sezioni della <a href="./struttura-1.html#readme">dispensa</a> (titolo, autori con ORCID, descrizione e provenienza dei dati, contenuto, come leggere i dati, come riprodurre i risultati, licenza, come citare, materiali collegati), i segnaposto rimasti (<code>TODO</code>, <code>TBD</code>, <code>XXXX</code>, <em>lorem ipsum</em>), gli ORCID e i DOI, e i file della cartella che il README non nomina mai. Solo la lettura dice se un estraneo capirebbe che cos’è una riga di ogni file e in che ordine girano gli script.</p>
+</section>
+<section id="d.-data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="d.-data-dictionary">1d. Data dictionary</h3>
+<p>Per ogni file di dati: c’è un dictionary? È leggibile da un programma (CSV) o è un <code>.docx</code> o un PDF? Lo script confronta il dictionary con i dati: colonne non descritte, nomi che non coincidono, colonne senza etichetta, valori fuori da <code>allowed_values</code>, codici non spiegati in <code>coding</code>, valori mancanti presenti ma non dichiarati.</p>
+</section>
+<section id="e.-licenza" class="level3">
+<h3 class="anchored" data-anchor-id="e.-licenza">1e. Licenza</h3>
+<p>L’assistente decide quale licenza copre ogni parte (dati, codice, manoscritto, materiali propri e di terzi) leggendo i file LICENSE, il README, <code>CITATION.cff</code> e <code>DESCRIPTION</code>. Lo script riconosce le licenze più comuni dal testo (CC0, CC BY e varianti, GPL, LGPL, AGPL, MIT, Apache, BSD). Problemi tipici: nessuna licenza; una sola per tutto; Creative Commons sul codice; una licenza da software sui dati; CC BY-NC o CC BY-ND sui dati; un LICENSE che nomina la licenza senza il testo; il PDF dell’editore nella cartella. Un PDF dell’editore che dichiara di essere open access sotto CC BY si può depositare.</p>
+</section>
+<section id="f.-il-codice-gira" class="level3">
+<h3 class="anchored" data-anchor-id="f.-il-codice-gira">1f. Il codice gira?</h3>
+<p>L’assistente trova l’ordine di esecuzione (prima dal README, poi dai numeri nei nomi) e lancia <code>run_code.py</code>, che <strong>copia il progetto in una cartella temporanea</strong> ed esegue lì ogni script, dalla cartella principale del progetto, come farebbe RStudio con un <code>.Rproj</code>. Nella vostra cartella non arriva niente. Prima di farlo vi dice quanti script eseguirà. Per ogni script riporta: riuscito o errore, le ultime righe dell’errore, i pacchetti mancanti, i file creati o modificati, e salva quello che ha stampato (serve per il manoscritto). Uno script che si blocca viene fermato dopo il tempo massimo, insieme a tutti i processi che ha avviato.</p>
+<p>Che cosa ne ricava l’assistente:</p>
+<ul>
+<li><strong>il primo errore come causa</strong>: gli script successivi spesso falliscono solo perché leggono i suoi output;</li>
+<li><strong>problemi di portabilità</strong>: se uno script si ferma per <code>setwd()</code>, un percorso assoluto o un percorso relativo alla cartella dello script, lo corregge nella copia e lo esegue di nuovo. Il rapporto dice “così com’è non gira per X; corretto, gira” (o “poi si ferma a Y”). Questa seconda esecuzione è quella in cui emergono i problemi veri;</li>
+<li>script che <strong>modificano i dati grezzi</strong>, e output promessi dal README che nessuno script crea.</li>
+</ul>
+<p>Lo script <code>fair_scan.py</code>, senza eseguire niente, segnala anche: <code>setwd()</code>, percorsi assoluti, <code>install.packages()</code> dentro gli script, file letti che non esistono, file letti che nessuno script scrive e che non sono nei dati, script numerati prima di quelli che producono ciò che leggono, script che hanno bisogno l’uno dell’altro (nessun ordine li fa girare tutti), funzioni usate senza caricare il loro pacchetto (<code>kable()</code> senza knitr), valori calcolati dalla data di oggi (<code>Sys.Date()</code>: un’età cambia a seconda del giorno in cui si esegue lo script).</p>
+<p><strong>Modelli pesanti</strong> (brms, Stan, simulazioni, bootstrap). Se ci sono i modelli già stimati e non chiedete di stimarli di nuovo: se il codice li carica già (<code>readRDS()</code>, <code>brm(..., file = ...)</code>), lo esegue così; se li stima e poi li salva, nella copia temporanea sostituisce la stima con la lettura del file salvato. Il rapporto dice “modelli non stimati di nuovo”: questo controlla tutto quello che viene dopo la stima, non che la stima venga da quel codice e da quei dati. Per questo confronta almeno formula e numero di osservazioni salvati nel modello con il codice e i dati.</p>
+<p><strong>Progetti con renv</strong> (<code>renv.lock</code> e <code>renv/activate.R</code>): prima degli script esegue <code>renv::restore()</code> nella copia, che installa le versioni scritte in <code>renv.lock</code> nella libreria del progetto copiato (e nella cache di renv), non nel vostro R. La prima volta può richiedere alcuni minuti.</p>
+<p><strong>Seed.</strong> Per ogni script che usa numeri casuali (MCMC, bootstrap, simulazioni, <code>sample()</code>, divisioni casuali), dice quali funzioni li usano e se un seed è fissato (<code>set.seed()</code>, <code>seed =</code> in <code>brm()</code>, <code>np.random.seed</code>). Senza seed i risultati cambiano leggermente a ogni esecuzione.</p>
+<p>Gli script dell’esperimento (il <code>.py</code> di PsychoPy) non vengono eseguiti. Senza R (o MATLAB, SPSS) il codice viene letto ma non eseguito, e il rapporto lo dice.</p>
+</section>
+<section id="g.-pacchetti" class="level3">
+<h3 class="anchored" data-anchor-id="g.-pacchetti">1g. Pacchetti</h3>
+<p>Lo script elenca i pacchetti che il codice usa: quelli caricati con <code>library()</code>, <code>require()</code> o <code>::</code>, quelli elencati in un vettore e caricati in un ciclo (<code>pkg &lt;- c(...)</code> con <code>lapply(pkg, library, character.only = TRUE)</code>, un <code>for</code>, <code>ipak()</code>), <code>pacman::p_load()</code>, gli <code>import</code> di Python. L’assistente li confronta con quello che è dichiarato (<code>renv.lock</code>, <code>requirements.txt</code>, il README) e, se R è disponibile, ricava le versioni installate per il README. I pacchetti usati ma assenti da <code>renv.lock</code> sono un problema da segnalare (si risolve con <code>renv::snapshot()</code>), non qualcosa da installare.</p>
+<p>La skill non installa pacchetti nel vostro R: se mancano, ve lo dice e chiede.</p>
+</section>
+<section id="h.-dati-personali-e-materiale-di-terzi" class="level3">
+<h3 class="anchored" data-anchor-id="h.-dati-personali-e-materiale-di-terzi">1h. Dati personali e materiale di terzi</h3>
+<p>Lo script segnala le colonne che possono contenere dati personali, dal nome, dall’etichetta (il testo della domanda in Qualtrics) e dai valori:</p>
+<ul>
+<li>nomi, e-mail, numeri di telefono, codici fiscali, indirizzi;</li>
+<li>indirizzi IP e coordinate GPS;</li>
+<li>date di nascita, anche in una colonna con un altro nome (una colonna <code>Age</code> che contiene date);</li>
+<li>ID di piattaforme di reclutamento (Prolific, MTurk, il Public ID di Gorilla);</li>
+<li>ID fatti solo di lettere (iniziali o nomi digitati all’inizio della sessione);</li>
+<li>percorsi del computer con il nome dell’utente (OpenSesame, E-DataAid);</li>
+<li>risposte a testo libero, che l’assistente legge (senza mostrarle) per dire se contengono dettagli che identificano qualcuno.</li>
+</ul>
+<p>Per età, genere, istruzione, scuola, classe e simili, che da soli non identificano nessuno ma insieme possono farlo, conta <strong>quanti partecipanti sono gli unici con la loro combinazione di valori</strong>. Conta di più quando il campione viene da un gruppo piccolo e noto (una scuola, una classe). Le proposte (età in fasce, una classe senza sezione, togliere le colonne che l’analisi non usa) restano decisioni vostre.</p>
+<p>Se la colonna che identifica i partecipanti è essa stessa un dato personale (un ID di Prolific), va sostituita con codici di studio; la tabella di corrispondenza resta a voi, mai nel deposito.</p>
+<p>L’assistente controlla anche strumenti pubblicati, stimoli protetti da copyright e il PDF dell’editore, e se i file dell’esperimento ci sono e si possono condividere.</p>
+</section>
+<section id="i.-manoscritto-e-numeri-riportati" class="level3">
+<h3 class="anchored" data-anchor-id="i.-manoscritto-e-numeri-riportati">1i. Manoscritto e numeri riportati</h3>
+<p><strong>Il testo.</strong> Lo script <code>manuscript_numbers.py</code> estrae il testo da <code>.docx</code>, <code>.odt</code>, Markdown, R Markdown, Quarto, Sweave, LaTeX, HTML e PDF. Nei documenti R Markdown, Quarto e Sweave conta a parte i numeri scritti dal codice inline (<code>`r x`</code>): vengono dal codice per costruzione, e si controllano eseguendo il documento.</p>
+<p><strong>Contro sé stesso.</strong> Senza bisogno di dati o codice, controlla che:</p>
+<ul>
+<li>reclutati meno esclusi dia l’N dichiarato, e che i motivi di esclusione sommino al totale;</li>
+<li>i gruppi (donne e uomini…) sommino a N;</li>
+<li>le percentuali corrispondano ai loro conteggi;</li>
+<li>i gradi di libertà siano compatibili con N (r(178) richiede N = 180).</li>
+</ul>
+<p>Elenca anche le scale di risposta e le fasce d’età dichiarate, da confrontare con i dati: una scala “da 1 a 6” spiega un 6 segnalato dallo script; “età fra 16 e 19 anni” con un minimo di 15,5 nei dati è un problema. È un confronto sul testo (i PDF a due colonne mescolano le righe): l’assistente legge la frase prima di riportarla.</p>
+<p><strong>Contro l’output.</strong> Lo script trova nel testo ogni statistica riportata e cerca il numero nell’output degli script (quello stampato durante l’esecuzione e le tabelle scritte). Riconosce:</p>
+<ul>
+<li>frequentiste: M, SD, SE, mediana, IQR, t, F, z, r, rho, tau, χ², b, β, OR, RR, HR, d, g, η² (anche parziale), ω², ε², R², W, U, H, V, α, ω, ICC, AIC, BIC, RMSEA, CFI, TLI, SRMR, N, p, gradi di libertà;</li>
+<li>bayesiane: BF10, BF01, log BF, probabilità a posteriori, pd, R-hat, ESS, WAIC, LOOIC, elpd;</li>
+<li>intervalli: IC al 95%, intervalli di credibilità, HDI, ETI;</li>
+<li>frasi come “l’età media era 23,8” o “l’accuratezza era del 95,8%”.</li>
+</ul>
+<p>Un numero coincide se nell’output c’è un valore che arrotondato dà quello riportato (2,45 coincide con 2,4471). Legge separatori delle migliaia e virgole decimali. Riconosce lo stesso numero scritto in un altro modo, e dice quale: con il segno opposto (un altro livello di riferimento), un Bayes factor come reciproco o come logaritmo, una percentuale come proporzione, millisecondi come secondi. Per ogni coincidenza dice se l’output nomina la statistica su quella riga e in quanti punti compare il numero: una coincidenza fra numeri piccoli o frequenti è debole, e l’assistente guarda dove sta prima di dirlo riprodotto. Le tabelle lunghe a livello di prova vengono escluse dalla ricerca (darebbero coincidenze per caso), e anche il manoscritto stesso. Le figure non vengono confrontate.</p>
+<p>Senza codice e senza output, l’assistente ricalcola dai dati quello che si può (N, conteggi, medie, deviazioni standard, correlazioni di una tabella descrittiva) e lo indica come “ricalcolato dai dati”; modelli e test restano “non verificabili senza il codice”.</p>
+<p><strong>Il resto.</strong> Data availability (repository e DOI, o “su richiesta”?), partecipanti ed esclusioni rispetto a quello che fanno gli script, versione del PDF (preprint, accettato, o PDF dell’editore).</p>
+</section>
+</section>
+<section id="passo-2.-il-rapporto" class="level2">
+<h2 class="anchored" data-anchor-id="passo-2.-il-rapporto">Passo 2. Il rapporto</h2>
+<p>È scritto nella vostra lingua: titoli, tabella e testo. Le etichette “certa” e “da verificare” restano all’assistente: nel rapporto un problema verificato è un fatto, uno non risolto dice che cosa resta da controllare.</p>
+<ol type="1">
+<li><strong>Un paragrafo iniziale</strong>: che cosa contiene la cartella, quali controlli sono stati fatti e con quali scelte, se un estraneo potrebbe riusarla oggi, e l’ostacolo più grande.</li>
+<li><strong>Risultati che potrebbero cambiare</strong>, se ce ne sono: errori nei dati che entrano nelle analisi, punteggi calcolati diversamente dai loro item, numeri del manoscritto che non escono dai dati o dal codice, esclusioni descritte nel testo e non fatte dal codice. Per ciascuno: il valore riportato, quello trovato, la prova, la tabella o la frase che cambierebbe.</li>
+<li><strong>Una tabella</strong>: un’area per riga (dati, struttura e nomi, formati, README, data dictionary, licenza, codice, pacchetti, manoscritto, dati personali) con ✅ a posto, ⚠️ da sistemare, ❌ mancante o bloccante.</li>
+<li><strong>Una sezione per area</strong>, con il link alla pagina della dispensa corrispondente. Ogni problema dice file, colonna o riga e che cosa troverebbe chi prova a riusare i dati, ed è accompagnato dal dato che lo dimostra (“in 211 righe su 234”), mai da “alcune righe”. Le aree a posto hanno una riga. Nella sezione sul manoscritto, una tabella: statistica, dove, valore riportato, valore nell’output (con lo script), esito.</li>
+<li><strong>Che cosa sistemare per primo</strong>: al massimo cinque o sei azioni concrete, in ordine di quanto bloccano il riuso.</li>
+<li><strong>La versione da depositare</strong>: che cosa costruirà il passo 3 e quali decisioni servono da voi.</li>
+</ol>
+<p>Quello che non si è potuto controllare in quell’ambiente è detto con il motivo (“gli script non sono stati eseguiti: in questo ambiente non c’è R”) e non è contato come un problema della cartella. Le aree non scelte sono elencate nel paragrafo iniziale.</p>
+</section>
+<section id="passo-3.-la-versione-da-depositare" class="level2">
+<h2 class="anchored" data-anchor-id="passo-3.-la-versione-da-depositare">Passo 3. La versione da depositare</h2>
+<p>Una cartella nuova, <code>&lt;progetto&gt;_deposit</code>, accanto alla vostra (o dove dite voi), sempre con le stesse sottocartelle:</p>
+<pre><code>progetto_deposit/
+├── README.md
+├── LICENSE
+├── data/             i dati, con nomi come study-stroop_task-flanker_data.csv
+│   └── raw/          gli export originali
+├── dictionaries/     un data dictionary per ogni file di dati
+├── scripts/          il codice, numerato nell'ordine in cui va eseguito
+├── output/           figure, tabelle e modelli prodotti dagli script
+├── materials/        l'esperimento e i materiali propri
+└── docs/             preprint, preregistrazione</code></pre>
+<section id="che-cosa-cambia-con-psych-ds" class="level3">
+<h3 class="anchored" data-anchor-id="che-cosa-cambia-con-psych-ds">Che cosa cambia con Psych-DS</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Senza Psych-DS (predefinito)</th>
+<th style="text-align: left;">Con Psych-DS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cartelle</td>
+<td style="text-align: left;">quelle sopra</td>
+<td style="text-align: left;">quelle sopra</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nomi dei file di dati</td>
+<td style="text-align: left;"><code>study-x_task-y_data.&lt;estensione propria&gt;</code></td>
+<td style="text-align: left;"><code>study-x_task-y_data.csv</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Formati aperti (<code>.tsv</code>, <code>.txt</code>, <code>.json</code>)</td>
+<td style="text-align: left;">restano come sono</td>
+<td style="text-align: left;">convertiti in CSV UTF-8 separato da virgole</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>dataset_description.json</code></td>
+<td style="text-align: left;">non creato</td>
+<td style="text-align: left;">creato dai data dictionary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Validatore Psych-DS</td>
+<td style="text-align: left;">non è un obiettivo</td>
+<td style="text-align: left;">deve passare</td>
+</tr>
+</tbody>
+</table>
+<p>In entrambi i casi, un file proprietario senza copia aperta (Excel, SPSS, Stata, <code>.edat</code>) ne riceve una: questo è FAIR, non Psych-DS.</p>
+</section>
+<section id="piano" class="level3">
+<h3 class="anchored" data-anchor-id="piano">3a. Il piano e le decisioni</h3>
+<p>Per ogni file del progetto il piano dice dove va e con quale nome, o perché resta fuori: dati con nomi chiave-valore, script in <code>scripts/</code> numerati nell’ordine di esecuzione, export originali in <code>data/raw/</code>, file dell’esperimento in <code>materials/</code>, il preprint in <code>docs/</code>.</p>
+<p><strong>Script lunghi divisi per fasi</strong> (se l’avete scelto): il piano mostra dove viene tagliato ogni script (numeri di riga, alla fine di una fase) e quale file passa i risultati al pezzo successivo. Le righe restano le vostre; le uniche aggiunte sono una riga alla fine di un pezzo che salva quello che serve dopo (<code>write.csv()</code> dei dati elaborati, <code>saveRDS()</code> di un modello), una riga all’inizio del pezzo successivo che lo legge, e i <code>library()</code> che servono a ciascun pezzo. Niente cambi di stile, niente oggetti rinominati.</p>
+<p>L’assistente vi mostra il piano in una tabella con le decisioni che spettano a voi, e aspetta:</p>
+<ul>
+<li>quali file lasciare fuori (script vecchi, duplicati, materiale di terzi, il PDF dell’editore);</li>
+<li>quali colonne personali togliere dalla copia del deposito, o se usare l’accesso riservato;</li>
+<li>se applicare le correzioni ai dati trovate nel passo 1. Con il codice vanno nello script di pulizia (visibili e riproducibili); in un progetto di soli dati, nella copia del deposito, ciascuna elencata nel README;</li>
+<li>le licenze: CC0 1.0 per i dati, GPL-3.0 per il codice, CC BY 4.0 per preprint, figure e materiali propri, se non volete altro;</li>
+<li>se mettere i modelli già stimati in <code>output/</code> (chi legge può verificare i risultati senza ore di calcolo, ma possono essere grandi);</li>
+<li>quello che l’assistente non può sapere: autori, ORCID, date, DOI (restano <code>TODO</code> se non li date).</li>
+</ul>
+<p>Se dite di procedere senza rispondere, usa le scelte predefinite, non applica correzioni ai dati ed elenca alla fine i punti aperti.</p>
+</section>
+<section id="b.-la-costruzione" class="level3">
+<h3 class="anchored" data-anchor-id="b.-la-costruzione">3b. La costruzione</h3>
+<p>Lo script <code>build_deposit.py</code> copia solo i file del piano, con i nuovi nomi, e verifica byte per byte che ogni copia sia identica all’originale. Riscrive i percorsi dentro gli script perché puntino alle nuove posizioni (anche dentro <code>here("data", "x.csv")</code> e <code>file.path(...)</code>). Non scrive mai in una cartella che esiste già. Può anche:</p>
+<ul>
+<li>togliere colonne (dati personali) da una copia, in ogni riga;</li>
+<li>convertire un file in CSV UTF-8 con il punto decimale, adattando gli script che lo leggono con <code>read.csv2</code>, <code>sep = ";"</code>, <code>dec = ","</code> o una codifica UTF-16 (solo con Psych-DS o se lo chiedete);</li>
+<li>creare una copia CSV aperta da JSON, log di E-Prime, TSV, export UTF-16, fogli Excel o file SPSS, senza le righe aggiunte dall’export.</li>
+</ul>
+<p>Riporta i percorsi che non ha potuto sistemare (percorsi assoluti, file mancanti) e le righe da controllare a mano. L’assistente le corregge negli script del deposito, insieme a <code>setwd()</code> e percorsi assoluti, ai seed concordati e alle correzioni ai dati approvate. Ogni modifica è la più piccola possibile, nello stile del codice intorno; il codice nuovo è nella lingua scelta e nello stile dei vostri script.</p>
+</section>
+<section id="c.-i-data-dictionary" class="level3">
+<h3 class="anchored" data-anchor-id="c.-i-data-dictionary">3c. I data dictionary</h3>
+<p>Lo script <code>draft_dictionary.py</code> scrive una bozza per ogni file di dati, con le nove colonne della <a href="./struttura-1.html#data-dictionary">dispensa</a> (<code>variable_name</code>, <code>label</code>, <code>type</code>, <code>unit</code>, <code>allowed_values</code>, <code>coding</code>, <code>missing_values</code>, <code>source</code>, <code>notes</code>). I file con le stesse colonne (un file per partecipante) hanno un solo dictionary. Anche gli export grezzi in <code>data/raw/</code> ne ricevono uno, se gli script partono da lì. La bozza prende:</p>
+<ul>
+<li>dai dati: nome, tipo, come appaiono i valori mancanti, i codici osservati delle colonne categoriche, l’intervallo osservato delle numeriche (nelle note: i valori presenti non sono la scala);</li>
+<li>dal file stesso: il testo delle domande di Qualtrics, le etichette di SPSS;</li>
+<li>dalla conoscenza dei programmi: etichetta, unità e codifica delle colonne che Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed E-Prime scrivono da sé, marcate “da verificare”.</li>
+</ul>
+<p>Il resto è <code>TODO</code>. L’assistente completa quello che può dimostrare (README, manoscritto, unità nel codice o nei nomi come <code>rt_ms</code>, codici da <code>factor(..., labels = )</code>, scale di questionari pubblicati, il modo in cui sono calcolati i punteggi); quello che ha solo una prova indiretta è marcato “da verificare”; dove non c’è niente resta <code>TODO</code>, perché un’etichetta inventata sembra documentata e nessuno la controlla. Se il progetto aveva già un dictionary, parte da quello.</p>
+<p>Solo con Psych-DS, <code>make_psychds.py</code> scrive <code>dataset_description.json</code> a partire dai dictionary e riporta le colonne che non vi sono descritte.</p>
+</section>
+<section id="d.-readme-e-license" class="level3">
+<h3 class="anchored" data-anchor-id="d.-readme-e-license">3d. README e LICENSE</h3>
+<p>Il <strong>README</strong> ha le otto sezioni della dispensa, scritte per la nuova struttura e i nuovi nomi: che cos’è una riga in ogni file e come si collegano i file; come riprodurre i risultati (software e versione, pacchetti con le versioni e una riga <code>install.packages()</code>, ordine degli script e che cosa produce ciascuno); le modifiche rispetto ai file originali; la licenza di ogni parte; <code>TODO</code> per quello che sapete solo voi. È nella lingua del README che c’era, in inglese se non c’era. Suggerisce renv, senza eseguirlo.</p>
+<p>Il <strong>LICENSE</strong> dice quale licenza vale per quale parte e poi riporta il testo ufficiale completo di ciascuna, copiato dai file della skill (CC0 1.0, GPL-3.0, CC BY 4.0). Una licenza non viene mai scritta a memoria; per una licenza diversa l’assistente chiede prima di scaricarne il testo ufficiale.</p>
+</section>
+<section id="e.-la-verifica" class="level3">
+<h3 class="anchored" data-anchor-id="e.-la-verifica">3e. La verifica</h3>
+<ul>
+<li>Con il codice: esegue di nuovo tutti gli script <strong>nella cartella del deposito</strong>, così figure e tabelle finiscono in <code>output/</code>. Ogni script deve girare. Se ha controllato il manoscritto, ripete il confronto con il nuovo output: i risultati devono essere gli stessi del passo 1i. Le differenze negli script senza seed mostrano che cosa otterrebbe un lettore. Se gli script sono stati divisi, i numeri devono essere uguali a quelli dello script originale.</li>
+<li>Se i modelli non sono stati stimati di nuovo: esegue in una copia con i modelli salvati, lascia gli script del deposito come sono e dice che <code>output/</code> non è stato rigenerato.</li>
+<li>Esegue <code>fair_scan.py</code> sul deposito: nessun problema di nomi, un dictionary completo per ogni file di dati, nessun dato personale rimasto; con Psych-DS, i requisiti minimi rispettati.</li>
+<li>Toglie quello che l’esecuzione ha creato e non c’entra (<code>.Rhistory</code>, cache, <code>Rplots.pdf</code>).</li>
+</ul>
+</section>
+<section id="f.-lo-zip-e-la-consegna" class="level3">
+<h3 class="anchored" data-anchor-id="f.-lo-zip-e-la-consegna">3f. Lo zip e la consegna</h3>
+<p>Lo script crea lo zip della cartella (senza file nascosti e di sistema) e ne stampa l’MD5, da confrontare con quello che Zenodo mostra dopo il caricamento. Si rifiuta di creare lo zip se un file è ancora un segnaposto di Git LFS invece del file vero.</p>
+<p>Alla fine l’assistente vi dice:</p>
+<ul>
+<li>dove sono la cartella e lo zip, e come caricarli: su <strong>Zenodo</strong> lo zip è l’unico file (Zenodo ne mostra il contenuto); su <strong>PsychArchives</strong> o un altro repository, quali campi dei metadati sono già nel README (titolo, autori, descrizione, licenza, parole chiave);</li>
+<li>ogni modifica rispetto all’originale (file rinominati, cartelle spostate, percorsi riscritti, colonne tolte, script divisi, righe aggiunte o corrette), perché possiate controllarle una per una;</li>
+<li>che cosa è ancora <code>TODO</code>, le voci del dictionary “da verificare”, le decisioni aperte;</li>
+<li>con Psych-DS, di controllare la cartella con il <a href="https://psych-ds.github.io/validator/">validatore</a>;</li>
+<li>una volta ottenuto il DOI, di inserirlo nel README, in <code>dataset_description.json</code> (se c’è) e nella Data availability dell’articolo.</li>
+</ul>
+</section>
+</section>
+<section id="le-regole-che-valgono-sempre" class="level2">
+<h2 class="anchored" data-anchor-id="le-regole-che-valgono-sempre">Le regole che valgono sempre</h2>
+<ul>
+<li><strong>La vostra cartella non viene mai modificata.</strong> È spesso l’unica copia. Tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare.</li>
+<li><strong>Cambia il meno possibile.</strong> Chi non riconosce più i propri file e il proprio codice non si fida del deposito. Ogni modifica al vostro codice è la più piccola che risolve il problema, nel vostro stile, ed è elencata alla fine. Le correzioni ai dati sono proposte, mai applicate senza il vostro accordo.</li>
+<li><strong>Parla e scrive nella vostra lingua.</strong> Nomi di file, nomi di colonne e codice restano come sono.</li>
+<li><strong>Non mostra i dati.</strong> Lo script riporta riassunti (tipi, intervalli, conteggi), non righe, e non mostra i valori delle colonne che sembrano dati personali; l’assistente guarda i dati solo attraverso conteggi e statistiche.</li>
+<li><strong>Non inventa.</strong> Nel dictionary e nel README scrive solo quello che trova scritto da qualche parte; il resto resta <code>TODO</code>.</li>
+<li><strong>Non installa pacchetti nel vostro R</strong> e chiede prima di scaricare qualsiasi cosa.</li>
+</ul>
+</section>
+<section id="i-file-della-skill" class="level2">
+<h2 class="anchored" data-anchor-id="i-file-della-skill">I file della skill</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Che cosa contiene</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>SKILL.md</code></td>
+<td style="text-align: left;">il percorso: inventario, domande, rapporto; i link alle pagine della dispensa</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>references/check-data.md</code></td>
+<td style="text-align: left;">i controlli su dati, struttura, README, dictionary, licenza, dati personali</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>references/check-code.md</code></td>
+<td style="text-align: left;">l’esecuzione del codice, i modelli pesanti, renv, i seed, i pacchetti</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>references/check-manuscript.md</code></td>
+<td style="text-align: left;">i controlli sul manoscritto</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>references/deposit.md</code></td>
+<td style="text-align: left;">la versione da depositare</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>references/fair-rules.md</code></td>
+<td style="text-align: left;">le regole della dispensa, riassunte, per i casi in cui serve la regola</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>references/software-exports.md</code></td>
+<td style="text-align: left;">i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scripts/fair_scan.py</code></td>
+<td style="text-align: left;">l’inventario e i controlli su file, dati e codice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>scripts/summary.py</code></td>
+<td style="text-align: left;">il riassunto dell’inventario e il controllo dell’ambiente</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scripts/software.py</code></td>
+<td style="text-align: left;">che cosa scrive ciascun programma per esperimenti</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>scripts/run_code.py</code></td>
+<td style="text-align: left;">l’esecuzione del codice in una copia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scripts/manuscript_numbers.py</code></td>
+<td style="text-align: left;">il testo del manoscritto e il confronto dei numeri</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>scripts/draft_dictionary.py</code></td>
+<td style="text-align: left;">le bozze dei data dictionary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scripts/build_deposit.py</code></td>
+<td style="text-align: left;">la versione da depositare, il LICENSE, lo zip</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>scripts/make_psychds.py</code></td>
+<td style="text-align: left;"><code>dataset_description.json</code> (solo con Psych-DS)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>assets/licenses/</code></td>
+<td style="text-align: left;">i testi ufficiali delle licenze</td>
+</tr>
+</tbody>
+</table>
+<p>L’assistente legge sempre <code>SKILL.md</code>; gli altri file di istruzioni solo per le aree che avete scelto. I sorgenti sono nella cartella <a href="https://github.com/mar-cald/fair/tree/main/skill"><code>skill/</code></a> del repository di questo sito.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiato!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiato!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Margherita Calderan<br>Dipartimento di Psicologia Generale, Università di Padova</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Contenuti <a href="https://creativecommons.org/licenses/by/4.0/deed.it">CC BY 4.0</a> · <a href="./risorse.html#fonti">Fonti</a> · <a href="booklet/vademecum.pdf">Vademecum PDF</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

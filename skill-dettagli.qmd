@@ -1,0 +1,654 @@
+---
+title: "fair-check, passo per passo"
+subtitle: "Tutto quello che la skill fa, nell'ordine in cui lo fa"
+toc-depth: 3
+---
+
+Questa pagina descrive per intero il lavoro della skill
+[fair-check](skill.qmd): ogni passo, ogni controllo, ogni file che scrive. Per
+installarla e usarla basta la [pagina principale](skill.qmd).
+
+La skill è fatta di due parti. Le **istruzioni** (`SKILL.md` e i file in
+`references/`) dicono all'assistente che cosa fare e come giudicare. Gli
+**script** in Python (in `scripts/`) fanno il lavoro meccanico: leggono i file,
+ricalcolano, eseguono il codice, costruiscono la cartella del deposito. Gli
+script danno fatti; l'assistente decide che cosa è un problema per chi
+riuserà i dati, quanto è grave e che cosa fare.
+
+## Passo 0. Inventario
+
+Se l'assistente non sa quale cartella controllare, lo chiede. Gli archivi zip
+(allegati o dentro il progetto) vengono estratti in una cartella temporanea.
+Poi lo script `fair_scan.py` legge tutta la cartella, senza modificarla, e
+scrive due file:
+
+- un **JSON completo**, con ogni dettaglio (su un progetto reale anche più di
+  160.000 caratteri);
+- un **riassunto** di poche pagine, che l'assistente legge per primo. Il JSON
+  lo apre solo per il dettaglio di un punto.
+
+Il riassunto si apre con **che cosa può fare l'ambiente** in cui gira: se ci
+sono R, Quarto, Jupyter, un programma per leggere il testo dei PDF
+(`pdftotext`, Ghostscript o `pypdf`) e le librerie Python per Excel
+(`openpyxl`) e SPSS/Stata (`pyreadstat`). Per ognuno che manca dice che cosa
+non si potrà controllare. Elenca anche i file che non è riuscito a leggere, e
+perché.
+
+Poi elenca le segnalazioni divise per le aree del rapporto, ognuna con file,
+colonna o riga e un'etichetta:
+
+- **certa**: un fatto stabilito dallo script (una data di nascita, un file
+  mancante, `setwd()`, un totale che non è la somma dei suoi item);
+- **da verificare**: una regola che è scattata ma potrebbe non valere (un
+  valore fuori dall'intervallo degli altri item, due file che codificano una
+  colonna in modo diverso). L'assistente la controlla nei dati, nel README o
+  nel codice prima di riportarla, e la scarta se non regge.
+
+Le piccole cose (colonne costanti o vuote, spazi attorno ai valori) sono
+raggruppate per tipo, e nel rapporto valgono una frase ciascuna.
+
+### Che cosa legge lo script
+
+- **Dati tabellari**: CSV, TSV e `.txt`/`.dat` delimitati in qualsiasi codifica
+  (anche UTF-16), JSON (jsPsych, JATOS), log di E-Prime, Excel (con `openpyxl`),
+  SPSS, Stata e SAS (con `pyreadstat`).
+- **Codice**: R, R Markdown, Quarto, Python, notebook Jupyter, MATLAB, sintassi
+  SPSS, Stata, Julia, shell, JavaScript, SAS.
+- **Manoscritti**: i file con nomi come `manuscript`, `preprint`, `paper`,
+  `tesi`, o dentro cartelle come `docs/` o `manoscritto/`. Gli altri PDF e file
+  Word vengono elencati come "potrebbe essere il manoscritto", da aprire.
+- **File dell'esperimento** (`.psyexp`, `.osexp`, `.es3`, script di jsPsych…):
+  sono materiale, non codice di analisi, e non vengono mai eseguiti.
+
+Lo script ignora le cartelle di sistema e degli strumenti (`.git`,
+`.Rproj.user`, `renv/library`, `__pycache__`, `node_modules`…) e il file
+`renv/activate.R`, che scrive renv e non chi ha fatto lo studio.
+
+### Programmi per esperimenti e questionari
+
+Riconosce i file di **Qualtrics, PsychoPy (e Pavlovia), jsPsych (e JATOS),
+Gorilla, OpenSesame ed E-Prime** dalle colonne che ciascun programma scrive da
+sé. Un export di Qualtrics viene riconosciuto anche se alcune colonne sono
+state tolte (bastano `Progress`, `Duration (in seconds)` e `Finished`).
+
+Per ogni programma sa:
+
+- quali righe aggiunge attorno ai dati, che non sono errori ma vanno dette nel
+  README e gestite negli script: le righe con il testo delle domande sotto
+  l'intestazione (Qualtrics), il percorso del file sopra l'intestazione
+  (E-DataAid), "END OF FILE" in fondo (Gorilla), l'ultima colonna vuota
+  (PsychoPy);
+- in che unità scrive i tempi (`key_resp.rt` di PsychoPy in secondi,
+  `Reaction Time` di Gorilla in millisecondi, il RT 0 di E-Prime che vuol dire
+  "nessuna risposta");
+- quale riga corrisponde a che cosa: spesso non a una prova, ma a un evento o
+  a una schermata;
+- quali colonne contengono dati personali (indirizzo IP, coordinate, ID di
+  Prolific o del Public ID di Gorilla, percorsi del computer con il nome
+  dell'utente).
+
+L'assistente legge la sezione delle istruzioni dedicata al programma trovato,
+non quella degli altri.
+
+## Passo 0b. Le domande
+
+Dopo l'inventario, e prima di qualsiasi controllo, l'assistente fa le domande
+che valgono per quella cartella, tutte in una volta. Salta quelle a cui la
+richiesta ha già risposto ("controlla solo il codice"). Se rispondete "fai
+tutto", o se nessuno risponde, usa le risposte predefinite. Il rapporto dice in
+apertura quali scelte ha usato.
+
+1. **Che cosa controllo?** Dati e documentazione · il codice · i numeri del
+   manoscritto · la versione da depositare. *Predefinito: tutto.* Le aree non
+   scelte compaiono come "non controllate, su richiesta", non come problemi. I
+   dati personali vengono controllati comunque ogni volta che si guardano i
+   dati o si costruisce il deposito: un deposito pubblico non si può ritirare.
+2. **Avete documenti che aiutano a capire lo studio?** Preregistrazione,
+   protocollo, codebook, note, il manoscritto se non è nella cartella.
+   *Predefinito: no.* Servono come prove per il data dictionary e il README; non
+   vengono copiati nel deposito se non lo chiedete.
+3. **Il deposito deve seguire [Psych-DS](struttura-2.qmd)?** *Predefinito:
+   no.* La differenza è descritta [nel passo 3](#che-cosa-cambia-con-psych-ds).
+4. **Dove lo depositerete?** Zenodo (predefinito), PsychArchives o altro.
+
+Solo se c'è codice e lo si controlla, o si costruisce il deposito:
+
+5. **R o Python** per il codice che la skill scrive da zero (uno script che
+   crea copie aperte, uno script di pulizia in un progetto senza codice).
+   *Predefinito: la lingua dei vostri script, R se non ce ne sono.*
+6. **Divido gli script lunghi per fasi?** *Predefinito: sì.* Vedi
+   [il passo 3a](#piano).
+7. **Uso i modelli già stimati?** Solo con modelli pesanti (brms, Stan,
+   simulazioni, bootstrap). *Predefinito: sì, se ci sono i file salvati;*
+   altrimenti un tempo massimo più lungo, o si saltano.
+
+## Passo 1. I controlli
+
+### 1a. Dati e coerenza
+
+**Ogni colonna.** Lo script ne ricava il tipo (intero, numerico, categorico,
+data, booleano, testo, liste o oggetti JSON nelle celle), l'intervallo, i
+valori distinti e i valori mancanti. Segnala:
+
+- valori mancanti scritti in più modi (`NA`, `-99`, cella vuota, `.`);
+- codici numerici di mancante (`999`, `-99`) quando sono lontani dagli altri
+  valori;
+- colonne quasi numeriche con qualche testo dentro (`'5/6'`, `'cinque'`);
+- la stessa categoria scritta in modi diversi (`FS` e `fs`);
+- date scritte in più formati, e date in cui giorno e mese non si distinguono
+  (03/04 è il 3 aprile o il 4 marzo?);
+- virgola decimale dentro un file separato da virgole;
+- accenti rotti (`perchÃ©` per `perché`): un file UTF-8 aperto e salvato come
+  Latin-1;
+- celle con liste o oggetti JSON (più risposte in una cella), da descrivere
+  nel dictionary;
+- spazi attorno ai valori, colonne costanti o vuote.
+
+**Che cosa misura ogni colonna.** Dal nome e dai valori lo script riconosce il
+ruolo di alcune colonne e cerca gli errori tipici di ciascuno:
+
+| Ruolo | Che cosa controlla |
+|:--|:--|
+| età | date al posto dell'età (date di nascita, cioè dati personali), anni di nascita, età sopra 110, negative, molto più basse delle altre, mesi invece di anni |
+| genere | codici numerici da spiegare nel dictionary; la stessa categoria scritta in modi diversi (`F`, `f`, `Femmina`, `female`) |
+| tempi di reazione | unità (secondi o millisecondi, dalla mediana); valori nell'altra unità mescolati; negativi, uguali a 0, più veloci di 100 ms; sopra i 100 secondi |
+| accuratezza | 0/1, proporzione o percentuale; altri valori |
+| item di questionario | famiglie di item con lo stesso prefisso (`SA_1`…`SA_8`); valori fuori dall'intervallo che usano gli altri item; item della stessa scala nominati in modi diversi |
+| condizione o gruppo | un fattore scritto con numeri |
+| istruzione, percentuali, proporzioni | valori fuori dall'intervallo possibile |
+
+Il ruolo è un'ipotesi: l'assistente lo conferma con il README, il dictionary o
+il codice. Colonne che riassumono più persone (`Mean Age`, `Sd Age`) non
+vengono trattate come dati dei partecipanti.
+
+**Punteggi ricalcolati riga per riga.** Dove ci sono item di questionario:
+
+- un **item invertito** (`SDQ_2r`) deve valere (massimo + minimo) − l'item, con
+  la stessa costante in ogni riga. Lo script riporta le righe in cui non è
+  così, o che la colonna non è affatto l'inverso dell'item;
+- un **totale o una media** deve essere la somma o la media dei suoi item, con
+  le versioni invertite dove esistono. Lo script prova la scala intera, un item
+  ogni *s* (i domini di molti questionari: 1, 6, 11…) e blocchi consecutivi;
+  riporta le righe in cui il punteggio non torna, e il caso di un totale che è
+  la somma degli item più una colonna in più. Segnala anche i punteggi presenti
+  in righe in cui alcuni item mancano (calcolati su meno item?).
+
+Sono fatti sul file, non ipotesi, e cambiano ogni statistica calcolata su quei
+punteggi. I punteggi che tornano servono comunque: dicono al data dictionary
+come è calcolato ciascuno.
+
+**Righe e partecipanti.** Righe duplicate identiche, righe con un numero di
+campi diverso dall'intestazione, la colonna che identifica i partecipanti e
+quanti sono. Una colonna che dovrebbe avere un solo valore per persona (età,
+genere, gruppo) ma ne ha di più per lo stesso partecipante.
+
+**Fra file diversi.** Lo script confronta i file fra loro:
+
+- ID presenti in un file e non in un altro;
+- la stessa persona con valori diversi nella stessa variabile (il gruppo
+  `exp` in un file e `b` nell'altro);
+- la stessa colonna con tipi diversi, o con valori che non hanno niente in
+  comune (`FS, SD` contro `SR_WR, WR_WR`);
+- file identici byte per byte sotto nomi diversi;
+- "file set": un file per partecipante o per sessione con le stesse colonne,
+  riportati una volta sola, con le colonne che mancano in alcuni file.
+
+**File che non sono quello che sembrano.** I segnaposto di Git LFS: file di
+poche righe che stanno al posto dei dati veri quando la cartella è stata
+scaricata da GitHub come zip. Lo script li riconosce byte per byte e
+l'assistente chiede se la vostra copia ha i file veri.
+
+### 1b. Struttura, nomi e formati
+
+- **Nomi di file e cartelle**: spazi, lettere accentate, caratteri speciali,
+  parole di versione manuale (`finale`, `def`, `nuovo`, `bozza`), segni di copia
+  (`(1)`, ` - Copia`), file numerati senza zeri iniziali (`1_`, `10_` invece di
+  `01_`, `10_`).
+- **Nomi delle colonne**: senza nome, duplicati, uguali a meno di
+  maiuscole/minuscole, che cominciano con una cifra, parole riservate di R o
+  Python, più lunghi di 32 caratteri (SPSS e Stata li tagliano), accenti rotti.
+- **Struttura**: quali cartelle ci sono (dati, dati grezzi, codice, output,
+  materiali, documenti), quanti file stanno nella cartella principale, cartelle
+  vuote, altri README nelle sottocartelle.
+- **Formati**: file di dati proprietari (Excel, SPSS, Stata, `.edat`, `.rds`)
+  e se ne esiste una copia aperta; quando esiste, lo script confronta che
+  contengano la stessa tabella. Un `.rds` senza copia aperta va bene se è un
+  modello stimato, non se sono dati. Documenti in Word. Archivi zip, il cui
+  contenuto va estratto e controllato a parte.
+
+Le cose che non vanno in un deposito (script vecchi, duplicati, file di
+sistema, prove come `quickrun.csv`) vengono indicate da togliere.
+
+### 1c. README
+
+L'assistente lo legge per intero. Lo script cerca le otto sezioni della
+[dispensa](struttura-1.qmd#readme) (titolo, autori con ORCID, descrizione e
+provenienza dei dati, contenuto, come leggere i dati, come riprodurre i
+risultati, licenza, come citare, materiali collegati), i segnaposto rimasti
+(`TODO`, `TBD`, `XXXX`, *lorem ipsum*), gli ORCID e i DOI, e i file della cartella che il README non
+nomina mai. Solo la lettura dice se un estraneo capirebbe che cos'è una riga
+di ogni file e in che ordine girano gli script.
+
+### 1d. Data dictionary
+
+Per ogni file di dati: c'è un dictionary? È leggibile da un programma (CSV) o
+è un `.docx` o un PDF? Lo script confronta il dictionary con i dati: colonne
+non descritte, nomi che non coincidono, colonne senza etichetta, valori fuori
+da `allowed_values`, codici non spiegati in `coding`, valori mancanti presenti
+ma non dichiarati.
+
+### 1e. Licenza
+
+L'assistente decide quale licenza copre ogni parte (dati, codice, manoscritto,
+materiali propri e di terzi) leggendo i file LICENSE, il README, `CITATION.cff`
+e `DESCRIPTION`. Lo script riconosce le licenze più comuni dal testo (CC0, CC
+BY e varianti, GPL, LGPL, AGPL, MIT, Apache, BSD). Problemi tipici: nessuna
+licenza; una sola per tutto; Creative Commons sul codice; una licenza da
+software sui dati; CC BY-NC o CC BY-ND sui dati; un LICENSE che nomina la
+licenza senza il testo; il PDF dell'editore nella cartella. Un PDF dell'editore
+che dichiara di essere open access sotto CC BY si può depositare.
+
+### 1f. Il codice gira?
+
+L'assistente trova l'ordine di esecuzione (prima dal README, poi dai numeri
+nei nomi) e lancia `run_code.py`, che **copia il progetto in una cartella
+temporanea** ed esegue lì ogni script, dalla cartella principale del
+progetto, come farebbe RStudio con un `.Rproj`. Nella vostra cartella non
+arriva niente. Prima di farlo vi dice quanti script eseguirà. Per ogni script
+riporta: riuscito o errore, le ultime righe dell'errore, i pacchetti mancanti,
+i file creati o modificati, e salva quello che ha stampato (serve per il
+manoscritto). Uno script che si blocca viene fermato dopo il tempo massimo,
+insieme a tutti i processi che ha avviato.
+
+Che cosa ne ricava l'assistente:
+
+- **il primo errore come causa**: gli script successivi spesso falliscono solo
+  perché leggono i suoi output;
+- **problemi di portabilità**: se uno script si ferma per `setwd()`, un
+  percorso assoluto o un percorso relativo alla cartella dello script, lo
+  corregge nella copia e lo esegue di nuovo. Il rapporto dice "così com'è non
+  gira per X; corretto, gira" (o "poi si ferma a Y"). Questa seconda esecuzione
+  è quella in cui emergono i problemi veri;
+- script che **modificano i dati grezzi**, e output promessi dal README che
+  nessuno script crea.
+
+Lo script `fair_scan.py`, senza eseguire niente, segnala anche: `setwd()`,
+percorsi assoluti, `install.packages()` dentro gli script, file letti che non
+esistono, file letti che nessuno script scrive e che non sono nei dati,
+script numerati prima di quelli che producono ciò che leggono, script che
+hanno bisogno l'uno dell'altro (nessun ordine li fa girare tutti), funzioni
+usate senza caricare il loro pacchetto (`kable()` senza knitr), valori
+calcolati dalla data di oggi (`Sys.Date()`: un'età cambia a seconda del giorno
+in cui si esegue lo script).
+
+**Modelli pesanti** (brms, Stan, simulazioni, bootstrap). Se ci sono i modelli
+già stimati e non chiedete di stimarli di nuovo: se il codice li carica già
+(`readRDS()`, `brm(..., file = ...)`), lo esegue così; se li stima e poi li
+salva, nella copia temporanea sostituisce la stima con la lettura del file
+salvato. Il rapporto dice "modelli non stimati di nuovo": questo controlla
+tutto quello che viene dopo la stima, non che la stima venga da quel codice e
+da quei dati. Per questo confronta almeno formula e numero di osservazioni
+salvati nel modello con il codice e i dati.
+
+**Progetti con renv** (`renv.lock` e `renv/activate.R`): prima degli script
+esegue `renv::restore()` nella copia, che installa le versioni scritte in
+`renv.lock` nella libreria del progetto copiato (e nella cache di renv), non
+nel vostro R. La prima volta può richiedere alcuni minuti.
+
+**Seed.** Per ogni script che usa numeri casuali (MCMC, bootstrap, simulazioni,
+`sample()`, divisioni casuali), dice quali funzioni li usano e se un seed è
+fissato (`set.seed()`, `seed =` in `brm()`, `np.random.seed`). Senza seed i
+risultati cambiano leggermente a ogni esecuzione.
+
+Gli script dell'esperimento (il `.py` di PsychoPy) non vengono eseguiti. Senza
+R (o MATLAB, SPSS) il codice viene letto ma non eseguito, e il rapporto lo
+dice.
+
+### 1g. Pacchetti
+
+Lo script elenca i pacchetti che il codice usa: quelli caricati con
+`library()`, `require()` o `::`, quelli elencati in un vettore e caricati in un
+ciclo (`pkg <- c(...)` con `lapply(pkg, library, character.only = TRUE)`, un
+`for`, `ipak()`), `pacman::p_load()`, gli `import` di Python. L'assistente li
+confronta con quello che è dichiarato (`renv.lock`, `requirements.txt`, il
+README) e, se R è disponibile, ricava le versioni installate per il README. I
+pacchetti usati ma assenti da `renv.lock` sono un problema da segnalare (si
+risolve con `renv::snapshot()`), non qualcosa da installare.
+
+La skill non installa pacchetti nel vostro R: se mancano, ve lo dice e chiede.
+
+### 1h. Dati personali e materiale di terzi
+
+Lo script segnala le colonne che possono contenere dati personali, dal nome,
+dall'etichetta (il testo della domanda in Qualtrics) e dai valori:
+
+- nomi, e-mail, numeri di telefono, codici fiscali, indirizzi;
+- indirizzi IP e coordinate GPS;
+- date di nascita, anche in una colonna con un altro nome (una colonna `Age`
+  che contiene date);
+- ID di piattaforme di reclutamento (Prolific, MTurk, il Public ID di Gorilla);
+- ID fatti solo di lettere (iniziali o nomi digitati all'inizio della
+  sessione);
+- percorsi del computer con il nome dell'utente (OpenSesame, E-DataAid);
+- risposte a testo libero, che l'assistente legge (senza mostrarle) per dire se
+  contengono dettagli che identificano qualcuno.
+
+Per età, genere, istruzione, scuola, classe e simili, che da soli non
+identificano nessuno ma insieme possono farlo, conta **quanti partecipanti
+sono gli unici con la loro combinazione di valori**. Conta di più quando il
+campione viene da un gruppo piccolo e noto (una scuola, una classe). Le
+proposte (età in fasce, una classe senza sezione, togliere le colonne che
+l'analisi non usa) restano decisioni vostre.
+
+Se la colonna che identifica i partecipanti è essa stessa un dato personale
+(un ID di Prolific), va sostituita con codici di studio; la tabella di
+corrispondenza resta a voi, mai nel deposito.
+
+L'assistente controlla anche strumenti pubblicati, stimoli protetti da
+copyright e il PDF dell'editore, e se i file dell'esperimento ci sono e si
+possono condividere.
+
+### 1i. Manoscritto e numeri riportati
+
+**Il testo.** Lo script `manuscript_numbers.py` estrae il testo da `.docx`,
+`.odt`, Markdown, R Markdown, Quarto, Sweave, LaTeX, HTML e PDF. Nei documenti
+R Markdown, Quarto e Sweave conta a parte i numeri scritti dal codice inline
+(`` `r x` ``): vengono dal codice per costruzione, e si controllano eseguendo il
+documento.
+
+**Contro sé stesso.** Senza bisogno di dati o codice, controlla che:
+
+- reclutati meno esclusi dia l'N dichiarato, e che i motivi di esclusione
+  sommino al totale;
+- i gruppi (donne e uomini…) sommino a N;
+- le percentuali corrispondano ai loro conteggi;
+- i gradi di libertà siano compatibili con N (r(178) richiede N = 180).
+
+Elenca anche le scale di risposta e le fasce d'età dichiarate, da confrontare
+con i dati: una scala "da 1 a 6" spiega un 6 segnalato dallo script; "età
+fra 16 e 19 anni" con un minimo di 15,5 nei dati è un problema. È un confronto
+sul testo (i PDF a due colonne mescolano le righe): l'assistente legge la frase
+prima di riportarla.
+
+**Contro l'output.** Lo script trova nel testo ogni statistica riportata e
+cerca il numero nell'output degli script (quello stampato durante
+l'esecuzione e le tabelle scritte). Riconosce:
+
+- frequentiste: M, SD, SE, mediana, IQR, t, F, z, r, rho, tau, χ², b, β, OR,
+  RR, HR, d, g, η² (anche parziale), ω², ε², R², W, U, H, V, α, ω, ICC, AIC,
+  BIC, RMSEA, CFI, TLI, SRMR, N, p, gradi di libertà;
+- bayesiane: BF10, BF01, log BF, probabilità a posteriori, pd, R-hat, ESS,
+  WAIC, LOOIC, elpd;
+- intervalli: IC al 95%, intervalli di credibilità, HDI, ETI;
+- frasi come "l'età media era 23,8" o "l'accuratezza era del 95,8%".
+
+Un numero coincide se nell'output c'è un valore che arrotondato dà quello
+riportato (2,45 coincide con 2,4471). Legge separatori delle migliaia e virgole
+decimali. Riconosce lo stesso numero scritto in un altro modo, e dice quale: con
+il segno opposto (un altro livello di riferimento), un Bayes factor come
+reciproco o come logaritmo, una percentuale come proporzione, millisecondi come
+secondi. Per ogni coincidenza dice se l'output nomina la statistica su quella
+riga e in quanti punti compare il numero: una coincidenza fra numeri piccoli o
+frequenti è debole, e l'assistente guarda dove sta prima di dirlo riprodotto.
+Le tabelle lunghe a livello di prova vengono escluse dalla ricerca (darebbero
+coincidenze per caso), e anche il manoscritto stesso. Le figure non vengono
+confrontate.
+
+Senza codice e senza output, l'assistente ricalcola dai dati quello che si può
+(N, conteggi, medie, deviazioni standard, correlazioni di una tabella
+descrittiva) e lo indica come "ricalcolato dai dati"; modelli e test restano
+"non verificabili senza il codice".
+
+**Il resto.** Data availability (repository e DOI, o "su richiesta"?),
+partecipanti ed esclusioni rispetto a quello che fanno gli script, versione
+del PDF (preprint, accettato, o PDF dell'editore).
+
+## Passo 2. Il rapporto
+
+È scritto nella vostra lingua: titoli, tabella e testo. Le etichette "certa" e
+"da verificare" restano all'assistente: nel rapporto un problema verificato è
+un fatto, uno non risolto dice che cosa resta da controllare.
+
+1. **Un paragrafo iniziale**: che cosa contiene la cartella, quali controlli
+   sono stati fatti e con quali scelte, se un estraneo potrebbe riusarla oggi, e
+   l'ostacolo più grande.
+2. **Risultati che potrebbero cambiare**, se ce ne sono: errori nei dati che
+   entrano nelle analisi, punteggi calcolati diversamente dai loro item, numeri
+   del manoscritto che non escono dai dati o dal codice, esclusioni descritte
+   nel testo e non fatte dal codice. Per ciascuno: il valore riportato, quello
+   trovato, la prova, la tabella o la frase che cambierebbe.
+3. **Una tabella**: un'area per riga (dati, struttura e nomi, formati, README,
+   data dictionary, licenza, codice, pacchetti, manoscritto, dati personali)
+   con ✅ a posto, ⚠️ da sistemare, ❌ mancante o bloccante.
+4. **Una sezione per area**, con il link alla pagina della dispensa
+   corrispondente. Ogni problema dice file, colonna o riga e che cosa troverebbe
+   chi prova a riusare i dati, ed è accompagnato dal dato che lo dimostra ("in
+   211 righe su 234"), mai da "alcune righe". Le aree a posto hanno una riga.
+   Nella sezione sul manoscritto, una tabella: statistica, dove, valore
+   riportato, valore nell'output (con lo script), esito.
+5. **Che cosa sistemare per primo**: al massimo cinque o sei azioni concrete,
+   in ordine di quanto bloccano il riuso.
+6. **La versione da depositare**: che cosa costruirà il passo 3 e quali
+   decisioni servono da voi.
+
+Quello che non si è potuto controllare in quell'ambiente è detto con il motivo
+("gli script non sono stati eseguiti: in questo ambiente non c'è R") e non è
+contato come un problema della cartella. Le aree non scelte sono elencate
+nel paragrafo iniziale.
+
+## Passo 3. La versione da depositare
+
+Una cartella nuova, `<progetto>_deposit`, accanto alla vostra (o dove dite
+voi), sempre con le stesse sottocartelle:
+
+```
+progetto_deposit/
+├── README.md
+├── LICENSE
+├── data/             i dati, con nomi come study-stroop_task-flanker_data.csv
+│   └── raw/          gli export originali
+├── dictionaries/     un data dictionary per ogni file di dati
+├── scripts/          il codice, numerato nell'ordine in cui va eseguito
+├── output/           figure, tabelle e modelli prodotti dagli script
+├── materials/        l'esperimento e i materiali propri
+└── docs/             preprint, preregistrazione
+```
+
+### Che cosa cambia con Psych-DS
+
+| | Senza Psych-DS (predefinito) | Con Psych-DS |
+|:--|:--|:--|
+| Cartelle | quelle sopra | quelle sopra |
+| Nomi dei file di dati | `study-x_task-y_data.<estensione propria>` | `study-x_task-y_data.csv` |
+| Formati aperti (`.tsv`, `.txt`, `.json`) | restano come sono | convertiti in CSV UTF-8 separato da virgole |
+| `dataset_description.json` | non creato | creato dai data dictionary |
+| Validatore Psych-DS | non è un obiettivo | deve passare |
+
+In entrambi i casi, un file proprietario senza copia aperta (Excel, SPSS,
+Stata, `.edat`) ne riceve una: questo è FAIR, non Psych-DS.
+
+### 3a. Il piano e le decisioni {#piano}
+
+Per ogni file del progetto il piano dice dove va e con quale nome, o perché
+resta fuori: dati con nomi chiave-valore, script in `scripts/` numerati
+nell'ordine di esecuzione, export originali in `data/raw/`, file
+dell'esperimento in `materials/`, il preprint in `docs/`.
+
+**Script lunghi divisi per fasi** (se l'avete scelto): il piano mostra dove
+viene tagliato ogni script (numeri di riga, alla fine di una fase) e quale file
+passa i risultati al pezzo successivo. Le righe restano le vostre; le uniche
+aggiunte sono una riga alla fine di un pezzo che salva quello che serve dopo
+(`write.csv()` dei dati elaborati, `saveRDS()` di un modello), una riga
+all'inizio del pezzo successivo che lo legge, e i `library()` che servono a
+ciascun pezzo. Niente cambi di stile, niente oggetti rinominati.
+
+L'assistente vi mostra il piano in una tabella con le decisioni che spettano a
+voi, e aspetta:
+
+- quali file lasciare fuori (script vecchi, duplicati, materiale di terzi, il
+  PDF dell'editore);
+- quali colonne personali togliere dalla copia del deposito, o se usare
+  l'accesso riservato;
+- se applicare le correzioni ai dati trovate nel passo 1. Con il codice vanno
+  nello script di pulizia (visibili e riproducibili); in un progetto di soli
+  dati, nella copia del deposito, ciascuna elencata nel README;
+- le licenze: CC0 1.0 per i dati, GPL-3.0 per il codice, CC BY 4.0 per
+  preprint, figure e materiali propri, se non volete altro;
+- se mettere i modelli già stimati in `output/` (chi legge può verificare i
+  risultati senza ore di calcolo, ma possono essere grandi);
+- quello che l'assistente non può sapere: autori, ORCID, date, DOI (restano
+  `TODO` se non li date).
+
+Se dite di procedere senza rispondere, usa le scelte predefinite, non applica
+correzioni ai dati ed elenca alla fine i punti aperti.
+
+### 3b. La costruzione
+
+Lo script `build_deposit.py` copia solo i file del piano, con i nuovi nomi, e
+verifica byte per byte che ogni copia sia identica all'originale. Riscrive i
+percorsi dentro gli script perché puntino alle nuove posizioni (anche dentro
+`here("data", "x.csv")` e `file.path(...)`). Non scrive mai in una cartella che
+esiste già. Può anche:
+
+- togliere colonne (dati personali) da una copia, in ogni riga;
+- convertire un file in CSV UTF-8 con il punto decimale, adattando gli script
+  che lo leggono con `read.csv2`, `sep = ";"`, `dec = ","` o una codifica UTF-16
+  (solo con Psych-DS o se lo chiedete);
+- creare una copia CSV aperta da JSON, log di E-Prime, TSV, export UTF-16,
+  fogli Excel o file SPSS, senza le righe aggiunte dall'export.
+
+Riporta i percorsi che non ha potuto sistemare (percorsi assoluti, file
+mancanti) e le righe da controllare a mano. L'assistente le corregge negli
+script del deposito, insieme a `setwd()` e percorsi assoluti, ai seed
+concordati e alle correzioni ai dati approvate. Ogni modifica è la più piccola
+possibile, nello stile del codice intorno; il codice nuovo è nella lingua
+scelta e nello stile dei vostri script.
+
+### 3c. I data dictionary
+
+Lo script `draft_dictionary.py` scrive una bozza per ogni file di dati, con le
+nove colonne della [dispensa](struttura-1.qmd#data-dictionary)
+(`variable_name`, `label`, `type`, `unit`, `allowed_values`, `coding`,
+`missing_values`, `source`, `notes`). I file con le stesse colonne (un file per
+partecipante) hanno un solo dictionary. Anche gli export grezzi in `data/raw/`
+ne ricevono uno, se gli script partono da lì. La bozza prende:
+
+- dai dati: nome, tipo, come appaiono i valori mancanti, i codici osservati
+  delle colonne categoriche, l'intervallo osservato delle numeriche (nelle
+  note: i valori presenti non sono la scala);
+- dal file stesso: il testo delle domande di Qualtrics, le etichette di SPSS;
+- dalla conoscenza dei programmi: etichetta, unità e codifica delle colonne
+  che Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame ed E-Prime scrivono da
+  sé, marcate "da verificare".
+
+Il resto è `TODO`. L'assistente completa quello che può dimostrare (README,
+manoscritto, unità nel codice o nei nomi come `rt_ms`, codici da `factor(...,
+labels = )`, scale di questionari pubblicati, il modo in cui sono calcolati i
+punteggi); quello che ha solo una prova indiretta è marcato "da verificare";
+dove non c'è niente resta `TODO`, perché un'etichetta inventata sembra
+documentata e nessuno la controlla. Se il progetto aveva già un dictionary,
+parte da quello.
+
+Solo con Psych-DS, `make_psychds.py` scrive `dataset_description.json` a
+partire dai dictionary e riporta le colonne che non vi sono descritte.
+
+### 3d. README e LICENSE
+
+Il **README** ha le otto sezioni della dispensa, scritte per la nuova
+struttura e i nuovi nomi: che cos'è una riga in ogni file e come si collegano i
+file; come riprodurre i risultati (software e versione, pacchetti con le
+versioni e una riga `install.packages()`, ordine degli script e che cosa
+produce ciascuno); le modifiche rispetto ai file originali; la licenza di ogni
+parte; `TODO` per quello che sapete solo voi. È nella lingua del README che
+c'era, in inglese se non c'era. Suggerisce renv, senza eseguirlo.
+
+Il **LICENSE** dice quale licenza vale per quale parte e poi riporta il testo
+ufficiale completo di ciascuna, copiato dai file della skill (CC0 1.0,
+GPL-3.0, CC BY 4.0). Una licenza non viene mai scritta a memoria; per una
+licenza diversa l'assistente chiede prima di scaricarne il testo ufficiale.
+
+### 3e. La verifica
+
+- Con il codice: esegue di nuovo tutti gli script **nella cartella del
+  deposito**, così figure e tabelle finiscono in `output/`. Ogni script deve
+  girare. Se ha controllato il manoscritto, ripete il confronto con il nuovo
+  output: i risultati devono essere gli stessi del passo 1i. Le differenze negli
+  script senza seed mostrano che cosa otterrebbe un lettore. Se gli script sono
+  stati divisi, i numeri devono essere uguali a quelli dello script originale.
+- Se i modelli non sono stati stimati di nuovo: esegue in una copia con i
+  modelli salvati, lascia gli script del deposito come sono e dice che
+  `output/` non è stato rigenerato.
+- Esegue `fair_scan.py` sul deposito: nessun problema di nomi, un dictionary
+  completo per ogni file di dati, nessun dato personale rimasto; con Psych-DS,
+  i requisiti minimi rispettati.
+- Toglie quello che l'esecuzione ha creato e non c'entra (`.Rhistory`, cache,
+  `Rplots.pdf`).
+
+### 3f. Lo zip e la consegna
+
+Lo script crea lo zip della cartella (senza file nascosti e di sistema) e ne
+stampa l'MD5, da confrontare con quello che Zenodo mostra dopo il caricamento.
+Si rifiuta di creare lo zip se un file è ancora un segnaposto di Git LFS invece
+del file vero.
+
+Alla fine l'assistente vi dice:
+
+- dove sono la cartella e lo zip, e come caricarli: su **Zenodo** lo zip è
+  l'unico file (Zenodo ne mostra il contenuto); su **PsychArchives** o un altro
+  repository, quali campi dei metadati sono già nel README (titolo, autori,
+  descrizione, licenza, parole chiave);
+- ogni modifica rispetto all'originale (file rinominati, cartelle spostate,
+  percorsi riscritti, colonne tolte, script divisi, righe aggiunte o
+  corrette), perché possiate controllarle una per una;
+- che cosa è ancora `TODO`, le voci del dictionary "da verificare", le
+  decisioni aperte;
+- con Psych-DS, di controllare la cartella con il
+  [validatore](https://psych-ds.github.io/validator/);
+- una volta ottenuto il DOI, di inserirlo nel README, in
+  `dataset_description.json` (se c'è) e nella Data availability dell'articolo.
+
+## Le regole che valgono sempre
+
+- **La vostra cartella non viene mai modificata.** È spesso l'unica copia.
+  Tutto quello che la skill scrive va in una cartella temporanea o nella
+  versione da depositare.
+- **Cambia il meno possibile.** Chi non riconosce più i propri file e il
+  proprio codice non si fida del deposito. Ogni modifica al vostro codice è la
+  più piccola che risolve il problema, nel vostro stile, ed è elencata alla
+  fine. Le correzioni ai dati sono proposte, mai applicate senza il vostro
+  accordo.
+- **Parla e scrive nella vostra lingua.** Nomi di file, nomi di colonne e
+  codice restano come sono.
+- **Non mostra i dati.** Lo script riporta riassunti (tipi, intervalli,
+  conteggi), non righe, e non mostra i valori delle colonne che sembrano dati
+  personali; l'assistente guarda i dati solo attraverso conteggi e statistiche.
+- **Non inventa.** Nel dictionary e nel README scrive solo quello che trova
+  scritto da qualche parte; il resto resta `TODO`.
+- **Non installa pacchetti nel vostro R** e chiede prima di scaricare
+  qualsiasi cosa.
+
+## I file della skill
+
+| File | Che cosa contiene |
+|:--|:--|
+| `SKILL.md` | il percorso: inventario, domande, rapporto; i link alle pagine della dispensa |
+| `references/check-data.md` | i controlli su dati, struttura, README, dictionary, licenza, dati personali |
+| `references/check-code.md` | l'esecuzione del codice, i modelli pesanti, renv, i seed, i pacchetti |
+| `references/check-manuscript.md` | i controlli sul manoscritto |
+| `references/deposit.md` | la versione da depositare |
+| `references/fair-rules.md` | le regole della dispensa, riassunte, per i casi in cui serve la regola |
+| `references/software-exports.md` | i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime |
+| `scripts/fair_scan.py` | l'inventario e i controlli su file, dati e codice |
+| `scripts/summary.py` | il riassunto dell'inventario e il controllo dell'ambiente |
+| `scripts/software.py` | che cosa scrive ciascun programma per esperimenti |
+| `scripts/run_code.py` | l'esecuzione del codice in una copia |
+| `scripts/manuscript_numbers.py` | il testo del manoscritto e il confronto dei numeri |
+| `scripts/draft_dictionary.py` | le bozze dei data dictionary |
+| `scripts/build_deposit.py` | la versione da depositare, il LICENSE, lo zip |
+| `scripts/make_psychds.py` | `dataset_description.json` (solo con Psych-DS) |
+| `assets/licenses/` | i testi ufficiali delle licenze |
+
+L'assistente legge sempre `SKILL.md`; gli altri file di istruzioni solo per
+le aree che avete scelto. I sorgenti sono nella cartella
+[`skill/`](https://github.com/mar-cald/fair/tree/main/skill) del repository di
+questo sito.
