@@ -11,12 +11,28 @@ reuse them?* Every finding says what that person would run into, and how to
 fix it.
 
 The rules come from the booklet *Hands-on Open Science* (Università di Padova,
-https://mar-cald.github.io/fair/), summarised in `references/fair-rules.md`
-(naming, formats, folders, README, dictionary, licenses, privacy, deposit
-layout, Psych-DS, manuscript, with the page to link for each). Before writing
-the report, read its sections for the areas checked (see its Contents). If the scan recognises files from Qualtrics, PsychoPy,
-jsPsych, Gorilla, OpenSesame or E-Prime, read also
-`references/software-exports.md`.
+https://mar-cald.github.io/fair/), summarised in `references/fair-rules.md`.
+Each report section links its booklet page once:
+
+| Report section | Page to link |
+|:--|:--|
+| 1. Data, 2. Structure and names | https://mar-cald.github.io/fair/struttura-1.html#regole-generali (folders: `#struttura`) |
+| 3. Formats | https://mar-cald.github.io/fair/struttura-1.html#in-che-formato-salvarli |
+| 4. README | https://mar-cald.github.io/fair/struttura-1.html#readme |
+| 5. Data dictionary | https://mar-cald.github.io/fair/struttura-1.html#data-dictionary |
+| 6. License | https://mar-cald.github.io/fair/licenze.html |
+| 7. Code | https://mar-cald.github.io/fair/esempio.html |
+| 8. Manuscript, 9. Personal data | https://mar-cald.github.io/fair/risorse.html#checklist-prima-di-depositare |
+| Deposit on Zenodo; Psych-DS | https://mar-cald.github.io/fair/zenodo.html; https://mar-cald.github.io/fair/struttura-2.html |
+
+Read a section of `fair-rules.md` (see its Contents) only when a finding needs
+the rule itself: which license fits, what a README must contain, the deposit
+layout. Points marked *(skill)* there extend the booklet: no page to link.
+
+If the scan recognises files from Qualtrics, PsychoPy, jsPsych, Gorilla,
+OpenSesame or E-Prime, read section 0 of `references/software-exports.md` and
+only the section of the program found (1 Qualtrics, 2 PsychoPy, 3 jsPsych,
+4 Gorilla, 5 OpenSesame, 6 E-Prime, 7 others), not the whole file.
 
 The details of each step are in separate files, read **only for the areas the
 researcher chose** in the triage:
@@ -51,22 +67,36 @@ project, into a temporary directory. Then:
 python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.json
 ```
 
-Main sections of the JSON: `materials_present` (data, code, manuscript);
-`inventory`, `naming`, `formats`, `structure`; `readme`, `licenses`; `data`
-(one entry per table: software, export rows, column types and ranges,
-missing-value codes, what each column measures (`role`: age, gender, reaction
-time, accuracy, questionnaire item ...) with the errors typical of it, issues,
-participant ID, `indirect_identifiers`); `cross_file_participants`;
-`dictionaries`; `code` (packages, paths, `setwd`, missing files, `randomness`
-and seeds); `experiment_files` (material, not analysis code: never run);
-`manuscripts`; `psychds`; `possible_personal_data`.
+It prints a **short summary** (also saved as `<tmp>/fair_scan_summary.md`):
+work from it. The full JSON can be 100,000+ characters; open it only for the
+detail of one point (the summary and the reference files name the key, e.g.
+`data[3]`, `cross_file_participants`), never read it whole.
 
-`materials_present` decides which areas exist. Do not mark absent material as
-a problem unless it is needed (a data-only deposit is complete without code).
-The scanner applies fixed rules: verify what looks surprising and drop false
-positives (999 is a missing-value code in an age column, not in trial numbers);
-summarise the many "constant" or "empty" columns that experiment software
-writes in one sentence.
+The summary has:
+
+- **What this environment can do.** Missing R, `pdftotext`, `openpyxl` or
+  `pyreadstat` are limits of this environment, not problems of the folder: the
+  report says "not checked here, because …" (e.g. "the scripts were not run: R
+  is not available in this environment"), never "the code does not run". Files
+  not read are listed there too.
+- **Findings by report section** (1–9), each with its file, column or line,
+  labelled **[certain]** (established by the scan: a date of birth, an LFS
+  placeholder, `setwd()`, a file read by a script and missing) or
+  **[to check]** (a rule that fired and may not apply: a value beyond the range
+  of the other items, two files coding a column differently, a column whose
+  role was guessed from its name). Report [certain] findings after a glance;
+  verify each [to check] one in the data, the README or the code, and drop it
+  if it does not hold (999 is a missing-value code in an age column, not in
+  trial numbers; `rt` in a table of results is not a reaction time).
+- **Small things**, grouped (constant or empty columns, spaces around values):
+  one sentence each in the report, not one finding per column.
+
+The summary lists what the scan found; the judgement is yours: is it a
+problem for a stranger reusing the data, how serious, what to do. Read what a
+scan cannot judge: the README in full, the code where a finding points, the
+manuscript. Which areas exist depends on the material found: do not mark
+absent material as a problem unless it is needed (a data-only deposit is
+complete without code).
 
 ## Step 0b — Triage
 
@@ -81,9 +111,9 @@ the defaults. The report says at the top which choices were used.
 
 1. **What should I do?** Data and documentation · does the code run · the
    manuscript numbers · the deposit version. *Default: everything.* Areas not
-   chosen are "not checked, on request", not problems. If the deposit is built,
-   the personal-data check (1h) is always done: a public deposit cannot be
-   taken back. If the manuscript numbers are chosen without the code, use the
+   chosen are "not checked, on request", not problems. Whenever data are checked
+   or the deposit is built, the personal-data check (1h) is done too: a public
+   deposit cannot be taken back. If the manuscript numbers are chosen without the code, use the
    outputs already in the folder, or ask to run the code.
 2. **Do you have anything that helps me understand the study?**
    Preregistration, protocol, codebook, notes, the manuscript if not in the
@@ -119,10 +149,33 @@ For each chosen area, read its file (table above) and follow it.
 
 ## Step 2 — Report
 
-One status per area: ✅ fine, ⚠️ needs work, ❌ missing or blocking. Under each,
-concrete findings: file, column, line, what a reuser would run into. Fine
-areas get one line. Leave out areas not present or not chosen (list the latter
-in the opening paragraph).
+One status per area: ✅ fine, ⚠️ needs work, ❌ missing or blocking (if you do
+not use emoji, the words "ok", "da sistemare", "mancante" in the researcher's
+language). Under each, concrete findings: file, column, line, what a reuser
+would run into. Fine areas get one line. Leave out areas not present or not
+chosen (list the latter in the opening paragraph).
+
+The template below is in English: write every heading, the summary table and
+the text in the researcher's language (in Italian: "Riepilogo", "Dati e
+coerenza", "Che cosa sistemare per primo" ...). The scan's labels [certain] and
+[to check] are for you: never copy them into the report; a finding you checked
+is stated as a fact, one you could not settle says what remains to verify.
+
+**Two kinds of problem.** Most findings make the folder hard to reuse (no
+README, a file in Excel). A few mean that a number may be wrong: a data error
+that reaches the analysis, a total computed differently from its items, a
+manuscript value that does not come out of the data or the code, an exclusion
+the text describes and the code does not do. These go in their own block at
+the top, "Results that may be affected", with the number in the manuscript,
+the number in the data or output, and which table or sentence changes: the
+researcher may have to correct the paper, not only the folder. If there are
+none, leave the block out.
+
+**Evidence for every claim about the data or the numbers.** Each one carries
+the count or value behind it, from the scan or from a check you ran: "in 211
+of 234 rows", "file 96.16, Table 1 89.77", "participants P045, P088".
+Never "some rows" or "probably": if you did not verify it, it is something to
+check, said as such.
 
 ```markdown
 # FAIR check — <project name>
@@ -130,6 +183,10 @@ in the opening paragraph).
 <One paragraph: what the folder contains, which checks were done (material
 found and triage choices), and whether a stranger could reuse it today. The
 single biggest obstacle.>
+
+## Results that may be affected
+<only if any: what, where in the manuscript, value reported vs value in the
+data or output, evidence, what to do>
 
 ## Summary
 | Area | Status | In one line |

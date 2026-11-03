@@ -3,11 +3,16 @@
 
   python3 manuscript_numbers.py text <manuscript> --out <manuscript.txt>
   python3 manuscript_numbers.py check <manuscript.txt> <output> [<output> ...]
+  python3 manuscript_numbers.py internal <manuscript.txt>
+
+`internal` needs no code or data: it checks the text against itself (does
+the participant flow add up, do group sizes add up to N, do percentages match
+their counts, do degrees of freedom fit N) and lists the response scales the
+text declares, to compare with the ranges in the data.
 
 `text` extracts plain text from .docx, .odt, .md, .qmd, .Rmd, .Rnw, .tex,
-.txt, .html. For a PDF it uses `pdftotext` if installed; otherwise it stops
-and says so (read the PDF with your file reader and save its text to a .txt
-instead). For R Markdown, Quarto and Sweave it also counts the numbers written
+.txt, .html. For a PDF it uses pdftotext, Ghostscript or pypdf, the first one
+available; with none it stops and says so. For R Markdown, Quarto and Sweave it also counts the numbers written
 by inline code (`r x`, {r} x, \\Sexpr{x}): those come from code by construction,
 and are checked by rendering the document, not by this script.
 
@@ -56,6 +61,7 @@ import shutil
 import subprocess
 import sys
 import zipfile
+from collections import Counter
 from pathlib import Path
 
 NUM = (r"[-−–]?\s?(?:\d{1,3}(?:[,.  ]\d{3})+(?:[.,]\d+)?|\d*[.,]?\d+)"
@@ -169,9 +175,7 @@ def extract_text(path):
         xml = re.sub(r"<w:tab/>", "\t", xml)
         text = re.sub(r"<[^>]+>", "", xml)
     elif ext == ".pdf":
-        if not shutil.which("pdftotext"):
-            sys.exit("pdftotext is not installed: read the PDF with your file reader and save its text to a .txt")
-        text = subprocess.run(["pdftotext", "-layout", str(path), "-"], capture_output=True, text=True).stdout
+        text = pdf_text(path)
     elif ext in (".html", ".htm"):
         text = re.sub(r"<sub>|</sub>|<sup>|</sup>", "", path.read_text(errors="replace"))
         text = re.sub(r"<[^>]+>", " ", text)
@@ -180,6 +184,25 @@ def extract_text(path):
     text = html.unescape(text)
     # ligatures and typographic minus from PDFs and Word
     return text.replace("ﬁ", "fi").replace("ﬂ", "fl").replace("−", "-")
+
+
+def pdf_text(path):
+    """Text of a PDF with the first tool available: pdftotext (poppler),
+    Ghostscript, or the Python package pypdf."""
+    if shutil.which("pdftotext"):
+        return subprocess.run(["pdftotext", "-layout", str(path), "-"], capture_output=True, text=True).stdout
+    if shutil.which("gs"):
+        out = subprocess.run(["gs", "-q", "-dNOPAUSE", "-dBATCH", "-dSAFER", "-sDEVICE=txtwrite",
+                              "-sOutputFile=-", str(path)], capture_output=True, text=True)
+        if out.returncode == 0 and out.stdout.strip():
+            return out.stdout
+    try:
+        import pypdf  # noqa: PLC0415
+        return "\n".join(p.extract_text() or "" for p in pypdf.PdfReader(str(path)).pages)
+    except ImportError:
+        pass
+    sys.exit("No tool to read the PDF here (pdftotext, Ghostscript or pypdf): read it with your file "
+             "reader and save its text to a .txt, or ask the researcher for the text (.docx, .txt)")
 
 
 def sentence_around(text, start, end):
@@ -371,12 +394,174 @@ def check(args):
     print(json.dumps(out, indent=1, ensure_ascii=False))
 
 
+# ---------------------------------------------------------------- internal arithmetic
+
+PEOPLE = r"(?:participants?|students?|adults?|children|adolescents|people|subjects|respondents|individuals|" \
+         r"pupils|patients|volunteers|women|men|females|males|partecipanti|studenti|soggetti|persone|bambini)"
+START_W = r"(?:recruit\w*|enrol\w*|took part|participated|(?:were|was) tested|initially|invited|contacted|signed up|" \
+          r"completed the|started|reclutat\w*|hanno partecipato|inizialmente)"
+EXCL_W = r"(?:exclu\w*|remov\w*|discard\w*|dropp\w*|did not complete|incomplete|withdr\w*|outliers?|esclus\w*|rimoss\w*)"
+FINAL_W = r"(?:final sample|final N|analy[sz]ed|retained|remaining|were included|sample consisted|consisted of|" \
+          r"campione finale|analizzat\w*)"
+NUM = r"(?<![\d.,])(\d{1,3}(?:,\d{3})+|\d+)(?![\d.,]\d)"
+
+
+def _num(s):
+    return int(s.replace(",", ""))
+
+
+def _sentences(text):
+    flat = re.sub(r"\s+", " ", text)
+    return [s.strip() for s in re.split(r"(?<=[.;!?])\s+(?=[A-Z(])", flat) if s.strip()]
+
+
+def _near(sentence, words, span=60):
+    """Numbers within `span` characters of one of `words` in the sentence."""
+    out = []
+    for m in re.finditer(words, sentence, re.I):
+        lo, hi = max(0, m.start() - span), m.end() + span
+        for n in re.finditer(NUM, sentence[lo:hi]):
+            v = _num(n.group(1))
+            if 1 < v < 100000 and not re.match(r"(19|20)\d\d$", n.group(1)):
+                out.append(v)
+    return out
+
+
+def internal(args):
+    """Checks that need only the manuscript: does the participant flow add up,
+    do group sizes add up to N, do percentages match their counts, do degrees of
+    freedom fit N, which response scales the text declares."""
+    text = Path(args.text).read_text(errors="replace")
+    sents = _sentences(text)
+    findings = []
+    # sample sizes the text states
+    ns = Counter()
+    for s in sents:
+        for m in re.finditer(r"\b[Nn]\s*=\s*" + NUM, s):
+            ns[_num(m.group(1))] += 1
+        for m in re.finditer(NUM + r"\s+(?:\w+\s+){0,2}?" + PEOPLE + r"\b", s, re.I):
+            ns[_num(m.group(1))] += 1
+    main_n = [n for n, _ in ns.most_common(6)]
+
+    # participant flow, in windows of three sentences
+    seen = set()
+    for i in range(len(sents)):
+        win = " ".join(sents[i:i + 3])
+        final = _near(win, FINAL_W, 40)
+        # excluded: "excluded 13 (of them)", "13 participants were excluded" — not any number nearby,
+        # and not a range ("incomplete 18 to 60 years")
+        not_range = r"(?!\s*(?:to|-|–|and)\s*\d|\s*years)"
+        ex_m = [(m.start(), _num(m.group(1))) for m in re.finditer(
+                    EXCL_W + r"\s+(?:\w+\s+){0,2}?" + NUM + not_range, win, re.I)] + \
+               [(m.start(), _num(m.group(1))) for m in re.finditer(
+                    NUM + r"\s+(?:\w+\s+){0,3}?(?:were|was|have been|had to be)\s+" + EXCL_W, win, re.I)]
+        excl = [v for _, v in ex_m]
+        # the starting number is the last one before the first exclusion ("a second sample of 90 ...")
+        first_ex = min((p for p, _ in ex_m), default=len(win))
+        start = [v for p, v in sorted((m.start(), _num(n.group(1)))
+                                      for m in re.finditer(START_W, win, re.I)
+                                      for n in re.finditer(NUM, win[max(0, m.start() - 40):m.end() + 40])
+                                      if 1 < _num(n.group(1)) < 100000) if p <= first_ex]
+        start = start[-1:] if start else []
+        start = [x for x in start if x not in excl]
+        if not start or not excl:
+            continue
+        a = start[0]
+        excl = sorted({x for x in excl if x < a})
+        if not excl:
+            continue
+        targets = sorted(set(final) | set(main_n))
+        options = {a - max(excl)} | ({a - sum(excl)} if sum(excl) < a else set())
+        # a breakdown "13 of them: 5 for ..., 5 for ..., 3 for ..." must add up to the total
+        parts = [_num(x) for x in re.findall(NUM + r"\s+(?:for|because|due to|per|perché)\b", win)]
+        if len(parts) >= 2 and max(excl) not in parts:
+            findings.append({"check": "exclusion breakdown",
+                             "status": "adds up" if sum(parts) == max(excl) else "does not add up",
+                             "numbers": f"{' + '.join(map(str, parts))} = {sum(parts)}; total excluded {max(excl)}",
+                             "sentence": win[:400]})
+        key = (a, tuple(excl))
+        if key in seen:
+            continue
+        seen.add(key)
+        ok = sorted(options & set(targets))
+        findings.append({
+            "check": "participant flow", "status": "adds up" if ok else "does not add up",
+            "numbers": f"{a} - {max(excl)} = {a - max(excl)}" + (f" ({a} - all excluded numbers = {a - sum(excl)})"
+                                                               if len(excl) > 1 and sum(excl) < a else "") +
+                       f"; N stated in the text: {', '.join(map(str, targets)) or 'none'}",
+            "computed": sorted(options), "sentence": win[:400]})
+
+    # group sizes that should add up to N: "147 women and 87 men"
+    for s in sents:
+        m = re.findall(NUM + r"\s*(?:\(\s*[\d.,]+\s*%\s*\)\s*)?(?:were\s+)?(women|men|females|males|girls|boys|"
+                       r"donne|uomini|femmine|maschi)\b", s, re.I)
+        if len(m) >= 2 and main_n:
+            total = sum(_num(x) for x, _ in m)
+            findings.append({
+                "check": "group sizes", "status": "add up to a stated N" if total in ns else "do not add up to a stated N",
+                "numbers": " + ".join(f"{x} {w}" for x, w in m) + f" = {total}; N stated: {', '.join(map(str, main_n))}",
+                "sentence": s[:300]})
+
+    # percentages next to counts: "147 (62.8%)"
+    for s in sents:
+        for m in re.finditer(NUM + r"\s*\(\s*(\d{1,3}(?:[.,]\d+)?)\s*%\s*\)", s):
+            k, pct = _num(m.group(1)), float(m.group(2).replace(",", "."))
+            dec = len(m.group(2).replace(",", ".").split(".")[1]) if re.search(r"[.,]", m.group(2)) else 0
+            fits = [n for n in main_n if n >= k and abs(round(100 * k / n, dec) - pct) <= 0.5 * 10 ** -dec + 1e-9]
+            if main_n and not fits:
+                findings.append({"check": "percentage", "status": "matches no stated N",
+                                 "numbers": f"{k} ({pct}%): {k} of {', '.join(map(str, main_n))} gives " +
+                                            ", ".join(f"{100 * k / n:.{max(dec, 1)}f}%" for n in main_n if n >= k),
+                                 "sentence": s[:300]})
+
+    # degrees of freedom: r(df) -> N = df + 2; t(df) -> N = df + 1 or + 2
+    for s in sents:
+        for m in re.finditer(r"\b(r|t)\s*\(\s*(\d+)\s*\)\s*=", s):
+            df = int(m.group(2))
+            implied = {df + 2} if m.group(1) == "r" else {df + 1, df + 2}
+            if main_n and not implied & set(ns) and df > 10:
+                findings.append({"check": "degrees of freedom", "status": "fit no stated N",
+                                 "numbers": f"{m.group(0).rstrip('= ')} implies N = {' or '.join(map(str, sorted(implied)))}; "
+                                            f"N stated: {', '.join(map(str, main_n))} (a subgroup or missing data?)",
+                                 "sentence": s[:300]})
+
+    # response scales the text declares
+    scales = []
+    for s in sents:
+        for m in re.finditer(r"(\d)\s*-\s*point|(?:from|ranging from|da)\s+(\d{1,2})\s*(?:\([^)]{0,40}\))?\s*"
+                             r"(?:to|a)\s+(\d{1,2})\b|\b(\d)\s*[–-]\s*(\d{1,2})\s+(?:Likert|scale|scala)", s, re.I):
+            g = [x for x in m.groups() if x]
+            if not m.group(1) and (int(g[0]) > 1 or int(g[1]) > 11):
+                continue  # "from 16 to 19" is an age, not a response scale
+            rng = f"{g[0]}-point" if m.group(1) else f"{g[0]}-{g[1]}"
+            scales.append({"scale": rng, "sentence": s[:250]})
+    ages = []
+    for s in sents:
+        for m in re.finditer(r"(?:aged|age range|ages?|from|between|tra|da)\s+(?:of\s+)?(\d{1,2})\s*(?:to|and|-|–|e|a)\s*"
+                             r"(\d{1,2})\s*(?:years|yrs|anni)?", s, re.I):
+            lo, hi = int(m.group(1)), int(m.group(2))
+            if 3 <= lo < hi <= 99 and re.search(r"(?i)years|yrs|anni|aged|age", s[max(0, m.start() - 40):m.end() + 20]):
+                ages.append({"range": f"{lo}-{hi}", "sentence": s[:250]})
+    uniq = []
+    for f in findings:
+        if (f["check"], f["numbers"]) not in {(u["check"], u["numbers"]) for u in uniq}:
+            uniq.append(f)
+    findings = uniq
+    out = {"n_stated": dict(ns.most_common(8)), "findings": findings, "scales_declared": scales[:20],
+           "age_ranges_declared": ages[:10],
+           "note": "pattern matching on the text: read each sentence before reporting; 'does not add up' "
+                   "is worth a sentence in the report only after you checked it"}
+    print(json.dumps(out, indent=1, ensure_ascii=False))
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     t = sub.add_parser("text")
     t.add_argument("manuscript")
     t.add_argument("--out", required=True)
+    i = sub.add_parser("internal")
+    i.add_argument("text")
     c = sub.add_parser("check")
     c.add_argument("text")
     c.add_argument("outputs", nargs="+")
@@ -393,6 +578,8 @@ def main():
             if n:
                 print(f"Note: {n} numbers are written by inline code (`r ...`, {{r}}, \\Sexpr): they come from the code "
                       "by construction. Render the document to check them; this script checks only the numbers typed by hand.")
+    elif args.cmd == "internal":
+        internal(args)
     else:
         check(args)
 

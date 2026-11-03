@@ -26,7 +26,10 @@ SIGNATURES = {
     "Qualtrics": {"min": 4, "columns": {
         "startdate", "enddate", "status", "ipaddress", "progress", "durationinseconds", "finished",
         "recordeddate", "responseid", "distributionchannel", "userlanguage", "locationlatitude",
-        "locationlongitude", "externalreference", "recipientemail"}},
+        "locationlongitude", "externalreference", "recipientemail"},
+        # "Duration (in seconds)" is written only by Qualtrics: it counts twice, so that
+        # Progress + Duration + Finished is enough when the other columns were removed
+        "strong": {"durationinseconds"}},
     "PsychoPy": {"min": 2, "columns": {"psychopyversion", "framerate", "expname", "expstart"},
                  "patterns": [r"\.(thisRepN|thisTrialN|thisN|thisIndex)$", r"\.(rt|keys|corr|started|stopped)$"]},
     "jsPsych": {"min": 3, "columns": {"trialtype", "trialindex", "timeelapsed", "internalnodeid"}},
@@ -52,7 +55,7 @@ def detect_software(header):
     best, best_score, evidence = None, 0, None
     for prog, sig in SIGNATURES.items():
         hits = sorted(cn & sig["columns"])
-        score = len(hits)
+        score = len(hits) + len(cn & sig.get("strong", set()))
         for pat in sig.get("patterns", []):
             matched = [h for h in names if re.search(pat, h)]
             if len(matched) >= 2:

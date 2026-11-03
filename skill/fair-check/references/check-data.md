@@ -15,6 +15,17 @@ name and the values what each column measures (`role`):
 | condition or group | a factor written as numbers |
 | education, percentage, proportion | values outside the possible range |
 
+`derived_scores` recomputes, row by row, what can be computed from other
+columns: a reversed item must be (max + min) − the item; a total or mean must
+be the sum or mean of its items (all of them, every s-th one for a subscale,
+or a block), with the reversed versions where they exist. A reversed column
+that is not a reverse, a total that differs in some rows, or one that adds a
+column on top of its items are facts about the file, and they change every
+statistic computed on those scores: compare with the manuscript (the score's
+mean or SD in a descriptive table) and, if the numbers differ, report it under
+"Results that may be affected". Scores that match are useful too: they tell
+the dictionary how each score is computed.
+
 The role is a guess: confirm it with the README, the dictionary or the code,
 and drop what does not apply (a column named `rt` in a table of results). A
 value outside the range is reported, not corrected: say what it is likely to

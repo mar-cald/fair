@@ -171,7 +171,7 @@ unless the authors choose otherwise or one of the exceptions applies.
 |:--|:--|:--|
 | Data (and dictionaries, `dataset_description.json`) | **CC0 1.0** (default) or CC BY 4.0 | On facts and measurements the attribution requirement of CC BY has no legal effect; CC0 is required by Dryad and recommended by many repositories. ERC/Horizon Europe ask for CC BY or CC0. |
 | Code | **GPL-3.0** (default) or MIT | Apache-2.0 for structured software or when companies are involved; AGPL-3.0 for web applications (e.g. an online experiment platform). GPL is mandatory if the project includes GPL code. |
-| Manuscript / preprint | **CC BY 4.0** | Only the authors' version (preprint, or accepted manuscript where the journal allows it). The publisher's typeset PDF can almost never be redistributed: leave it out and link its DOI. If the preprint is already on a server (PsyArXiv, bioRxiv) under a license, keep that license. |
+| Manuscript / preprint | **CC BY 4.0** | Only the authors' version (preprint, or accepted manuscript where the journal allows it). The publisher's typeset PDF can almost never be redistributed: leave it out and link its DOI, unless the PDF itself says it is open access under a license that allows it (e.g. "licensed under CC BY 4.0" on the first page): then it can be deposited under that license. If the preprint is already on a server (PsyArXiv, bioRxiv) under a license, keep that license. |
 | Texts and own materials, README, figures | **CC BY 4.0** | Questionnaires, stimuli, protocols written by the authors; figures produced by the scripts. |
 | Third-party materials | none: not redistributed | Published tests (e.g. STAI-Y), copyrighted stimuli: cite them, do not deposit them. |
 

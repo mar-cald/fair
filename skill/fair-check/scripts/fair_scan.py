@@ -3,6 +3,10 @@
 
 Usage: python3 fair_scan.py <project_folder> [--out report.json]
 
+With --out, writes the full JSON there and prints a short summary of the
+findings (also saved as report_summary.md): read the summary first, and the
+JSON only for the detail of one point. Without --out, prints the JSON.
+
 Prints a JSON report with: file inventory, naming problems, formats, folder
 structure, README coverage, licenses, tabular data checks, data dictionary
 coverage, code dependencies and portability problems.
@@ -34,6 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from software import EXPERIMENT_EXT, detect_software, experiment_role, is_eprime_log, parse_eprime_log  # noqa: E402
+from summary import summarise  # noqa: E402
 
 csv.field_size_limit(sys.maxsize)
 MAX_BYTES = 50_000_000  # larger text files are scanned on their first 50 MB
@@ -1060,6 +1065,184 @@ def item_families(header, cols, body, decimal_comma):
     return out
 
 
+REVERSED = re.compile(r"(?:[_.]?(?:rev|inv|reversed?)|_?r|R)$")
+SCORE_SUFFIX = re.compile(r"(?i)^[_.]?(tot|total|totale|sum|somma|score|punteggio|mean|media|m|avg)?$")
+
+
+def derived_scores(header, cols, body, decimal_comma, id_col=None, max_rows=20000):
+    """Arithmetic between the columns of a questionnaire, row by row:
+    - a reversed item (SDQ_2r, SEPE_7r) must be (max + min) - the item, with
+      the same constant in every row;
+    - a total or mean (SEPE, spatialAnxiety, SDQ_tot) must be the sum or mean
+      of its items, with the reversed versions where they exist.
+    These are facts about the file, not guesses: a reversed column that is not
+    the reverse, or a total that adds one item twice, changes the results."""
+    body = body[:max_rows]
+    num = {}
+
+    def values(j):
+        if j not in num:
+            num[j] = [to_number(r[j], decimal_comma) if j < len(r) and not is_missing(r[j]) else None for r in body]
+        return num[j]
+
+    idk = header.index(id_col) if id_col in header else None
+
+    def who(rows):
+        return [body[i][idk].strip() if idk is not None and idk < len(body[i]) else f"row {i + 2}" for i in rows[:5]]
+
+    # items: prefix + number, integer, small range; reversed versions apart
+    fam = defaultdict(lambda: {"orig": {}, "rev": {}})
+    for j, (h, c) in enumerate(zip(header, cols)):
+        name = h.strip()
+        if c.get("type") != "integer" or c.get("max") is None or c["max"] - c["min"] > 12:
+            continue
+        m = re.match(r"^(.*?[A-Za-z][A-Za-z_.\-]*?)[_.\-]?(\d{1,3})((?:[_.]?(?:r|rev|R|inv|reversed?))?)$", name)
+        if m:
+            fam[m.group(1).rstrip("_.-")]["rev" if m.group(3) else "orig"][int(m.group(2))] = j
+    all_items = {j for f in fam.values() for j in list(f["orig"].values()) + list(f["rev"].values())}
+    out = {"reversed_items": [], "scores": []}
+    for prefix, f in fam.items():
+        if len(f["orig"]) < 3:
+            continue
+        # reversed items: orig + rev should be one constant (max + min of the scale)
+        valid_rev = {}
+        for k, jr in f["rev"].items():
+            jo = f["orig"].get(k)
+            if jo is None:
+                continue
+            pairs = [(i, a + b) for i, (a, b) in enumerate(zip(values(jo), values(jr))) if a is not None and b is not None]
+            if not pairs:
+                continue
+            const, n = Counter(s for _, s in pairs).most_common(1)[0]
+            bad = [i for i, s in pairs if s != const]
+            if n >= 0.9 * len(pairs):
+                valid_rev[k] = jr
+                if bad:
+                    out["reversed_items"].append({
+                        "item": header[jr], "of": header[jo], "rows_not_reversed": len(bad), "of_rows": len(pairs),
+                        "examples": who(bad), "rule": f"{header[jr]} = {int(const)} - {header[jo]} in the other rows"})
+            else:
+                same = sum(1 for i, (a, b) in enumerate(zip(values(jo), values(jr))) if a is not None and a == b)
+                out["reversed_items"].append({
+                    "item": header[jr], "of": header[jo], "rows_not_reversed": len(bad) + 0, "of_rows": len(pairs),
+                    "not_a_reverse": True,
+                    "note": (f"{header[jr]} is not {header[jo]} reversed: {header[jo]} + {header[jr]} is not constant "
+                             f"(it is {int(const)} in only {n} of {len(pairs)} rows)" +
+                             (f"; it equals {header[jo]} in {same} rows" if same > 0.5 * len(pairs) else ""))})
+        # candidate scores of the whole family: sum or mean, with or without reversed items
+        ks = sorted(f["orig"])
+        # most plausible first: when two variants explain a total, the first one names it
+        variants = {}
+        if f["rev"]:
+            if set(valid_rev) != set(k for k in f["rev"] if k in f["orig"]):
+                variants["reversed items where the reversed column is a real reverse"] = [
+                    valid_rev.get(k, f["orig"][k]) for k in ks]
+            variants["reversed items where a reversed column exists"] = [f["rev"].get(k, f["orig"][k]) for k in ks]
+        variants["items as they are"] = [f["orig"][k] for k in ks]
+        family_cols = set(f["orig"].values()) | set(f["rev"].values())
+        cand_rows = {}
+        for label, idx in variants.items():
+            vs = [values(j) for j in idx]
+            sums = [None if any(v[i] is None for v in vs) else sum(v[i] for v in vs) for i in range(len(body))]
+            cand_rows[("sum", label)] = sums
+            cand_rows[("mean", label)] = [None if s is None else s / len(idx) for s in sums]
+        first, last = header[f["orig"][ks[0]]], header[f["orig"][ks[-1]]]
+        # subscales: every s-th item (1, 6, 11 ...) or consecutive blocks, the two usual layouts
+        sub_rows = {}
+        if len(ks) >= 6:
+            best_items = variants[next(iter(variants))]
+            for s in range(2, min(12, len(ks) // 2) + 1):
+                for o in range(s):
+                    idx = best_items[o::s]
+                    names = [header[x] for x in idx]
+                    vs = [values(x) for x in idx]
+                    sums = [None if any(v[i] is None for v in vs) else sum(v[i] for v in vs) for i in range(len(body))]
+                    lab = f"{names[0]}, {names[1]} ... {names[-1]} (every {s}th item)"
+                    sub_rows[("sum", lab)] = sums
+                    sub_rows[("mean", lab)] = [None if x is None else x / len(idx) for x in sums]
+                if len(ks) % s == 0:
+                    size = len(ks) // s
+                    for b in range(s):
+                        idx = best_items[b * size:(b + 1) * size]
+                        vs = [values(x) for x in idx]
+                        sums = [None if any(v[i] is None for v in vs) else sum(v[i] for v in vs) for i in range(len(body))]
+                        lab = f"{header[idx[0]]} ... {header[idx[-1]]} (block {b + 1} of {s})"
+                        sub_rows[("sum", lab)] = sums
+                        sub_rows[("mean", lab)] = [None if x is None else x / len(idx) for x in sums]
+        for j, (h, c) in enumerate(zip(header, cols)):
+            # items of any scale are not totals (an item scored 3 can equal a mean by chance)
+            if j in all_items or c.get("type") not in ("integer", "numeric") or ID_LIKE.search(h):
+                continue
+            named = bool(re.match(re.escape(prefix), h.strip(), re.I)) and \
+                bool(SCORE_SUFFIX.match(h.strip()[len(prefix):]))
+            y = values(j)
+            decimals = max((len(str(r[j]).strip().split(".")[1]) if "." in str(r[j]) else 0) for r in body[:500]
+                           if j < len(r)) if body else 0
+            # a whole number is compared exactly (a sum); a decimal one within its rounding
+            tol = 0.5 * 10 ** -min(decimals, 6) + 1e-9 if decimals else 1e-9
+            best = None
+            for (kind, label), cand in cand_rows.items():
+                rows = [i for i in range(len(body)) if y[i] is not None and cand[i] is not None]
+                if not rows:
+                    continue
+                ok = [i for i in rows if abs(y[i] - cand[i]) <= tol]
+                if best is None or len(ok) > best[0] + 0.5:
+                    best = (len(ok), rows, ok, kind, label, cand)
+            if not best:
+                continue
+            n_ok, rows, ok, kind, label, chosen = best
+            rule = f"{kind} of {first} ... {last} ({label})"
+            if n_ok < 0.8 * len(rows) and sub_rows:
+                for (k2, lab2), cand in sub_rows.items():
+                    r2 = [i for i in range(len(body)) if y[i] is not None and cand[i] is not None]
+                    ok2 = [i for i in r2 if abs(y[i] - cand[i]) <= tol]
+                    if r2 and len(ok2) >= 0.8 * len(r2) and len(ok2) > n_ok:
+                        n_ok, rows, ok, kind, rule, chosen = len(ok2), r2, ok2, k2, f"{k2} of {lab2}", cand
+                if n_ok >= 0.8 * len(rows):
+                    named = False  # a subscale: no "sum plus one column" search
+            # the score is there although some of its items are missing: computed on fewer items, or by hand
+            partial = [i for i in range(len(body)) if y[i] is not None and chosen[i] is None]
+            extra = {"rows_with_missing_items": len(partial), "examples_missing_items": who(partial)} if partial else {}
+            if n_ok == len(rows):
+                out["scores"].append({"column": h, "family": prefix, "rule": rule, "rows": len(rows),
+                                      "status": "matches", **extra})
+                continue
+            if n_ok >= 0.8 * len(rows):
+                bad = [i for i in rows if i not in set(ok)]
+                out["scores"].append({"column": h, "family": prefix, "rule": rule, "rows": len(rows),
+                                      "status": "differs in some rows", "rows_differing": len(bad),
+                                      "examples": who(bad), **extra})
+                continue
+            # a total that is the sum plus one more column (an item counted twice, a stray column)
+            explained = None
+            if kind == "sum" or named:
+                for (k2, label2), cand in cand_rows.items():
+                    if k2 != "sum":
+                        continue
+                    resid = [None if y[i] is None or cand[i] is None else y[i] - cand[i] for i in range(len(body))]
+                    for jx in sorted(family_cols):
+                        xv = values(jx)
+                        pairs = [(resid[i], xv[i]) for i in range(len(body)) if resid[i] is not None and xv[i] is not None]
+                        if pairs and sum(abs(a - b) <= tol for a, b in pairs) >= 0.98 * len(pairs):
+                            explained = (label2, header[jx], len(pairs))
+                            break
+                    if explained:
+                        break
+            if explained:
+                out["scores"].append({
+                    "column": h, "family": prefix, "rows": explained[2], "status": "sum plus one column",
+                    "note": f"{h} = sum of {first} ... {last} ({explained[0]}) + {explained[1]} in every row: "
+                            f"{explained[1]} is added on top of the items"})
+            elif named:
+                out["scores"].append({
+                    "column": h, "family": prefix, "rows": len(rows), "status": "no rule found",
+                    "note": f"{h} is not the sum or the mean of {first} ... {last} (with or without reversed items) "
+                            f"in most rows: a subset of items, another formula, or an error; the scoring "
+                            "must be in the README or the code"})
+    out = {k: v for k, v in out.items() if v}
+    return out or None
+
+
 def indirect_identifiers(header, cols, body, id_col):
     """Columns that do not identify anyone alone (age, gender, education,
     school ...) but can together; how many participants are the only one with
@@ -1268,6 +1451,9 @@ def scan_table(path, root, rows=None, info=None, sheet=None):
                 "(e.g. a Prolific ID): replace it with a study code before sharing")
     if within:
         res["within_participant_inconsistencies"] = within
+    derived = derived_scores(header, cols, body, decimal_comma, id_col)
+    if derived:
+        res["derived_scores"] = derived
     ind = indirect_identifiers(header, cols, body, id_col)
     if ind:
         res["indirect_identifiers"] = ind
@@ -1875,6 +2061,14 @@ def find_manuscripts(root, files):
     return out
 
 
+def other_documents(root, files, manuscripts):
+    """PDF and Word files not recognised as the manuscript by their name
+    (a typo, "Rossi_2025.pdf", "main.pdf"): one of them may be it."""
+    known = {m["file"] for m in manuscripts}
+    return [rel(f, root) for f in files if f.suffix.lower() in (".pdf", ".docx", ".doc", ".odt")
+            and rel(f, root) not in known and not re.match(r"(?i)^(readme|leggimi|licen[cs]e)", f.name)][:20]
+
+
 def psychds_check(root, tables):
     """The minimum rules of Psych-DS, as listed on the booklet's page."""
     res = {"data_dir": (root / "data").is_dir(), "problems": []}
@@ -2296,6 +2490,10 @@ def scan(root):
     if deps:
         report["code"]["dependencies"] = deps
     report["manuscripts"] = find_manuscripts(root, files)
+    docs = other_documents(root, files, report["manuscripts"])
+    if docs:
+        report["other_documents"] = {"files": docs, "note": "not recognised as a manuscript by name: "
+                                     "open them to see whether one is the manuscript, a preprint or material"}
     report["psychds"] = psychds_check(root, all_tables)
     allp = sorted({p for c in code for p in c.get("packages", [])})
     report["code"]["all_packages"] = allp
@@ -2326,8 +2524,11 @@ def main():
     report = scan(root)
     text = json.dumps(report, indent=1, ensure_ascii=False, default=str)
     if args.out:
-        Path(args.out).write_text(text)
-        print(f"Report written to {args.out} ({len(text)} chars)")
+        out = Path(args.out)
+        out.write_text(text)
+        short = summarise(report, out)
+        out.with_name(out.stem + "_summary.md").write_text(short)
+        print(short)
     else:
         print(text)
 

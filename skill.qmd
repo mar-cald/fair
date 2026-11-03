@@ -65,11 +65,11 @@ scelto:
 
 | Area | Che cosa guarda |
 |:--|:--|
-| Dati | riconosce che cosa misura ogni colonna (età, genere, tempi di reazione, accuratezza, item di un questionario, condizione) e cerca gli errori tipici di quel dato: un'età di 999, date di nascita al posto dell'età, tempi in secondi mescolati a millisecondi, un 7 fra item da 1 a 5, `F` e `Femmina` come due categorie. Poi: valori mancanti scritti in più modi (`NA`, `-99`, cella vuota), righe duplicate, la stessa persona con due età, ID che non coincidono fra i file |
+| Dati | riconosce che cosa misura ogni colonna (età, genere, tempi di reazione, accuratezza, item di un questionario, condizione) e cerca gli errori tipici di quel dato: un'età di 999, date di nascita al posto dell'età, tempi in secondi mescolati a millisecondi, un 7 fra item da 1 a 5, `F` e `Femmina` come due categorie. Ricalcola riga per riga gli item invertiti e i punteggi totali e di sottoscala: un item "invertito" che non lo è, o un totale che somma una colonna in più, cambiano i risultati. Poi: valori mancanti scritti in più modi (`NA`, `-99`, cella vuota), righe duplicate, la stessa persona con due età, ID che non coincidono fra i file |
 | Documentazione | nomi dei file, formati, il README, un data dictionary per ogni file di dati, licenze diverse per dati e codice |
 | Dati personali | nomi, e-mail, indirizzi IP, coordinate, date di nascita, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili |
 | Codice | esegue gli script in una copia della cartella, dice quali si fermano e perché (`setwd()`, percorsi assoluti, pacchetti mancanti), elenca i pacchetti e li confronta con `renv.lock`, segnala i numeri casuali senza seed |
-| Manoscritto | cerca nell'output degli script ogni statistica riportata, controlla N, esclusioni e Data availability |
+| Manoscritto | cerca nell'output degli script ogni statistica riportata, controlla N, esclusioni e Data availability; controlla anche il testo con sé stesso: reclutati meno esclusi uguale N, gruppi che sommano a N, percentuali, gradi di libertà. I numeri che potrebbero essere sbagliati vanno in un blocco a parte, in cima al rapporto |
 
 ### 4. Scrive un rapporto
 
