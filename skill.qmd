@@ -179,13 +179,3 @@ Nelle versioni web lo zip allegato viene caricato sui server del servizio.
 Prima di usarla con dati sensibili, controllate che cosa prevedono il consenso
 informato, le regole del vostro ateneo e le condizioni del servizio AI che
 usate, oppure togliete prima i dati personali.
-
-## Esempi
-
-Tre progetti inventati, con i problemi tipici, su cui è stata eseguita la
-skill: [solo dati](https://github.com/mar-cald/fair/tree/main/skill/demo/demo1-data),
-[dati e codice](https://github.com/mar-cald/fair/tree/main/skill/demo/demo2-data-code),
-[dati, codice e preprint](https://github.com/mar-cald/fair/tree/main/skill/demo/demo3-data-code-manuscript).
-Per ognuno ci sono la cartella originale, il rapporto e la versione da
-depositare. Sono stati prodotti con Claude e con una versione precedente della
-skill, che applicava sempre Psych-DS.

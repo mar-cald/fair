@@ -35,13 +35,6 @@ descrive la cartella, per chi lavora sulla skill.
 Gli script usano Python 3 senza pacchetti aggiuntivi; per leggere i file
 Excel serve `openpyxl`, per quelli SPSS e Stata `pyreadstat`.
 
-## Esempi
-
-In `demo/` ci sono tre progetti inventati (solo dati; dati e codice; dati,
-codice e preprint), ognuno con la cartella originale, il rapporto della skill e
-la versione da depositare. Vedi `demo/README.md`. Sono stati prodotti con
-Claude e con una versione precedente della skill, che applicava sempre Psych-DS.
-
 ## Dopo una modifica
 
 Rigenerare `fair-check.skill` e reinstallare la skill negli assistenti che la usano:

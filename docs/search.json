@@ -378,18 +378,11 @@
     "text": "Come usarla\nAprite la cartella del progetto nell’assistente e scrivete, per esempio:\n\nControlla se questa cartella è pronta da depositare su Zenodo.\nControlla solo il codice: gira su un altro computer?\nI numeri del preprint escono dagli script?\nPrepara la versione da depositare, con Psych-DS.\n\nL’assistente riconosce dalla richiesta che la skill serve; potete anche richiamarla per nome (/fair-check in Claude Code, $fair-check in Codex). Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip; lì però R di solito non è installato, e il codice R viene letto ma non eseguito.\nL’assistente chiede l’autorizzazione prima di eseguire i comandi. La versione da depositare viene creata accanto alla cartella del progetto, fuori dalla cartella aperta: l’assistente chiede il permesso di scrivere lì."
   },
   {
-    "objectID": "skill.html#che-cosa-vede-claude",
-    "href": "skill.html#che-cosa-vede-claude",
+    "objectID": "skill.html#che-cosa-vede-lassistente",
+    "href": "skill.html#che-cosa-vede-lassistente",
     "title": "La skill fair-check",
-    "section": "Che cosa vede Claude",
-    "text": "Che cosa vede Claude\nIn Claude Code la cartella resta sul vostro computer e gli script girano lì. Claude legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di Anthropic come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.\nSu claude.ai lo zip allegato viene caricato nell’ambiente della conversazione.\nPrima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato e le regole del vostro ateneo, oppure togliete prima i dati personali."
-  },
-  {
-    "objectID": "skill.html#esempi",
-    "href": "skill.html#esempi",
-    "title": "La skill fair-check",
-    "section": "Esempi",
-    "text": "Esempi\nTre progetti inventati, con i problemi tipici, su cui è stata eseguita la skill: solo dati, dati e codice, dati, codice e preprint. Per ognuno ci sono la cartella originale, il rapporto e la versione da depositare. Sono stati prodotti con Claude e con una versione precedente della skill, che applicava sempre Psych-DS."
+    "section": "Che cosa vede l’assistente",
+    "text": "Che cosa vede l’assistente\nQuando l’assistente lavora sul vostro computer (Claude Code, Codex), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.\nNelle versioni web lo zip allegato viene caricato sui server del servizio.\nPrima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato, le regole del vostro ateneo e le condizioni del servizio AI che usate, oppure togliete prima i dati personali."
   },
   {
     "objectID": "struttura-2.html",
@@ -432,12 +425,5 @@
     "title": "Psych-DS",
     "section": "Neuroimaging: BIDS",
     "text": "Neuroimaging: BIDS\nSe lavorate con MRI, EEG, MEG o fNIRS, lo standard è BIDS: molto più prescrittivo, (validator, BIDS Apps, fMRIPrep). Depositando su OpenNeuro è di fatto obbligatorio.\n\nSchema dei nomi dei file adattato dal sito di BIDS; regole ed esempio di dataset_description.json adattati dalla documentazione di Psych-DS."
-  },
-  {
-    "objectID": "skill.html#che-cosa-vede-lassistente",
-    "href": "skill.html#che-cosa-vede-lassistente",
-    "title": "La skill fair-check",
-    "section": "Che cosa vede l’assistente",
-    "text": "Che cosa vede l’assistente\nQuando l’assistente lavora sul vostro computer (Claude Code, Codex), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: l’inventario riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali.\nNelle versioni web lo zip allegato viene caricato sui server del servizio.\nPrima di usarla con dati sensibili, controllate che cosa prevedono il consenso informato, le regole del vostro ateneo e le condizioni del servizio AI che usate, oppure togliete prima i dati personali."
   }
 ]
