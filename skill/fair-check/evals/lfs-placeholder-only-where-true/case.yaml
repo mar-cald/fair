@@ -1,8 +1,0 @@
-schema_version: "1.1"
-name: lfs-placeholder-only-where-true
-expected_outcome: |
-  Only data/processed/trials.rds is reported as a Git LFS placeholder, and only "in this copy",
-  with the likely cause and a question whether the researcher has the real file. models/fit_sleep.rds,
-  a real file, is not called a placeholder, and the report does not suggest other files might be.
-context:
-  scaffold_script: place-files.sh

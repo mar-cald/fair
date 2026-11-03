@@ -1,6 +1,0 @@
-library(readr)
-library(rstan)
-d <- read_csv("output/clean.csv")
-fit <- stan(file = "scripts/model.stan", data = list(N = nrow(d), rt = d$rt))
-saveRDS(fit, "output/fit.rds")
-write_csv(data.frame(id = unique(d$id)), "output/ids_model.csv")

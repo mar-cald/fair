@@ -15,4 +15,3 @@
 __pycache__/
 
 **/*.quarto_ipynb
-skill/fair-check/evals/lfs-placeholder-only-where-true/files/sleep_models/data/processed/trials.rds
