@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>La skill fair-check – Open Science</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -36,10 +42,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b6adf2683b15be5aaf084f57bfd4b46c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -221,18 +227,18 @@ ul.task-list li input[type="checkbox"] {
 <p>Parole chiave: skill Agent Skills Claude ChatGPT Codex OpenAI Anthropic intelligenza artificiale AI assistente controllo cartella verifica progetto FAIR deposito pronto Zenodo PsychArchives; data dictionary automatico README licenza Psych-DS; codice riproducibile numeri manoscritto preprint; Qualtrics PsychoPy jsPsych Gorilla OpenSesame E-Prime.</p>
 </div>
 <p><code>fair-check</code> è una <em>skill</em>: una cartella di istruzioni e di script in Python che un assistente AI segue quando gli si chiede di controllare la cartella di un progetto di ricerca. Applica le regole di questa dispensa (nomi, formati, README, data dictionary, licenze, dati personali), prova a eseguire il codice, confronta i numeri del manoscritto con l’output degli script e, se volete, costruisce una versione della cartella pronta da caricare su <a href="./zenodo.html">Zenodo</a> o su un altro repository.</p>
-<p>La skill segue <a href="https://agentskills.io">Agent Skills</a>, un formato aperto: un file <code>SKILL.md</code> con le istruzioni, più gli script e i documenti che servono. Il formato è nato da Anthropic per Claude ed è stato adottato da altri strumenti, tra cui Codex di OpenAI, disponibile anche nell’app ChatGPT per computer. La stessa cartella funziona con tutti.</p>
+<p>La skill segue <a href="https://agentskills.io">Agent Skills</a>, un formato aperto: un file <code>SKILL.md</code> con le istruzioni, più gli script e i documenti che servono. Il formato è nato da Anthropic per Claude ed è stato adottato da altri strumenti, tra cui Codex di OpenAI, disponibile anche nell’app ChatGPT per desktop. La stessa cartella funziona con tutti.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Da scaricare">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Da scaricare
+<span class="screen-reader-only">Nota</span>Da scaricare
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a> (110 KB): un archivio zip con la cartella <code>fair-check</code>, istruzioni per installarla sotto. I sorgenti sono su <a href="https://github.com/mar-cald/fair/tree/main/skill/fair-check">GitHub</a>.</p>
+<p><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a>: un archivio zip con la cartella <code>fair-check</code>, istruzioni per installarla sotto.</p>
 </div>
 </div>
 <section id="che-cosa-fa" class="level2">
@@ -306,11 +312,11 @@ Da scaricare
 </tr>
 <tr class="even">
 <td style="text-align: left;">Documentazione</td>
-<td style="text-align: left;">nomi dei file, formati, il README e le sue otto sezioni, un data dictionary per ogni file di dati, licenze diverse per dati e codice</td>
+<td style="text-align: left;">nomi dei file, formati, il README, un data dictionary per ogni file di dati, licenze diverse per dati e codice</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Dati personali</td>
-<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, ID di Prolific, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili</td>
+<td style="text-align: left;">nomi, e-mail, indirizzi IP, coordinate, date di nascita, risposte a testo libero; quante persone si distinguono dalle altre per la combinazione di età, genere, scuola e simili</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Codice</td>
@@ -318,7 +324,7 @@ Da scaricare
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Manoscritto</td>
-<td style="text-align: left;">cerca nell’output degli script ogni statistica riportata (M, SD, t, F, p, intervalli; anche fattori di Bayes e intervalli di credibilità), controlla N, esclusioni e Data availability</td>
+<td style="text-align: left;">cerca nell’output degli script ogni statistica riportata, controlla N, esclusioni e Data availability</td>
 </tr>
 </tbody>
 </table>
@@ -433,13 +439,14 @@ Da scaricare
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

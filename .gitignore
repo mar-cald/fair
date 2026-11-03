@@ -13,3 +13,5 @@
 
 # cache di Python (script della skill)
 __pycache__/
+
+**/*.quarto_ipynb
