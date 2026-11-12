@@ -1,0 +1,71 @@
+/*-- scss:defaults --*/
+
+// Stile delle slide: stessi colori e stesso font del sito (vedi ../custom.scss).
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap');
+
+$accento:      #8f1f27;   // rosso Unipd
+$attenuato:    #454039;   // testo secondario
+$riga:         #c8c1b6;   // filetti e bordi
+$riga-chiara:  #e2ddd4;   // filetti interni delle tabelle
+$fondo-chiaro: #f7f5f1;   // riquadri (lo stesso colore va nelle slide di sezione, in slides.qmd)
+$fondo-codice: #f4f2ee;
+
+$font-family-sans-serif: "Libre Franklin", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+$presentation-font-size-root: 32px;
+$presentation-heading-font-weight: 600;
+$body-color: #000;
+$presentation-heading-color: #000;
+$link-color: $accento;
+
+/*-- scss:rules --*/
+
+.reveal h1, .reveal h2, .reveal h3 { font-family: inherit; font-weight: 600; color: #000; letter-spacing: -.01em; }
+.reveal h1 { font-size: 1.9em; }
+.reveal h2 { font-size: 1.35em; padding-bottom: .3em; border-bottom: 1px solid $riga; margin-bottom: .75em; }
+.reveal a { color: $accento; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
+.reveal li { margin-bottom: .35em; }
+.reveal li::marker { color: $accento; font-weight: 600; }
+.reveal code { background: $fondo-codice; color: #000; padding: .05em .25em; border-radius: 3px; }
+.reveal pre { box-shadow: none; width: 100%; font-size: .72em; }
+.reveal .piccolo pre { font-size: .9em; }
+.reveal pre code { padding: .8em 1em; font-size: 1em; line-height: 1.4; max-height: none; border: 1px solid $riga-chiara; border-radius: 6px; }
+// tabelle
+.reveal table { font-size: .82em; margin-top: .5em; margin-bottom: .7em; border-collapse: collapse; }
+.reveal .piccolo table, .reveal .medio table { font-size: .95em; }
+.reveal table th { border-bottom: 2px solid #000; font-size: .8em; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: $attenuato; padding: .35em .6em; }
+.reveal table td { border-bottom: 1px solid $riga-chiara; vertical-align: top; padding: .28em .6em; line-height: 1.3; }
+.reveal table tr:last-child td { border-bottom: none; }
+// riquadri
+.reveal .nota { border-left: 4px solid $accento; background: $fondo-chiaro; padding: .5em .9em; margin-top: .7em; font-size: .9em; border-radius: 0 6px 6px 0; }
+.reveal .nota p { margin: 0; }
+.reveal .richiesta { position: relative; border: 1px solid $riga; border-radius: 8px; padding: .45em .9em .45em 1.9em; margin: .4em 0; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+.reveal .richiesta::before { content: "›"; position: absolute; left: .7em; top: .3em; color: $accento; font-weight: 700; }
+.reveal .richiesta p { margin: 0; }
+.reveal .piccolo { font-size: .8em; }
+.reveal .medio { font-size: .9em; }
+.reveal .attenuato { color: $attenuato; }
+.reveal h2 .passo { display: block; color: $accento; font-weight: 600; font-size: .5em; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25em; }
+.reveal .slide-number { color: $attenuato; background: transparent; font-size: .45em; }
+.reveal .slide-number a { text-decoration: none; color: inherit; }
+.reveal .footer { color: $attenuato; font-size: .45em; }
+// copertina (prima slide, scritta a mano in slides.qmd per farci stare il QR) e slide di sezione
+.reveal .copertina h2 { display: none; }
+.reveal .copertina .titolo { display: block; font-size: 1.75em; font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+.reveal .copertina .titolo::before, .reveal section.sezione h1::before { content: ""; display: block; width: 2.2em; height: 6px; background: $accento; margin-bottom: .5em; }
+.reveal .copertina .sottotitolo { display: block; color: $attenuato; font-size: 1.1em; margin-bottom: 1.4em; }
+.reveal .copertina .autrice { font-weight: 600; }
+.reveal .copertina .affiliazione { color: $attenuato; font-size: .75em; }
+.reveal .copertina .qr { text-align: center; font-size: .6em; color: $attenuato; }
+.reveal .copertina .qr img { width: 78%; margin: 0 auto .3em; }
+.reveal section.sezione h1 { color: #000; font-size: 1.7em; }
+// cartella mostrata come in un gestore di file (slide "Una skill è una cartella")
+.reveal .cartella { border: 1px solid $riga; border-radius: 8px; background: #fff; padding: .4em .9em; box-shadow: 0 1px 2px rgba(0,0,0,.05); font-size: .85em; }
+.reveal .cartella ul { list-style: none; margin: 0; padding-left: 0; display: block; }
+.reveal .cartella ul ul { padding-left: 1.1em; border-left: 1px solid $riga-chiara; margin: 0 0 0 .5em; }
+.reveal .cartella li { margin: 0; padding: .08em 0 0; line-height: 1.3; }
+.reveal .cartella li > p { margin: 0; }
+.reveal .cartella strong { font-weight: 600; }
+.reveal .cartella .cosa { color: $attenuato; font-size: .85em; margin-left: .4em; }
+.reveal .cartella .ico-cartella, .reveal .cartella .ico-file { display: inline-block; width: 1em; height: .85em; margin-right: .4em; vertical-align: -.08em; background: no-repeat center / contain; }
+.reveal .cartella .ico-cartella { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M1 3a2 2 0 0 1 2-2h6l2.5 3H21a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z' fill='%238f1f27'/%3E%3C/svg%3E"); }
+.reveal .cartella .ico-file { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M6 1h8l5 5v13H6z' fill='%23fff' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M14 1v5h5' fill='none' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E"); }

@@ -495,5 +495,159 @@
     "title": "fair-check, passo per passo",
     "section": "I file della skill",
     "text": "I file della skill\n\n\n\n\n\n\n\nFile\nChe cosa contiene\n\n\n\n\nSKILL.md\nil percorso: inventario, domande, rapporto; i link alle pagine della dispensa\n\n\nreferences/check-data.md\ni controlli su dati, struttura, README, dictionary, licenza, dati personali\n\n\nreferences/check-code.md\nl’esecuzione del codice, i modelli pesanti, renv, i seed, i pacchetti\n\n\nreferences/check-manuscript.md\ni controlli sul manoscritto\n\n\nreferences/deposit.md\nla versione da depositare\n\n\nreferences/fair-rules.md\nle regole della dispensa, riassunte, per i casi in cui serve la regola\n\n\nreferences/software-exports.md\ni file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime\n\n\nscripts/fair_scan.py\nl’inventario e i controlli su file, dati e codice\n\n\nscripts/summary.py\nil riassunto dell’inventario e il controllo dell’ambiente\n\n\nscripts/software.py\nche cosa scrive ciascun programma per esperimenti\n\n\nscripts/run_code.py\nl’esecuzione del codice in una copia\n\n\nscripts/manuscript_numbers.py\nil testo del manoscritto e il confronto dei numeri\n\n\nscripts/draft_dictionary.py\nle bozze dei data dictionary\n\n\nscripts/build_deposit.py\nla versione da depositare, il LICENSE, lo zip\n\n\nscripts/make_psychds.py\ndataset_description.json (solo con Psych-DS)\n\n\nassets/licenses/\ni testi ufficiali delle licenze\n\n\n\nL’assistente legge sempre SKILL.md; gli altri file di istruzioni solo per le aree che avete scelto. I sorgenti sono nella cartella skill/ del repository di questo sito."
+  },
+  {
+    "objectID": "skill/slides.html#che-cosa-facciamo-oggi",
+    "href": "skill/slides.html#che-cosa-facciamo-oggi",
+    "title": "Open Science",
+    "section": "Che cosa facciamo oggi",
+    "text": "Che cosa facciamo oggi\n\nChe cos’è una skill e come un assistente AI decide di usarla\nPratica con fair-check, una skill che controlla se la cartella di un progetto di ricerca è pronta da depositare: la installate e la provate su una vostra cartella\nCome scriverne una vostra\n\n\nLa prima parte di queste slide riprende, semplificandola, la Parte 3 di Evocare gli agents di Enrico Toffalini. La sua guida completa è la serie Tre cose sull’AI."
+  },
+  {
+    "objectID": "skill/slides.html#il-problema-che-risolve",
+    "href": "skill/slides.html#il-problema-che-risolve",
+    "title": "Open Science",
+    "section": "Il problema che risolve",
+    "text": "Il problema che risolve\nUn assistente AI risponde nel modo più comune, non nel vostro.\n\n\n\n\n\n\n\n\nChiedete\nSenza istruzioni\nQuello che volevate\n\n\n\n\nun’analisi in R\ncodice con pacchetti che non usate\nil vostro stile di codice\n\n\nun report\nun file HTML\nun documento Quarto\n\n\n«la cartella è pronta da depositare?»\nun parere generico\ni controlli della dispensa, file per file\n\n\n\nPotete correggerlo ogni volta nella conversazione. Oppure scrivete le istruzioni una volta sola, in una skill.\n\nQuando vi accorgete di correggere l’assistente per lo stesso motivo per la terza volta, conviene scrivere una skill."
+  },
+  {
+    "objectID": "skill/slides.html#una-skill-è-una-cartella",
+    "href": "skill/slides.html#una-skill-è-una-cartella",
+    "title": "Open Science",
+    "section": "Una skill è una cartella",
+    "text": "Una skill è una cartella\nUna normale cartella del computer. Questa è, in parte, quella di fair-check:\n\n\n\n\n fair-check\n\n SKILL.md le istruzioni\n references documenti di dettaglio\n\n check-data.md\n check-code.md\n altri 4 file\n\n scripts programmi in Python\n\n fair_scan.py\n altri 7 file\n\n assets file da copiare: le licenze\n\n\n\n\n\nL’unico file obbligatorio è SKILL.md: un file di testo scritto per l’assistente.\nIl resto è facoltativo: una skill può essere fatta del solo SKILL.md.\nIl formato si chiama Agent Skills ed è aperto: la stessa cartella funziona con Claude, con ChatGPT/Codex e con altri assistenti che lo adottano."
+  },
+  {
+    "objectID": "skill/slides.html#dentro-skill.md",
+    "href": "skill/slides.html#dentro-skill.md",
+    "title": "Open Science",
+    "section": "Dentro SKILL.md",
+    "text": "Dentro SKILL.md\nL’inizio del SKILL.md di fair-check:\n---\nname: fair-check\ndescription: Checks whether a research project folder is FAIR\n  and ready to deposit on Zenodo... Use it whenever someone asks\n  to check, review, clean up or make FAIR a research folder...\n  also for Italian requests like \"controlla la mia cartella\".\n---\n\n# FAIR check and deposit version of a research project\n\nThe question behind every check: can a person who does not\nknow the authors find these data, open them, reuse them? ...\n\nIn testa: il nome e la descrizione, che dice che cosa fa la skill e quando usarla.\nSotto: le istruzioni, in testo libero."
+  },
+  {
+    "objectID": "skill/slides.html#che-cosa-legge-lassistente-e-quando",
+    "href": "skill/slides.html#che-cosa-legge-lassistente-e-quando",
+    "title": "Open Science",
+    "section": "Che cosa legge l’assistente, e quando",
+    "text": "Che cosa legge l’assistente, e quando\n\n\n\n\n\n\n\n\n\nChe cosa\nQuando\n\n\n\n\n1\nnome e descrizione di tutte le skill installate\nall’inizio di ogni conversazione\n\n\n2\nil SKILL.md completo di una skill\nquando la vostra richiesta corrisponde alla sua descrizione\n\n\n3\ni file in references/ e scripts/\nsolo quelli che servono per la richiesta\n\n\n\n\nPer questo si possono installare molte skill: finché non servono, occupano poche righe.\nEsempio: una skill che controlla dati e codice tiene le istruzioni sui dati in un file e quelle sul codice in un altro. Se chiedete di controllare solo il codice, l’assistente legge solo il secondo.\n\n\nLa descrizione decide se la skill viene usata: è la parte da scrivere con più cura."
+  },
+  {
+    "objectID": "skill/slides.html#come-si-attiva",
+    "href": "skill/slides.html#come-si-attiva",
+    "title": "Open Science",
+    "section": "Come si attiva",
+    "text": "Come si attiva\nDa sola. Scrivete la richiesta con parole vostre; l’assistente la confronta con le descrizioni e carica la skill che corrisponde.\n\nControlla se questa cartella è pronta da depositare su Zenodo.\n\nPer nome, quando volete essere sicuri che la usi:\n\n\n\nAssistente\nCome si richiama\n\n\n\n\nClaude Code\n/ seguito dal nome della skill: /fair-check\n\n\nCodex\n$ seguito dal nome della skill: $fair-check\n\n\n\nCome verificare che l’abbia usata: nella conversazione compare il passaggio in cui l’assistente apre SKILL.md."
+  },
+  {
+    "objectID": "skill/slides.html#che-cosa-fa-fair-check",
+    "href": "skill/slides.html#che-cosa-fa-fair-check",
+    "title": "Open Science",
+    "section": "Che cosa fa fair-check",
+    "text": "Che cosa fa fair-check\nControlla la cartella di un progetto di ricerca con le regole della dispensa e vi restituisce:\n\nun rapporto: che cosa impedirebbe a un estraneo di trovare, aprire, capire e riusare i vostri dati e il vostro codice, file per file, e quali numeri del manoscritto non escono dai dati o dagli script;\nse lo chiedete, una versione della cartella pronta da depositare, con README, data dictionary, licenze e lo zip da caricare.\n\n\nLa vostra cartella non viene modificata: tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare, creata accanto."
+  },
+  {
+    "objectID": "skill/slides.html#prima-di-cominciare-i-dati-personali",
+    "href": "skill/slides.html#prima-di-cominciare-i-dati-personali",
+    "title": "Le skill: che cosa sono e come si usano",
+    "section": "Prima di cominciare: i dati personali",
+    "text": "Prima di cominciare: i dati personali\nL’assistente legge i file che apre e l’output degli script. Questo testo passa dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione.\n\nSul vostro computer (Claude Code, Codex, app Claude per computer) la cartella resta lì e gli script girano lì. Lo script della skill riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati.\nNelle versioni web (claude.ai, ChatGPT) lo zip che allegate viene caricato sui server del servizio.\n\nPer oggi: scegliete una cartella senza dati sensibili, oppure toglietene prima le colonne personali. Per i progetti veri controllate consenso informato, regole dell’ateneo e condizioni del servizio."
+  },
+  {
+    "objectID": "skill/slides.html#passo-1-installate-la-skill",
+    "href": "skill/slides.html#passo-1-installate-la-skill",
+    "title": "Open Science",
+    "section": "Passo 1 Installate la skill",
+    "text": "Passo 1 Installate la skill\nScaricate fair-check.skill da mar-cald.github.io/fair/skill.html: è un archivio zip che contiene la cartella fair-check.\n\n\n\n\n\n\n\nAssistente\nChe cosa fare\n\n\n\n\nClaude (app per computer, claude.ai)\nnelle impostazioni, nella sezione delle skill, caricate fair-check.skill. Deve essere attiva l’esecuzione di codice\n\n\nClaude Code dal terminale\nestraete l’archivio e copiate la cartella fair-check in ~/.claude/skills/\n\n\nChatGPT e Codex\nestraete l’archivio e copiate la cartella fair-check in ~/.agents/skills/\n\n\n\nSul computer serve Python 3. Se manca R, il codice R viene letto ma non eseguito: il rapporto lo dice all’inizio."
+  },
+  {
+    "objectID": "skill/slides.html#passo-2-aprite-la-cartella-e-chiedete",
+    "href": "skill/slides.html#passo-2-aprite-la-cartella-e-chiedete",
+    "title": "Open Science",
+    "section": "Passo 2 Aprite la cartella e chiedete",
+    "text": "Passo 2 Aprite la cartella e chiedete\nAprite nell’assistente la cartella di un vostro progetto (nelle versioni web: allegatela come zip) e scrivete una richiesta. Per esempio:\n\nControlla se questa cartella è pronta da depositare su Zenodo.\n\n\nControlla solo il codice: gira su un altro computer?\n\n\nI numeri del preprint escono dai dati e dagli script?\n\nPrima di eseguire comandi, l’assistente chiede il vostro permesso."
+  },
+  {
+    "objectID": "skill/slides.html#passo-3-rispondete-alle-domande",
+    "href": "skill/slides.html#passo-3-rispondete-alle-domande",
+    "title": "Open Science",
+    "section": "Passo 3 Rispondete alle domande",
+    "text": "Passo 3 Rispondete alle domande\nLa skill fa le domande tutte insieme, e solo quelle che valgono per la vostra cartella. Se rispondete «fai tutto», usa le risposte predefinite.\n\n\n\n\n\n\n\nDomanda\nSe non rispondete\n\n\n\n\nChe cosa controllo? Dati e documentazione, codice, numeri del manoscritto, versione da depositare\ntutto\n\n\nAvete documenti che aiutano a capire lo studio?\nno\n\n\nIl deposito deve seguire lo standard Psych-DS?\nno\n\n\nDove lo depositerete?\nZenodo\n\n\nUso i modelli già stimati, invece di stimarli di nuovo?\nsì, se ci sono\n\n\n\nPer oggi scegliete dati e documentazione: eseguire tutto il codice può richiedere molto tempo e consuma l’uso del vostro abbonamento."
+  },
+  {
+    "objectID": "skill/slides.html#passo-4-leggete-il-rapporto",
+    "href": "skill/slides.html#passo-4-leggete-il-rapporto",
+    "title": "Open Science",
+    "section": "Passo 4 Leggete il rapporto",
+    "text": "Passo 4 Leggete il rapporto\nIl rapporto è nella vostra lingua, ordinato per importanza:\n\nRisultati che potrebbero cambiare, se ce ne sono: un errore nei dati che entra nelle analisi, un numero del manoscritto che non esce dal codice.\nUna tabella con lo stato di ogni area: dati, nomi, formati, README, data dictionary, licenza, codice, manoscritto, dati personali.\nI problemi area per area, ciascuno con il file, la colonna o la riga e il dato che lo dimostra.\nLe cinque o sei cose da sistemare per prime.\n\nQuello che non è stato possibile controllare è scritto esplicitamente, con il motivo."
+  },
+  {
+    "objectID": "skill/slides.html#passo-5-verificate-una-segnalazione",
+    "href": "skill/slides.html#passo-5-verificate-una-segnalazione",
+    "title": "Open Science",
+    "section": "Passo 5 Verificate una segnalazione",
+    "text": "Passo 5 Verificate una segnalazione\nIl rapporto è il punto di partenza, non il risultato finale.\n\nScegliete una segnalazione e aprite il file indicato: il problema c’è davvero, nella riga o nella colonna che il rapporto riporta?\nSe una segnalazione non vi convince, chiedete all’assistente da quale file e da quale valore l’ha ricavata.\nUn errore nei dati o un numero che non torna può richiedere una correzione all’articolo, non solo alla cartella: quella decisione spetta a voi.\n\n\nLa responsabilità di ciò che depositate resta vostra: un codice che gira non garantisce che i numeri siano giusti."
+  },
+  {
+    "objectID": "skill/slides.html#passo-6-la-versione-da-depositare-se-avete-tempo",
+    "href": "skill/slides.html#passo-6-la-versione-da-depositare-se-avete-tempo",
+    "title": "Open Science",
+    "section": "Passo 6 La versione da depositare (se avete tempo)",
+    "text": "Passo 6 La versione da depositare (se avete tempo)\n\nPrepara la versione da depositare.\n\n\n\nprogetto_deposit/\n├── README.md\n├── LICENSE\n├── data/\n│   └── raw/\n├── dictionaries/\n├── scripts/\n├── output/\n├── materials/\n└── docs/\n\nPrima di costruirla l’assistente mostra il piano e vi chiede:\n\nquali file lasciare fuori;\nquali colonne personali togliere;\nse correggere gli errori trovati nei dati;\nquali licenze usare (predefinite: CC0 dati, GPL-3.0 codice, CC BY 4.0 il resto).\n\nNel data dictionary quello che non trova scritto resta TODO: lo completate voi."
+  },
+  {
+    "objectID": "skill/slides.html#quattro-indicazioni-per-la-vostra-prima-skill",
+    "href": "skill/slides.html#quattro-indicazioni-per-la-vostra-prima-skill",
+    "title": "Open Science",
+    "section": "Quattro indicazioni per la vostra prima skill",
+    "text": "Quattro indicazioni per la vostra prima skill\n\nPartite da una correzione che fate spesso, non da un documento completo.\nCurate la descrizione: che cosa fa la skill e quando usarla, con le parole che usereste nelle richieste.\nScrivete regole concrete, comprese le cose da non fare: «usa &lt;- per l’assegnazione», non «scrivi codice chiaro».\nTenete SKILL.md corto e mettete i dettagli in file a parte.\n\nPotete farvi aiutare dall’assistente: dategli il vostro codice o i vostri testi e chiedetegli di ricavarne le regole.\n\nLe skill scritte da altri leggetele prima di installarle: l’assistente le esegue con i vostri permessi sul vostro computer.\n\n\nIndicazioni tratte da Evocare gli agents di Enrico Toffalini."
+  },
+  {
+    "objectID": "skill/slides.html#crediti-e-link",
+    "href": "skill/slides.html#crediti-e-link",
+    "title": "Open Science",
+    "section": "Crediti e link",
+    "text": "Crediti e link\nLa parte sulle skill è adattata dal lavoro di Enrico Toffalini:\n\nle slide Evocare gli agents (lab meeting Memory & Learning, 4 novembre 2026)\nla serie Tre cose sull’AI: agenti in locale, ChatGPT Edu, skill\n\nfair-check\n\ncome installarla e usarla: mar-cald.github.io/fair/skill.html\ntutto quello che fa, passo per passo: mar-cald.github.io/fair/skill-dettagli.html\ni sorgenti: github.com/mar-cald/fair/tree/main/skill\n\nL’esempio di Michael Frank: An AI audit of my work’s computational reproducibility\nIl formato: agentskills.io"
+  },
+  {
+    "objectID": "skill/slides.html#una-skill-fatta-bene-consuma-meno-token",
+    "href": "skill/slides.html#una-skill-fatta-bene-consuma-meno-token",
+    "title": "Open Science",
+    "section": "Una skill fatta bene consuma meno token",
+    "text": "Una skill fatta bene consuma meno token\nIl servizio misura in token (parole o pezzi di parola) tutto il testo che l’assistente legge e scrive: istruzioni, file aperti, output dei comandi, risposte. I limiti d’uso del vostro abbonamento si contano in token.\n\n\n\n\n\n\n\nCome è fatta fair-check\nChe cosa fa risparmiare\n\n\n\n\nLe istruzioni sono divise per argomento in references/\nl’assistente legge solo quelle delle aree che avete scelto\n\n\nUno script in Python legge tutti i file della cartella e ne restituisce un riassunto\nl’assistente non apre e non legge i dati file per file\n\n\nFa le domande prima di cominciare\nnon esegue controlli che non vi servono, per esempio stimare di nuovo un modello\n\n\nLe regole sono già scritte\nnon le rispiegate, e non correggete l’assistente, a ogni conversazione\n\n\n\n\nVale per qualsiasi skill: istruzioni corte, dettagli in file separati, e uno script per il lavoro ripetitivo, che così non passa dalla conversazione."
+  },
+  {
+    "objectID": "skill/slides.html#prima-di-cominciare-che-cosa-esce-dal-vostro-computer",
+    "href": "skill/slides.html#prima-di-cominciare-che-cosa-esce-dal-vostro-computer",
+    "title": "Open Science",
+    "section": "Prima di cominciare: che cosa esce dal vostro computer",
+    "text": "Prima di cominciare: che cosa esce dal vostro computer\nIl modello AI non gira sul vostro computer, ma sui server dell’azienda che fornisce il servizio (Anthropic per Claude, OpenAI per ChatGPT). Tutto quello che l’assistente legge viene quindi inviato a quei server.\n\n\n\n\n\n\n\nDove lavorate\nChe cosa viene inviato\n\n\n\n\nSul vostro computer: Claude Code, Codex, app Claude per computer\ni file che l’assistente apre (README, codice, qualche riga dei dati) e l’output degli script. I file che non apre restano sul computer\n\n\nNel browser: claude.ai, ChatGPT\nl’intero zip che allegate\n\n\n\nfair-check riduce quello che viene inviato: il suo script riporta riassunti dei dati (tipi, intervalli, conteggi), non le righe, e nasconde i valori delle colonne che sembrano dati personali.\n\nPer oggi usate una cartella senza dati sensibili, o una copia senza le colonne personali. Per i progetti veri controllate prima consenso informato, regole dell’ateneo e condizioni del servizio."
+  },
+  {
+    "objectID": "skill/slides.html#section",
+    "href": "skill/slides.html#section",
+    "title": "Open Science",
+    "section": "",
+    "text": "Le skill: che cosa sono e come si usano\nPratica con la skill fair-check\nMargherita Calderan\nDipartimento di Psicologia Generale, Università di Padova\n\n\nQueste slide:\nmar-cald.github.io/fair/skill/slides.html"
+  },
+  {
+    "objectID": "skill/slides.html#prima-di-cominciare-i-vostri-dati-e-laddestramento-dei-modelli",
+    "href": "skill/slides.html#prima-di-cominciare-i-vostri-dati-e-laddestramento-dei-modelli",
+    "title": "Open Science",
+    "section": "Prima di cominciare: i vostri dati e l’addestramento dei modelli",
+    "text": "Prima di cominciare: i vostri dati e l’addestramento dei modelli\nQuello che viene inviato ai server può anche essere usato per addestrare i modelli futuri: dipende da un’impostazione del vostro account. In Claude (piani Free, Pro e Max) è in Settings → Privacy → Help improve our AI models e riguarda le chat e le sessioni di codice, Claude Code compreso.\n\n\n\n\n\n\n\nImpostazione\nChe cosa succede\n\n\n\n\nAttiva\nchat e sessioni possono essere usate per addestrare i modelli e vengono conservate fino a 5 anni\n\n\nDisattivata\nnon vengono usate per l’addestramento, salvo quelle segnalate per i controlli di sicurezza; la conservazione resta di 30 giorni\n\n\n\nGli altri servizi AI hanno un’impostazione dello stesso tipo.\n\nPrima di usare la skill su dati di ricerca, disattivatela. Fonti (Anthropic): come cambiare l’impostazione, che cosa cambia."
+  },
+  {
+    "objectID": "skill/slides.html#il-rapporto-troverà-problemi-succede-anche-a-chi-lavora-bene",
+    "href": "skill/slides.html#il-rapporto-troverà-problemi-succede-anche-a-chi-lavora-bene",
+    "title": "Open Science",
+    "section": "Il rapporto troverà problemi: succede anche a chi lavora bene",
+    "text": "Il rapporto troverà problemi: succede anche a chi lavora bene\nMichael Frank (Stanford) ha fatto controllare a Claude Code, con una skill simile, i suoi 59 articoli empirici degli ultimi cinque anni (il suo post, 10 novembre 2026).\n\n\n\n\n\n\n\nChe cosa ha controllato\nChe cosa ha trovato\n\n\n\n\nCodice e dati pubblicati\nin 58 articoli su 59\n\n\nAnalisi rieseguibili per intero da dati e codice pubblicati\nin 31 articoli su 58\n\n\nNumeri riportati che non si riproducono (tolleranza del 10%)\nalmeno uno in 40 articoli su 58, circa il 2% dei numeri; nessuno cambia una conclusione principale\n\n\nErrori nelle analisi\nin più di metà degli articoli, secondo la sua stima; il più grave invalida il risultato di un articolo\n\n\nDati personali nei repository\nidentificativi dei partecipanti (per esempio gli ID di Prolific) in alcuni studi, poi rimossi\n\n\n\n\nFrank pubblica dati e codice da anni, e i problemi c’erano lo stesso: ora vuole fare questo controllo prima di ogni invio. Precisa che il risultato è preliminare: non tutte le segnalazioni dell’AI sono errori veri."
+  },
+  {
+    "objectID": "skill/slides.html#comè-fatta-fair-check-perché-consuma-meno-token",
+    "href": "skill/slides.html#comè-fatta-fair-check-perché-consuma-meno-token",
+    "title": "Open Science",
+    "section": "Com’è fatta fair-check: perché consuma meno token",
+    "text": "Com’è fatta fair-check: perché consuma meno token\nIl servizio misura in token (parole o pezzi di parola) tutto il testo che l’assistente legge e scrive: istruzioni, file aperti, output dei comandi, risposte. I limiti d’uso del vostro abbonamento si contano in token.\n\n\n\n\n\n\n\nCome è fatta fair-check\nChe cosa fa risparmiare\n\n\n\n\nLe istruzioni sono divise per argomento in references/\nl’assistente legge solo quelle delle aree che avete scelto\n\n\nUno script in Python legge tutti i file della cartella e ne restituisce un riassunto\nl’assistente non apre e non legge i dati file per file\n\n\nFa le domande prima di cominciare\nnon esegue controlli che non vi servono, per esempio stimare di nuovo un modello\n\n\nLe regole sono già scritte\nnon le rispiegate, e non correggete l’assistente, a ogni conversazione\n\n\n\n\nVale per qualsiasi skill: istruzioni corte, dettagli in file separati, e uno script per il lavoro ripetitivo, che così non passa dalla conversazione."
   }
 ]
