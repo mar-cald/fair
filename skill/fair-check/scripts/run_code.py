@@ -30,7 +30,14 @@ renv's cache), not into the user's R library; renv itself is installed first
 if needed. --no-renv skips this; --renv-timeout limits it (default 1800 s).
 
 --logs DIR saves what each script prints (DIR/<script>.log), to compare with
-the numbers in a manuscript. --in-place runs in the folder itself instead of a
+the numbers in a manuscript.
+
+What it prints is short, one line per script: status, the probable cause of a
+failure (missing package, setwd(), an absolute path, a missing file), and
+whether it failed after an earlier script had already failed (then it is
+probably a consequence). The full JSON goes to --out (default:
+DIR/run_code.json with --logs, otherwise a temporary file); --json prints it
+instead of the short version. --in-place runs in the folder itself instead of a
 copy: use it only on the deposit version built by build_deposit.py, never on
 the researcher's own folder.
 """
@@ -177,6 +184,97 @@ def run_one(cmd, cwd, timeout):
     return code, _text(out), _text(err), round(time.time() - t0, 1)
 
 
+ERROR_LINE = re.compile(r"(?i)^(error|errore|.*Error[: ]|Traceback|Execution halted|Quitting from)")
+
+
+def cause(res):
+    """The probable cause of a failure, from the error output: a guess to verify."""
+    err = "\n".join(res.get("error_tail") or res.get("error_from_root") or [])
+    if res.get("missing_packages"):
+        return "missing package: " + ", ".join(res["missing_packages"])
+    if re.search(r"setwd|cannot change working directory", err):
+        return "portability: setwd()"
+    m = FILE_ERROR.search(err)
+    if m:
+        if re.search(r"(/Users/|/home/|[A-Za-z]:[\\/]|~/)", err):
+            return "portability: an absolute path"
+        f = re.search(r"[‘'\"]([^’'\"]+\.\w{1,6})[’'\"]", err)
+        return "a file it reads is missing" + (f": {f.group(1)}" if f else "")
+    return None
+
+
+def annotate(results):
+    """Probable cause of each failure; failures after the first one are flagged
+    as probable consequences (a later script often fails only because an
+    earlier one did not write its outputs)."""
+    first = None
+    for r in results:
+        if r.get("status") not in ("error", "timeout"):
+            continue
+        c = cause(r)
+        if c:
+            r["probable_cause"] = c
+        tail = [x.strip() for x in (r.get("error_tail") or []) if x.strip()]
+        idx = next((i for i, x in enumerate(tail) if ERROR_LINE.search(x)), None)
+        if idx is None and tail:
+            idx = len(tail) - 1
+        if idx is not None:
+            line = tail[idx]
+            if line.endswith(":") and idx + 1 < len(tail):  # R puts the message on the next line
+                line += " " + tail[idx + 1]
+            r["error_line"] = line[:200]
+        # only a missing file (or an unknown cause) can come from an earlier failure;
+        # a missing package or setwd() is the script's own problem
+        if first and (not c or c.startswith("a file it reads is missing")):
+            r["after_failure_of"] = first
+        if not first:
+            first = r["script"]
+
+
+def short_report(out, results, dest, logs):
+    env = out["environment"]
+    head = f"run_code: {len(results)} scripts, copy {out['copy']}. " + \
+        (env.get("R_version") or "no R") + f". Full detail: {dest}"
+    lines = [head]
+    if out.get("renv"):
+        rv = out["renv"]
+        lines.append(f"renv: restore {rv.get('restore')}" + (f" ({rv['seconds']} s)" if rv.get("seconds") else "") +
+                     (f"; {rv['note']}" if rv.get("note") else "") +
+                     (f"; last line: {rv['error_tail'][-1]}" if rv.get("error_tail") else ""))
+    counts = {}
+    for r in results:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+        s = f"- {r['script']} — {r['status']}"
+        if r["status"] == "not run":
+            lines.append(s + f": {r.get('reason', '')}")
+            continue
+        s += f" ({r.get('seconds')} s)"
+        if r.get("after_failure_of"):
+            s += f", after the failure of {r['after_failure_of']} (probably a consequence)"
+        if r.get("probable_cause"):
+            s += f" · probable cause: {r['probable_cause']}"
+        if r.get("error_line"):
+            s += f" · {r['error_line']}"
+        if r.get("note"):
+            s += f" · {r['note']}"
+        if r.get("n_warnings"):
+            s += f" · {r['n_warnings']} warnings"
+        created = r.get("files_created") or []
+        if created:
+            s += f" · created {len(created)}: " + ", ".join(created[:4]) + (" …" if len(created) > 4 else "")
+        mod = r.get("files_modified") or []
+        raw = [f for f in mod if re.search(r"(^|/)raw(/|$)", f)]
+        if raw:
+            s += " · MODIFIES RAW DATA: " + ", ".join(raw[:4])
+        elif mod:
+            s += f" · modified {len(mod)}: " + ", ".join(mod[:4]) + (" …" if len(mod) > 4 else "")
+        lines.append(s)
+    lines.append("Totals: " + ", ".join(f"{v} {k}" for k, v in counts.items()))
+    if logs:
+        lines.append(f"Logs: {logs}")
+    return "\n".join(lines)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder")
@@ -188,6 +286,8 @@ def main():
     ap.add_argument("--renv-timeout", type=int, default=1800)
     ap.add_argument("--in-place", action="store_true",
                     help="run in the folder itself: only for the deposit version built by build_deposit.py")
+    ap.add_argument("--out", help="where to save the full JSON")
+    ap.add_argument("--json", action="store_true", help="print the full JSON instead of the short summary")
     args = ap.parse_args()
 
     src = Path(args.folder).expanduser().resolve()
@@ -292,7 +392,17 @@ def main():
     out = {"copy": where, "environment": env_info}
     if renv:
         out["renv"] = renv
-    print(json.dumps({**out, "results": results}, indent=1, ensure_ascii=False))
+    annotate(results)
+    full = json.dumps({**out, "results": results}, indent=1, ensure_ascii=False)
+    if args.out:
+        dest = Path(args.out).expanduser().resolve()
+    elif logs:
+        dest = logs / "run_code.json"
+    else:
+        dest = Path(tempfile.mkstemp(prefix="fair-run-", suffix=".json")[1])
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(full)
+    print(full if args.json else short_report(out, results, dest, logs))
     if tmp and not args.keep:
         shutil.rmtree(tmp, ignore_errors=True)
 

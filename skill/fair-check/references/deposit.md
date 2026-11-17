@@ -150,9 +150,11 @@ download its official text (ask first).
 
 - With code: `run_code.py <deposit> --in-place --logs <tmp>/logs_deposit`, so
   figures and tables land in `output/`. Every script should run. If the
-  manuscript was checked, rerun `manuscript_numbers.py check` on the new logs:
+  manuscript was checked, rerun `manuscript_numbers.py check` on the new logs
+  (`--out <tmp>/numbers_deposit.json`):
   same results as 1i. Differences in scripts without seeds show what a reader
-  would get: report their size. If scripts were split, the numbers must equal
+  would get: `compare_runs.py <tmp>/logs <tmp>/logs_deposit` lists them;
+  report their size. If scripts were split, the numbers must equal
   the original script's in 1f.
 - If models were not re-estimated: run with `--keep` instead of `--in-place`,
   load the saved fits in the copy as in 1f; the deposit's scripts stay as they
@@ -172,7 +174,8 @@ python3 <skill-dir>/scripts/build_deposit.py zip <deposit>
 Then tell the researcher:
 
 - where the folder and the zip are, and how to upload: on **Zenodo** the zip is
-  the single file (Zenodo shows its contents); on **PsychArchives** or another
+  the single file (Zenodo shows its contents; booklet guide:
+  https://mar-cald.github.io/fair/zenodo.html); on **PsychArchives** or another
   repository, follow its upload form, and say which metadata fields the README
   already answers (title, authors, description, license, keywords);
 - every change from the original (renamed files, moved folders, rewritten
@@ -180,6 +183,6 @@ Then tell the researcher:
   check each one;
 - what is still `TODO`, the dictionary entries "to check", the open decisions;
 - with Psych-DS, to check with the validator (https://psych-ds.github.io/validator/,
-  load the root folder);
+  load the root folder; booklet page: https://mar-cald.github.io/fair/struttura-2.html);
 - once the DOI exists: into the README, `dataset_description.json` (if any) and
   the article's Data availability statement.

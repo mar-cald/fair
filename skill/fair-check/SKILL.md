@@ -1,6 +1,6 @@
 ---
 name: "fair-check"
-description: 'Checks whether a research project folder is FAIR and ready to deposit on Zenodo, PsychArchives or another repository, following the Unipd "Hands-on Open Science" booklet, then builds a clean deposit version. It first asks what to check (default: everything). It adapts to the material: data (consistency, names, formats, README, dictionary, license, personal data), code (does it run, packages, seeds), manuscript (do the reported numbers come out of the code). It reads exports from Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame and E-Prime. The deposit has fixed folders, standard file names, CSV dictionaries, a README, licenses (CC0 data, GPL-3.0 code, CC BY 4.0 preprint), optionally Psych-DS, and a zip. Use it whenever someone asks to check, review, clean up or make FAIR a research folder, dataset or OSF/GitHub/Zenodo deposit, or asks if their data, code or preprint are ready to share, even without saying "FAIR"; also for Italian requests like "controlla la mia cartella" or "prepara la cartella per Zenodo".'
+description: "Checks whether a research project folder is FAIR and ready to deposit on Zenodo, PsychArchives or another repository, following the Unipd \"Hands-on Open Science\" booklet, then builds a clean deposit version. It first asks what to check (default: everything). It adapts to the material: data (consistency, names, formats, README, dictionary, license, personal data), code (does it run, packages, seeds), manuscript (do the reported numbers come out of the code). Use it whenever someone asks to check, review, clean up or make FAIR a research folder, dataset or OSF/GitHub/Zenodo deposit, or asks if their data, code or preprint are ready to share, even without saying \"FAIR\"; also for Italian requests like \"controlla la mia cartella\" or \"prepara la cartella per Zenodo\"."
 ---
 
 # FAIR check and deposit version of a research project
@@ -12,39 +12,16 @@ fix it.
 
 The rules come from the booklet *Hands-on Open Science* (Università di Padova,
 https://mar-cald.github.io/fair/), summarised in `references/fair-rules.md`.
-Each report section links its booklet page once:
+Read a section of it (see its Contents) only when a finding needs the rule
+itself: which license fits, what a README must contain, the deposit layout.
+Points marked *(skill)* there extend the booklet.
 
-| Report section | Page to link |
-|:--|:--|
-| 1. Data, 2. Structure and names | https://mar-cald.github.io/fair/struttura-1.html#regole-generali (folders: `#struttura`) |
-| 3. Formats | https://mar-cald.github.io/fair/struttura-1.html#in-che-formato-salvarli |
-| 4. README | https://mar-cald.github.io/fair/struttura-1.html#readme |
-| 5. Data dictionary | https://mar-cald.github.io/fair/struttura-1.html#data-dictionary |
-| 6. License | https://mar-cald.github.io/fair/licenze.html |
-| 7. Code | https://mar-cald.github.io/fair/esempio.html |
-| 8. Manuscript, 9. Personal data | https://mar-cald.github.io/fair/risorse.html#checklist-prima-di-depositare |
-| Deposit on Zenodo; Psych-DS | https://mar-cald.github.io/fair/zenodo.html; https://mar-cald.github.io/fair/struttura-2.html |
+The scripts in `scripts/` do the mechanical work: they read the files, count,
+recompute and run the code, and print short summaries. Do not redo by hand
+what a script reports, and do not open its full JSON except for the detail of
+one point (each summary gives the file and the key).
 
-Read a section of `fair-rules.md` (see its Contents) only when a finding needs
-the rule itself: which license fits, what a README must contain, the deposit
-layout. Points marked *(skill)* there extend the booklet: no page to link.
-
-If the scan recognises files from Qualtrics, PsychoPy, jsPsych, Gorilla,
-OpenSesame or E-Prime, read section 0 of `references/software-exports.md` and
-only the section of the program found (1 Qualtrics, 2 PsychoPy, 3 jsPsych,
-4 Gorilla, 5 OpenSesame, 6 E-Prime, 7 others), not the whole file.
-
-The details of each step are in separate files, read **only for the areas the
-researcher chose** in the triage:
-
-| Area | Read |
-|:--|:--|
-| Data and documentation (1a–1e, 1h) | `references/check-data.md` |
-| Code (1f–1g) | `references/check-code.md` |
-| Manuscript (1i) | `references/check-manuscript.md` |
-| Deposit version (step 3) | `references/deposit.md` |
-
-## Three rules that hold everywhere
+## Four rules that hold everywhere
 
 1. **The researcher's folder is never modified.** It is often the only copy.
    Everything the skill writes goes to a temporary directory or to the deposit
@@ -57,6 +34,14 @@ researcher chose** in the triage:
    proposed, never applied without agreement.
 3. **Talk and write the report in the researcher's language** (often Italian).
    File names, column names and code stay as they are.
+4. **A flag is a question, not a finding.** Whatever a script, an error
+   message or a first comparison turns up is a hypothesis about the folder. It
+   becomes a finding only after you have tried to explain it with what the
+   folder contains (see "Before the report"). A wrong alarm is not harmless
+   caution: the researcher spends time chasing it and may start doubting
+   results that are correct, and a wrong alarm about a reported number is the
+   most damaging thing this skill can produce. The aim is not fewer findings,
+   but findings that hold.
 
 ## Step 0 — Inventory
 
@@ -67,126 +52,156 @@ project, into a temporary directory. Then:
 python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.json
 ```
 
-It prints a **short summary** (also saved as `<tmp>/fair_scan_summary.md`):
-work from it. The full JSON can be 100,000+ characters; open it only for the
-detail of one point (the summary and the reference files name the key, e.g.
-`data[3]`, `cross_file_participants`), never read it whole.
+It prints a short summary (also saved as `<tmp>/fair_scan_summary.md`): work
+from it. It opens with what this environment can do: a missing R, `pdftotext`,
+`openpyxl` or `pyreadstat` is a limit of this environment, not a problem of the
+folder ("not checked here, because R is not available", never "the code does
+not run"). Findings are grouped by report section, each with the booklet page
+to link, and labelled **[certain]** (established by the scan: report it after a
+glance) or **[to check]** (a rule that fired and may not apply: verify it in the
+data, the README or the code, and drop it if it does not hold: 999 is a
+missing-value code in an age column, not in trial numbers; `rt` in a table of
+results is not a reaction time). "Small things" get one sentence each in the
+report.
 
-The summary has:
-
-- **What this environment can do.** Missing R, `pdftotext`, `openpyxl` or
-  `pyreadstat` are limits of this environment, not problems of the folder: the
-  report says "not checked here, because …" (e.g. "the scripts were not run: R
-  is not available in this environment"), never "the code does not run". Files
-  not read are listed there too.
-- **Findings by report section** (1–9), each with its file, column or line,
-  labelled **[certain]** (established by the scan: a date of birth, an LFS
-  placeholder, `setwd()`, a file read by a script and missing) or
-  **[to check]** (a rule that fired and may not apply: a value beyond the range
-  of the other items, two files coding a column differently, a column whose
-  role was guessed from its name). Report [certain] findings after a glance;
-  verify each [to check] one in the data, the README or the code, and drop it
-  if it does not hold (999 is a missing-value code in an age column, not in
-  trial numbers; `rt` in a table of results is not a reaction time).
-- **Small things**, grouped (constant or empty columns, spaces around values):
-  one sentence each in the report, not one finding per column.
-
-The summary lists what the scan found; the judgement is yours: is it a
-problem for a stranger reusing the data, how serious, what to do. Read what a
-scan cannot judge: the README in full, the code where a finding points, the
-manuscript. Which areas exist depends on the material found: do not mark
-absent material as a problem unless it is needed (a data-only deposit is
-complete without code).
+The judgement is yours: is it a problem for a stranger reusing the data, how
+serious, what to do. Read what a scan cannot judge: the README in full, the
+code where a finding points, the manuscript. **Never print data files whole**
+(`cat`, long `head`): they can be large and hold personal data. For a check
+the scan does not do, write a short script that prints counts or summaries,
+and never the values of columns flagged as personal data. Absent material is not a problem
+unless it is needed (a data-only deposit is complete without code).
 
 ## Step 0b — Triage
 
-Doing everything costs time and tokens (running the code, a Bayesian model
-taking an hour, checking every number of a manuscript). After the scan, which
-is quick, and before any check, ask what to do: in **one round** (with the
-question tool if available, otherwise one message with numbered questions and
-their defaults), only the questions that apply to this folder, skipping those
-the request already answers ("solo il codice", "solo il report"). If the
-answer is "fai tutto", or no answer comes (nobody there, a scheduled run), use
-the defaults. The report says at the top which choices were used.
-
-1. **What should I do?** Data and documentation · does the code run · the
-   manuscript numbers · the deposit version. *Default: everything.* Areas not
-   chosen are "not checked, on request", not problems. Whenever data are checked
-   or the deposit is built, the personal-data check (1h) is done too: a public
-   deposit cannot be taken back. If the manuscript numbers are chosen without the code, use the
-   outputs already in the folder, or ask to run the code.
-2. **Do you have anything that helps me understand the study?**
-   Preregistration, protocol, codebook, notes, the manuscript if not in the
-   folder. *Default: no.* Used as evidence; not copied into the deposit unless
-   asked.
-3. **Should the deposit follow the Psych-DS standard?** *Default: no.*
-   - *No*: folders (section 9 of the rules) and file names (sections 1 and 10:
-     `study-x_task-y_data`) follow the standard anyway, but open formats keep
-     their extension (`.csv`, `.tsv`, `.txt`, `.json`: all fine for FAIR) and
-     no `.json` metadata file is created.
-   - *Yes*: also data as comma-separated UTF-8 `_data.csv` and
-     `dataset_description.json`; the deposit passes the Psych-DS validator.
-4. **Where will you deposit it?** Zenodo (default), PsychArchives, other.
-
-Only if the code is checked or the deposit is built, and there is code:
-
-5. **R or Python?** For code the skill writes from scratch (a script making
-   open copies, a cleaning script in a project without code). *Default: the
-   language of the project's scripts; R if there are none.* The skill's own
-   tools stay Python.
-6. **Should I split long scripts?** *Default: yes.* Split by phase (cleaning,
-   analysis, figures) at the points where one phase ends, without rewriting:
-   the end of a piece saves what the next needs (`write.csv()` of the processed
-   data, `saveRDS()` of a model), the start of the next reads it. If no, the
-   script stays whole.
-7. **Models already estimated?** (only with heavy models: brms, Stan,
-   simulations, bootstraps) If saved fits exist: *default: do not re-estimate,
-   use them.* If none: longer timeout, or skip.
+The summary ends with **the questions to ask** for this folder, with their
+defaults. Ask them in **one round** (with the question tool if available,
+otherwise one message with numbered questions and their defaults), skipping
+those the request already answers ("solo il codice"). If the answer is "fai
+tutto", or no answer comes (nobody there, a scheduled run), use the defaults.
+The report says at the top which choices were used. Areas not chosen are "not
+checked, on request", not problems. Whenever data are checked or the deposit
+is built, check personal data too: a public deposit cannot be taken back. If
+the manuscript numbers are chosen without the code, use the outputs already in
+the folder, or ask to run the code. Material the researcher gives
+(preregistration, protocol) is evidence, not copied into the deposit unless
+asked. The skill's own tools stay Python whatever language is chosen.
 
 ## Step 1 — Check
 
-For each chosen area, read its file (table above) and follow it.
+For each chosen area, read the instruction file the summary names, and follow
+it: `references/check-data.md`, `check-code.md`, `check-manuscript.md`. For
+files from experiment or survey software, the summary also names the sections
+of `references/software-exports.md` to read; their checks (rows to filter,
+units, exclusions, platform IDs) are already in the scan summary.
+
+## Before the report — explain every discrepancy
+
+The checks say where to look, not what is wrong. A recomputed correlation that
+differs from Table 2, a reversed item that is not the reverse of its original,
+a total that does not match its items, a value outside the range, a script that
+stops, a file that seems missing: each is the start of a diagnosis. Do this
+before writing the report: a report drafted from preliminary results tends to
+keep them.
+
+For each discrepancy, list the explanations that could produce it and test
+them, most likely first, with the material in the folder: the script that
+produced the number or the column (what the code does defines what the
+manuscript reports), the README, the dictionary, the methods section. Then
+rerun the computation with the sample, variable and method you found. For a
+correlation, a mean, an SD or an N that can be computed from a data file, run
+`recompute.py` before writing code of your own: in one call it tries Pearson,
+Spearman and Kendall, with and without the exclusions you give, missing-value
+codes as values or as missing, complete cases or pairwise, the SD with n or
+n − 1, and says which variant gives the reported value:
+
+```bash
+python3 <skill-dir>/scripts/recompute.py r <data> <x> <y> --reported .34 --where "excluded == 0"
+python3 <skill-dir>/scripts/recompute.py desc <data> <col> --mean 23.8 --sd 4.1 --n 180 --where "..."
+python3 <skill-dir>/scripts/recompute.py n <data> --n 180 --id <participant column> --where "..."
+```
+
+The usual explanations:
+
+- **a different method**: Spearman or Kendall instead of Pearson (the most
+  common cause of a correlation that does not match: look for
+  `method = "spearman"`, "rank", "non-parametric", a note under the table),
+  partial vs zero-order, Welch vs Student, one- vs two-tailed, type of sums of
+  squares, a different prior or model;
+- **a different variable**: the processed file instead of the raw one, a
+  standardised, centred or log version, a score on a subset of items or with
+  prorated missing items; a reversed item uses the *scale's* minimum and
+  maximum (from the README, the dictionary or the manuscript), not the values
+  observed, and may already be reversed in the export or in the code;
+- **a different sample**: the exclusions the scripts or the manuscript apply,
+  a subgroup, one time point or condition, complete cases vs pairwise, trials
+  vs participant means; missing-value codes (999, -99) counted as values;
+- **another form or version**: rounding, percent vs proportion, ms vs s, BF01
+  vs BF10, log BF, a sign flipped by the reference level (`manuscript_numbers.py`
+  tests these already), or a folder that is not the version behind the
+  manuscript;
+- for code: an error from this environment (a missing package, a path, a
+  missing interpreter), or from an earlier script that failed (`run_code.py`
+  marks these).
+
+Then decide, and say on what basis:
+
+- **explained**: not a problem with the results, possibly a documentation
+  finding ("the README does not say the correlations are Spearman");
+  optionally list the apparent discrepancies you resolved, in one line;
+- **confirmed**: no explanation reproduces the reported value. Report it with
+  the evidence and the explanations ruled out ("not Spearman, not rounding, not
+  the exclusions in `02_clean.R`: on the 180 participants analysed r = .21,
+  Table 2 reports .34");
+- **unresolved**: you could not test every plausible explanation (no code, no
+  R, data not in the folder). Say what you tried and what remains, as a
+  question for the researcher, not as an error.
+
+Only confirmed discrepancies go under "Results that may be affected";
+unresolved ones go in their own section, worded as open questions. Stop when
+the evidence settles the question, not when the first check fails.
 
 ## Step 2 — Report
 
-One status per area: ✅ fine, ⚠️ needs work, ❌ missing or blocking (if you do
-not use emoji, the words "ok", "da sistemare", "mancante" in the researcher's
-language). Under each, concrete findings: file, column, line, what a reuser
-would run into. Fine areas get one line. Leave out areas not present or not
-chosen (list the latter in the opening paragraph).
-
-The template below is in English: write every heading, the summary table and
-the text in the researcher's language (in Italian: "Riepilogo", "Dati e
-coerenza", "Che cosa sistemare per primo" ...). The scan's labels [certain] and
-[to check] are for you: never copy them into the report; a finding you checked
-is stated as a fact, one you could not settle says what remains to verify.
+One status per area: ✅ fine, ⚠️ needs work, ❌ missing or blocking (without
+emoji: "ok", "da sistemare", "mancante" in the researcher's language). Under
+each, concrete findings: file, column, line, what a reuser would run into.
+Fine areas get one line. Leave out areas not present or not chosen (list the
+latter in the opening paragraph). Every heading and the text are in the
+researcher's language ("Riepilogo", "Dati e coerenza", "Che cosa sistemare per
+primo"); the labels [certain] and [to check] are for you, never in the report.
 
 **Two kinds of problem.** Most findings make the folder hard to reuse (no
 README, a file in Excel). A few mean that a number may be wrong: a data error
 that reaches the analysis, a total computed differently from its items, a
 manuscript value that does not come out of the data or the code, an exclusion
-the text describes and the code does not do. These go in their own block at
-the top, "Results that may be affected", with the number in the manuscript,
-the number in the data or output, and which table or sentence changes: the
-researcher may have to correct the paper, not only the folder. If there are
-none, leave the block out.
+the text describes and the code does not do. Once confirmed, these go in their
+own block at the top, "Results that may be affected".
 
-**Evidence for every claim about the data or the numbers.** Each one carries
-the count or value behind it, from the scan or from a check you ran: "in 211
-of 234 rows", "file 96.16, Table 1 89.77", "participants P045, P088".
-Never "some rows" or "probably": if you did not verify it, it is something to
-check, said as such.
+**Evidence for every claim about the data or the numbers**: the count or value
+behind it ("in 211 of 234 rows", "file 96.16, Table 1 89.77", "participants
+P045, P088"), never "some rows" or "probably". Write findings as facts and
+actions ("`data/questionario.xlsx` has no open copy: a reader without Excel
+cannot open it"), never generic advice. Each section links its booklet page
+once (from the scan summary).
 
 ```markdown
 # FAIR check — <project name>
 
 <One paragraph: what the folder contains, which checks were done (material
-found and triage choices), and whether a stranger could reuse it today. The
-single biggest obstacle.>
+found and triage choices), whether a stranger could reuse it today, the single
+biggest obstacle.>
 
 ## Results that may be affected
-<only if any: what, where in the manuscript, value reported vs value in the
-data or output, evidence, what to do>
+<only confirmed discrepancies that may change a number: what, where in the
+manuscript, value reported vs value in the data or output, evidence,
+explanations ruled out, what to do. The researcher may have to correct the
+paper, not only the folder. Leave the block out if there are none; if there
+are, the report ends by asking whether to rerun the analysis with the
+corrections (step 2b).>
+
+## Open questions
+<only if any: unresolved discrepancies, what was tried, what remains>
 
 ## Summary
 | Area | Status | In one line |
@@ -210,22 +225,47 @@ data or output, evidence, what to do>
 ## 6. License
 ## 7. Code
 ## 8. Manuscript and reported numbers
+<a table: statistic, where in the manuscript, reported value, value in the
+output (with the script), status>
 ## 9. Personal data and third-party material
 
 ## What to fix first
-1. <the most blocking problem, with the concrete action>
-(at most 5-6 items, ordered by how much they block reuse)
+<at most 5-6 concrete actions, ordered by how much they block reuse>
 
 ## The deposit version
 <what step 3 will build, and the decisions needed from the researcher>
 ```
 
-In section 8, a table: statistic, where in the manuscript, reported value,
-value in the output (with the script), status. Each section links its booklet
-page once. Write findings as facts and actions ("`data/questionario.xlsx` has
-no open copy: a reader without Excel cannot open it"), never generic advice.
 Show the report in the conversation; if wanted as a file, save it outside the
 project folder.
+
+## Step 2b — Rerun the analysis with the corrections (ask first)
+
+If the report has confirmed results that may be affected (a data error that
+reaches the analysis, a score computed wrongly, a bug in a script, an
+exclusion the text describes and the code does not do), ask at the end of the
+report whether to rerun the analysis with the corrections, to see how much
+the results change. If nobody answers, do not: it can take time, and the
+corrections are the researcher's decision.
+
+If yes, in a copy only (`run_code.py ... --keep`): apply each correction the
+smallest way (in the cleaning script, or in the copy of the data when there
+is no code), rerun the scripts into a new logs folder, and compare the two
+runs:
+
+```bash
+python3 <skill-dir>/scripts/compare_runs.py <tmp>/logs <tmp>/logs_fixed --manuscript <tmp>/manuscript.txt
+```
+
+It lists the numbers that change and, first, those the manuscript reports.
+Report, for each correction, which reported results change and by how much
+("r = .34 → .29, p = .003 → .02"), whether a conclusion of the paper changes,
+and which results stay the same. With several corrections, rerun once with
+all of them, and once per correction only if the researcher wants to know
+which one matters. With no code, recompute the affected numbers with
+`recompute.py` on the corrected copy of the data. The researcher's folder
+stays as it is; whether the corrections go into the deposit is decided in
+step 3.
 
 ## Step 3 — Deposit version
 

@@ -1,8 +1,10 @@
 # Files from experiment and survey software
 
-Read this when the scan reports a `software` for a data file, or lists
-`experiment_files`. For each program: what its files are, what the scanner
-does with them, what to check, and where each file goes in the deposit.
+Read section 0 and only the sections of the programs the scan summary names.
+For each program: what its files are, what the scanner does with them, what to
+check, and where each file goes in the deposit. The checks marked *(scan)* are
+already done by the scanner, with counts, in the summary (`software_checks`):
+read the result there, do not redo them.
 
 ## Contents
 
@@ -95,10 +97,10 @@ question text as the `label` (marked "to check").
 **What to check.**
 - Do the scripts exclude previews and tests (`Status`, or
   `DistributionChannel == "preview"`) and unfinished responses (`Finished`)?
-  Is the exclusion described?
+  Is the exclusion described? *(scan: how many rows of each)*
 - Do the N in the manuscript and in the data agree after those exclusions?
-- Answer scales: are they numeric or text? Are reverse-scored items recoded
-  in a script?
+- Answer scales: are they numeric or text *(scan)*? Are reverse-scored items
+  recoded in a script?
 
 **Personal data.** These must not be in the deposit:
 - `IPAddress`;
@@ -152,8 +154,9 @@ The experiment is made of:
 
 **What to check.**
 - Are rt in seconds converted to ms in the scripts, consistently with the
-  manuscript?
-- Which rows does the analysis keep (practice vs. main loop)?
+  manuscript? *(scan: which rt columns are in seconds, with the median)*
+- Which rows does the analysis keep (practice vs. main loop)? *(scan: rows by
+  loop)*
 - Is `participant` typed consistently (`01`, `1`, `P01`)? The scanner compares
   IDs across files.
 
@@ -203,13 +206,13 @@ stimuli.
 - HTML with commas and quotes inside cells.
 
 **What to check.**
-- Which rows the analysis keeps.
+- Which rows the analysis keeps. *(scan: rows by `trial_type`)*
 - That survey answers are unpacked from `response` by a script.
 - That the CSV and the JSON (if both exist) hold the same trials.
 
 **Personal data.**
 - `PROLIFIC_PID` (and often `subject` when it is set from the URL).
-- `STUDY_ID` and `SESSION_ID` link to the Prolific account.
+- `STUDY_ID` and `SESSION_ID` link to the Prolific account. *(scan)*
 - Free-text survey answers inside `response`.
 - Browser details, if the experiment records them.
 
@@ -250,7 +253,7 @@ Classic downloads end with an "END OF FILE" row.
 **Quirks.**
 - Spaces in column names (R turns them into dots: `Reaction.Time`).
 - Many rows per trial: the analysis must filter the response rows, by
-  `Zone Type`, `Response Type` or `Component Name`.
+  `Zone Type`, `Response Type` or `Component Name`. *(scan: rows by type)*
 - Decimal separators follow the download settings.
 
 **Personal data.**
@@ -258,7 +261,7 @@ Classic downloads end with an "END OF FILE" row.
   included when the data are downloaded "unblinded". Keep
   `Participant Private ID`, Gorilla's anonymous ID, and drop the Public ID.
 - `Participant External Session ID` and `Participant Completion Code` link
-  back to the platform.
+  back to the platform. *(scan)*
 - Device and browser columns are indirect identifiers: keep them only if they
   are used.
 
@@ -275,6 +278,7 @@ Classic downloads end with an "END OF FILE" row.
 **Files.**
 - `subject-<nr>.csv`, one per session, written by logger items.
 - `quickrun.csv` and `defaultlog.csv` come from test runs: leave them out.
+  *(scan)*
 - OSWeb studies run on JATOS write JSON results (see jsPsych for the format).
 - The experiment is a `.osexp`: a text script, or a compressed archive with
   the file pool.
@@ -293,7 +297,7 @@ Classic downloads end with an "END OF FILE" row.
 
 **Quirks.**
 - `NA` or `None` for missing values.
-- Running aggregates (`acc`, `avg_rt`) are not trial measures.
+- Running aggregates (`acc`, `avg_rt`) are not trial measures. *(scan)*
 - Rows for practice trials, unless the logger is disabled there.
 
 **Personal data.** `logfile` and `experiment_path` hold absolute paths of the
@@ -339,8 +343,9 @@ would:
 **What to check.**
 - **No response is RT = 0 and ACC = 0**, not a missing value. Check that the
   scripts exclude these before averaging RTs, and that the dictionary says it.
+  *(scan: how many rows, and how many with ACC = 0)*
 - `OnsetDelay` and `DurationError` summarise timing accuracy: worth a line in
-  the README.
+  the README. *(scan: median and maximum of `OnsetDelay`)*
 
 **Personal data.**
 - Start-up info in the header (Age, Gender, Handedness) is fine as data, but

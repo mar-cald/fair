@@ -82,6 +82,18 @@ def _short(x, n=160):
     return s if len(s) <= n else s[:n - 1] + "…"
 
 
+BOOKLET = "https://mar-cald.github.io/fair/"
+LINKS = {  # the booklet page each report section links once
+    "1": "struttura-1.html#regole-generali", "2": "struttura-1.html#struttura",
+    "3": "struttura-1.html#in-che-formato-salvarli", "4": "struttura-1.html#readme",
+    "5": "struttura-1.html#data-dictionary", "6": "licenze.html", "7": "esempio.html",
+    "8": "risorse.html#checklist-prima-di-depositare", "9": "risorse.html#checklist-prima-di-depositare"}
+PROGRAM_SECTIONS = {"Qualtrics": 1, "PsychoPy": 2, "jsPsych": 3, "Gorilla": 4, "OpenSesame": 5, "E-Prime": 6}
+HEAVY = {"brms", "rstan", "cmdstanr", "rstanarm", "blavaan", "mcmcglmm", "inla", "rjags", "r2jags", "nimble",
+         "pymc", "pymc3", "bambi", "numpyro", "pystan", "cmdstanpy", "boot", "simr"}
+LONG_SCRIPT = 200  # lines
+
+
 class Area:
     def __init__(self, title):
         self.title, self.lines, self.small, self.extra = title, [], [], 0
@@ -109,7 +121,8 @@ class Area:
             self.lines.append(f"- {_short(text, 300)}")
 
     def render(self):
-        out = [f"## {self.title}"]
+        link = LINKS.get(self.title.split(".")[0])
+        out = [f"## {self.title}" + (f" — booklet: {BOOKLET}{link}" if link else "")]
         out += self.lines or ["- nothing found by the scan"]
         if self.extra:
             out.append(f"- … {self.extra} more findings in the full JSON")
@@ -231,6 +244,8 @@ def summarise(report, json_path=None):
                      else "to check", f"`{name}`", x)
         for c in t.get("columns", []):
             for x in c.get("issues", []):
+                if t.get("software") == "E-Prime" and "equal to 0" in x:  # in the E-Prime check, with ACC
+                    continue
                 if small_kind(x):
                     data.small.append((small_kind(x), f"{Path(name).name} {_short(c['name'], 30)}"))
                 else:
@@ -249,6 +264,11 @@ def summarise(report, json_path=None):
             else:
                 files = [Path(f).name for f, _ in hits]
                 data.add("to check", f"{len(hits)} files of the set ({', '.join(files[:3])}{' …' if len(files) > 3 else ''})", key)
+        for sc in t.get("software_checks", []) or []:
+            if sc["label"] == "info":
+                data.info(f"  {name}: {sc['check']}")
+            elif sc["label"] != "personal":  # with the personal data, below
+                data.add(sc["label"], f"`{name}` ({t.get('software')})", sc["check"])
         ds = t.get("derived_scores") or {}
         for rv in ds.get("reversed_items", []):
             if rv.get("not_a_reverse"):
@@ -278,8 +298,9 @@ def summarise(report, json_path=None):
                       (" …" if len(ok_scores) > 8 else ""))
         for c in t.get("columns", []):
             for x in c.get("to_check", []):
-                if not x.startswith("values outside"):  # already in the questionnaire_items line
-                    data.add("to check", f"`{name}` · {c['name']}", x)
+                if x.startswith("values outside"):  # already in the questionnaire_items line
+                    continue
+                data.add("to check", f"`{name}` · {c['name']}", x)
         for x in t.get("within_participant_inconsistencies", []) or []:
             data.add("to check", f"`{name}` same participant, different values", x)
         for fam in t.get("questionnaire_items", []) or []:
@@ -420,6 +441,9 @@ def summarise(report, json_path=None):
             fl = "; ".join(p.get("flags", []))
             pers.add("to check" if any(k in fl for k in UNSURE_PERSONAL) else "certain",
                      f"`{name}` · {p.get('column')}", fl)
+        for sc in t.get("software_checks", []) or []:
+            if sc["label"] == "personal":
+                pers.add("certain", f"`{name}` ({t.get('software')})", sc["check"])
         if t.get("participant_id_column_is_personal"):
             pers.add("certain", f"`{name}`", t["participant_id_column_is_personal"])
         ind = t.get("indirect_identifiers")
@@ -435,4 +459,61 @@ def summarise(report, json_path=None):
     if not mp.get("manuscript") and not report.get("other_documents"):
         man.info("no manuscript in the folder")
     areas = [data, struct, fmts, readme, dic, lic, code, man, pers]
-    return "\n".join(head) + "\n\n" + "\n\n".join(a.render() for a in areas) + "\n"
+    return "\n".join(head) + "\n\n" + "\n\n".join(a.render() for a in areas) + "\n\n" + next_steps(report) + "\n"
+
+
+def next_steps(report):
+    """The triage questions that apply to this folder, with their defaults, and
+    which instruction files to read: decided here, so SKILL.md need not list them."""
+    mp = report.get("materials_present", {})
+    c = report.get("code") or {}
+    files = c.get("files", [])
+    areas = (["data and documentation"] if mp.get("data") else []) + (["does the code run"] if files else []) + \
+        (["the manuscript numbers"] if mp.get("manuscript") else []) + ["the deposit version"]
+    q = [f"What should I do? {' · '.join(areas)} [everything]. Areas not chosen are \"not checked, on request\"; "
+         "personal data are checked whenever data are checked or the deposit is built",
+         "Do you have anything that helps me understand the study (preregistration, protocol, codebook, notes"
+         + ("" if mp.get("manuscript") else ", the manuscript") + ")? [no]",
+         "Should the deposit follow the Psych-DS standard? [no]. No: folders and file names (study-x_task-y_data) "
+         "follow it anyway, open formats keep their extension, no .json metadata. Yes: also data as comma-separated "
+         "UTF-8 _data.csv and dataset_description.json; the deposit passes the Psych-DS validator",
+         "Where will you deposit it? Zenodo, PsychArchives, other [Zenodo]"]
+    if files:
+        langs = Counter(f.get("language") for f in files if f.get("language") in ("R", "Python"))
+        lang = langs.most_common(1)[0][0] if langs else "R"
+        q.append(f"(only if code or deposit is chosen) For code I write from scratch (a script making open copies, "
+                 f"a cleaning script), R or Python? [{lang}]")
+        long = [f"{f['file']} ({f['lines']} lines)" for f in files if (f.get("lines") or 0) >= LONG_SCRIPT]
+        if long:
+            q.append("(only if code or deposit is chosen) Should I split long scripts by phase (cleaning, analysis, "
+                     f"figures)? {', '.join(long[:4])} [yes]. Cut where a phase ends, without rewriting: the end of a "
+                     "piece saves what the next needs (write.csv(), saveRDS()), the next reads it")
+        heavy = sorted({p for p in c.get("all_packages", []) if p.lower() in HEAVY})
+        stan = [x for x in report.get("inventory", []) if str(x).endswith(".stan")] if isinstance(report.get("inventory"), list) else []
+        if heavy or stan:
+            fits = [x["file"] for x in (report.get("formats") or {}).get("proprietary_data", [])
+                    if str(x.get("format", "")).startswith("R ") and not x.get("lfs_pointer")]
+            what = ", ".join(heavy + stan[:2])
+            if fits:
+                q.append(f"(only if code is chosen) Heavy models ({what}). Use the saved files instead of "
+                         f"re-estimating: {', '.join(fits[:4])}? [yes, use them]")
+            else:
+                q.append(f"(only if code is chosen) Heavy models ({what}) and no saved fits: how long may they run? "
+                         "[the normal timeout, 600 s per script; if one reaches it, say which results were not checked]")
+    out = ["## Questions to ask before any check",
+           "One round, only these (skip what the request already answers); [default] if no answer:"]
+    out += [f"{i}. {x}" for i, x in enumerate(q, 1)]
+    out += ["", "## Instructions to read, only for the areas chosen"]
+    if mp.get("data"):
+        out.append("- data and documentation (personal data included): references/check-data.md")
+    if files:
+        out.append("- code: references/check-code.md")
+    if mp.get("manuscript"):
+        out.append("- manuscript: references/check-manuscript.md")
+    out.append("- deposit version: references/deposit.md")
+    progs = sorted({t.get("software") for t in report.get("data", []) if t.get("software")})
+    if progs or report.get("experiment_files"):
+        secs = ", ".join(f"{p} (section {PROGRAM_SECTIONS[p]})" for p in progs if p in PROGRAM_SECTIONS)
+        out.append("- files from experiment or survey software" + (f": {secs}" if secs else "") +
+                   ": references/software-exports.md, section 0 and only those sections")
+    return "\n".join(out)

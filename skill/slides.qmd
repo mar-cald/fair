@@ -17,9 +17,9 @@ format:
 footer: "Open Science · skill fair-check"
 ---
 
-## {.copertina .center}
+##  {.copertina .center}
 
-:::: {.columns}
+::::: columns
 ::: {.column width="64%"}
 [Le skill: che cosa sono e come si usano]{.titolo}
 
@@ -28,397 +28,486 @@ footer: "Open Science · skill fair-check"
 [Margherita Calderan]{.autrice}\
 [Dipartimento di Psicologia Generale, Università di Padova]{.affiliazione}
 :::
+
 ::: {.column .qr width="36%"}
 ![](qr-slides.svg){fig-alt="QR code che porta a queste slide"}
 
 Queste slide:\
 [mar-cald.github.io/fair/skill/slides.html](https://mar-cald.github.io/fair/skill/slides.html)
 :::
-::::
+:::::
 
 ## Che cosa facciamo oggi
 
-1. **Che cos'è una skill** e come un assistente AI decide di usarla
-2. **Pratica** con `fair-check`, una skill che controlla se la cartella di un
-   progetto di ricerca è pronta da depositare: la installate e la provate su
-   una vostra cartella
-3. **Come scriverne una** vostra
+1.  Cos'è una skill?
+2.  Proviamo `fair-check`, una skill che controlla la cartella di un progetto di ricerca prima del deposito.
+3.  Vediamo come scriverne una (se avanza tempo).
 
-::: {.nota}
-La prima parte di queste slide riprende, semplificandola, la Parte 3 di
-[*Evocare gli agents*](https://enricotoffalini.github.io/evocare-agents) di
-Enrico Toffalini. La sua guida completa è la serie
-[*Tre cose sull'AI*](https://enricotoffalini.github.io/blog/posts/serie-ai/).
+::: fonte
+La prima parte riprende le slide [*Evocare gli agents*](https://enricotoffalini.github.io/evocare-agents) di Enrico Toffalini.
 :::
 
-# Che cos'è una skill {.sezione background-color="#f7f5f1"}
+# Che cos'è una skill {.sezione}
 
-## Il problema che risolve {.medio}
+## Gli assistenti AI
 
-Un assistente AI risponde nel modo più comune, non nel vostro.
+Si usano in due modi.
 
-| Chiedete | Senza istruzioni | Quello che volevate |
-|:--|:--|:--|
-| un'analisi in R | codice con pacchetti che non usate | il vostro stile di codice |
-| un report | un file HTML | un documento Quarto |
-| «la cartella è pronta da depositare?» | un parere generico | i controlli della dispensa, file per file |
+-   Nel browser, su claude.ai o chatgpt.com. L'assistente vede solo il testo che scrivete e i file che allegate.
 
-Potete correggerlo ogni volta nella conversazione. Oppure scrivete le
-istruzioni una volta sola, in una skill.
+-   Sul computer, con l'app Claude oppure GPT. Qui l'assistente può aprire i file di una cartella ed eseguire programmi, dopo avervi chiesto il permesso.
 
-::: {.nota}
-Quando vi accorgete di correggere l'assistente per lo stesso motivo per la
-terza volta, conviene scrivere una skill.
+## Chiedete un'analisi in R
+
+::: richiesta
+Calcola la media dei tempi di reazione per condizione.
 :::
 
-## Una skill è una cartella {.medio}
+L'assistente risponde, per esempio, così:
 
-Una normale cartella del computer. Questa è, in parte, quella di `fair-check`:
+``` r
+library(tidyverse)
 
-:::: {.columns}
-::: {.column width="56%"}
-::: {.cartella}
-- []{.ico-cartella} **fair-check**
-  - []{.ico-file} **SKILL.md** [le istruzioni]{.cosa}
-  - []{.ico-cartella} **references** [documenti di dettaglio]{.cosa}
-    - []{.ico-file} check-data.md
-    - []{.ico-file} check-code.md
-    - []{.ico-file} [altri 4 file]{.cosa}
-  - []{.ico-cartella} **scripts** [programmi in Python]{.cosa}
-    - []{.ico-file} fair_scan.py
-    - []{.ico-file} [altri 7 file]{.cosa}
-  - []{.ico-cartella} **assets** [file da copiare: le licenze]{.cosa}
+calcola_medie <- function(dati) {
+  dati %>%
+    group_by(condizione) %>%
+    summarise(media = mean(rt))
+}
+```
+
+## Il codice funziona, ma non è il vostro
+
+Voi usate la pipe `|>`, e per tre righe non scrivete una funzione.
+
+L'assistente non può saperlo: ha scritto il codice nel modo più diffuso.
+
+## Potete correggerlo
+
+::: richiesta
+Riscrivilo con la pipe \|\> e senza funzione.
 :::
+
+L'assistente lo riscrive come volete.
+
+Alla prossima conversazione, però, di solito la correzione va ripetuta. E così ogni volta che chiedete del codice R.
+
+## Una skill è la correzione scritta una volta sola
+
+Scrivete in un file come volete che sia fatto un certo tipo di lavoro.
+
+L'assistente legge quel file ogni volta che gli chiedete quel tipo di lavoro.
+
+## Una semplice skill: una cartella con un file
+
+::: {.cartella .stretta}
+-    **my-style-r**
+    -    **SKILL.md**
 :::
-::: {.column width="44%"}
-- L'unico file obbligatorio è `SKILL.md`: un file di testo scritto per
-  l'assistente.
-- Il resto è facoltativo: una skill può essere fatta del solo `SKILL.md`.
-- Il formato si chiama [Agent Skills](https://agentskills.io) ed è aperto: la
-  stessa cartella funziona con Claude, con ChatGPT/Codex e con altri
-  assistenti che lo adottano.
-:::
-::::
+
+La cartella ha il nome della skill. Il file si chiama sempre `SKILL.md` ed è un file di testo.
 
 ## Dentro `SKILL.md`
 
-L'inizio del `SKILL.md` di `fair-check`:
-
-```markdown
+``` markdown
 ---
-name: fair-check
-description: Checks whether a research project folder is FAIR
-  and ready to deposit on Zenodo... Use it whenever someone asks
-  to check, review, clean up or make FAIR a research folder...
-  also for Italian requests like "controlla la mia cartella".
+name: my-stily-r
+description: Il mio stile per il codice R. Da usare ogni
+  volta che si scrive o si corregge codice R.
 ---
 
-# FAIR check and deposit version of a research project
-
-The question behind every check: can a person who does not
-know the authors find these data, open them, reuse them? ...
+- Usa la pipe nativa |> e non %>%.
+- Scrivi script dall'alto in basso: una funzione solo
+  se lo stesso blocco si ripete tre volte.
+- Usa <- per l'assegnazione.
 ```
 
-- In testa: il **nome** e la **descrizione**, che dice che cosa fa la skill e
-  **quando** usarla.
-- Sotto: le **istruzioni**, in testo libero.
+In alto ci sono il nome e la descrizione. Sotto ci sono le istruzioni. Potete anche chiedere all'AI di usare come esempio dei vostri vecchi script.
 
-## Che cosa legge l'assistente, e quando {.medio}
+## Come fa l'assistente a sapere quando usarla
 
-| | Che cosa | Quando |
-|:--|:--|:--|
-| 1 | nome e descrizione di **tutte** le skill installate | all'inizio di ogni conversazione |
-| 2 | il `SKILL.md` completo di **una** skill | quando la vostra richiesta corrisponde alla sua descrizione |
-| 3 | i file in `references/` e `scripts/` | solo quelli che servono per la richiesta |
+All'inizio di ogni conversazione l'assistente legge solo il nome e la descrizione delle skill installate. Quando la vostra richiesta corrisponde a una descrizione, apre quel `SKILL.md` e segue le istruzioni.
 
-: {tbl-colwidths="[6,47,47]"}
+-   Con questa descrizione l'assistente **non capisce** quando serve:
 
-- Per questo si possono installare molte skill: finché non servono, occupano
-  poche righe.
-- Esempio: una skill che controlla dati e codice tiene le istruzioni sui dati
-  in un file e quelle sul codice in un altro. Se chiedete di controllare solo
-  il codice, l'assistente legge solo il secondo.
+``` markdown
+description: Stile di codice.
+```
 
-::: {.nota}
-La descrizione decide se la skill viene usata: è la parte da scrivere con più
-cura.
+-   Con questa **sì**:
+
+``` markdown
+description: Il mio stile per il codice R. Da usare ogni
+  volta che si scrive o si corregge codice R.
+```
+
+## Lo stesso esempio, con la skill installata
+
+::: richiesta
+Calcola la media dei tempi di reazione per condizione in R.
 :::
 
-## Come si attiva
+La richiesta riguarda codice R. La descrizione di `my-style-r` dice «ogni volta che si scrive o si corregge codice R». L'assistente apre `SKILL.md` e risponde:
 
-**Da sola.** Scrivete la richiesta con parole vostre; l'assistente la confronta
-con le descrizioni e carica la skill che corrisponde.
+``` r
+dati |>
+  aggregate(rt ~ condizione, data = _, FUN = mean)
+```
 
-::: {.richiesta}
+## Potete anche chiamarla per nome
+
+Se volete essere sicuri che l'assistente la usi, scrivete il nome della skill nella richiesta.
+
+In Claude Code:
+
+::: richiesta
+/my-style-r calcola la media dei tempi di reazione per condizione.
+:::
+
+In Codex:
+
+::: richiesta
+\$my-style-r calcola la media dei tempi di reazione per condizione.
+:::
+
+# La skill fair-check {.sezione}
+
+## Che cosa fa
+
+`fair-check` controlla la cartella di un progetto di ricerca prima del deposito su Zenodo o su un altro repository.
+
+Applica i principi [FAIR](https://mar-cald.github.io/fair/) e risponde a una domanda: una persona che non vi conosce riuscirebbe a trovare, aprire, capire e riusare questi dati e questo codice? I risultati riportati nel manoscritto corrispondono a quelli che si ottengono dai dati?
+
+## Che cosa segnala, per esempio
+
+::: segnalazione
+Nella colonna `eta` c'è un valore 150.
+:::
+
+::: segnalazione
+La colonna `genere` contiene sia `F` sia `Femmina`.
+:::
+
+::: segnalazione
+Nel file dei dati la media è 96.16. Nella Tabella 1 del manoscritto è 89.77.
+:::
+
+::: segnalazione
+Lo script `02_analisi.R` si ferma: contiene `setwd()` con un percorso che esiste solo sul vostro computer.
+:::
+
+## Che cosa vi restituisce
+
+Un rapporto con i problemi trovati, file per file.
+
+Se lo chiedete, anche **una copia della cartella** pronta da depositare, con README, data dictionary e licenze. Analisi rigirate correggendo eventuali errori.
+
+La **vostra cartella non viene modificata**.
+
+## Il rapporto troverà dei problemi
+
+![](img/frank.png)
+
+Questo mese ha fatto controllare a Claude Code, i 59 articoli empirici che ha firmato negli ultimi cinque anni.
+
+::: fonte
+[*An AI audit of my work's computational reproducibility*](https://babieslearninglanguage.blogspot.com/2026/11/an-ai-audit-of-my-works-computational.html), 10 novembre 2026.
+:::
+
+## Che cosa ha trovato
+
+::: cifre
+-   [31 su 58]{.cifra} articoli si potevano rieseguire per intero dai dati e dal codice pubblicati.
+-   [40 su 58]{.cifra} avevano almeno un numero che non si riproduceva.
+-   [Più di metà]{.cifra} conteneva almeno un errore nelle analisi, secondo la sua stima. Il più grave invalida il risultato di un articolo.
+:::
+
+## Com'è fatta fair-check
+
+::: cartella
+-    **fair-check**
+    -    **SKILL.md** [le istruzioni principali]{.cosa}
+    -    **references** [istruzioni di dettaglio]{.cosa}
+        -    check-data.md
+        -    check-code.md
+        -    [altri 4 file]{.cosa}
+    -    **scripts** [programmi in Python]{.cosa}
+        -    fair_scan.py
+        -    [altri 9 file]{.cosa}
+:::
+
+È più grande di `my-style-r`: oltre a `SKILL.md` contiene altre istruzioni e dei programmi.
+
+## L'assistente legge solo le istruzioni che servono
+
+`SKILL.md` è corto. Dice all'assistente quale file di `references` aprire per ciascun controllo.
+
+Se chiedete di controllare solo il codice, l'assistente apre `check-code.md`. Il file sui dati, `check-data.md`, non lo legge.
+
+## I programmi leggono i file al posto dell'assistente
+
+`fair_scan.py` apre tutti i file della cartella e scrive un riassunto: quali colonne ci sono, che valori contengono, che cosa non torna.
+
+L'assistente legge il riassunto. Non apre i dati un file alla volta.
+
+Altri programmi eseguono il codice in una copia della cartella, cercano nei risultati i numeri del manoscritto e ricalcolano quelli che non tornano.
+
+## Perché conta: i token
+
+Il servizio misura in *token*, cioè parole o pezzi di parola, tutto il testo che l'assistente legge e scrive. I limiti del vostro abbonamento si contano in token.
+
+Una skill fatta così ne consuma meno: l'assistente legge poche istruzioni e un riassunto, non tutta la cartella.
+
+# Prima di provarla: i vostri dati {.sezione}
+
+## Il modello AI non gira sul vostro computer
+
+Gira sui server dell'azienda che fornisce il servizio: Anthropic per Claude, OpenAI per ChatGPT.
+
+Tutto quello che l'assistente legge viene inviato a quei server.
+
+## Che cosa viene inviato
+
+Se lavorate sul computer, vengono inviati i file che l'assistente apre e i risultati dei programmi che esegue. Gli altri file restano sul computer.
+
+Se lavorate nel browser, viene inviato l'intero zip che allegate.
+
+Il riassunto scritto da `fair_scan.py` contiene tipi, intervalli e conteggi, non le righe dei dati, e nasconde i valori delle colonne che sembrano dati personali.
+
+## I dati inviati possono servire ad addestrare i modelli
+
+Dipende da un'impostazione del vostro account. In Claude, nei piani Free, Pro e Max, si trova qui:
+
+::: percorso
+Settings → Privacy → Help improve our AI models
+:::
+
+Se è attiva, le vostre conversazioni possono essere usate per addestrare i modelli futuri e vengono conservate fino a 5 anni.
+
+Gli altri servizi hanno un'impostazione dello stesso tipo.
+
+::: fonte
+Fonti: [come cambiare l'impostazione](https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings), [che cosa cambia](https://www.anthropic.com/news/updates-to-our-consumer-terms) (Anthropic).
+:::
+
+## Disattivatela, ma non basta
+
+Con l'impostazione disattivata le conversazioni non vengono usate per l'addestramento, salvo quelle segnalate per i controlli di sicurezza.
+
+Restano comunque sui server per 30 giorni.
+
+Per oggi usate una cartella senza dati sensibili, oppure una copia da cui avete tolto le colonne personali.
+
+# Proviamola {.sezione}
+
+## [Passo 1]{.passo} Scaricate la skill
+
+Il file da scaricare dipende dall'assistente che usate.
+
+Claude, nell'app per computer o su claude.ai:
+
+[fair-check.skill](https://mar-cald.github.io/fair/skill/fair-check.skill){.scarica}
+
+Claude Code, Codex o ChatGPT:
+
+[fair-check.zip](https://mar-cald.github.io/fair/skill/fair-check.zip){.scarica}
+
+I due file contengono la stessa cartella, `fair-check`.
+
+## [Passo 2]{.passo} Con Claude: caricate il file
+
+Nelle impostazioni di Claude, nella sezione delle skill, caricate `fair-check.skill`.
+
+Deve essere attiva l'esecuzione di codice, che si trova nelle stesse impostazioni.
+
+La skill diventa disponibile in tutte le conversazioni.
+
+## [Passo 2]{.passo} Con Claude Code, Codex o ChatGPT: chiedetelo all'assistente
+
+Questi assistenti possono aprire file e copiarli. Scrivete:
+
+::: richiesta
+Installa la skill che ho scaricato: è il file fair-check.zip nella cartella Download. Estrailo e copia la cartella fair-check nella cartella delle skill che usi.
+:::
+
+L'assistente sa dove tiene le sue skill. Prima di copiare la cartella vi chiede il permesso.
+
+Poi aprite una nuova conversazione: l'elenco delle skill si legge all'inizio di ogni conversazione, come abbiamo visto.
+
+## Che cosa serve sul computer
+
+Python 3, per i programmi della skill.
+
+R, per eseguire il vostro codice R. Se manca, la skill legge il codice ma non lo esegue, e il rapporto lo dice all'inizio.
+
+## [Passo 3]{.passo} Aprite una cartella e chiedete
+
+Aprite nell'assistente la cartella di un vostro progetto. Nel browser, allegatela come zip.
+
+Poi scrivete:
+
+::: richiesta
 Controlla se questa cartella è pronta da depositare su Zenodo.
 :::
 
-**Per nome**, quando volete essere sicuri che la usi:
+L'assistente riconosce la richiesta dalla descrizione di `fair-check`, come abbiamo visto con `my-style-r`. Nella conversazione compare il momento in cui apre `SKILL.md`.
 
-| Assistente | Come si richiama |
-|:--|:--|
-| Claude Code | `/` seguito dal nome della skill: `/fair-check` |
-| Codex | `$` seguito dal nome della skill: `$fair-check` |
+## Potete chiedere anche solo una parte
 
-Come verificare che l'abbia usata: nella conversazione compare il passaggio in
-cui l'assistente apre `SKILL.md`.
-
-# Pratica: fair-check {.sezione background-color="#f7f5f1"}
-
-## Che cosa fa fair-check
-
-Controlla la cartella di un progetto di ricerca con le regole della
-[dispensa](https://mar-cald.github.io/fair/) e vi restituisce:
-
-- **un rapporto**: che cosa impedirebbe a un estraneo di trovare, aprire,
-  capire e riusare i vostri dati e il vostro codice, file per file, e quali
-  numeri del manoscritto non escono dai dati o dagli script;
-- **se lo chiedete, una versione della cartella pronta da depositare**, con
-  README, data dictionary, licenze e lo zip da caricare.
-
-::: {.nota}
-La vostra cartella non viene modificata: tutto quello che la skill scrive va in
-una cartella temporanea o nella versione da depositare, creata accanto.
-:::
-
-## Com'è fatta fair-check: perché consuma meno token {.piccolo}
-
-Il servizio misura in *token* (parole o pezzi di parola) tutto il testo che
-l'assistente legge e scrive: istruzioni, file aperti, output dei comandi,
-risposte. I limiti d'uso del vostro abbonamento si contano in token.
-
-| Come è fatta `fair-check` | Che cosa fa risparmiare |
-|:--|:--|
-| Le istruzioni sono divise per argomento in `references/` | l'assistente legge solo quelle delle aree che avete scelto |
-| Uno script in Python legge tutti i file della cartella e ne restituisce un riassunto | l'assistente non apre e non legge i dati file per file |
-| Fa le domande prima di cominciare | non esegue controlli che non vi servono, per esempio stimare di nuovo un modello |
-| Le regole sono già scritte | non le rispiegate, e non correggete l'assistente, a ogni conversazione |
-
-::: {.nota}
-Vale per qualsiasi skill: istruzioni corte, dettagli in file separati, e uno
-script per il lavoro ripetitivo, che così non passa dalla conversazione.
-:::
-
-## Il rapporto troverà problemi: succede anche a chi lavora bene {.piccolo}
-
-Michael Frank (Stanford) ha fatto controllare a Claude Code, con una skill
-simile, i suoi 59 articoli empirici degli ultimi cinque anni
-([il suo post](https://babieslearninglanguage.blogspot.com/2026/11/an-ai-audit-of-my-works-computational.html), 10 novembre 2026).
-
-| Che cosa ha controllato | Che cosa ha trovato |
-|:--|:--|
-| Codice e dati pubblicati | in 58 articoli su 59 |
-| Analisi rieseguibili per intero da dati e codice pubblicati | in 31 articoli su 58 |
-| Numeri riportati che non si riproducono (tolleranza del 10%) | almeno uno in 40 articoli su 58, circa il 2% dei numeri; nessuno cambia una conclusione principale |
-| Errori nelle analisi | in più di metà degli articoli, secondo la sua stima; il più grave invalida il risultato di un articolo |
-| Dati personali nei repository | identificativi dei partecipanti (per esempio gli ID di Prolific) in alcuni studi, poi rimossi |
-
-: {tbl-colwidths="[42,58]"}
-
-::: {.nota}
-Frank pubblica dati e codice da anni, e i problemi c'erano lo stesso: ora
-vuole fare questo controllo prima di ogni invio. Precisa che il risultato è
-preliminare: non tutte le segnalazioni dell'AI sono errori veri.
-:::
-
-## Prima di cominciare: che cosa esce dal vostro computer {.medio}
-
-Il modello AI non gira sul vostro computer, ma sui server dell'azienda che
-fornisce il servizio (Anthropic per Claude, OpenAI per ChatGPT). Tutto quello
-che l'assistente legge viene quindi inviato a quei server.
-
-| Dove lavorate | Che cosa viene inviato |
-|:--|:--|
-| Sul vostro computer: Claude Code, Codex, app Claude per computer | i file che l'assistente apre (README, codice, qualche riga dei dati) e l'output degli script. I file che non apre restano sul computer |
-| Nel browser: claude.ai, ChatGPT | l'intero zip che allegate |
-
-`fair-check` riduce quello che viene inviato: il suo script riporta riassunti
-dei dati (tipi, intervalli, conteggi), non le righe, e nasconde i valori delle
-colonne che sembrano dati personali.
-
-::: {.nota}
-**Per oggi** usate una cartella senza dati sensibili, o una copia senza le
-colonne personali. Per i progetti veri controllate prima consenso informato,
-regole dell'ateneo e condizioni del servizio.
-:::
-
-## Prima di cominciare: i vostri dati e l'addestramento dei modelli {.medio}
-
-Quello che viene inviato ai server può anche essere usato per addestrare i
-modelli futuri: dipende da un'impostazione del vostro account. In Claude
-(piani Free, Pro e Max) è in *Settings → Privacy → Help improve our AI models*
-e riguarda le chat e le sessioni di codice, Claude Code compreso.
-
-| Impostazione | Che cosa succede |
-|:--|:--|
-| Attiva | chat e sessioni possono essere usate per addestrare i modelli e vengono conservate fino a 5 anni |
-| Disattivata | non vengono usate per l'addestramento, salvo quelle segnalate per i controlli di sicurezza; la conservazione resta di 30 giorni |
-
-: {tbl-colwidths="[20,80]"}
-
-Gli altri servizi AI hanno un'impostazione dello stesso tipo.
-
-::: {.nota}
-**Prima di usare la skill su dati di ricerca, disattivatela.** Fonti (Anthropic):
-[come cambiare l'impostazione](https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings),
-[che cosa cambia](https://www.anthropic.com/news/updates-to-our-consumer-terms).
-:::
-
-## [Passo 1]{.passo} Installate la skill {.medio}
-
-Scaricate **fair-check.skill** da
-[mar-cald.github.io/fair/skill.html](https://mar-cald.github.io/fair/skill.html):
-è un archivio zip che contiene la cartella `fair-check`.
-
-| Assistente | Che cosa fare |
-|:--|:--|
-| **Claude** (app per computer, claude.ai) | nelle impostazioni, nella sezione delle skill, caricate `fair-check.skill`. Deve essere attiva l'esecuzione di codice |
-| **Claude Code** dal terminale | estraete l'archivio e copiate la cartella `fair-check` in `~/.claude/skills/` |
-| **ChatGPT e Codex** | estraete l'archivio e copiate la cartella `fair-check` in `~/.agents/skills/` |
-
-Sul computer serve **Python 3**. Se manca **R**, il codice R viene letto ma non
-eseguito: il rapporto lo dice all'inizio.
-
-## [Passo 2]{.passo} Aprite la cartella e chiedete
-
-Aprite nell'assistente la cartella di un vostro progetto (nelle versioni web:
-allegatela come zip) e scrivete una richiesta. Per esempio:
-
-::: {.richiesta}
-Controlla se questa cartella è pronta da depositare su Zenodo.
-:::
-
-::: {.richiesta}
+::: richiesta
 Controlla solo il codice: gira su un altro computer?
 :::
 
-::: {.richiesta}
+::: richiesta
 I numeri del preprint escono dai dati e dagli script?
 :::
 
-Prima di eseguire comandi, l'assistente chiede il vostro permesso.
+## [Passo 4]{.passo} Rispondete alle domande
 
-## [Passo 3]{.passo} Rispondete alle domande {.piccolo}
+Prima di cominciare la skill vi fa alcune domande, tutte insieme. Per esempio:
 
-La skill fa le domande tutte insieme, e solo quelle che valgono per la vostra
-cartella. Se rispondete «fai tutto», usa le risposte predefinite.
-
-| Domanda | Se non rispondete |
-|:--|:--|
-| Che cosa controllo? Dati e documentazione, codice, numeri del manoscritto, versione da depositare | tutto |
-| Avete documenti che aiutano a capire lo studio? | no |
-| Il deposito deve seguire lo standard Psych-DS? | no |
-| Dove lo depositerete? | Zenodo |
-| Uso i modelli già stimati, invece di stimarli di nuovo? | sì, se ci sono |
-
-**Per oggi** scegliete *dati e documentazione*: eseguire tutto il codice può
-richiedere molto tempo e consuma l'uso del vostro abbonamento.
-
-## [Passo 4]{.passo} Leggete il rapporto
-
-Il rapporto è nella vostra lingua, ordinato per importanza:
-
-1. **Risultati che potrebbero cambiare**, se ce ne sono: un errore nei dati che
-   entra nelle analisi, un numero del manoscritto che non esce dal codice.
-2. **Una tabella con lo stato di ogni area**: dati, nomi, formati, README, data
-   dictionary, licenza, codice, manoscritto, dati personali.
-3. **I problemi area per area**, ciascuno con il file, la colonna o la riga e il
-   dato che lo dimostra.
-4. **Le cinque o sei cose da sistemare per prime.**
-
-Quello che non è stato possibile controllare è scritto esplicitamente, con il
-motivo.
-
-## [Passo 5]{.passo} Verificate una segnalazione
-
-Il rapporto è il punto di partenza, non il risultato finale.
-
-- Scegliete **una** segnalazione e aprite il file indicato: il problema c'è
-  davvero, nella riga o nella colonna che il rapporto riporta?
-- Se una segnalazione non vi convince, chiedete all'assistente da quale file e
-  da quale valore l'ha ricavata.
-- Un errore nei dati o un numero che non torna può richiedere una correzione
-  all'articolo, non solo alla cartella: quella decisione spetta a voi.
-
-::: {.nota}
-La responsabilità di ciò che depositate resta vostra: un codice che gira non
-garantisce che i numeri siano giusti.
+::: segnalazione
+Che cosa controllo? Dati e documentazione, codice, numeri del manoscritto, versione da depositare.
 :::
 
-## [Passo 6]{.passo} La versione da depositare (se avete tempo) {.piccolo}
+::: segnalazione
+Dove depositerete la cartella?
+:::
 
-::: {.richiesta}
+Per oggi rispondete «dati e documentazione». Eseguire tutto il codice può richiedere molto tempo, e consuma token.
+
+## [Passo 5]{.passo} Leggete il rapporto
+
+È scritto in italiano e comincia dalle cose più importanti.
+
+1.  I risultati che potrebbero cambiare, se ce ne sono.
+2.  Le domande aperte: quello che non ha potuto né spiegare né confermare.
+3.  Una tabella con lo stato di ogni area: dati, README, licenza, codice…
+4.  I problemi, uno per uno, con il file e la riga in cui si trovano.
+5.  Le cinque o sei cose da sistemare per prime.
+
+Quello che la skill non ha potuto controllare è scritto, con il motivo.
+
+## Nel rapporto finisce solo quello che è stato verificato
+
+Prima di scrivere il rapporto, l'assistente prova a spiegare ogni differenza che ha trovato.
+
+Una correlazione diversa da quella della Tabella 2 può essere un errore. Ma può anche essere una correlazione di Spearman invece che di Pearson, o un calcolo fatto dopo le esclusioni. Un programma della skill prova da solo queste varianti e dice quale dà il valore dell'articolo.
+
+Se nessuna spiegazione regge, la differenza va tra i risultati che potrebbero cambiare. Se non ha potuto verificarle tutte, ve la presenta come una domanda.
+
+## [Passo 6]{.passo} Verificate una segnalazione
+
+Scegliete una segnalazione del vostro rapporto. Per esempio:
+
+::: segnalazione
+Nella colonna `eta` c'è un valore 999.
+:::
+
+Aprite il file e guardate: il valore c'è davvero?
+
+Se una segnalazione non vi convince, chiedete all'assistente da quale file e da quale riga l'ha ricavata.
+
+## Che cosa fare di un errore lo decidete voi
+
+Un 999 nell'età può essere un codice per il dato mancante oppure un errore di battitura. La skill lo segnala, ma non sa quale dei due.
+
+Se un errore nei dati cambia un risultato, può servire una correzione all'articolo, non solo alla cartella.
+
+## Potete chiedere di rifare le analisi con la correzione
+
+Se il rapporto trova errori che cambiano i risultati, alla fine vi chiede: volete che rifaccia le analisi con le correzioni?
+
+Se rispondete di sì, corregge una copia della cartella, esegue di nuovo il codice e vi dice quali numeri dell'articolo cambiano e di quanto. Se non rispondete, non lo fa. Per esempio:
+
+::: segnalazione
+Con l'età 999 trattata come dato mancante, la correlazione della Tabella 2 passa da r = .34 a r = .31; la conclusione non cambia.
+:::
+
+La vostra cartella resta com'è.
+
+## [Passo 7]{.passo} Se avete tempo: la versione da depositare
+
+::: richiesta
 Prepara la versione da depositare.
 :::
 
-:::: {.columns}
-::: {.column width="52%"}
-```
-progetto_deposit/
-├── README.md
-├── LICENSE
-├── data/
-│   └── raw/
-├── dictionaries/
-├── scripts/
-├── output/
-├── materials/
-└── docs/
-```
-:::
-::: {.column width="48%"}
-Prima di costruirla l'assistente mostra il piano e vi chiede:
-
-- quali file lasciare fuori;
-- quali colonne personali togliere;
-- se correggere gli errori trovati nei dati;
-- quali licenze usare (predefinite: CC0 dati, GPL-3.0 codice, CC BY 4.0 il
-  resto).
-
-Nel data dictionary quello che non trova scritto resta `TODO`: lo completate
-voi.
+:::::: columns
+:::: {.column width="46%"}
+::: cartella
+-    **progetto_deposit**
+    -    README.md
+    -    LICENSE
+    -    data
+    -    dictionaries
+    -    scripts
+    -    output
 :::
 ::::
 
-# Scriverne una {.sezione background-color="#f7f5f1"}
+::: {.column width="54%"}
+Prima di crearla, l'assistente vi mostra il piano e vi chiede che cosa lasciare fuori, quali colonne personali togliere e quali licenze usare.
 
-## Quattro indicazioni per la vostra prima skill {.medio}
+Nel data dictionary, quello che non trova scritto da nessuna parte resta `TODO`: lo completate voi.
+:::
+::::::
 
-1. **Partite da una correzione che fate spesso**, non da un documento
-   completo.
-2. **Curate la descrizione**: che cosa fa la skill e quando usarla, con le
-   parole che usereste nelle richieste.
-3. **Scrivete regole concrete**, comprese le cose da non fare: «usa `<-` per
-   l'assegnazione», non «scrivi codice chiaro».
-4. **Tenete `SKILL.md` corto** e mettete i dettagli in file a parte.
+# Scriverne una {.sezione}
 
-Potete farvi aiutare dall'assistente: dategli il vostro codice o i vostri testi
-e chiedetegli di ricavarne le regole.
+## Partite da una correzione che fate spesso
 
-::: {.nota}
-Le skill scritte da altri leggetele prima di installarle: l'assistente le
-esegue con i vostri permessi sul vostro computer.
+`my-style-r` è nata così: dalla richiesta «riscrivilo con la pipe `|>`», ripetuta troppe volte.
+
+Non serve un documento completo. Bastano tre regole, e ne aggiungete una quando l'assistente sbaglia di nuovo.
+
+## Scrivete regole precise
+
+Questa regola l'assistente non sa come applicarla:
+
+``` markdown
+- Scrivi codice chiaro.
+```
+
+Questa sì:
+
+``` markdown
+- Usa <- per l'assegnazione.
+```
+
+Scrivete anche che cosa non deve fare: «non installare pacchetti senza chiedere».
+
+## Fatevi aiutare dall'assistente
+
+Dategli alcuni vostri script e chiedetegli di ricavarne le regole che seguite.
+
+::: richiesta
+Leggi questi tre script e scrivi uno SKILL.md con il mio stile di codice R.
 :::
 
-::: {.piccolo .attenuato}
-Indicazioni tratte da *Evocare gli agents* di Enrico Toffalini.
+Poi leggete quello che ha scritto e correggetelo.
+
+## Le skill degli altri leggetele prima di installarle
+
+Una skill può contenere programmi, come `fair_scan.py`. L'assistente li esegue sul vostro computer, con i vostri permessi.
+
+`SKILL.md` e i programmi sono file di testo: si possono aprire e leggere prima di installare la cartella.
+
+::: fonte
+Le indicazioni di questa parte sono tratte da *Evocare gli agents* di Enrico Toffalini.
 :::
 
 ## Crediti e link {.medio}
 
-**La parte sulle skill è adattata dal lavoro di Enrico Toffalini:**
+La parte sulle skill è adattata dal lavoro di Enrico Toffalini:
 
-- le slide [*Evocare gli agents*](https://enricotoffalini.github.io/evocare-agents)
-  (lab meeting Memory & Learning, 4 novembre 2026)
-- la serie [*Tre cose sull'AI*](https://enricotoffalini.github.io/blog/posts/serie-ai/):
-  agenti in locale, ChatGPT Edu, skill
+-   le slide [*Evocare gli agents*](https://enricotoffalini.github.io/evocare-agents) (lab meeting Memory & Learning, 4 novembre 2026)
+-   la serie [*Tre cose sull'AI*](https://enricotoffalini.github.io/blog/posts/serie-ai/): agenti in locale, ChatGPT Edu, skill
 
-**fair-check**
+Per `fair-check`:
 
-- come installarla e usarla: [mar-cald.github.io/fair/skill.html](https://mar-cald.github.io/fair/skill.html)
-- tutto quello che fa, passo per passo: [mar-cald.github.io/fair/skill-dettagli.html](https://mar-cald.github.io/fair/skill-dettagli.html)
-- i sorgenti: [github.com/mar-cald/fair/tree/main/skill](https://github.com/mar-cald/fair/tree/main/skill)
+-   come installarla e usarla: [mar-cald.github.io/fair/skill.html](https://mar-cald.github.io/fair/skill.html)
+-   tutto quello che fa, passo per passo: [mar-cald.github.io/fair/skill-dettagli.html](https://mar-cald.github.io/fair/skill-dettagli.html)
+-   i sorgenti: [github.com/mar-cald/fair/tree/main/skill](https://github.com/mar-cald/fair/tree/main/skill)
 
-**L'esempio di Michael Frank**: [*An AI audit of my work's computational reproducibility*](https://babieslearninglanguage.blogspot.com/2026/11/an-ai-audit-of-my-works-computational.html)
+Il post di Michael Frank: [*An AI audit of my work's computational reproducibility*](https://babieslearninglanguage.blogspot.com/2026/11/an-ai-audit-of-my-works-computational.html)
 
-**Il formato**: [agentskills.io](https://agentskills.io)
+Il formato delle skill: [agentskills.io](https://agentskills.io)

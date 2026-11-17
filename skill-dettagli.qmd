@@ -45,7 +45,8 @@ colonna o riga e un'etichetta:
   nel codice prima di riportarla, e la scarta se non regge.
 
 Le piccole cose (colonne costanti o vuote, spazi attorno ai valori) sono
-raggruppate per tipo, e nel rapporto valgono una frase ciascuna.
+raggruppate per tipo, e nel rapporto valgono una frase ciascuna. Ogni area ha
+il link alla pagina della dispensa da citare nel rapporto.
 
 ### Che cosa legge lo script
 
@@ -87,13 +88,33 @@ Per ogni programma sa:
   Prolific o del Public ID di Gorilla, percorsi del computer con il nome
   dell'utente).
 
-L'assistente legge la sezione delle istruzioni dedicata al programma trovato,
-non quella degli altri.
+Sui file di ciascun programma fa anche i controlli che servono a chi li
+analizza, e li scrive nel riassunto con i conteggi:
+
+- **Qualtrics**: quante risposte hanno `Status` diverso da 0 (anteprime, test,
+  spam), quante non sono finite (`Finished` = 0), quante vengono dal canale di
+  anteprima; se l'export ha le risposte come numeri o come testo;
+- **PsychoPy**: i tempi di reazione in secondi, con la mediana; quante righe
+  appartengono a ciascun ciclo (pratica, prove) e quante a nessuno;
+- **jsPsych** e **Gorilla**: quante righe ci sono per tipo di schermata
+  (`trial_type`, `Zone Type`), perché l'analisi deve tenere solo quelle delle
+  risposte; gli ID di studio e di sessione di Prolific;
+- **OpenSesame**: i file delle prove di funzionamento (`quickrun.csv`) e le
+  colonne di feedback cumulativo (`acc`, `avg_rt`), che non sono misure delle
+  singole prove;
+- **E-Prime**: quante prove hanno RT = 0 (nessuna risposta) e, tra queste,
+  quante hanno anche ACC = 0.
+
+Le istruzioni sui programmi (`software-exports.md`) dicono solo quello che uno
+script non può decidere e dove va ogni file nel deposito. L'assistente legge
+la sezione del programma trovato, non quella degli altri.
 
 ## Passo 0b. Le domande
 
 Dopo l'inventario, e prima di qualsiasi controllo, l'assistente fa le domande
-che valgono per quella cartella, tutte in una volta. Salta quelle a cui la
+che valgono per quella cartella, tutte in una volta. Le sceglie lo script: le
+scrive alla fine del riassunto, con le risposte predefinite, insieme ai file
+di istruzioni da leggere per ciascuna area. Salta quelle a cui la
 richiesta ha già risposto ("controlla solo il codice"). Se rispondete "fai
 tutto", o se nessuno risponde, usa le risposte predefinite. Il rapporto dice in
 apertura quali scelte ha usato.
@@ -116,11 +137,13 @@ Solo se c'è codice e lo si controlla, o si costruisce il deposito:
 5. **R o Python** per il codice che la skill scrive da zero (uno script che
    crea copie aperte, uno script di pulizia in un progetto senza codice).
    *Predefinito: la lingua dei vostri script, R se non ce ne sono.*
-6. **Divido gli script lunghi per fasi?** *Predefinito: sì.* Vedi
-   [il passo 3a](#piano).
+6. **Divido gli script lunghi per fasi?** Solo se uno script ha almeno 200
+   righe. *Predefinito: sì.* Vedi [il passo 3a](#piano).
 7. **Uso i modelli già stimati?** Solo con modelli pesanti (brms, Stan,
    simulazioni, bootstrap). *Predefinito: sì, se ci sono i file salvati;*
-   altrimenti un tempo massimo più lungo, o si saltano.
+   altrimenti vengono stimati con il tempo massimo normale (10 minuti per
+   script) o con quello che indicate; se uno script lo supera, il rapporto dice
+   quali risultati non sono stati controllati.
 
 ## Passo 1. I controlli
 
@@ -255,15 +278,18 @@ nei nomi) e lancia `run_code.py`, che **copia il progetto in una cartella
 temporanea** ed esegue lì ogni script, dalla cartella principale del
 progetto, come farebbe RStudio con un `.Rproj`. Nella vostra cartella non
 arriva niente. Prima di farlo vi dice quanti script eseguirà. Per ogni script
-riporta: riuscito o errore, le ultime righe dell'errore, i pacchetti mancanti,
-i file creati o modificati, e salva quello che ha stampato (serve per il
-manoscritto). Uno script che si blocca viene fermato dopo il tempo massimo,
+scrive una riga: riuscito o errore, la causa probabile dell'errore (un
+pacchetto mancante, `setwd()`, un percorso assoluto, un file che non c'è), i
+file creati o modificati. Salva quello che ogni script ha stampato (serve per
+il manoscritto) e i dettagli completi in un file a parte. Uno script che si blocca viene fermato dopo il tempo massimo,
 insieme a tutti i processi che ha avviato.
 
 Che cosa ne ricava l'assistente:
 
 - **il primo errore come causa**: gli script successivi spesso falliscono solo
-  perché leggono i suoi output;
+  perché leggono i suoi output. Lo script lo segnala già: uno script che si
+  ferma per un file mancante dopo un altro che si è fermato è indicato come
+  "probabile conseguenza";
 - **problemi di portabilità**: se uno script si ferma per `setwd()`, un
   percorso assoluto o un percorso relativo alla cartella dello script, lo
   corregge nella copia e lo esegue di nuovo. Il rapporto dice "così com'è non
@@ -390,18 +416,82 @@ reciproco o come logaritmo, una percentuale come proporzione, millisecondi come
 secondi. Per ogni coincidenza dice se l'output nomina la statistica su quella
 riga e in quanti punti compare il numero: una coincidenza fra numeri piccoli o
 frequenti è debole, e l'assistente guarda dove sta prima di dirlo riprodotto.
+L'assistente vede un elenco breve: i numeri non trovati, quelli trovati in
+un'altra forma e le coincidenze deboli; quelli ritrovati con la statistica
+nominata sulla stessa riga sono solo contati.
 Le tabelle lunghe a livello di prova vengono escluse dalla ricerca (darebbero
 coincidenze per caso), e anche il manoscritto stesso. Le figure non vengono
 confrontate.
 
 Senza codice e senza output, l'assistente ricalcola dai dati quello che si può
 (N, conteggi, medie, deviazioni standard, correlazioni di una tabella
-descrittiva) e lo indica come "ricalcolato dai dati"; modelli e test restano
+descrittiva, con `recompute.py` dove serve) e lo indica come "ricalcolato dai
+dati"; modelli e test restano
 "non verificabili senza il codice".
 
 **Il resto.** Data availability (repository e DOI, o "su richiesta"?),
 partecipanti ed esclusioni rispetto a quello che fanno gli script, versione
 del PDF (preprint, accettato, o PDF dell'editore).
+
+## Prima del rapporto: ogni differenza va spiegata
+
+I controlli del passo 1 dicono dove guardare, non che cosa è sbagliato. Una
+correlazione ricalcolata diversa da quella della Tabella 2, un item invertito
+che non è l'inverso dell'originale, un totale che non torna con i suoi item,
+uno script che si ferma con un errore: per l'assistente ciascuno è un'ipotesi
+da verificare prima di scrivere il rapporto.
+
+Per ogni differenza l'assistente elenca le spiegazioni possibili e le prova,
+cominciando dalla più probabile, con quello che c'è nella cartella. Le più
+comuni:
+
+- **un metodo diverso**: Spearman invece di Pearson (la causa più frequente di
+  una correlazione che non torna), correlazione parziale invece che semplice,
+  Welch invece di Student, un test a una coda, un altro tipo di somme dei
+  quadrati, un'altra prior;
+- **una variabile diversa**: il file elaborato invece di quello grezzo, una
+  versione standardizzata o centrata, un punteggio calcolato su una parte degli
+  item. Un item invertito si inverte con il minimo e il massimo della scala,
+  presi dal README, dal dictionary o dal manoscritto, non con i valori
+  osservati: un item da 1 a 5 le cui risposte vanno da 2 a 5 si inverte come
+  6 − x. L'item può anche essere già invertito nell'export, o invertito nel
+  codice;
+- **arrotondamenti e unità**: decimali, percentuali o proporzioni,
+  millisecondi o secondi, BF01 o BF10, un segno invertito dal livello di
+  riferimento;
+- **un campione diverso**: le esclusioni fatte dagli script o descritte nel
+  manoscritto, un sottogruppo, una sola condizione, i casi completi;
+- **codici per i dati mancanti** (999, -99) contati come valori;
+- **una versione diversa della cartella** rispetto a quella usata per
+  l'articolo;
+- per il codice: un errore che viene dall'ambiente (un pacchetto mancante, un
+  percorso, R che non c'è) e non dal codice, o da uno script precedente che si
+  è fermato.
+
+Per provarle legge lo script che ha prodotto il numero (quello che fa il codice
+definisce quello che riporta il manoscritto), il README, il dictionary e il
+metodo, poi rifà il calcolo con il campione, la variabile e il metodo trovati.
+Per una correlazione, una media, una deviazione standard o un N che si possono
+calcolare da un file di dati usa lo script `recompute.py`, che in una volta
+prova Pearson, Spearman e Kendall, con e senza le esclusioni, con i codici dei
+dati mancanti (999, -99) trattati come valori o come mancanti, sui casi
+completi o a coppie, con la deviazione standard divisa per n o per n − 1, e
+dice quale variante dà il valore riportato. Alla fine ogni differenza ha uno di
+tre esiti:
+
+- **spiegata**: non riguarda i risultati. Può restare un problema di
+  documentazione ("il README non dice che le correlazioni sono di Spearman");
+- **confermata**: nessuna spiegazione riproduce il valore riportato. Nel
+  rapporto compare con la prova e con le spiegazioni escluse ("non è Spearman,
+  non è l'arrotondamento, non sono le esclusioni di `02_clean.R`: sui 180
+  partecipanti analizzati r = .21, la Tabella 2 riporta .34");
+- **non risolta**: non è stato possibile provare tutte le spiegazioni (manca il
+  codice, manca R, i dati non sono nella cartella). Nel rapporto compare come
+  domanda per voi, con quello che è stato provato.
+
+Un falso allarme non è una prudenza innocua: vi fa perdere tempo e può farvi
+dubitare di risultati corretti. Per questo nella prima sezione del rapporto
+vanno solo le differenze confermate.
 
 ## Passo 2. Il rapporto
 
@@ -415,8 +505,11 @@ un fatto, uno non risolto dice che cosa resta da controllare.
 2. **Risultati che potrebbero cambiare**, se ce ne sono: errori nei dati che
    entrano nelle analisi, punteggi calcolati diversamente dai loro item, numeri
    del manoscritto che non escono dai dati o dal codice, esclusioni descritte
-   nel testo e non fatte dal codice. Per ciascuno: il valore riportato, quello
-   trovato, la prova, la tabella o la frase che cambierebbe.
+   nel testo e non fatte dal codice. Ci sono solo le differenze confermate
+   (vedi [sopra](#prima-del-rapporto-ogni-differenza-va-spiegata)). Per
+   ciascuna: il valore riportato, quello trovato, la prova, le spiegazioni
+   escluse, la tabella o la frase che cambierebbe. Le differenze non risolte
+   sono in una sezione a parte, scritte come domande.
 3. **Una tabella**: un'area per riga (dati, struttura e nomi, formati, README,
    data dictionary, licenza, codice, pacchetti, manoscritto, dati personali)
    con ✅ a posto, ⚠️ da sistemare, ❌ mancante o bloccante.
@@ -435,6 +528,24 @@ Quello che non si è potuto controllare in quell'ambiente è detto con il motivo
 ("gli script non sono stati eseguiti: in questo ambiente non c'è R") e non è
 contato come un problema della cartella. Le aree non scelte sono elencate
 nel paragrafo iniziale.
+
+Se ci sono risultati che potrebbero cambiare, il rapporto finisce chiedendovi
+se volete rifare le analisi con le correzioni.
+
+## Rifare le analisi con le correzioni
+
+Se rispondete di sì, l'assistente applica ogni correzione in una copia della
+cartella, nel modo più piccolo possibile (nello script di pulizia, oppure
+nella copia dei dati se non c'è codice), esegue di nuovo gli script e confronta
+i risultati delle due esecuzioni con lo script `compare_runs.py`. Il confronto
+elenca i numeri che cambiano e, per primi, quelli riportati nel manoscritto. Il
+rapporto dice, per ogni correzione, quali risultati cambiano e di quanto
+("r = .34 → .29, p = .003 → .02"), se cambia una conclusione dell'articolo e
+quali risultati restano uguali.
+
+Se non rispondete, le analisi non vengono rifatte: può richiedere tempo, e
+correggere i dati è una decisione vostra. La vostra cartella resta com'è; se le
+correzioni entrano nel deposito si decide nel passo 3.
 
 ## Passo 3. La versione da depositare
 
@@ -573,7 +684,8 @@ licenza diversa l'assistente chiede prima di scaricarne il testo ufficiale.
   deposito**, così figure e tabelle finiscono in `output/`. Ogni script deve
   girare. Se ha controllato il manoscritto, ripete il confronto con il nuovo
   output: i risultati devono essere gli stessi del passo 1i. Le differenze negli
-  script senza seed mostrano che cosa otterrebbe un lettore. Se gli script sono
+  script senza seed, che `compare_runs.py` elenca, mostrano che cosa
+  otterrebbe un lettore. Se gli script sono
   stati divisi, i numeri devono essere uguali a quelli dello script originale.
 - Se i modelli non sono stati stimati di nuovo: esegue in una copia con i
   modelli salvati, lascia gli script del deposito come sono e dice che
@@ -619,9 +731,16 @@ Alla fine l'assistente vi dice:
   accordo.
 - **Parla e scrive nella vostra lingua.** Nomi di file, nomi di colonne e
   codice restano come sono.
+- **Una segnalazione è una domanda, non un errore.** Quello che trovano lo
+  script, un messaggio di errore o un primo confronto diventa un problema solo
+  dopo che l'assistente ha provato a spiegarlo con quello che c'è nella
+  cartella.
 - **Non mostra i dati.** Lo script riporta riassunti (tipi, intervalli,
   conteggi), non righe, e non mostra i valori delle colonne che sembrano dati
-  personali; l'assistente guarda i dati solo attraverso conteggi e statistiche.
+  personali. L'assistente non stampa mai un file di dati intero: guarda i dati
+  solo attraverso conteggi e statistiche.
+- **Rifà le analisi solo se lo chiedete.** Le correzioni le applica in una
+  copia, per vedere quanto cambiano i risultati.
 - **Non inventa.** Nel dictionary e nel README scrive solo quello che trova
   scritto da qualche parte; il resto resta `TODO`.
 - **Non installa pacchetti nel vostro R** e chiede prima di scaricare
@@ -631,7 +750,7 @@ Alla fine l'assistente vi dice:
 
 | File | Che cosa contiene |
 |:--|:--|
-| `SKILL.md` | il percorso: inventario, domande, rapporto; i link alle pagine della dispensa |
+| `SKILL.md` | il percorso: inventario, domande, rapporto |
 | `references/check-data.md` | i controlli su dati, struttura, README, dictionary, licenza, dati personali |
 | `references/check-code.md` | l'esecuzione del codice, i modelli pesanti, renv, i seed, i pacchetti |
 | `references/check-manuscript.md` | i controlli sul manoscritto |
@@ -639,10 +758,12 @@ Alla fine l'assistente vi dice:
 | `references/fair-rules.md` | le regole della dispensa, riassunte, per i casi in cui serve la regola |
 | `references/software-exports.md` | i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime |
 | `scripts/fair_scan.py` | l'inventario e i controlli su file, dati e codice |
-| `scripts/summary.py` | il riassunto dell'inventario e il controllo dell'ambiente |
-| `scripts/software.py` | che cosa scrive ciascun programma per esperimenti |
+| `scripts/summary.py` | il riassunto dell'inventario: il controllo dell'ambiente, i link alle pagine della dispensa, le domande iniziali e i file di istruzioni da leggere |
+| `scripts/software.py` | che cosa scrive ciascun programma per esperimenti, e i controlli sui suoi file |
 | `scripts/run_code.py` | l'esecuzione del codice in una copia |
 | `scripts/manuscript_numbers.py` | il testo del manoscritto e il confronto dei numeri |
+| `scripts/recompute.py` | ricalcola una statistica dai dati nei modi che più spesso spiegano una differenza |
+| `scripts/compare_runs.py` | confronta i risultati di due esecuzioni del codice, prima e dopo una correzione |
 | `scripts/draft_dictionary.py` | le bozze dei data dictionary |
 | `scripts/build_deposit.py` | la versione da depositare, il LICENSE, lo zip |
 | `scripts/make_psychds.py` | `dataset_description.json` (solo con Psych-DS) |

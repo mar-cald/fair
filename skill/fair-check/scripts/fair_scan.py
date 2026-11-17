@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Read-only FAIR scan of a research project folder.
 
-Usage: python3 fair_scan.py <project_folder> [--out report.json]
+Usage: python3 fair_scan.py <project_folder> [--out report.json] [--json]
 
-With --out, writes the full JSON there and prints a short summary of the
-findings (also saved as report_summary.md): read the summary first, and the
-JSON only for the detail of one point. Without --out, prints the JSON.
+Writes the full JSON to --out (default: a temporary file) and prints a short
+summary of the findings (also saved next to it as <name>_summary.md): read
+that, and the JSON only for the detail of one point. --json prints the full
+JSON instead.
 
-Prints a JSON report with: file inventory, naming problems, formats, folder
+The JSON report has: file inventory, naming problems, formats, folder
 structure, README coverage, licenses, tabular data checks, data dictionary
 coverage, code dependencies and portability problems.
 
@@ -27,6 +28,7 @@ import argparse
 import csv
 import io
 import json
+import tempfile
 import os
 import re
 import sys
@@ -37,7 +39,7 @@ from itertools import combinations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from software import EXPERIMENT_EXT, detect_software, experiment_role, is_eprime_log, parse_eprime_log  # noqa: E402
+from software import EXPERIMENT_EXT, detect_software, experiment_role, export_checks, is_eprime_log, parse_eprime_log  # noqa: E402
 from summary import summarise  # noqa: E402
 
 csv.field_size_limit(sys.maxsize)
@@ -262,7 +264,9 @@ def lfs_pointer(path):
 
 # text decoded with the wrong encoding at some point: UTF-8 read as Latin-1/cp1252 ("perchÃ©" for "perché")
 MOJIBAKE = re.compile("Ã[\u0080-\u00bf\u2018-\u203a\u20ac\u0152\u0153\u0160\u0161\u0178\u017d\u017e]|"
-                      "â€|Â[\u00a0-\u00bf]|\ufffd")
+                      "â€|Â[\u00a0-\u00bf]|\ufffd|"
+                      # 'à' read as Latin-1 is 'Ã' + a non-breaking space, often saved as a plain space: 'cittÃ '
+                      "(?<=[a-z])Ã(?=[ \t,.;:!?]|$)")
 R_RESERVED = {"if", "else", "repeat", "while", "function", "for", "next", "break", "TRUE", "FALSE", "NULL",
               "Inf", "NaN", "NA", "NA_integer_", "NA_real_", "NA_character_", "in"}
 PY_RESERVED = {"False", "None", "True", "and", "as", "assert", "async", "await", "break", "class", "continue",
@@ -1362,6 +1366,9 @@ def scan_table(path, root, rows=None, info=None, sheet=None):
     if prog:
         res["software"] = prog
         res["software_evidence"] = evidence
+        sc = export_checks(prog, header, body, name)
+        if sc:
+            res["software_checks"] = [{"label": lab, "check": txt} for lab, txt in sc]
     if layout or res.get("preamble"):
         if res.get("preamble"):
             layout["preamble_lines"] = res.pop("preamble")
@@ -1594,6 +1601,16 @@ def group_file_sets(tables):
                          **({"role": coldef[h]["role"]} if coldef[h].get("role") else {})} for h in order],
             "issues_by_file": per_file,
             "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})}
+        groups = {}
+        for t in ts:
+            for c in t.get("software_checks", []):
+                key = (c["label"], re.sub(r"\d+(\.\d+)?", "#", c["check"]))
+                g = groups.setdefault(key, {"label": c["label"], "check": c["check"], "example": Path(t["file"]).name, "files": 0})
+                g["files"] += 1
+        if groups:
+            entry["software_checks"] = [{**g, "check": (g["check"] if g["files"] == 1 else
+                                                        f"in {g['files']} of {len(ts)} files, e.g. {g['example']}: {g['check']}")}
+                                        for g in groups.values()]
         partial = {h: n for h, n in present_in.items() if n < len(ts)}
         if partial:
             entry["columns_not_in_every_file"] = {h: f"in {n} of {len(ts)} files" for h, n in partial.items()}
@@ -2517,20 +2534,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder")
     ap.add_argument("--out")
+    ap.add_argument("--json", action="store_true", help="print the full JSON instead of the summary")
     args = ap.parse_args()
     root = Path(args.folder).expanduser().resolve()
     if not root.is_dir():
         sys.exit(f"Not a folder: {root}")
     report = scan(root)
     text = json.dumps(report, indent=1, ensure_ascii=False, default=str)
-    if args.out:
-        out = Path(args.out)
-        out.write_text(text)
-        short = summarise(report, out)
-        out.with_name(out.stem + "_summary.md").write_text(short)
-        print(short)
-    else:
+    if args.json:
         print(text)
+        return
+    # the full JSON can be 100,000+ characters: it goes to a file, the summary to the screen
+    out = Path(args.out) if args.out else Path(tempfile.mkdtemp(prefix="fair-scan-")) / "fair_scan.json"
+    out.write_text(text)
+    short = summarise(report, out)
+    out.with_name(out.stem + "_summary.md").write_text(short)
+    print(short)
 
 
 if __name__ == "__main__":

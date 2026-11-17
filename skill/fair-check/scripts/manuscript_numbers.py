@@ -47,6 +47,11 @@ or in the three lines above it (where R prints a table's header), and in how
 many places the number appears. Inequalities (p < .001,
 BF10 > 100) are listed for a check by hand.
 
+It prints a short list (what was not found, what was found in another form,
+weak matches; the statistics found with their name on the same line are only
+counted) and saves the full JSON to --out (default: a temporary file); --json
+prints the full JSON instead.
+
 A match is evidence, not proof: small integers, p-values and numbers that
 appear in many places can match by coincidence. Look at the location before
 calling a number reproduced.
@@ -58,6 +63,7 @@ import json
 import math
 import re
 import shutil
+import tempfile
 import subprocess
 import sys
 import zipfile
@@ -81,6 +87,7 @@ LABELS = "|".join([
     r"R2adj|adj\.?\s*R2|adj\.?\s*R²|ΔR2|ΔR²|R2|R²|r2",
     r"χ2|χ²|chi2|chi-square|X2",
     r"Cohen's d|Hedges' g",
+    r"rho|tau|kappa|alpha|omega",  # Greek letters written out (before the one-letter labels)
     r"SD|SE|OR|RR|HR|df",
     r"M|t|F|z|Z|r|ρ|τ|κ|α|ω|b|B|β|beta|d|g|N|n|p|W|U|H|V",
 ])
@@ -112,7 +119,7 @@ CONTEXT = [
     (r"^F$", r"(?i)\bF\b|F.value|Df|anova"),
     (r"^(z|Z)$", r"(?i)\bz\b|z.value"),
     (r"^p$", r"(?i)p.?val|Pr\(|\bp\b"),
-    (r"^(r|ρ|τ)$", r"(?i)cor|\br\b|pearson|spearman|kendall|rho|tau"),
+    (r"^(r|ρ|τ|rho|tau)$", r"(?i)cor|\br\b|pearson|spearman|kendall|rho|tau"),
     (r"χ|chi|X2", r"(?i)chi|χ|X-squared"),
     (r"^(b|B|β|beta)$", r"(?i)estimate|coef|\bb\b|beta|β|Est\."),
     (r"^(M|Mdn)$", r"(?i)mean|\bM\b|avg|median"),
@@ -154,7 +161,11 @@ def precision(raw, decimal_comma=False):
     sep = "," if decimal_comma else "."
     if not decimal_comma and not re.match(r"^-?\d{1,3}(,\d{3})+(\.\d+)?$", s):
         s = s.replace(",", ".")
-    dec = len(s.rsplit(sep, 1)[1]) if sep in s and not re.match(r"^-?\d{1,3}(" + re.escape(sep) + r"\d{3})+$", s) else 0
+    # digits after the decimal separator. ('0.303' is three decimals: the thousands
+    # separator is the other sign, and it never leaves a lone 0 in front)
+    if decimal_comma:
+        s = s.replace(".", "")
+    dec = len(s.rsplit(sep, 1)[1]) if sep in s else 0
     return 0.5 * 10 ** (exp - dec) + 1e-12, dec
 
 
@@ -391,7 +402,50 @@ def check(args):
         out["tables_skipped"] = {"files": skipped, "note": "not searched in the folders given: long data tables "
                                  "(chance matches) and texts written by people (README, the manuscript). Name a file "
                                  "explicitly, or raise --max-table-lines, to search it"}
-    print(json.dumps(out, indent=1, ensure_ascii=False))
+    full = json.dumps(out, indent=1, ensure_ascii=False)
+    dest = Path(args.out) if args.out else Path(tempfile.mkstemp(prefix="manuscript-check-", suffix=".json")[1])
+    dest.write_text(full)
+    print(full if args.json else short_check(out, dest))
+
+
+def _cut(s, n=110):
+    s = re.sub(r"\s+", " ", s or "").strip()
+    return s if len(s) <= n else s[:n - 1] + "…"
+
+
+def short_check(out, dest):
+    res = out["results"]
+    sm = out["summary"]
+    lines = [f"manuscript_numbers check: {out['n_statistics']} statistics"
+             + (" (decimal commas)" if out.get("decimal_comma") else "") + ". "
+             + f"found {sm['found']} · another form {sm['found in another form']} · opposite sign "
+             + f"{sm['found with opposite sign']} · not found {sm['not found']} · inequalities "
+             + f"{sm['inequality: check by hand']}. Full detail: {dest}"]
+
+    def block(title, rows, fmt):
+        if rows:
+            lines.append(f"{title} ({len(rows)}):")
+            lines.extend("- " + fmt(r) for r in rows)
+
+    block("Not found", [r for r in res if r["status"] == "not found"],
+          lambda r: f"{r['reported']} — \"{_cut(r.get('sentence'))}\"")
+    block("Found in another form or with the opposite sign",
+          [r for r in res if r["status"].startswith("found ")],
+          lambda r: f"{r['reported']} — {r['status']} — {_cut(r['where'][0], 90)}")
+    # named on the line: a match; a number alone (often a small integer or a p-value) can be chance
+    weak = [r for r in res if r["status"] == "found" and r.get("context") == "number only"]
+    block("Found, but the match is weak (check the line)", weak,
+          lambda r: f"{r['reported']} — {r.get('context')}, {r.get('n_places')} places"
+          + (f"; {r['caution']}" if r.get("caution") else "") + f" — {_cut(r['where'][0], 80)}")
+    ineq = [r["reported"] for r in res if r["status"] == "inequality: check by hand"]
+    if ineq:
+        lines.append("Inequalities, to check by hand: " + ", ".join(ineq[:20]) + (" …" if len(ineq) > 20 else ""))
+    strong = sum(1 for r in res if r["status"] == "found" and r not in weak)
+    lines.append(f"Found with the statistic named on the same line or just above: {strong} (not listed)")
+    if out.get("tables_skipped"):
+        lines.append("Not searched: " + ", ".join(out["tables_skipped"]["files"][:6]) +
+                     " (long data tables, README, manuscript; name a file explicitly to search it)")
+    return "\n".join(lines)
 
 
 # ---------------------------------------------------------------- internal arithmetic
@@ -565,6 +619,8 @@ def main():
     c = sub.add_parser("check")
     c.add_argument("text")
     c.add_argument("outputs", nargs="+")
+    c.add_argument("--out", help="where to save the full JSON")
+    c.add_argument("--json", action="store_true", help="print the full JSON instead of the short list")
     c.add_argument("--max-table-lines", type=int, default=2000,
                    help="in folders, skip .csv/.tsv longer than this (trial-level data); default 2000")
     args = ap.parse_args()

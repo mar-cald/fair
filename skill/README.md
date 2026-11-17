@@ -27,18 +27,21 @@ descrive la cartella, per chi lavora sulla skill.
 | `fair-check/scripts/software.py` | Come riconoscere i file dei sei programmi e che cosa significano le loro colonne |
 | `fair-check/scripts/run_code.py` | Esegue gli script in una copia temporanea e ne salva l'output |
 | `fair-check/scripts/manuscript_numbers.py` | Estrae il testo del manoscritto e confronta i numeri con l'output del codice |
+| `fair-check/scripts/recompute.py` | Ricalcola una correlazione, una media, una SD o un N dai dati, nelle varianti che spiegano più spesso una differenza |
+| `fair-check/scripts/compare_runs.py` | Confronta i risultati di due esecuzioni del codice (prima e dopo una correzione) |
 | `fair-check/scripts/draft_dictionary.py` | Bozza di `<dataset>_dictionary.csv` con le nove colonne della dispensa |
 | `fair-check/scripts/build_deposit.py` | Costruisce la versione da depositare, scrive il LICENSE, crea lo zip |
 | `fair-check/scripts/make_psychds.py` | Scrive `dataset_description.json` dai data dictionary (solo con Psych-DS) |
 | `fair-check.skill` | La skill impacchettata (un archivio zip della cartella `fair-check`) |
+| `fair-check.zip` | Lo stesso archivio con estensione `.zip`, per chi copia la cartella a mano (Claude Code, Codex, ChatGPT): si apre con un doppio clic |
 
 Gli script usano Python 3 senza pacchetti aggiuntivi; per leggere i file
 Excel serve `openpyxl`, per quelli SPSS e Stata `pyreadstat`.
 
 ## Dopo una modifica
 
-Rigenerare `fair-check.skill` e reinstallare la skill negli assistenti che la usano:
+Rigenerare `fair-check.skill` e `fair-check.zip` e reinstallare la skill negli assistenti che la usano:
 
 ```bash
-cd skill && zip -r fair-check.skill fair-check -x '*/__pycache__/*' '*.DS_Store'
+cd skill && rm -f fair-check.skill && zip -r fair-check.skill fair-check -x '*/__pycache__/*' '*.DS_Store' && cp fair-check.skill fair-check.zip
 ```

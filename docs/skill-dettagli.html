@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>fair-check, passo per passo – Open Science</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -36,10 +42,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7bea484b3be3c7ff74bac432f1b29d8f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b6adf2683b15be5aaf084f57bfd4b46c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -204,7 +210,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#h.-dati-personali-e-materiale-di-terzi" id="toc-h.-dati-personali-e-materiale-di-terzi" class="nav-link" data-scroll-target="#h.-dati-personali-e-materiale-di-terzi">1h. Dati personali e materiale di terzi</a></li>
   <li><a href="#i.-manoscritto-e-numeri-riportati" id="toc-i.-manoscritto-e-numeri-riportati" class="nav-link" data-scroll-target="#i.-manoscritto-e-numeri-riportati">1i. Manoscritto e numeri riportati</a></li>
   </ul></li>
+  <li><a href="#prima-del-rapporto-ogni-differenza-va-spiegata" id="toc-prima-del-rapporto-ogni-differenza-va-spiegata" class="nav-link" data-scroll-target="#prima-del-rapporto-ogni-differenza-va-spiegata">Prima del rapporto: ogni differenza va spiegata</a></li>
   <li><a href="#passo-2.-il-rapporto" id="toc-passo-2.-il-rapporto" class="nav-link" data-scroll-target="#passo-2.-il-rapporto">Passo 2. Il rapporto</a></li>
+  <li><a href="#rifare-le-analisi-con-le-correzioni" id="toc-rifare-le-analisi-con-le-correzioni" class="nav-link" data-scroll-target="#rifare-le-analisi-con-le-correzioni">Rifare le analisi con le correzioni</a></li>
   <li><a href="#passo-3.-la-versione-da-depositare" id="toc-passo-3.-la-versione-da-depositare" class="nav-link" data-scroll-target="#passo-3.-la-versione-da-depositare">Passo 3. La versione da depositare</a>
   <ul class="collapse">
   <li><a href="#che-cosa-cambia-con-psych-ds" id="toc-che-cosa-cambia-con-psych-ds" class="nav-link" data-scroll-target="#che-cosa-cambia-con-psych-ds">Che cosa cambia con Psych-DS</a></li>
@@ -258,7 +266,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>certa</strong>: un fatto stabilito dallo script (una data di nascita, un file mancante, <code>setwd()</code>, un totale che non è la somma dei suoi item);</li>
 <li><strong>da verificare</strong>: una regola che è scattata ma potrebbe non valere (un valore fuori dall’intervallo degli altri item, due file che codificano una colonna in modo diverso). L’assistente la controlla nei dati, nel README o nel codice prima di riportarla, e la scarta se non regge.</li>
 </ul>
-<p>Le piccole cose (colonne costanti o vuote, spazi attorno ai valori) sono raggruppate per tipo, e nel rapporto valgono una frase ciascuna.</p>
+<p>Le piccole cose (colonne costanti o vuote, spazi attorno ai valori) sono raggruppate per tipo, e nel rapporto valgono una frase ciascuna. Ogni area ha il link alla pagina della dispensa da citare nel rapporto.</p>
 <section id="che-cosa-legge-lo-script" class="level3">
 <h3 class="anchored" data-anchor-id="che-cosa-legge-lo-script">Che cosa legge lo script</h3>
 <ul>
@@ -279,12 +287,20 @@ ul.task-list li input[type="checkbox"] {
 <li>quale riga corrisponde a che cosa: spesso non a una prova, ma a un evento o a una schermata;</li>
 <li>quali colonne contengono dati personali (indirizzo IP, coordinate, ID di Prolific o del Public ID di Gorilla, percorsi del computer con il nome dell’utente).</li>
 </ul>
-<p>L’assistente legge la sezione delle istruzioni dedicata al programma trovato, non quella degli altri.</p>
+<p>Sui file di ciascun programma fa anche i controlli che servono a chi li analizza, e li scrive nel riassunto con i conteggi:</p>
+<ul>
+<li><strong>Qualtrics</strong>: quante risposte hanno <code>Status</code> diverso da 0 (anteprime, test, spam), quante non sono finite (<code>Finished</code> = 0), quante vengono dal canale di anteprima; se l’export ha le risposte come numeri o come testo;</li>
+<li><strong>PsychoPy</strong>: i tempi di reazione in secondi, con la mediana; quante righe appartengono a ciascun ciclo (pratica, prove) e quante a nessuno;</li>
+<li><strong>jsPsych</strong> e <strong>Gorilla</strong>: quante righe ci sono per tipo di schermata (<code>trial_type</code>, <code>Zone Type</code>), perché l’analisi deve tenere solo quelle delle risposte; gli ID di studio e di sessione di Prolific;</li>
+<li><strong>OpenSesame</strong>: i file delle prove di funzionamento (<code>quickrun.csv</code>) e le colonne di feedback cumulativo (<code>acc</code>, <code>avg_rt</code>), che non sono misure delle singole prove;</li>
+<li><strong>E-Prime</strong>: quante prove hanno RT = 0 (nessuna risposta) e, tra queste, quante hanno anche ACC = 0.</li>
+</ul>
+<p>Le istruzioni sui programmi (<code>software-exports.md</code>) dicono solo quello che uno script non può decidere e dove va ogni file nel deposito. L’assistente legge la sezione del programma trovato, non quella degli altri.</p>
 </section>
 </section>
 <section id="passo-0b.-le-domande" class="level2">
 <h2 class="anchored" data-anchor-id="passo-0b.-le-domande">Passo 0b. Le domande</h2>
-<p>Dopo l’inventario, e prima di qualsiasi controllo, l’assistente fa le domande che valgono per quella cartella, tutte in una volta. Salta quelle a cui la richiesta ha già risposto (“controlla solo il codice”). Se rispondete “fai tutto”, o se nessuno risponde, usa le risposte predefinite. Il rapporto dice in apertura quali scelte ha usato.</p>
+<p>Dopo l’inventario, e prima di qualsiasi controllo, l’assistente fa le domande che valgono per quella cartella, tutte in una volta. Le sceglie lo script: le scrive alla fine del riassunto, con le risposte predefinite, insieme ai file di istruzioni da leggere per ciascuna area. Salta quelle a cui la richiesta ha già risposto (“controlla solo il codice”). Se rispondete “fai tutto”, o se nessuno risponde, usa le risposte predefinite. Il rapporto dice in apertura quali scelte ha usato.</p>
 <ol type="1">
 <li><strong>Che cosa controllo?</strong> Dati e documentazione · il codice · i numeri del manoscritto · la versione da depositare. <em>Predefinito: tutto.</em> Le aree non scelte compaiono come “non controllate, su richiesta”, non come problemi. I dati personali vengono controllati comunque ogni volta che si guardano i dati o si costruisce il deposito: un deposito pubblico non si può ritirare.</li>
 <li><strong>Avete documenti che aiutano a capire lo studio?</strong> Preregistrazione, protocollo, codebook, note, il manoscritto se non è nella cartella. <em>Predefinito: no.</em> Servono come prove per il data dictionary e il README; non vengono copiati nel deposito se non lo chiedete.</li>
@@ -294,8 +310,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Solo se c’è codice e lo si controlla, o si costruisce il deposito:</p>
 <ol start="5" type="1">
 <li><strong>R o Python</strong> per il codice che la skill scrive da zero (uno script che crea copie aperte, uno script di pulizia in un progetto senza codice). <em>Predefinito: la lingua dei vostri script, R se non ce ne sono.</em></li>
-<li><strong>Divido gli script lunghi per fasi?</strong> <em>Predefinito: sì.</em> Vedi <a href="#piano">il passo 3a</a>.</li>
-<li><strong>Uso i modelli già stimati?</strong> Solo con modelli pesanti (brms, Stan, simulazioni, bootstrap). <em>Predefinito: sì, se ci sono i file salvati;</em> altrimenti un tempo massimo più lungo, o si saltano.</li>
+<li><strong>Divido gli script lunghi per fasi?</strong> Solo se uno script ha almeno 200 righe. <em>Predefinito: sì.</em> Vedi <a href="#piano">il passo 3a</a>.</li>
+<li><strong>Uso i modelli già stimati?</strong> Solo con modelli pesanti (brms, Stan, simulazioni, bootstrap). <em>Predefinito: sì, se ci sono i file salvati;</em> altrimenti vengono stimati con il tempo massimo normale (10 minuti per script) o con quello che indicate; se uno script lo supera, il rapporto dice quali risultati non sono stati controllati.</li>
 </ol>
 </section>
 <section id="passo-1.-i-controlli" class="level2">
@@ -399,10 +415,10 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="f.-il-codice-gira" class="level3">
 <h3 class="anchored" data-anchor-id="f.-il-codice-gira">1f. Il codice gira?</h3>
-<p>L’assistente trova l’ordine di esecuzione (prima dal README, poi dai numeri nei nomi) e lancia <code>run_code.py</code>, che <strong>copia il progetto in una cartella temporanea</strong> ed esegue lì ogni script, dalla cartella principale del progetto, come farebbe RStudio con un <code>.Rproj</code>. Nella vostra cartella non arriva niente. Prima di farlo vi dice quanti script eseguirà. Per ogni script riporta: riuscito o errore, le ultime righe dell’errore, i pacchetti mancanti, i file creati o modificati, e salva quello che ha stampato (serve per il manoscritto). Uno script che si blocca viene fermato dopo il tempo massimo, insieme a tutti i processi che ha avviato.</p>
+<p>L’assistente trova l’ordine di esecuzione (prima dal README, poi dai numeri nei nomi) e lancia <code>run_code.py</code>, che <strong>copia il progetto in una cartella temporanea</strong> ed esegue lì ogni script, dalla cartella principale del progetto, come farebbe RStudio con un <code>.Rproj</code>. Nella vostra cartella non arriva niente. Prima di farlo vi dice quanti script eseguirà. Per ogni script scrive una riga: riuscito o errore, la causa probabile dell’errore (un pacchetto mancante, <code>setwd()</code>, un percorso assoluto, un file che non c’è), i file creati o modificati. Salva quello che ogni script ha stampato (serve per il manoscritto) e i dettagli completi in un file a parte. Uno script che si blocca viene fermato dopo il tempo massimo, insieme a tutti i processi che ha avviato.</p>
 <p>Che cosa ne ricava l’assistente:</p>
 <ul>
-<li><strong>il primo errore come causa</strong>: gli script successivi spesso falliscono solo perché leggono i suoi output;</li>
+<li><strong>il primo errore come causa</strong>: gli script successivi spesso falliscono solo perché leggono i suoi output. Lo script lo segnala già: uno script che si ferma per un file mancante dopo un altro che si è fermato è indicato come “probabile conseguenza”;</li>
 <li><strong>problemi di portabilità</strong>: se uno script si ferma per <code>setwd()</code>, un percorso assoluto o un percorso relativo alla cartella dello script, lo corregge nella copia e lo esegue di nuovo. Il rapporto dice “così com’è non gira per X; corretto, gira” (o “poi si ferma a Y”). Questa seconda esecuzione è quella in cui emergono i problemi veri;</li>
 <li>script che <strong>modificano i dati grezzi</strong>, e output promessi dal README che nessuno script crea.</li>
 </ul>
@@ -451,23 +467,50 @@ ul.task-list li input[type="checkbox"] {
 <li>intervalli: IC al 95%, intervalli di credibilità, HDI, ETI;</li>
 <li>frasi come “l’età media era 23,8” o “l’accuratezza era del 95,8%”.</li>
 </ul>
-<p>Un numero coincide se nell’output c’è un valore che arrotondato dà quello riportato (2,45 coincide con 2,4471). Legge separatori delle migliaia e virgole decimali. Riconosce lo stesso numero scritto in un altro modo, e dice quale: con il segno opposto (un altro livello di riferimento), un Bayes factor come reciproco o come logaritmo, una percentuale come proporzione, millisecondi come secondi. Per ogni coincidenza dice se l’output nomina la statistica su quella riga e in quanti punti compare il numero: una coincidenza fra numeri piccoli o frequenti è debole, e l’assistente guarda dove sta prima di dirlo riprodotto. Le tabelle lunghe a livello di prova vengono escluse dalla ricerca (darebbero coincidenze per caso), e anche il manoscritto stesso. Le figure non vengono confrontate.</p>
-<p>Senza codice e senza output, l’assistente ricalcola dai dati quello che si può (N, conteggi, medie, deviazioni standard, correlazioni di una tabella descrittiva) e lo indica come “ricalcolato dai dati”; modelli e test restano “non verificabili senza il codice”.</p>
+<p>Un numero coincide se nell’output c’è un valore che arrotondato dà quello riportato (2,45 coincide con 2,4471). Legge separatori delle migliaia e virgole decimali. Riconosce lo stesso numero scritto in un altro modo, e dice quale: con il segno opposto (un altro livello di riferimento), un Bayes factor come reciproco o come logaritmo, una percentuale come proporzione, millisecondi come secondi. Per ogni coincidenza dice se l’output nomina la statistica su quella riga e in quanti punti compare il numero: una coincidenza fra numeri piccoli o frequenti è debole, e l’assistente guarda dove sta prima di dirlo riprodotto. L’assistente vede un elenco breve: i numeri non trovati, quelli trovati in un’altra forma e le coincidenze deboli; quelli ritrovati con la statistica nominata sulla stessa riga sono solo contati. Le tabelle lunghe a livello di prova vengono escluse dalla ricerca (darebbero coincidenze per caso), e anche il manoscritto stesso. Le figure non vengono confrontate.</p>
+<p>Senza codice e senza output, l’assistente ricalcola dai dati quello che si può (N, conteggi, medie, deviazioni standard, correlazioni di una tabella descrittiva, con <code>recompute.py</code> dove serve) e lo indica come “ricalcolato dai dati”; modelli e test restano “non verificabili senza il codice”.</p>
 <p><strong>Il resto.</strong> Data availability (repository e DOI, o “su richiesta”?), partecipanti ed esclusioni rispetto a quello che fanno gli script, versione del PDF (preprint, accettato, o PDF dell’editore).</p>
 </section>
+</section>
+<section id="prima-del-rapporto-ogni-differenza-va-spiegata" class="level2">
+<h2 class="anchored" data-anchor-id="prima-del-rapporto-ogni-differenza-va-spiegata">Prima del rapporto: ogni differenza va spiegata</h2>
+<p>I controlli del passo 1 dicono dove guardare, non che cosa è sbagliato. Una correlazione ricalcolata diversa da quella della Tabella 2, un item invertito che non è l’inverso dell’originale, un totale che non torna con i suoi item, uno script che si ferma con un errore: per l’assistente ciascuno è un’ipotesi da verificare prima di scrivere il rapporto.</p>
+<p>Per ogni differenza l’assistente elenca le spiegazioni possibili e le prova, cominciando dalla più probabile, con quello che c’è nella cartella. Le più comuni:</p>
+<ul>
+<li><strong>un metodo diverso</strong>: Spearman invece di Pearson (la causa più frequente di una correlazione che non torna), correlazione parziale invece che semplice, Welch invece di Student, un test a una coda, un altro tipo di somme dei quadrati, un’altra prior;</li>
+<li><strong>una variabile diversa</strong>: il file elaborato invece di quello grezzo, una versione standardizzata o centrata, un punteggio calcolato su una parte degli item. Un item invertito si inverte con il minimo e il massimo della scala, presi dal README, dal dictionary o dal manoscritto, non con i valori osservati: un item da 1 a 5 le cui risposte vanno da 2 a 5 si inverte come 6 − x. L’item può anche essere già invertito nell’export, o invertito nel codice;</li>
+<li><strong>arrotondamenti e unità</strong>: decimali, percentuali o proporzioni, millisecondi o secondi, BF01 o BF10, un segno invertito dal livello di riferimento;</li>
+<li><strong>un campione diverso</strong>: le esclusioni fatte dagli script o descritte nel manoscritto, un sottogruppo, una sola condizione, i casi completi;</li>
+<li><strong>codici per i dati mancanti</strong> (999, -99) contati come valori;</li>
+<li><strong>una versione diversa della cartella</strong> rispetto a quella usata per l’articolo;</li>
+<li>per il codice: un errore che viene dall’ambiente (un pacchetto mancante, un percorso, R che non c’è) e non dal codice, o da uno script precedente che si è fermato.</li>
+</ul>
+<p>Per provarle legge lo script che ha prodotto il numero (quello che fa il codice definisce quello che riporta il manoscritto), il README, il dictionary e il metodo, poi rifà il calcolo con il campione, la variabile e il metodo trovati. Per una correlazione, una media, una deviazione standard o un N che si possono calcolare da un file di dati usa lo script <code>recompute.py</code>, che in una volta prova Pearson, Spearman e Kendall, con e senza le esclusioni, con i codici dei dati mancanti (999, -99) trattati come valori o come mancanti, sui casi completi o a coppie, con la deviazione standard divisa per n o per n − 1, e dice quale variante dà il valore riportato. Alla fine ogni differenza ha uno di tre esiti:</p>
+<ul>
+<li><strong>spiegata</strong>: non riguarda i risultati. Può restare un problema di documentazione (“il README non dice che le correlazioni sono di Spearman”);</li>
+<li><strong>confermata</strong>: nessuna spiegazione riproduce il valore riportato. Nel rapporto compare con la prova e con le spiegazioni escluse (“non è Spearman, non è l’arrotondamento, non sono le esclusioni di <code>02_clean.R</code>: sui 180 partecipanti analizzati r = .21, la Tabella 2 riporta .34”);</li>
+<li><strong>non risolta</strong>: non è stato possibile provare tutte le spiegazioni (manca il codice, manca R, i dati non sono nella cartella). Nel rapporto compare come domanda per voi, con quello che è stato provato.</li>
+</ul>
+<p>Un falso allarme non è una prudenza innocua: vi fa perdere tempo e può farvi dubitare di risultati corretti. Per questo nella prima sezione del rapporto vanno solo le differenze confermate.</p>
 </section>
 <section id="passo-2.-il-rapporto" class="level2">
 <h2 class="anchored" data-anchor-id="passo-2.-il-rapporto">Passo 2. Il rapporto</h2>
 <p>È scritto nella vostra lingua: titoli, tabella e testo. Le etichette “certa” e “da verificare” restano all’assistente: nel rapporto un problema verificato è un fatto, uno non risolto dice che cosa resta da controllare.</p>
 <ol type="1">
 <li><strong>Un paragrafo iniziale</strong>: che cosa contiene la cartella, quali controlli sono stati fatti e con quali scelte, se un estraneo potrebbe riusarla oggi, e l’ostacolo più grande.</li>
-<li><strong>Risultati che potrebbero cambiare</strong>, se ce ne sono: errori nei dati che entrano nelle analisi, punteggi calcolati diversamente dai loro item, numeri del manoscritto che non escono dai dati o dal codice, esclusioni descritte nel testo e non fatte dal codice. Per ciascuno: il valore riportato, quello trovato, la prova, la tabella o la frase che cambierebbe.</li>
+<li><strong>Risultati che potrebbero cambiare</strong>, se ce ne sono: errori nei dati che entrano nelle analisi, punteggi calcolati diversamente dai loro item, numeri del manoscritto che non escono dai dati o dal codice, esclusioni descritte nel testo e non fatte dal codice. Ci sono solo le differenze confermate (vedi <a href="#prima-del-rapporto-ogni-differenza-va-spiegata">sopra</a>). Per ciascuna: il valore riportato, quello trovato, la prova, le spiegazioni escluse, la tabella o la frase che cambierebbe. Le differenze non risolte sono in una sezione a parte, scritte come domande.</li>
 <li><strong>Una tabella</strong>: un’area per riga (dati, struttura e nomi, formati, README, data dictionary, licenza, codice, pacchetti, manoscritto, dati personali) con ✅ a posto, ⚠️ da sistemare, ❌ mancante o bloccante.</li>
 <li><strong>Una sezione per area</strong>, con il link alla pagina della dispensa corrispondente. Ogni problema dice file, colonna o riga e che cosa troverebbe chi prova a riusare i dati, ed è accompagnato dal dato che lo dimostra (“in 211 righe su 234”), mai da “alcune righe”. Le aree a posto hanno una riga. Nella sezione sul manoscritto, una tabella: statistica, dove, valore riportato, valore nell’output (con lo script), esito.</li>
 <li><strong>Che cosa sistemare per primo</strong>: al massimo cinque o sei azioni concrete, in ordine di quanto bloccano il riuso.</li>
 <li><strong>La versione da depositare</strong>: che cosa costruirà il passo 3 e quali decisioni servono da voi.</li>
 </ol>
 <p>Quello che non si è potuto controllare in quell’ambiente è detto con il motivo (“gli script non sono stati eseguiti: in questo ambiente non c’è R”) e non è contato come un problema della cartella. Le aree non scelte sono elencate nel paragrafo iniziale.</p>
+<p>Se ci sono risultati che potrebbero cambiare, il rapporto finisce chiedendovi se volete rifare le analisi con le correzioni.</p>
+</section>
+<section id="rifare-le-analisi-con-le-correzioni" class="level2">
+<h2 class="anchored" data-anchor-id="rifare-le-analisi-con-le-correzioni">Rifare le analisi con le correzioni</h2>
+<p>Se rispondete di sì, l’assistente applica ogni correzione in una copia della cartella, nel modo più piccolo possibile (nello script di pulizia, oppure nella copia dei dati se non c’è codice), esegue di nuovo gli script e confronta i risultati delle due esecuzioni con lo script <code>compare_runs.py</code>. Il confronto elenca i numeri che cambiano e, per primi, quelli riportati nel manoscritto. Il rapporto dice, per ogni correzione, quali risultati cambiano e di quanto (“r = .34 → .29, p = .003 → .02”), se cambia una conclusione dell’articolo e quali risultati restano uguali.</p>
+<p>Se non rispondete, le analisi non vengono rifatte: può richiedere tempo, e correggere i dati è una decisione vostra. La vostra cartella resta com’è; se le correzioni entrano nel deposito si decide nel passo 3.</p>
 </section>
 <section id="passo-3.-la-versione-da-depositare" class="level2">
 <h2 class="anchored" data-anchor-id="passo-3.-la-versione-da-depositare">Passo 3. La versione da depositare</h2>
@@ -571,7 +614,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="e.-la-verifica" class="level3">
 <h3 class="anchored" data-anchor-id="e.-la-verifica">3e. La verifica</h3>
 <ul>
-<li>Con il codice: esegue di nuovo tutti gli script <strong>nella cartella del deposito</strong>, così figure e tabelle finiscono in <code>output/</code>. Ogni script deve girare. Se ha controllato il manoscritto, ripete il confronto con il nuovo output: i risultati devono essere gli stessi del passo 1i. Le differenze negli script senza seed mostrano che cosa otterrebbe un lettore. Se gli script sono stati divisi, i numeri devono essere uguali a quelli dello script originale.</li>
+<li>Con il codice: esegue di nuovo tutti gli script <strong>nella cartella del deposito</strong>, così figure e tabelle finiscono in <code>output/</code>. Ogni script deve girare. Se ha controllato il manoscritto, ripete il confronto con il nuovo output: i risultati devono essere gli stessi del passo 1i. Le differenze negli script senza seed, che <code>compare_runs.py</code> elenca, mostrano che cosa otterrebbe un lettore. Se gli script sono stati divisi, i numeri devono essere uguali a quelli dello script originale.</li>
 <li>Se i modelli non sono stati stimati di nuovo: esegue in una copia con i modelli salvati, lascia gli script del deposito come sono e dice che <code>output/</code> non è stato rigenerato.</li>
 <li>Esegue <code>fair_scan.py</code> sul deposito: nessun problema di nomi, un dictionary completo per ogni file di dati, nessun dato personale rimasto; con Psych-DS, i requisiti minimi rispettati.</li>
 <li>Toglie quello che l’esecuzione ha creato e non c’entra (<code>.Rhistory</code>, cache, <code>Rplots.pdf</code>).</li>
@@ -596,7 +639,9 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>La vostra cartella non viene mai modificata.</strong> È spesso l’unica copia. Tutto quello che la skill scrive va in una cartella temporanea o nella versione da depositare.</li>
 <li><strong>Cambia il meno possibile.</strong> Chi non riconosce più i propri file e il proprio codice non si fida del deposito. Ogni modifica al vostro codice è la più piccola che risolve il problema, nel vostro stile, ed è elencata alla fine. Le correzioni ai dati sono proposte, mai applicate senza il vostro accordo.</li>
 <li><strong>Parla e scrive nella vostra lingua.</strong> Nomi di file, nomi di colonne e codice restano come sono.</li>
-<li><strong>Non mostra i dati.</strong> Lo script riporta riassunti (tipi, intervalli, conteggi), non righe, e non mostra i valori delle colonne che sembrano dati personali; l’assistente guarda i dati solo attraverso conteggi e statistiche.</li>
+<li><strong>Una segnalazione è una domanda, non un errore.</strong> Quello che trovano lo script, un messaggio di errore o un primo confronto diventa un problema solo dopo che l’assistente ha provato a spiegarlo con quello che c’è nella cartella.</li>
+<li><strong>Non mostra i dati.</strong> Lo script riporta riassunti (tipi, intervalli, conteggi), non righe, e non mostra i valori delle colonne che sembrano dati personali. L’assistente non stampa mai un file di dati intero: guarda i dati solo attraverso conteggi e statistiche.</li>
+<li><strong>Rifà le analisi solo se lo chiedete.</strong> Le correzioni le applica in una copia, per vedere quanto cambiano i risultati.</li>
 <li><strong>Non inventa.</strong> Nel dictionary e nel README scrive solo quello che trova scritto da qualche parte; il resto resta <code>TODO</code>.</li>
 <li><strong>Non installa pacchetti nel vostro R</strong> e chiede prima di scaricare qualsiasi cosa.</li>
 </ul>
@@ -617,7 +662,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>SKILL.md</code></td>
-<td style="text-align: left;">il percorso: inventario, domande, rapporto; i link alle pagine della dispensa</td>
+<td style="text-align: left;">il percorso: inventario, domande, rapporto</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>references/check-data.md</code></td>
@@ -649,11 +694,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>scripts/summary.py</code></td>
-<td style="text-align: left;">il riassunto dell’inventario e il controllo dell’ambiente</td>
+<td style="text-align: left;">il riassunto dell’inventario: il controllo dell’ambiente, i link alle pagine della dispensa, le domande iniziali e i file di istruzioni da leggere</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>scripts/software.py</code></td>
-<td style="text-align: left;">che cosa scrive ciascun programma per esperimenti</td>
+<td style="text-align: left;">che cosa scrive ciascun programma per esperimenti, e i controlli sui suoi file</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>scripts/run_code.py</code></td>
@@ -662,6 +707,14 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;"><code>scripts/manuscript_numbers.py</code></td>
 <td style="text-align: left;">il testo del manoscritto e il confronto dei numeri</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>scripts/recompute.py</code></td>
+<td style="text-align: left;">ricalcola una statistica dai dati nei modi che più spesso spiegano una differenza</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>scripts/compare_runs.py</code></td>
+<td style="text-align: left;">confronta i risultati di due esecuzioni del codice, prima e dopo una correzione</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>scripts/draft_dictionary.py</code></td>
@@ -738,13 +791,14 @@ ul.task-list li input[type="checkbox"] {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

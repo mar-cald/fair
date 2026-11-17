@@ -23,8 +23,8 @@ Generale, Università di Padova, 23 settembre 2026).
 | `_quarto.yml` | Titolo del sito, voci del menu, opzioni generali |
 | `custom.scss` | Grafica del sito: colori (in cima al file), tipografia (Libre Franklin) e stile della navbar |
 | `booklet/` | Sorgente del vademecum in PDF (vedi sotto) |
-| `skill.qmd` | La skill fair-check: che cosa fa, come installarla e usarla; il file da scaricare è `skill/fair-check.skill` |
-| `skill/` | `fair-check`, la skill per Claude che controlla se un progetto è FAIR (vedi `skill/README.md`) |
+| `skill.qmd` | La skill fair-check: che cosa fa, come installarla e usarla; i file da scaricare sono `skill/fair-check.skill` (Claude) e `skill/fair-check.zip` (Claude Code, Codex) |
+| `skill/` | `fair-check`, la skill (Claude, Codex e altri assistenti) che controlla se un progetto è FAIR (vedi `skill/README.md`) |
 
 
 ## Materiali per le esercitazioni

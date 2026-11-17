@@ -69,3 +69,22 @@ $link-color: $accento;
 .reveal .cartella .ico-cartella, .reveal .cartella .ico-file { display: inline-block; width: 1em; height: .85em; margin-right: .4em; vertical-align: -.08em; background: no-repeat center / contain; }
 .reveal .cartella .ico-cartella { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M1 3a2 2 0 0 1 2-2h6l2.5 3H21a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z' fill='%238f1f27'/%3E%3C/svg%3E"); }
 .reveal .cartella .ico-file { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M6 1h8l5 5v13H6z' fill='%23fff' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M14 1v5h5' fill='none' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+
+// --- riscrittura del 13/11: una idea per slide ---
+.reveal .slides section > p { margin: 0 0 .75em; line-height: 1.4; }
+.reveal .fonte { font-size: .62em; color: $attenuato; margin-top: 1.6em; padding-top: .6em; border-top: 1px solid $riga-chiara; }
+.reveal .fonte p { margin: 0; }
+.reveal .segnalazione { border-left: 4px solid $accento; background: $fondo-chiaro; padding: .45em .9em; margin: .45em 0; border-radius: 0 6px 6px 0; }
+.reveal .segnalazione p { margin: 0; }
+.reveal .percorso { font-weight: 600; margin: 0 0 .75em 1em; }
+.reveal .percorso p { margin: 0; }
+.reveal .cartella { margin-bottom: .8em; }
+.reveal .cartella.stretta { width: 40%; }
+.reveal .cifre ul { list-style: none; margin: 0; padding: 0; display: block; }
+.reveal .cifre li { margin: 0 0 1em; padding-left: 8.8em; position: relative; line-height: 1.35; }
+.reveal .cifre .cifra { position: absolute; left: 0; top: -.12em; font-size: 1.35em; font-weight: 600; color: $accento; white-space: nowrap; }
+
+// pulsanti di download (slide "Scaricate la skill")
+.reveal a.scarica { display: inline-block; margin: 0 0 .9em 1em; padding: .3em .9em .3em 2.1em; border: 1px solid $accento; border-radius: 6px; font-weight: 600; text-decoration: none; position: relative; background: #fff; }
+.reveal a.scarica::before { content: ""; position: absolute; left: .7em; top: 50%; width: 1em; height: 1em; transform: translateY(-50%); background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238f1f27' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M6 10l6 6 6-6M4 20h16'/%3E%3C/svg%3E"); }
+.reveal a.scarica:hover { background: $fondo-chiaro; }

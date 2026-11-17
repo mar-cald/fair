@@ -392,3 +392,153 @@ def parse_eprime_log(text):
     body = [[r.get(c, "") for c in columns] for r in table]
     info = {"levels": {lname(k): v for k, v in sorted(counts.items())}, "row_level": lname(row_level)}
     return [columns] + body, info
+
+
+# ------------------------------------------------------------- checks per program
+#
+# What a reader of each program's export needs to know, computed here so that
+# the model does not have to inspect the columns itself. Each check returns
+# (label, text): "certain" (a fact about the file), "to check" (verify in the
+# scripts or the README), "info" (worth a line in the README or the dictionary),
+# "personal" (personal data: reported with the other personal-data findings).
+
+def _num(v):
+    v = str(v).strip().replace(",", ".")
+    try:
+        return float(v)
+    except ValueError:
+        return None
+
+
+def _median(xs):
+    xs = sorted(xs)
+    n = len(xs)
+    return None if not n else (xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2)
+
+
+def _counts(header, body, col, top=6):
+    j = header.index(col)
+    c = {}
+    for r in body:
+        v = r[j].strip() if j < len(r) else ""
+        c[v or "(empty)"] = c.get(v or "(empty)", 0) + 1
+    items = sorted(c.items(), key=lambda kv: -kv[1])
+    return ", ".join(f"{k} {n}" for k, n in items[:top]) + (" …" if len(items) > top else "")
+
+
+def _col(header, *names):
+    want = {canon(n) for n in names}
+    return next((h for h in header if canon(h) in want), None)
+
+
+def _values(header, body, col):
+    j = header.index(col)
+    return [r[j].strip() if j < len(r) else "" for r in body]
+
+
+def export_checks(program, header, body, filename=""):
+    out = []
+    n = len(body)
+    base = re.sub(r".*[/\\]", "", filename).lower()
+    if program == "Qualtrics":
+        st = _col(header, "Status")
+        if st:
+            vals = _values(header, body, st)
+            odd = [v for v in vals if v and v not in ("0", "IP Address")]
+            if odd:
+                out.append(("to check", f"{len(odd)} of {n} responses with Status other than 0 "
+                            f"({_counts(header, body, st)}): previews, tests, spam or imports. Do the scripts "
+                            "exclude them, and does the manuscript say so?"))
+        ch = _col(header, "DistributionChannel")
+        if ch:
+            prev = sum(1 for v in _values(header, body, ch) if v.lower() in ("preview", "test"))
+            if prev:
+                out.append(("to check", f"{prev} responses with DistributionChannel preview or test: excluded by the scripts?"))
+        fin = _col(header, "Finished")
+        if fin:
+            unf = sum(1 for v in _values(header, body, fin) if v.lower() in ("0", "false"))
+            if unf:
+                out.append(("to check", f"{unf} of {n} unfinished responses (Finished = 0): excluded, and "
+                            "described in the manuscript?"))
+        sig = SIGNATURES["Qualtrics"]["columns"]
+        text_cols = 0
+        for h in header:
+            if canon(h) in sig or h.lower().endswith("_text"):
+                continue
+            vals = [v for v in _values(header, body, h) if v]
+            if vals and len(set(vals)) <= 10 and all(_num(v) is None for v in vals) and \
+                    any(len(v) > 3 and " " in v for v in vals):
+                text_cols += 1
+        out.append(("info", "export with choice text (answers as words): the README must say so"
+                    if text_cols >= 3 else "export with numeric values: the dictionary must give the meaning of each code"))
+    elif program == "PsychoPy":
+        secs = []
+        for h in header:
+            if h.endswith(".rt"):
+                med = _median([x for x in (_num(v) for v in _values(header, body, h)) if x is not None])
+                if med is not None and med < 10:
+                    secs.append(f"{h} (median {med:.3g} s)")
+        if secs:
+            out.append(("certain", "reaction times in seconds: " + ", ".join(secs[:4]) +
+                        ". Check that the scripts convert them as the manuscript reports (ms?)"))
+        loops = [h[:-6] for h in header if h.endswith(".thisN")]
+        if loops:
+            parts, inside = [], set()
+            for lp in loops:
+                rows = {i for i, v in enumerate(_values(header, body, lp + ".thisN")) if v not in ("", "None")}
+                inside |= rows
+                parts.append(f"{lp} {len(rows)}")
+            outside = f"; {n - len(inside)} rows outside any loop (instructions, breaks)" if n > len(inside) else ""
+            out.append(("to check", "rows by loop: " + ", ".join(parts) + outside +
+                        ". Which rows does the analysis keep (practice or main loop)?"))
+    elif program == "jsPsych":
+        tt = _col(header, "trial_type")
+        if tt:
+            out.append(("to check", f"rows by trial_type: {_counts(header, body, tt)}. One row per plugin "
+                        "screen: the analysis must keep only the trials it uses"))
+        if _col(header, "key_press", "button_pressed"):
+            out.append(("info", "jsPsych 6 columns (key_press as JavaScript key codes): the dictionary must say how keys are coded"))
+        ids = [h for h in header if canon(h) in ("studyid", "sessionid")]
+        if ids:
+            out.append(("personal", f"{', '.join(ids)}: Prolific study and session IDs, linked to the participant's "
+                        "account: drop them from the deposit"))
+    elif program == "Gorilla":
+        for name in ("Zone Type", "Response Type", "Component Name"):
+            c = _col(header, name)
+            if c:
+                out.append(("to check", f"rows by {c}: {_counts(header, body, c)}. Several rows per trial: the "
+                            "analysis must keep the response rows"))
+                break
+        link = [h for h in header if canon(h) in ("participantexternalsessionid", "participantcompletioncode")]
+        if link:
+            out.append(("personal", f"{', '.join(link)}: link back to the recruitment platform: drop them from the deposit"))
+    elif program == "OpenSesame":
+        if base.startswith(("quickrun", "defaultlog")):
+            out.append(("certain", "a test-run log (quickrun or defaultlog): leave it out of the deposit"))
+        agg = [h for h in header if h in ("acc", "avg_rt", "total_correct", "total_responses", "total_response_time")]
+        if agg:
+            out.append(("to check", f"running feedback values ({', '.join(agg)}): cumulative, not trial measures. "
+                        "Check that the analysis does not use them as trial data"))
+    elif program == "E-Prime":
+        for h in header:
+            if not h.endswith(".RT"):
+                continue
+            vals = _values(header, body, h)
+            zero = [i for i, v in enumerate(vals) if _num(v) == 0]
+            if not zero:
+                continue
+            acc = h[:-3] + ".ACC"
+            note = ""
+            if acc in header:
+                a = _values(header, body, acc)
+                k = sum(1 for i in zero if _num(a[i]) == 0)
+                note = f", with {acc} = 0 in {k}"
+            out.append(("certain", f"{h} = 0 in {len(zero)} of {n} rows{note}: in E-Prime this is no response, "
+                        "not a reaction time of 0. The scripts must exclude these rows before averaging RTs, and "
+                        "the dictionary must say it"))
+        delays = [h for h in header if h.endswith(".OnsetDelay")]
+        for h in delays[:2]:
+            xs = [x for x in (_num(v) for v in _values(header, body, h)) if x is not None]
+            if xs:
+                out.append(("info", f"timing: {h} median {_median(xs):.3g} ms, max {max(xs):.3g} ms (worth a line in the README)"))
+    return out
