@@ -11,7 +11,8 @@ are, then:
 python3 <skill-dir>/scripts/run_code.py <project-folder> [scripts in order] --timeout 600 --logs <tmp>/logs
 ```
 
-It copies the project to a temporary directory and runs everything there from
+(`check_all.py` runs this for you, together with the manuscript checks: use it
+when both areas are chosen.) It copies the project to a temporary directory and runs everything there from
 the project root, so nothing reaches the researcher's folder. It prints one
 line per script: status, the probable cause of a failure (missing package,
 `setwd()`, an absolute path, a missing file), whether it failed after an
@@ -49,13 +50,15 @@ something to install.
 **Other missing packages: do not install them** (it changes the researcher's
 setup). List them and ask; that they were missing is a finding.
 
-If the first failure is a portability problem (`setwd()`, an absolute path, a
-path relative to the script's folder), find out whether the analysis works:
-run with `--keep`, fix the line in the copy only, rerun
-`run_code.py <copy> --logs <tmp>/logs`. Report both: "fails as deposited
-because of X; once fixed, it runs" (or "then fails at Y"). This second run is
-where substantive problems show up: check whether the problems of 1a survive
-the cleaning and reach the analysis. Delete the copy afterwards.
+If a script stops because of `setwd()`, `run_code.py` already reruns
+everything in a second copy with those lines commented out, and prints both
+results (logs in `<tmp>/logs_fixed`). Report both: "fails as deposited because
+of `setwd()`; once removed, it runs" (or "then fails at Y"). For another
+portability problem (an absolute path, a path relative to the script's
+folder), do the same by hand: run with `--keep`, fix the line in the copy
+only, rerun `run_code.py <copy> --logs <tmp>/logs_fixed`, delete the copy. The
+second run is where substantive problems show up: check whether the problems
+of 1a survive the cleaning and reach the analysis.
 
 Also report scripts that **modify** `data/raw/` (marked in the output), and
 outputs the README promises that no script creates. With no

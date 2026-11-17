@@ -35,7 +35,10 @@ the numbers in a manuscript.
 What it prints is short, one line per script: status, the probable cause of a
 failure (missing package, setwd(), an absolute path, a missing file), and
 whether it failed after an earlier script had already failed (then it is
-probably a consequence). The full JSON goes to --out (default:
+probably a consequence). If a script stops because of setwd() (or os.chdir()),
+everything is run again in a second copy with those lines commented out, and
+both results are reported ("fails as deposited; with setwd() removed, it
+runs"); --no-fix skips this. The full JSON goes to --out (default:
 DIR/run_code.json with --logs, otherwise a temporary file); --json prints it
 instead of the short version. --in-place runs in the folder itself instead of a
 copy: use it only on the deposit version built by build_deposit.py, never on
@@ -272,7 +275,100 @@ def short_report(out, results, dest, logs):
     lines.append("Totals: " + ", ".join(f"{v} {k}" for k, v in counts.items()))
     if logs:
         lines.append(f"Logs: {logs}")
+    fx = out.get("after_removing_setwd")
+    if fx:
+        lines.append("")
+        lines.append("Rerun in a second copy with setwd() removed (" + "; ".join(fx["removed"][:4]) + "):")
+        for r in fx["results"]:
+            s = f"- {r['script']} — {r['status']}"
+            if r.get("after_failure_of"):
+                s += f", after the failure of {r['after_failure_of']}"
+            if r.get("probable_cause"):
+                s += f" · probable cause: {r['probable_cause']}"
+            if r.get("error_line") and r["status"] != "ok":
+                s += f" · {r['error_line']}"
+            lines.append(s)
+        if fx.get("logs"):
+            lines.append(f"Logs of this run (use them for the manuscript numbers): {fx['logs']}")
     return "\n".join(lines)
+
+
+def run_scripts(work, scripts, timeout, logs):
+    """Run each script from the project root of `work`; one result per script."""
+    results = []
+    content = hashes(work)  # to tell a file whose content changed from one rewritten identical
+    for s in scripts:
+        relp = str(s.relative_to(work))
+        cmd = command(s)
+        if cmd is None:
+            results.append({"script": relp, "status": "not run", "reason": f"no interpreter found for {s.suffix}"})
+            continue
+        before = snapshot(work)
+        code, out, err, dur = run_one(cmd, work, timeout)
+        res = {"script": relp, "cwd": "project root", "exit": code, "seconds": dur}
+        if code != 0 and FILE_ERROR.search(err or "") and s.parent != work:
+            code2, out2, err2, dur2 = run_one(cmd, s.parent, timeout)
+            if code2 == 0:
+                res = {"script": relp, "cwd": "script folder", "exit": 0, "seconds": dur2,
+                       "note": "fails from the project root, works only when run from its own folder",
+                       "error_from_root": (err or "").strip().splitlines()[-8:]}
+                out, err, code = out2, err2, 0
+        res["status"] = "ok" if code == 0 else ("timeout" if code == "timeout" else "error")
+        if code == "timeout":
+            res["note"] = (f"stopped after {timeout} s, with every process it started; "
+                           "it may need a longer --timeout, or it may hang")
+            res["output_tail"] = ((out or "") + "\n" + (err or "")).strip().splitlines()[-15:]
+        elif code != 0:
+            res["error_tail"] = (err or "").strip().splitlines()[-25:]
+        missing = sorted({m for pat in MISSING_PATTERNS for m in re.findall(pat, err or "")})
+        if missing:
+            res["missing_packages"] = missing
+        warn = re.findall(r"(?m)^Warning message[s]?:?.*$", err or "")
+        if warn and code == 0:
+            res["n_warnings"] = len(warn)
+        after = snapshot(work)
+        res["files_created"] = sorted(f for f in after if f not in before)[:40]
+        touched = [f for f in after if f in before and after[f] != before[f]]
+        changed, same = [], []
+        for f in touched:
+            if f in content:
+                h = sha256(work / f)
+                (same if h == content[f] else changed).append(f)
+                content[f] = h
+            else:
+                changed.append(f)
+        res["files_modified"] = sorted(changed)[:40]
+        if same:
+            res["files_rewritten_same_content"] = sorted(same)[:40]
+        if logs:
+            log = logs / (relp.replace("/", "__") + ".log")
+            log.write_text((out or "") + "\n--- messages and errors ---\n" + (err or ""))
+            res["log"] = str(log)
+        results.append(res)
+    return results
+
+
+SETWD = re.compile(r"^(\s*)(setwd\s*\(.*|os\.chdir\s*\(.*)$")
+
+
+def remove_setwd(work, scripts):
+    """In a copy only: comment out setwd() / os.chdir() lines, which tie a script to
+    one computer. Returns the lines removed, as 'file:line: text'."""
+    removed = []
+    for s in scripts:
+        if s.suffix.lower() not in (".r", ".rmd", ".qmd", ".py"):
+            continue
+        lines = s.read_text(errors="replace").splitlines(keepends=True)
+        changed = False
+        for n, line in enumerate(lines):
+            m = SETWD.match(line.rstrip("\n"))
+            if m:
+                removed.append(f"{s.relative_to(work)}:{n + 1}: {line.strip()[:120]}")
+                lines[n] = f"{m.group(1)}# [fair-check, copy only] {m.group(2)}\n"
+                changed = True
+        if changed:
+            s.write_text("".join(lines))
+    return removed
 
 
 def main():
@@ -288,6 +384,8 @@ def main():
                     help="run in the folder itself: only for the deposit version built by build_deposit.py")
     ap.add_argument("--out", help="where to save the full JSON")
     ap.add_argument("--json", action="store_true", help="print the full JSON instead of the short summary")
+    ap.add_argument("--no-fix", action="store_true",
+                    help="do not rerun with setwd() removed when a script stops because of it")
     args = ap.parse_args()
 
     src = Path(args.folder).expanduser().resolve()
@@ -338,61 +436,32 @@ def main():
     elif uses_renv:
         renv = {"restore": "skipped" if args.no_renv else "no Rscript"}
 
-    content = hashes(work)  # to tell a file whose content changed from one rewritten identical
-    for s in scripts:
-        relp = str(s.relative_to(work))
-        cmd = command(s)
-        if cmd is None:
-            results.append({"script": relp, "status": "not run", "reason": f"no interpreter found for {s.suffix}"})
-            continue
-        before = snapshot(work)
-        code, out, err, dur = run_one(cmd, work, args.timeout)
-        res = {"script": relp, "cwd": "project root", "exit": code, "seconds": dur}
-        if code != 0 and FILE_ERROR.search(err or "") and s.parent != work:
-            code2, out2, err2, dur2 = run_one(cmd, s.parent, args.timeout)
-            if code2 == 0:
-                res = {"script": relp, "cwd": "script folder", "exit": 0, "seconds": dur2,
-                       "note": "fails from the project root, works only when run from its own folder",
-                       "error_from_root": (err or "").strip().splitlines()[-8:]}
-                out, err, code = out2, err2, 0
-        res["status"] = "ok" if code == 0 else ("timeout" if code == "timeout" else "error")
-        if code == "timeout":
-            res["note"] = (f"stopped after {args.timeout} s, with every process it started; "
-                           "it may need a longer --timeout, or it may hang")
-            res["output_tail"] = ((out or "") + "\n" + (err or "")).strip().splitlines()[-15:]
-        elif code != 0:
-            res["error_tail"] = (err or "").strip().splitlines()[-25:]
-        missing = sorted({m for pat in MISSING_PATTERNS for m in re.findall(pat, err or "")})
-        if missing:
-            res["missing_packages"] = missing
-        warn = re.findall(r"(?m)^Warning message[s]?:?.*$", err or "")
-        if warn and code == 0:
-            res["n_warnings"] = len(warn)
-        after = snapshot(work)
-        res["files_created"] = sorted(f for f in after if f not in before)[:40]
-        touched = [f for f in after if f in before and after[f] != before[f]]
-        changed, same = [], []
-        for f in touched:
-            if f in content:
-                h = sha256(work / f)
-                (same if h == content[f] else changed).append(f)
-                content[f] = h
-            else:
-                changed.append(f)
-        res["files_modified"] = sorted(changed)[:40]
-        if same:
-            res["files_rewritten_same_content"] = sorted(same)[:40]
-        if logs:
-            log = logs / (relp.replace("/", "__") + ".log")
-            log.write_text((out or "") + "\n--- messages and errors ---\n" + (err or ""))
-            res["log"] = str(log)
-        results.append(res)
+    results += run_scripts(work, scripts, args.timeout, logs)
 
     where = "(in place)" if args.in_place else (str(work) if args.keep else "(deleted)")
     out = {"copy": where, "environment": env_info}
     if renv:
         out["renv"] = renv
     annotate(results)
+    if (not args.no_fix and not args.in_place
+            and any((r.get("probable_cause") or "").endswith("setwd()") for r in results)):
+        # the portability fix, in a second copy: does the analysis run once setwd() is gone?
+        tmp2 = Path(tempfile.mkdtemp(prefix="fair-run-fixed-"))
+        work2 = tmp2 / src.name
+        shutil.copytree(src, work2, ignore=IGNORE, symlinks=True)
+        scripts2 = [work2 / s.relative_to(work) for s in scripts]
+        removed = remove_setwd(work2, scripts2)
+        logs2 = logs.parent / (logs.name + "_fixed") if logs else None
+        if logs2:
+            logs2.mkdir(parents=True, exist_ok=True)
+        if uses_renv and env_info["Rscript"] and not args.no_renv:
+            run_one(["Rscript", "-e", "renv::restore(prompt = FALSE)"], work2, args.renv_timeout)
+        results2 = run_scripts(work2, scripts2, args.timeout, logs2)
+        annotate(results2)
+        out["after_removing_setwd"] = {"removed": removed, "logs": str(logs2) if logs2 else None,
+                                       "copy": str(work2) if args.keep else "(deleted)", "results": results2}
+        if not args.keep:
+            shutil.rmtree(tmp2, ignore_errors=True)
     full = json.dumps({**out, "results": results}, indent=1, ensure_ascii=False)
     if args.out:
         dest = Path(args.out).expanduser().resolve()

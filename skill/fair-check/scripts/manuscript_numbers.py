@@ -573,7 +573,15 @@ def internal(args):
         for m in re.finditer(r"\b(r|t)\s*\(\s*(\d+)\s*\)\s*=", s):
             df = int(m.group(2))
             implied = {df + 2} if m.group(1) == "r" else {df + 1, df + 2}
-            if main_n and not implied & set(ns) and df > 10:
+            if main_n and df > 3 * max(main_n):
+                # trials (or items) counted as independent observations in a repeated-measures design
+                findings.append({"check": "degrees of freedom", "status": "much larger than N",
+                                 "numbers": f"{m.group(0).rstrip('= ')} with N = {', '.join(map(str, main_n))}: the test "
+                                            "seems to treat trials or items as independent observations. With repeated "
+                                            "measures, a test on participant means or a mixed model is usually expected "
+                                            "(a methods question: report it as such)",
+                                 "sentence": s[:300]})
+            elif main_n and not implied & set(ns) and df > 10:
                 findings.append({"check": "degrees of freedom", "status": "fit no stated N",
                                  "numbers": f"{m.group(0).rstrip('= ')} implies N = {' or '.join(map(str, sorted(implied)))}; "
                                             f"N stated: {', '.join(map(str, main_n))} (a subgroup or missing data?)",

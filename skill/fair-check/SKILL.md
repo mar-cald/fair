@@ -66,7 +66,12 @@ report.
 
 The judgement is yours: is it a problem for a stranger reusing the data, how
 serious, what to do. Read what a scan cannot judge: the README in full, the
-code where a finding points, the manuscript. **Never print data files whole**
+code where a finding points, the manuscript. Then look beyond the list: does
+the experiment make sense as recorded (conditions and stimuli vary as the
+design says, accuracy follows from the response), does the analysis fit the
+design (trials of the same person treated as independent observations), does
+the code do what the text says? A short script on counts and summaries
+answers these; report what you find even if no rule asked for it. **Never print data files whole**
 (`cat`, long `head`): they can be large and hold personal data. For a check
 the scan does not do, write a short script that prints counts or summaries,
 and never the values of columns flagged as personal data. Absent material is not a problem
@@ -89,11 +94,25 @@ asked. The skill's own tools stay Python whatever language is chosen.
 
 ## Step 1 — Check
 
+Every command costs a round trip in which the whole conversation is read
+again: group what you can. Read the files a scan cannot judge together, in one
+command (the README, the scripts, the manuscript; never the data files whole).
+If code or manuscript are chosen, run their checks in one call:
+
+```bash
+python3 <skill-dir>/scripts/check_all.py <project-folder> --tmp <tmp> --areas code,manuscript [--scripts <in run order>]
+```
+
+It runs the scripts in a copy (and again with `setwd()` removed, if that is
+what stops them), checks the manuscript against itself and looks for its
+numbers in the output of the run that worked. Leave out an area not chosen.
+
 For each chosen area, read the instruction file the summary names, and follow
 it: `references/check-data.md`, `check-code.md`, `check-manuscript.md`. For
 files from experiment or survey software, the summary also names the sections
 of `references/software-exports.md` to read; their checks (rows to filter,
-units, exclusions, platform IDs) are already in the scan summary.
+units, exclusions, platform IDs, accuracy against the response) are already in
+the scan summary.
 
 ## Before the report — explain every discrepancy
 

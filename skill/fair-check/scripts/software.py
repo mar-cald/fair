@@ -436,8 +436,52 @@ def _values(header, body, col):
     return [r[j].strip() if j < len(r) else "" for r in body]
 
 
-def export_checks(program, header, body, filename=""):
+EXPECTED = ("corrans", "correctans", "correctanswer", "corrans", "correctresponse", "correctkey", "cresp",
+            "expectedresponse", "targetkey", "answer")
+STIMULUS = re.compile(r"(?i)^(word|stimulus|stim|item|target|text|image|colou?r|ink|probe|cue)(\b|_|$)")
+
+
+def accuracy_checks(header, body, resp, acc, expected=None, where="rows"):
+    """Is the accuracy column what the response and the expected response say?
+    Experiment software writes all three; a mismatch means one of them is wrong,
+    and every analysis filtered on accuracy changes."""
     out = []
+    jr, ja = header.index(resp), header.index(acc)
+    je = header.index(expected) if expected else None
+    rows = [r for r in body if ja < len(r) and _num(r[ja]) in (0.0, 1.0) and jr < len(r) and r[jr].strip()
+            and r[jr].strip() not in ("None", "[]")]
+    if len(rows) < 10:
+        return out
+    if je is not None:
+        bad = [r for r in rows if je < len(r) and r[je].strip() and
+               (r[jr].strip().lower() == r[je].strip().lower()) != (_num(r[ja]) == 1.0)]
+        if bad:
+            out.append(("to check", f"{acc} disagrees with {resp} == {expected} in {len(bad)} of {len(rows)} {where}: "
+                        "accuracy, response or expected response is wrong, and every analysis of correct trials "
+                        "depends on it"))
+    else:
+        keys = {r[jr].strip() for r in rows}
+        accs = {_num(r[ja]) for r in rows}
+        if len(keys) == 1 and accs == {0.0, 1.0}:
+            out.append(("to check", f"{resp} is always '{next(iter(keys))}' but {acc} is 1 in some and 0 in others "
+                        f"({len(rows)} {where}): accuracy cannot vary with the same response"))
+    return out
+
+
+def stimulus_checks(header, body, where=""):
+    out = []
+    for h in header:
+        if not STIMULUS.match(h.strip()):
+            continue
+        vals = [v for v in _values(header, body, h) if v and v != "None"]
+        if len(vals) >= 20 and len(set(vals)) == 1:
+            out.append(("to check", f"stimulus column '{h}' has the same value ('{vals[0][:30]}') in all {len(vals)} "
+                        f"rows{where}: is that the design, or was the conditions file wrong?"))
+    return out
+
+
+def export_checks(program, header, body, filename=""):
+    out = stimulus_checks(header, body)
     n = len(body)
     base = re.sub(r".*[/\\]", "", filename).lower()
     if program == "Qualtrics":
@@ -481,7 +525,23 @@ def export_checks(program, header, body, filename=""):
         if secs:
             out.append(("certain", "reaction times in seconds: " + ", ".join(secs[:4]) +
                         ". Check that the scripts convert them as the manuscript reports (ms?)"))
+        expected = next((h for h in header if canon(h) in EXPECTED), None)
         loops = [h[:-6] for h in header if h.endswith(".thisN")]
+        # each loop on its own: practice and main trials often use other keys and stimuli
+        subsets = [(f" of loop {lp}", [r for r in body if header.index(lp + ".thisN") < len(r)
+                                        and r[header.index(lp + ".thisN")].strip() not in ("", "None")])
+                   for lp in loops] or [("", body)]
+        seen = set()
+        for where, rows in subsets:
+            for lab, txt in stimulus_checks(header, rows, where):
+                if txt not in seen:
+                    seen.add(txt); out.append((lab, txt))
+            for h in header:
+                if h.endswith(".corr") and h[:-5] + ".keys" in header:
+                    for lab, txt in accuracy_checks(header, rows, h[:-5] + ".keys", h, expected,
+                                                    "rows" + where):
+                        if txt not in seen:
+                            seen.add(txt); out.append((lab, txt))
         if loops:
             parts, inside = [], set()
             for lp in loops:
@@ -515,6 +575,9 @@ def export_checks(program, header, body, filename=""):
     elif program == "OpenSesame":
         if base.startswith(("quickrun", "defaultlog")):
             out.append(("certain", "a test-run log (quickrun or defaultlog): leave it out of the deposit"))
+        if "response" in header and "correct" in header:
+            out += accuracy_checks(header, body, "response", "correct",
+                                   "correct_response" if "correct_response" in header else None)
         agg = [h for h in header if h in ("acc", "avg_rt", "total_correct", "total_responses", "total_response_time")]
         if agg:
             out.append(("to check", f"running feedback values ({', '.join(agg)}): cumulative, not trial measures. "
@@ -536,6 +599,10 @@ def export_checks(program, header, body, filename=""):
             out.append(("certain", f"{h} = 0 in {len(zero)} of {n} rows{note}: in E-Prime this is no response, "
                         "not a reaction time of 0. The scripts must exclude these rows before averaging RTs, and "
                         "the dictionary must say it"))
+        for h in header:
+            if h.endswith(".ACC") and h[:-4] + ".RESP" in header:
+                cr = h[:-4] + ".CRESP"
+                out += accuracy_checks(header, body, h[:-4] + ".RESP", h, cr if cr in header else None)
         delays = [h for h in header if h.endswith(".OnsetDelay")]
         for h in delays[:2]:
             xs = [x for x in (_num(v) for v in _values(header, body, h)) if x is not None]

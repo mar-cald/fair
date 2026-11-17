@@ -12,7 +12,6 @@ project:
     - "materiali.zip"             # esempio Psych-DS (pagina Struttura)
     - "booklet/vademecum.pdf"     # vademecum PDF (sorgente: booklet/vademecum.qmd)
     - "skill/fair-check.skill"            # la skill da scaricare (pagina skill.qmd)
-    - "skill/fair-check.zip"              # la stessa skill come .zip, per Claude Code e Codex (slide)
 
 website:
   title: "Open Science"

@@ -1,5 +1,9 @@
 # Checks on the manuscript and reported numbers (1i)
 
+`check_all.py` (see SKILL.md) runs the three commands below in one call, on
+the output of the run that worked: use it, and run them one by one only for a
+second manuscript, or after you saved the text of a PDF yourself.
+
 Get the text (`.docx`, `.odt`, `.md`, `.qmd`, `.Rmd`, `.Rnw`, `.tex`, `.html`,
 `.pdf`):
 
@@ -31,7 +35,10 @@ python3 <skill-dir>/scripts/manuscript_numbers.py internal <tmp>/manuscript.txt
 It reports whether the participant flow adds up (recruited − excluded = N,
 and the reasons for exclusion add up to the total), whether group sizes add up
 to N, whether percentages match their counts, whether degrees of freedom fit N
-(r(178) needs N = 180), and lists the response scales and age ranges the text
+(r(178) needs N = 180), whether they are far larger than N (trials of the
+same people treated as independent observations: a methods note for section
+8, with the alternative, a test on participant means or a mixed model), and
+lists the response scales and age ranges the text
 declares. Compare these with the data: a scale "from 1 to 6" explains a 6 the
 scan flagged; an age range "16 to 19" with a minimum of 15.5 in the data is a
 finding. It is pattern matching on text (two-column PDFs mix lines): read the

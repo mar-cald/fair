@@ -40,6 +40,10 @@ likely to be and let the researcher decide. Beyond the scan, look for:
   `1`/`2` in another): the scan compares only columns with the same coding, so
   check by hand, participant by participant;
 - `n_participants` against what the README or the manuscript says;
+- the logic of the experiment: the scan checks that accuracy agrees with the
+  response and that stimulus columns vary; check also that conditions are
+  balanced as the design says and that what the README calls a trial is what
+  a row is;
 - the rows an export adds around the data (`export_structure`): not errors in
   a raw file, but the README must mention them and the scripts handle them;
 - proprietary files (`.xlsx`, `.sav`) with no open copy: if R is available,

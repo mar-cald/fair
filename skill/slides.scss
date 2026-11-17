@@ -88,3 +88,26 @@ $link-color: $accento;
 .reveal a.scarica { display: inline-block; margin: 0 0 .9em 1em; padding: .3em .9em .3em 2.1em; border: 1px solid $accento; border-radius: 6px; font-weight: 600; text-decoration: none; position: relative; background: #fff; }
 .reveal a.scarica::before { content: ""; position: absolute; left: .7em; top: 50%; width: 1em; height: 1em; transform: translateY(-50%); background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238f1f27' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M6 10l6 6 6-6M4 20h16'/%3E%3C/svg%3E"); }
 .reveal a.scarica:hover { background: $fondo-chiaro; }
+
+// --- ritocchi del 17/11 ---
+// interlinea più ampia
+.reveal .slides { line-height: 1.5; }
+.reveal .slides section > p { line-height: 1.55; margin-bottom: .85em; }
+.reveal .slides li { line-height: 1.5; }
+// blocchi di codice su fondo grigio chiaro, distinti dal resto
+$fondo-blocco: #eeebe5;
+.reveal div.sourceCode, .reveal pre.sourceCode, .reveal pre code, .reveal pre { background-color: $fondo-blocco; }
+.reveal pre code { border-color: #ddd8ce; }
+// vista della cartella: le icone vengono dal CSS. Una cartella è scritta [nome]{.dir};
+// tutto il resto è un file. (Le icone non stanno più nel testo, che l'editor visuale cancellava.)
+.reveal .cartella li { position: relative; padding-left: 1.45em; line-height: 1.4; }
+.reveal .cartella li::before { content: ""; position: absolute; left: 0; top: .32em; width: 1em; height: .85em;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M6 1h8l5 5v13H6z' fill='%23fff' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M14 1v5h5' fill='none' stroke='%23454039' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.reveal .cartella li:has(> .dir)::before, .reveal .cartella li:has(> p > .dir)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 20'%3E%3Cpath d='M1 3a2 2 0 0 1 2-2h6l2.5 3H21a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z' fill='%238f1f27'/%3E%3C/svg%3E"); }
+.reveal .cartella ul ul { margin-left: .45em; padding-left: .9em; }
+// più spazio tra le voci di "Che cosa ha trovato"
+.reveal .slide .cifre ul li { margin-bottom: 1.4em; }  // più specifico della regola del tema (.reveal .slide ul li)
+// spazio tra un blocco di codice e il testo che segue
+.reveal .slide div.sourceCode { margin-bottom: .9em; }  // più specifico di .reveal div.sourceCode del tema
+// richieste all'assistente su fondo grigio, come i blocchi di codice, e con spazio sotto
+.reveal .slide .richiesta { background: #eeebe5; border-color: #ddd8ce; box-shadow: none; margin-bottom: .8em; }

@@ -206,6 +206,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#le-regole-che-segue" id="toc-le-regole-che-segue" class="nav-link" data-scroll-target="#le-regole-che-segue">Le regole che segue</a></li>
   <li><a href="#che-cosa-serve-sul-computer" id="toc-che-cosa-serve-sul-computer" class="nav-link" data-scroll-target="#che-cosa-serve-sul-computer">Che cosa serve sul computer</a></li>
   <li><a href="#che-cosa-vede-lassistente" id="toc-che-cosa-vede-lassistente" class="nav-link" data-scroll-target="#che-cosa-vede-lassistente">Che cosa vede l’assistente</a></li>
+  <li><a href="#il-gdpr-account-personale-o-account-dellateneo" id="toc-il-gdpr-account-personale-o-account-dellateneo" class="nav-link" data-scroll-target="#il-gdpr-account-personale-o-account-dellateneo">Il GDPR: account personale o account dell’ateneo</a></li>
   <li><a href="#il-formato" id="toc-il-formato" class="nav-link" data-scroll-target="#il-formato">Il formato</a></li>
   </ul></li>
   </ul>
@@ -253,11 +254,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a>, per Claude (app per computer e claude.ai): si carica così com’è nelle impostazioni.</li>
-<li><a href="skill/fair-check.zip"><strong>fair-check.zip</strong></a>, per Claude Code, Codex e gli altri assistenti: si apre con un doppio clic e diventa la cartella <code>fair-check</code>.</li>
-</ul>
-<p>I due file contengono la stessa cartella.</p>
+<p><a href="skill/fair-check.skill"><strong>fair-check.skill</strong></a>: un archivio zip che contiene la cartella <code>fair-check</code>. Lo stesso file vale per Claude, Codex e ChatGPT.</p>
 </div>
 </div>
 <section id="per-cominciare" class="level2">
@@ -274,15 +271,15 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>Claude</strong> (app per computer e claude.ai)</td>
-<td style="text-align: left;">nelle impostazioni, sezione dedicata alle skill, caricate <a href="skill/fair-check.skill">fair-check.skill</a>; serve che sia attiva l’esecuzione di codice. La skill è poi disponibile in tutte le conversazioni e nella scheda Code dell’app</td>
+<td style="text-align: left;">in <em>Customize → Skills</em> premete <strong>+</strong>, poi <em>Create skill</em> e <em>Upload a skill</em>, e caricate <a href="skill/fair-check.skill">fair-check.skill</a>. In <em>Settings → Capabilities</em> deve essere attiva l’opzione <em>Code execution and file creation</em>: senza, Claude non può eseguire gli script della skill (<a href="https://support.claude.com/en/articles/12512180-using-skills-in-claude">guida di Anthropic</a>). La skill è poi disponibile in tutte le conversazioni e nella scheda Code dell’app</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Claude Code</strong> dal terminale</td>
-<td style="text-align: left;">aprite <a href="skill/fair-check.zip">fair-check.zip</a> e copiate la cartella <code>fair-check</code> in <code>~/.claude/skills/</code></td>
+<td style="text-align: left;"><strong>ChatGPT e Codex</strong> (OpenAI)</td>
+<td style="text-align: left;">nell’app ChatGPT per computer fate doppio clic su <a href="skill/fair-check.skill">fair-check.skill</a>: l’app installa la skill in <code>~/.agents/skills/</code>, dove la leggono anche Codex nel terminale e l’estensione per gli editor (<a href="https://learn.chatgpt.com/docs/build-skills">documentazione di OpenAI</a>)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>ChatGPT e Codex</strong> (OpenAI)</td>
-<td style="text-align: left;">aprite <a href="skill/fair-check.zip">fair-check.zip</a> e copiate la cartella <code>fair-check</code> in <code>~/.agents/skills/</code>: la leggono l’app ChatGPT per computer, Codex nel terminale e l’estensione per gli editor (<a href="https://learn.chatgpt.com/docs/build-skills">documentazione di OpenAI</a>)</td>
+<td style="text-align: left;"><strong>Claude Code</strong> dal terminale</td>
+<td style="text-align: left;">chiedete a Claude Code <em>«Installa la skill che si trova in Download/fair-check.skill»</em>, oppure estraete l’archivio e copiate la cartella <code>fair-check</code> in <code>~/.claude/skills/</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Altri assistenti</strong></td>
@@ -290,7 +287,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Con Claude Code, Codex e gli altri assistenti che lavorano sul vostro computer potete anche non copiare niente a mano: scaricate lo zip e chiedete all’assistente <em>«Installa la skill che si trova in Download/fair-check.zip»</em>. L’assistente sa in quale cartella tiene le sue skill, e prima di copiare chiede il permesso. La skill si vede dalla conversazione successiva.</p>
+<p>Con gli assistenti che lavorano sul vostro computer potete anche non copiare niente a mano: chiedete <em>«Installa la skill che si trova in Download/fair-check.skill»</em>. L’assistente sa in quale cartella tiene le sue skill, e prima di copiare chiede il permesso. La skill si vede dalla conversazione successiva.</p>
 </section>
 <section id="chiedete-il-controllo" class="level3">
 <h3 class="anchored" data-anchor-id="chiedete-il-controllo">2. Chiedete il controllo</h3>
@@ -312,7 +309,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Domande aperte</strong>, se ce ne sono: le differenze che l’assistente non ha potuto né spiegare né confermare (manca il codice, manca R, i dati non sono nella cartella), con quello che ha provato.</li>
 <li><strong>Una tabella con lo stato di ogni area</strong>: dati, struttura e nomi, formati, README, data dictionary, licenza, codice, pacchetti, manoscritto, dati personali.</li>
 <li><strong>I problemi area per area</strong>, ciascuno con il file, la colonna o la riga e il dato che lo dimostra (“in 211 righe su 234”, “nel file 96.16, nella Tabella 1 89.77”).</li>
-<li><strong>Le cinque o sei cose da sistemare per prime</strong>, in ordine.</li>
+<li><strong>Un elenco breve, al massimo sei punti, di che cosa correggere per primo</strong>, in ordine di importanza.</li>
 </ol>
 <p>Se ci sono risultati che potrebbero cambiare, alla fine l’assistente vi chiede se volete rifare le analisi con le correzioni: in una copia della cartella, per vedere quali numeri dell’articolo cambiano e di quanto. Se non rispondete, non lo fa.</p>
 <p>Quello che non è stato possibile controllare è detto esplicitamente, con il motivo: per esempio “gli script non sono stati eseguiti perché in questo ambiente non c’è R”. Non viene contato come un problema della cartella.</p>
@@ -326,7 +323,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>L’assistente legge i file che apre e l’output degli script, e questi passano dai server di chi fornisce il servizio AI. Prima di usare la skill su dati sensibili, controllate consenso informato, regole del vostro ateneo e condizioni del servizio, oppure togliete prima i dati personali. <a href="#che-cosa-vede-lassistente">Dettagli</a>.</p>
+<p>L’assistente legge i file che apre e l’output degli script, e questi passano dai server di chi fornisce il servizio AI. Con un account personale l’azienda li tratta come titolare; con il piano dell’ateneo li tratta per conto dell’università. Prima di usare la skill su dati personali di ricerca controllate il consenso informato e le <a href="https://doi.org/10.25430/unipd.genai.2026.v1">linee guida dell’Università di Padova</a>, oppure togliete prima i dati personali. <a href="#il-gdpr-account-personale-o-account-dellateneo">Dettagli</a>.</p>
 </div>
 </div>
 </section>
@@ -443,7 +440,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="che-cosa-serve-sul-computer" class="level3">
 <h3 class="anchored" data-anchor-id="che-cosa-serve-sul-computer">Che cosa serve sul computer</h3>
-<p>L’assistente deve poter leggere i file ed eseguire comandi, sul vostro computer o nel suo ambiente. Sul computer che esegue i comandi servono:</p>
+<p>L’assistente deve poter leggere i file ed eseguire comandi, sul vostro computer o nel suo ambiente. Nel browser, su claude.ai, i programmi della skill girano sui server di Anthropic, dove Python c’è già: basta l’account. Se invece l’assistente lavora sul vostro computer (app, Claude Code, Codex), sul computer servono:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -481,10 +478,44 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>Il rapporto si apre con quello che manca e con le sue conseguenze. Nelle versioni web (claude.ai, ChatGPT) R di solito non c’è.</p>
+<p>Per sapere se Python c’è, aprite il Terminale (Mac) o PowerShell (Windows) e scrivete <code>python3 --version</code> (su Windows anche <code>py --version</code>). Se manca: su Mac scrivete <code>python3</code> nel Terminale e accettate l’installazione degli strumenti per sviluppatori di Apple, che lo comprendono; su Windows scaricate il programma di installazione da <a href="https://www.python.org/downloads/">python.org</a> e, nella prima schermata, spuntate <em>Add python.exe to PATH</em>. Gli script della skill funzionano da Python 3.9 in su, compresa la versione che installa il Mac.</p>
 </section>
 <section id="che-cosa-vede-lassistente" class="level3">
 <h3 class="anchored" data-anchor-id="che-cosa-vede-lassistente">Che cosa vede l’assistente</h3>
-<p>Quando l’assistente lavora sul vostro computer (Claude Code, Codex, l’app Claude per computer), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa: lo script riporta riassunti (tipi, intervalli, conteggi), non le righe dei dati, e non mostra i valori delle colonne che sembrano dati personali; le istruzioni vietano all’assistente di stampare un file di dati intero. Nelle versioni web, invece, lo zip allegato viene caricato sui server del servizio.</p>
+<p>Quando l’assistente lavora sul vostro computer (Claude Code, Codex, l’app Claude per computer), la cartella resta lì e gli script girano lì. L’assistente legge però l’output degli script e i file che apre (il README, il codice, qualche riga dei dati), e questi passano dai server di chi fornisce il servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce quello che passa, ma non lo azzera. Lo script riporta conteggi e intervalli invece delle righe e non mostra i valori delle colonne che sembrano dati personali, ma il suo riassunto contiene alcuni valori come esempio (gli ID di qualche partecipante, un valore fuori scala). Le istruzioni vietano all’assistente di stampare un file di dati intero, ma per controllare una segnalazione apre comunque il README, il codice e a volte alcune righe dei dati. Nelle versioni web, invece, lo zip allegato viene caricato per intero sui server del servizio. Per questo, su dati personali, vale l’avviso <a href="#leggete-il-rapporto">più sopra</a>.</p>
+</section>
+<section id="il-gdpr-account-personale-o-account-dellateneo" class="level3">
+<h3 class="anchored" data-anchor-id="il-gdpr-account-personale-o-account-dellateneo">Il GDPR: account personale o account dell’ateneo</h3>
+<p>Caricare su un assistente AI i dati dei partecipanti vuol dire comunicarli a un’azienda esterna: per il GDPR è un trattamento di dati personali, di cui risponde l’ateneo. Anche i dati pseudonimizzati, con un codice al posto del nome, sono dati personali.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Account personale (Claude Free, Pro, Max; ChatGPT Free, Plus, Pro)</th>
+<th style="text-align: left;">Piano per le organizzazioni (ChatGPT Business, Edu, Enterprise; Claude Team, Enterprise)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Chi tratta i dati</td>
+<td style="text-align: left;">l’azienda, come titolare, secondo la sua informativa (<a href="https://www.anthropic.com/legal/privacy">Anthropic</a>, <a href="https://openai.com/policies/eu-privacy-policy/">OpenAI</a>); i dati vanno anche fuori dall’UE</td>
+<td style="text-align: left;">l’azienda per conto dell’ateneo, con un contratto sul trattamento dei dati: per Claude è compreso nelle condizioni, per ChatGPT Business si firma con un modulo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Addestramento dei modelli</td>
+<td style="text-align: left;">sì, se non lo disattivate: in Claude <em>Settings → Privacy → Help improve our AI models</em>, in ChatGPT <em>Settings → Data controls → Improve the model for everyone</em> (attivo di partenza, vale anche per Codex)</td>
+<td style="text-align: left;">no, se l’organizzazione non lo sceglie</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Conservazione</td>
+<td style="text-align: left;">finché la conversazione è nella cronologia; cancellata, sparisce dai server entro 30 giorni</td>
+<td style="text-align: left;">la decide l’amministratore (ChatGPT Business, Edu, Enterprise; Claude Enterprise); cancellata, entro 30 giorni</td>
+</tr>
+</tbody>
+</table>
+<p>In entrambi i casi le conversazioni segnalate dai controlli automatici sulle regole d’uso restano più a lungo (per Anthropic fino a 2 anni), e i dati possono essere conservati o consegnati quando lo impone la legge. Se date un pollice su o giù a una risposta, con un account personale quella conversazione può essere usata per l’addestramento anche con l’impostazione disattivata.</p>
+<p>Le <a href="https://doi.org/10.25430/unipd.genai.2026.v1">linee guida dell’Università di Padova sull’uso dell’AI generativa nella ricerca</a> (valide da maggio 2026) chiedono, prima di usarla su dati personali di ricerca, di verificare che il consenso informato preveda servizi di terze parti e il trasferimento dei dati, di togliere o pseudonimizzare gli identificativi, di valutare se il servizio usa i dati per l’addestramento o li conserva fuori dall’UE senza garanzie, e di coinvolgere il DPO e il Comitato etico (con la valutazione d’impatto, quando è richiesta). Per un progetto concreto la risposta la dà il DPO dell’ateneo.</p>
+<p>Fonti: Anthropic, <a href="https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data">conservazione dei dati</a>, <a href="https://privacy.claude.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller">Anthropic come responsabile del trattamento</a>; OpenAI, <a href="https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt">controlli sui dati</a>, <a href="https://help.openai.com/en/articles/8983778-chat-and-file-retention-in-chatgpt">conservazione delle chat</a>, <a href="https://openai.com/enterprise-privacy/">piani per le organizzazioni</a>.</p>
 </section>
 <section id="il-formato" class="level3">
 <h3 class="anchored" data-anchor-id="il-formato">Il formato</h3>

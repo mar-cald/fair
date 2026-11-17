@@ -25,13 +25,8 @@ La vostra cartella non viene modificata. Questa pagina spiega come usarla;
 quello che fa.
 
 ::: {.callout-note title="Da scaricare"}
-- [**fair-check.skill**](skill/fair-check.skill), per Claude (app per computer
-  e claude.ai): si carica così com'è nelle impostazioni.
-- [**fair-check.zip**](skill/fair-check.zip), per Claude Code, Codex e gli
-  altri assistenti: si apre con un doppio clic e diventa la cartella
-  `fair-check`.
-
-I due file contengono la stessa cartella.
+[**fair-check.skill**](skill/fair-check.skill): un archivio zip che contiene la
+cartella `fair-check`. Lo stesso file vale per Claude, Codex e ChatGPT.
 :::
 
 ## Per cominciare
@@ -40,16 +35,16 @@ I due file contengono la stessa cartella.
 
 | Assistente | Come |
 |:--|:--|
-| **Claude** (app per computer e claude.ai) | nelle impostazioni, sezione dedicata alle skill, caricate [fair-check.skill](skill/fair-check.skill); serve che sia attiva l'esecuzione di codice. La skill è poi disponibile in tutte le conversazioni e nella scheda Code dell'app |
-| **Claude Code** dal terminale | aprite [fair-check.zip](skill/fair-check.zip) e copiate la cartella `fair-check` in `~/.claude/skills/` |
-| **ChatGPT e Codex** (OpenAI) | aprite [fair-check.zip](skill/fair-check.zip) e copiate la cartella `fair-check` in `~/.agents/skills/`: la leggono l'app ChatGPT per computer, Codex nel terminale e l'estensione per gli editor ([documentazione di OpenAI](https://learn.chatgpt.com/docs/build-skills)) |
+| **Claude** (app per computer e claude.ai) | in *Customize → Skills* premete **+**, poi *Create skill* e *Upload a skill*, e caricate [fair-check.skill](skill/fair-check.skill). In *Settings → Capabilities* deve essere attiva l'opzione *Code execution and file creation*: senza, Claude non può eseguire gli script della skill ([guida di Anthropic](https://support.claude.com/en/articles/12512180-using-skills-in-claude)). La skill è poi disponibile in tutte le conversazioni e nella scheda Code dell'app |
+| **ChatGPT e Codex** (OpenAI) | nell'app ChatGPT per computer fate doppio clic su [fair-check.skill](skill/fair-check.skill): l'app installa la skill in `~/.agents/skills/`, dove la leggono anche Codex nel terminale e l'estensione per gli editor ([documentazione di OpenAI](https://learn.chatgpt.com/docs/build-skills)) |
+| **Claude Code** dal terminale | chiedete a Claude Code *«Installa la skill che si trova in Download/fair-check.skill»*, oppure estraete l'archivio e copiate la cartella `fair-check` in `~/.claude/skills/` |
 | **Altri assistenti** | se supportano il formato [Agent Skills](https://agentskills.io), copiate `fair-check` nella cartella delle skill indicata nella loro documentazione; altrimenti, se sanno leggere file ed eseguire Python, date loro la cartella `fair-check` insieme a quella del progetto e chiedete di seguire `SKILL.md` |
 
-Con Claude Code, Codex e gli altri assistenti che lavorano sul vostro computer
-potete anche non copiare niente a mano: scaricate lo zip e chiedete
-all'assistente *«Installa la skill che si trova in Download/fair-check.zip»*.
-L'assistente sa in quale cartella tiene le sue skill, e prima di copiare chiede
-il permesso. La skill si vede dalla conversazione successiva.
+Con gli assistenti che lavorano sul vostro computer potete anche non copiare
+niente a mano: chiedete *«Installa la skill che si trova in
+Download/fair-check.skill»*. L'assistente sa in quale cartella tiene le sue
+skill, e prima di copiare chiede il permesso. La skill si vede dalla
+conversazione successiva.
 
 ### 2. Chiedete il controllo
 
@@ -90,7 +85,7 @@ Il rapporto è nella vostra lingua ed è ordinato per importanza:
 4. **I problemi area per area**, ciascuno con il file, la colonna o la riga e
    il dato che lo dimostra ("in 211 righe su 234", "nel file 96.16, nella
    Tabella 1 89.77").
-5. **Le cinque o sei cose da sistemare per prime**, in ordine.
+5. **Un elenco breve, al massimo sei punti, di che cosa correggere per primo**, in ordine di importanza.
 
 Se ci sono risultati che potrebbero cambiare, alla fine l'assistente vi chiede
 se volete rifare le analisi con le correzioni: in una copia della cartella, per
@@ -103,10 +98,13 @@ ambiente non c'è R". Non viene contato come un problema della cartella.
 
 ::: {.callout-warning title="Dati personali"}
 L'assistente legge i file che apre e l'output degli script, e questi passano
-dai server di chi fornisce il servizio AI. Prima di usare la skill su dati
-sensibili, controllate consenso informato, regole del vostro ateneo e
-condizioni del servizio, oppure togliete prima i dati personali.
-[Dettagli](#che-cosa-vede-lassistente).
+dai server di chi fornisce il servizio AI. Con un account personale l'azienda
+li tratta come titolare; con il piano dell'ateneo li tratta per conto
+dell'università. Prima di usare la skill su dati personali di ricerca
+controllate il consenso informato e le
+[linee guida dell'Università di Padova](https://doi.org/10.25430/unipd.genai.2026.v1),
+oppure togliete prima i dati personali.
+[Dettagli](#il-gdpr-account-personale-o-account-dellateneo).
 :::
 
 ## Nel dettaglio
@@ -206,7 +204,10 @@ per verificare che funzionino e prepara lo zip da caricare.
 ### Che cosa serve sul computer
 
 L'assistente deve poter leggere i file ed eseguire comandi, sul vostro
-computer o nel suo ambiente. Sul computer che esegue i comandi servono:
+computer o nel suo ambiente. Nel browser, su claude.ai, i programmi della
+skill girano sui server di Anthropic, dove Python c'è già: basta l'account. Se
+invece l'assistente lavora sul vostro computer (app, Claude Code, Codex), sul
+computer servono:
 
 | Che cosa | A che cosa serve | Se manca |
 |:--|:--|:--|
@@ -218,6 +219,14 @@ computer o nel suo ambiente. Sul computer che esegue i comandi servono:
 Il rapporto si apre con quello che manca e con le sue conseguenze. Nelle
 versioni web (claude.ai, ChatGPT) R di solito non c'è.
 
+Per sapere se Python c'è, aprite il Terminale (Mac) o PowerShell (Windows) e
+scrivete `python3 --version` (su Windows anche `py --version`). Se manca: su
+Mac scrivete `python3` nel Terminale e accettate l'installazione degli
+strumenti per sviluppatori di Apple, che lo comprendono; su Windows scaricate
+il programma di installazione da [python.org](https://www.python.org/downloads/)
+e, nella prima schermata, spuntate *Add python.exe to PATH*. Gli script della
+skill funzionano da Python 3.9 in su, compresa la versione che installa il Mac.
+
 ### Che cosa vede l'assistente
 
 Quando l'assistente lavora sul vostro computer (Claude Code, Codex, l'app
@@ -225,11 +234,51 @@ Claude per computer), la cartella resta lì e gli script girano lì. L'assistent
 legge però l'output degli script e i file che apre (il README, il codice,
 qualche riga dei dati), e questi passano dai server di chi fornisce il
 servizio (Anthropic, OpenAI…) come parte della conversazione. La skill riduce
-quello che passa: lo script riporta riassunti (tipi, intervalli, conteggi), non
-le righe dei dati, e non mostra i valori delle colonne che sembrano dati
-personali; le istruzioni vietano all'assistente di stampare un file di dati
-intero. Nelle versioni web, invece, lo zip allegato viene caricato sui
-server del servizio.
+quello che passa, ma non lo azzera. Lo script riporta conteggi e intervalli
+invece delle righe e non mostra i valori delle colonne che sembrano dati
+personali, ma il suo riassunto contiene alcuni valori come esempio (gli ID di
+qualche partecipante, un valore fuori scala). Le istruzioni vietano
+all'assistente di stampare un file di dati intero, ma per controllare una
+segnalazione apre comunque il README, il codice e a volte alcune righe dei dati.
+Nelle versioni web, invece, lo zip allegato viene caricato per intero sui
+server del servizio. Per questo, su dati personali, vale l'avviso
+[più sopra](#leggete-il-rapporto).
+
+### Il GDPR: account personale o account dell'ateneo
+
+Caricare su un assistente AI i dati dei partecipanti vuol dire comunicarli a
+un'azienda esterna: per il GDPR è un trattamento di dati personali, di cui
+risponde l'ateneo. Anche i dati pseudonimizzati, con un codice al posto del
+nome, sono dati personali.
+
+| | Account personale (Claude Free, Pro, Max; ChatGPT Free, Plus, Pro) | Piano per le organizzazioni (ChatGPT Business, Edu, Enterprise; Claude Team, Enterprise) |
+|:--|:--|:--|
+| Chi tratta i dati | l'azienda, come titolare, secondo la sua informativa ([Anthropic](https://www.anthropic.com/legal/privacy), [OpenAI](https://openai.com/policies/eu-privacy-policy/)); i dati vanno anche fuori dall'UE | l'azienda per conto dell'ateneo, con un contratto sul trattamento dei dati: per Claude è compreso nelle condizioni, per ChatGPT Business si firma con un modulo |
+| Addestramento dei modelli | sì, se non lo disattivate: in Claude *Settings → Privacy → Help improve our AI models*, in ChatGPT *Settings → Data controls → Improve the model for everyone* (attivo di partenza, vale anche per Codex) | no, se l'organizzazione non lo sceglie |
+| Conservazione | finché la conversazione è nella cronologia; cancellata, sparisce dai server entro 30 giorni | la decide l'amministratore (ChatGPT Business, Edu, Enterprise; Claude Enterprise); cancellata, entro 30 giorni |
+
+In entrambi i casi le conversazioni segnalate dai controlli automatici sulle
+regole d'uso restano più a lungo (per Anthropic fino a 2 anni), e i dati
+possono essere conservati o consegnati quando lo impone la legge. Se date un
+pollice su o giù a una risposta, con un account personale quella
+conversazione può essere usata per l'addestramento anche con l'impostazione
+disattivata.
+
+Le [linee guida dell'Università di Padova sull'uso dell'AI generativa nella
+ricerca](https://doi.org/10.25430/unipd.genai.2026.v1) (valide da maggio 2026)
+chiedono, prima di usarla su dati personali di ricerca, di verificare che il
+consenso informato preveda servizi di terze parti e il trasferimento dei dati,
+di togliere o pseudonimizzare gli identificativi, di valutare se il servizio
+usa i dati per l'addestramento o li conserva fuori dall'UE senza garanzie, e
+di coinvolgere il DPO e il Comitato etico (con la valutazione d'impatto,
+quando è richiesta). Per un progetto concreto la risposta la dà il DPO
+dell'ateneo.
+
+Fonti: Anthropic, [conservazione dei dati](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data),
+[Anthropic come responsabile del trattamento](https://privacy.claude.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller);
+OpenAI, [controlli sui dati](https://help.openai.com/en/articles/7730893-data-controls-in-chatgpt),
+[conservazione delle chat](https://help.openai.com/en/articles/8983778-chat-and-file-retention-in-chatgpt),
+[piani per le organizzazioni](https://openai.com/enterprise-privacy/).
 
 ### Il formato
 

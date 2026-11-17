@@ -419,7 +419,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Che cosa ne ricava l’assistente:</p>
 <ul>
 <li><strong>il primo errore come causa</strong>: gli script successivi spesso falliscono solo perché leggono i suoi output. Lo script lo segnala già: uno script che si ferma per un file mancante dopo un altro che si è fermato è indicato come “probabile conseguenza”;</li>
-<li><strong>problemi di portabilità</strong>: se uno script si ferma per <code>setwd()</code>, un percorso assoluto o un percorso relativo alla cartella dello script, lo corregge nella copia e lo esegue di nuovo. Il rapporto dice “così com’è non gira per X; corretto, gira” (o “poi si ferma a Y”). Questa seconda esecuzione è quella in cui emergono i problemi veri;</li>
+<li><strong>problemi di portabilità</strong>: se uno script si ferma per <code>setwd()</code>, lo script della skill esegue di nuovo tutto in una seconda copia senza quella riga, da solo; per un percorso assoluto o relativo alla cartella dello script, l’assistente lo corregge nella copia e lo esegue di nuovo. Il rapporto dice “così com’è non gira per X; corretto, gira” (o “poi si ferma a Y”). Questa seconda esecuzione è quella in cui emergono i problemi veri;</li>
 <li>script che <strong>modificano i dati grezzi</strong>, e output promessi dal README che nessuno script crea.</li>
 </ul>
 <p>Lo script <code>fair_scan.py</code>, senza eseguire niente, segnala anche: <code>setwd()</code>, percorsi assoluti, <code>install.packages()</code> dentro gli script, file letti che non esistono, file letti che nessuno script scrive e che non sono nei dati, script numerati prima di quelli che producono ciò che leggono, script che hanno bisogno l’uno dell’altro (nessun ordine li fa girare tutti), funzioni usate senza caricare il loro pacchetto (<code>kable()</code> senza knitr), valori calcolati dalla data di oggi (<code>Sys.Date()</code>: un’età cambia a seconda del giorno in cui si esegue lo script).</p>
@@ -640,7 +640,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Cambia il meno possibile.</strong> Chi non riconosce più i propri file e il proprio codice non si fida del deposito. Ogni modifica al vostro codice è la più piccola che risolve il problema, nel vostro stile, ed è elencata alla fine. Le correzioni ai dati sono proposte, mai applicate senza il vostro accordo.</li>
 <li><strong>Parla e scrive nella vostra lingua.</strong> Nomi di file, nomi di colonne e codice restano come sono.</li>
 <li><strong>Una segnalazione è una domanda, non un errore.</strong> Quello che trovano lo script, un messaggio di errore o un primo confronto diventa un problema solo dopo che l’assistente ha provato a spiegarlo con quello che c’è nella cartella.</li>
-<li><strong>Non mostra i dati.</strong> Lo script riporta riassunti (tipi, intervalli, conteggi), non righe, e non mostra i valori delle colonne che sembrano dati personali. L’assistente non stampa mai un file di dati intero: guarda i dati solo attraverso conteggi e statistiche.</li>
+<li><strong>Mostra all’assistente il meno possibile dei dati.</strong> Lo script riporta conteggi e intervalli, non righe, e non mostra i valori delle colonne che sembrano dati personali; il riassunto contiene comunque alcuni valori come esempio (gli ID di qualche partecipante, un valore fuori scala). L’assistente non stampa mai un file di dati intero, ma per controllare una segnalazione può aprirne alcune righe. Quello che vede passa dai server del servizio AI: ridotto, non azzerato. Che cosa cambia tra account personale e account dell’ateneo, per il GDPR, è nella <a href="./skill.html#il-gdpr-account-personale-o-account-dellateneo">pagina della skill</a>.</li>
 <li><strong>Rifà le analisi solo se lo chiedete.</strong> Le correzioni le applica in una copia, per vedere quanto cambiano i risultati.</li>
 <li><strong>Non inventa.</strong> Nel dictionary e nel README scrive solo quello che trova scritto da qualche parte; il resto resta <code>TODO</code>.</li>
 <li><strong>Non installa pacchetti nel vostro R</strong> e chiede prima di scaricare qualsiasi cosa.</li>
@@ -705,30 +705,34 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">l’esecuzione del codice in una copia</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>scripts/check_all.py</code></td>
+<td style="text-align: left;">esecuzione del codice e controlli sul manoscritto in un solo comando</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/manuscript_numbers.py</code></td>
 <td style="text-align: left;">il testo del manoscritto e il confronto dei numeri</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/recompute.py</code></td>
 <td style="text-align: left;">ricalcola una statistica dai dati nei modi che più spesso spiegano una differenza</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/compare_runs.py</code></td>
 <td style="text-align: left;">confronta i risultati di due esecuzioni del codice, prima e dopo una correzione</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/draft_dictionary.py</code></td>
 <td style="text-align: left;">le bozze dei data dictionary</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/build_deposit.py</code></td>
 <td style="text-align: left;">la versione da depositare, il LICENSE, lo zip</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/make_psychds.py</code></td>
 <td style="text-align: left;"><code>dataset_description.json</code> (solo con Psych-DS)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>assets/licenses/</code></td>
 <td style="text-align: left;">i testi ufficiali delle licenze</td>
 </tr>

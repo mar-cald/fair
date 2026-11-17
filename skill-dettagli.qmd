@@ -290,9 +290,10 @@ Che cosa ne ricava l'assistente:
   perché leggono i suoi output. Lo script lo segnala già: uno script che si
   ferma per un file mancante dopo un altro che si è fermato è indicato come
   "probabile conseguenza";
-- **problemi di portabilità**: se uno script si ferma per `setwd()`, un
-  percorso assoluto o un percorso relativo alla cartella dello script, lo
-  corregge nella copia e lo esegue di nuovo. Il rapporto dice "così com'è non
+- **problemi di portabilità**: se uno script si ferma per `setwd()`, lo script
+  della skill esegue di nuovo tutto in una seconda copia senza quella riga, da
+  solo; per un percorso assoluto o relativo alla cartella dello script,
+  l'assistente lo corregge nella copia e lo esegue di nuovo. Il rapporto dice "così com'è non
   gira per X; corretto, gira" (o "poi si ferma a Y"). Questa seconda esecuzione
   è quella in cui emergono i problemi veri;
 - script che **modificano i dati grezzi**, e output promessi dal README che
@@ -735,10 +736,15 @@ Alla fine l'assistente vi dice:
   script, un messaggio di errore o un primo confronto diventa un problema solo
   dopo che l'assistente ha provato a spiegarlo con quello che c'è nella
   cartella.
-- **Non mostra i dati.** Lo script riporta riassunti (tipi, intervalli,
-  conteggi), non righe, e non mostra i valori delle colonne che sembrano dati
-  personali. L'assistente non stampa mai un file di dati intero: guarda i dati
-  solo attraverso conteggi e statistiche.
+- **Mostra all'assistente il meno possibile dei dati.** Lo script riporta
+  conteggi e intervalli, non righe, e non mostra i valori delle colonne che
+  sembrano dati personali; il riassunto contiene comunque alcuni valori come
+  esempio (gli ID di qualche partecipante, un valore fuori scala).
+  L'assistente non stampa mai un file di dati intero, ma per controllare una
+  segnalazione può aprirne alcune righe. Quello che vede passa dai server del
+  servizio AI: ridotto, non azzerato. Che cosa cambia tra account personale e
+  account dell'ateneo, per il GDPR, è nella
+  [pagina della skill](skill.qmd#il-gdpr-account-personale-o-account-dellateneo).
 - **Rifà le analisi solo se lo chiedete.** Le correzioni le applica in una
   copia, per vedere quanto cambiano i risultati.
 - **Non inventa.** Nel dictionary e nel README scrive solo quello che trova
@@ -761,6 +767,7 @@ Alla fine l'assistente vi dice:
 | `scripts/summary.py` | il riassunto dell'inventario: il controllo dell'ambiente, i link alle pagine della dispensa, le domande iniziali e i file di istruzioni da leggere |
 | `scripts/software.py` | che cosa scrive ciascun programma per esperimenti, e i controlli sui suoi file |
 | `scripts/run_code.py` | l'esecuzione del codice in una copia |
+| `scripts/check_all.py` | esecuzione del codice e controlli sul manoscritto in un solo comando |
 | `scripts/manuscript_numbers.py` | il testo del manoscritto e il confronto dei numeri |
 | `scripts/recompute.py` | ricalcola una statistica dai dati nei modi che più spesso spiegano una differenza |
 | `scripts/compare_runs.py` | confronta i risultati di due esecuzioni del codice, prima e dopo una correzione |
