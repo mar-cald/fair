@@ -6,5 +6,5 @@ a deposit version, following the booklet *Hands-on Open Science*
 
 - `SKILL.md`: the workflow (inventory, triage, report); read every time the skill runs.
 - `references/`: details read only when needed (one file per area, plus the booklet rules and the experiment-software notes).
-- `scripts/`: the Python tools (scan, run code, manuscript numbers, code and manuscript in one call, recompute a statistic, compare two runs, deposit build, dictionaries, Psych-DS).
+- `scripts/`: the Python tools (personal-data check run first, scan, run code, manuscript numbers, code and manuscript in one call, recompute a statistic, compare two runs, deposit build, dictionaries, Psych-DS).
 - `assets/licenses/`: official license texts.

@@ -62,9 +62,25 @@ Tutto quello che l'assistente legge **viene inviato a quei server**.
 
 ## Che cosa viene inviato
 
-Se lavorate sul computer, vengono inviati **i file che l'assistente apre e i risultati dei programmi** che esegue. **Gli altri file restano sul computer.**
+Nel browser viene inviato **l'intero zip** che allegate.
 
-Se lavorate nel browser, viene inviato **l'intero zip** che allegate.
+Sul computer, dare accesso a una cartella **non vuol dire inviarla tutta**. L'assistente vede l'elenco dei file e ne apre uno **solo quando gli serve** per quello che avete chiesto.
+
+Ai server arrivano **i file che apre e quello che stampano i programmi** che esegue. Gli altri file restano sul computer.
+
+## Quindi dipende da che cosa chiedete
+
+::: richiesta
+Perché `analisi.R` si ferma con un errore?
+:::
+
+Di solito l'assistente apre `analisi.R` e lo esegue. I dati li legge R, sul computer: ai server arriva **il codice e il messaggio di errore**.
+
+::: richiesta
+Ci sono valori anomali nei dati?
+:::
+
+Qui deve guardare i dati: apre il file, o esegue un programma che ne stampa delle righe. **Quelle righe vengono inviate.**
 
 ## I dati inviati possono servire ad addestrare i modelli
 
@@ -106,17 +122,32 @@ Con un **piano per le organizzazioni** (ChatGPT Business, come quello dell'unive
 Fonti: informative privacy di [Anthropic](https://www.anthropic.com/legal/privacy) e [OpenAI per l'UE](https://openai.com/policies/eu-privacy-policy/); [Anthropic come responsabile del trattamento](https://privacy.claude.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller); [OpenAI per le organizzazioni](https://openai.com/enterprise-privacy/).
 :::
 
-## Che cosa chiedono le linee guida di Padova {.medio}
+## Che cosa chiedono le linee guida di Padova
 
 Prima di usare l'AI generativa su dati personali di ricerca:
 
--   verificate che **il consenso informato preveda l'uso di servizi di terze parti** e il trasferimento dei dati fuori dall'ateneo;
+-   verificate che **il consenso informato preveda l'uso di servizi di terze parti** e il **trasferimento** dei dati fuori dall'ateneo;
+
 -   **togliete o pseudonimizzate gli identificativi**, e riducete le variabili che permettono di riconoscere qualcuno;
--   **non usate servizi senza aver valutato** se addestrano i modelli sui vostri dati, o se li conservano fuori dall'UE senza adeguate garanzie.
 
 ::: fonte
 [*Linee guida per l'utilizzo dell'Intelligenza Artificiale Generativa nella Ricerca*](https://doi.org/10.25430/unipd.genai.2026.v1), Università di Padova, valide da maggio 2026.
 :::
+
+## Molti di questi dati li pubblicherete comunque
+
+I dati che depositate su OSF o Zenodo con licenza CC0 o CC BY 4.0 **chiunque può scaricarli e usarli**, anche un'azienda che addestra modelli.
+
+Per quei file, inviarli a un assistente **non cambia molto**. E i dati davvero anonimi non sono dati personali.
+
+L'attenzione serve per quello che **non pubblichereste**: nomi, e-mail, indirizzi IP, date di nascita, i dati grezzi prima di pulirli.
+
+## Che cosa c'entra con le skill
+
+L'assistente decide da solo che cosa aprire, in base alla richiesta e alle istruzioni che ha.
+
+Una **skill** è un insieme di **istruzioni scritte** che l'assistente segue. Possono dire che cosa fare, e anche **quali file aprire e quali no**.
+
 
 # Che cos'è una skill {.sezione}
 
@@ -324,18 +355,20 @@ Se chiedete di controllare solo il codice, l'assistente apre `check-code.md`. Il
 
 `fair_scan.py` apre tutti i file della cartella e scrive un riassunto: quali colonne ci sono, che valori contengono, che cosa non torna.
 
-Per quello che lo script controlla, **l'assistente legge il riassunto invece di aprire i dati file per file**.
+Per quello che lo script controlla, **l'assistente legge il riassunto invece di aprire i dati file per file**. E ai server arriva quello che l'assistente legge: il riassunto, non i file.
 
-Altri programmi eseguono il codice in una copia della cartella, cercano nei risultati i numeri del manoscritto e ricalcolano quelli che non tornano.
 
-## Il riassunto riduce quello che viene inviato, ma non lo azzera
+## Per prima cosa, i dati personali
 
-Il riassunto di `fair_scan.py` riporta conteggi e intervalli invece delle righe, e **nasconde i valori delle colonne che sembrano dati personali**.
+Prima di aprire qualsiasi file, uno script controlla i dati personali **solo sul vostro computer**. All'assistente mostra nomi di colonne e conteggi, **mai i valori**.
 
-Contiene però alcuni valori come esempio: gli ID di qualche partecipante, un valore fuori scala.
+::: segnalazione
+`questionario.csv`, colonna `IPAddress`: indirizzi IP. Verdetto: mi fermo.
+:::
 
-E per controllare una **segnalazione l'assistente** apre comunque il README, il codice e, a volte, alcune **righe dei dati**.
+Se trova possibili dati personali, **si ferma** e vi chiede che cosa fare: togliere quelle colonne (vi fa una copia senza), confermare che potete condividerle, o fermarvi.
 
+**Riduce il rischio, non lo azzera**: le regole possono non riconoscere tutto. E funziona solo sul computer: nel browser lo zip è già stato caricato.
 
 # Proviamola {.sezione}
 
@@ -437,18 +470,6 @@ Una correlazione diversa da quella della Tabella 2 può essere un errore. Ma pu�
 
 Se nessuna spiegazione regge, la differenza va tra i risultati che potrebbero cambiare. Se non ha potuto verificarle tutte, ve la presenta come una domanda.
 
-## [Passo 6]{.passo} Verificate una segnalazione
-
-Scegliete una segnalazione del vostro rapporto. Per esempio:
-
-::: segnalazione
-Nella colonna `eta` c'è un valore 999.
-:::
-
-Aprite il file e guardate: il valore c'è davvero?
-
-Se una segnalazione non vi convince, chiedete all'assistente da quale file e da quale riga l'ha ricavata.
-
 ## Che cosa fare di un errore lo decidete voi
 
 Un 999 nell'età può essere un codice per il dato mancante oppure un errore di battitura. La skill lo segnala, ma non sa quale dei due.
@@ -467,7 +488,7 @@ Con l'età 999 trattata come dato mancante, la correlazione della Tabella 2 pass
 
 La vostra cartella resta com'è.
 
-## [Passo 7]{.passo} Se avete tempo: la versione da depositare
+## [Passo 6]{.passo} La versione da depositare
 
 ::: richiesta
 Prepara la versione da depositare.

@@ -1600,7 +1600,7 @@ def group_file_sets(tables):
             "columns": [{"name": h, "types": sorted(x for x in types[h] if x),
                          **({"role": coldef[h]["role"]} if coldef[h].get("role") else {})} for h in order],
             "issues_by_file": per_file,
-            "possible_personal_data": sorted({p["column"] for t in ts for p in t.get("possible_personal_data", [])})}
+            "possible_personal_data": _set_privacy(ts)}
         groups = {}
         for t in ts:
             for c in t.get("software_checks", []):
@@ -1627,6 +1627,21 @@ def group_file_sets(tables):
     for_checks += [t for t in tables if "columns" not in t]
     for_report += [t for t in tables if "columns" not in t]
     return for_checks, for_report  # "_by_id" is removed in main() after the cross-file check
+
+
+def _set_privacy(ts):
+    """Personal-data flags of a file set: per column, the flags and in how many files."""
+    by_col = {}
+    for t in ts:
+        for p in t.get("possible_personal_data", []) or []:
+            d = by_col.setdefault(p["column"], {"flags": [], "files": 0})
+            d["files"] += 1
+            for f in p.get("flags", []):
+                g = re.sub(r"\d+", "#", f)
+                if g not in {re.sub(r"\d+", "#", x) for x in d["flags"]}:
+                    d["flags"].append(f)
+    return [{"column": c, "flags": [f"in {d['files']} of {len(ts)} files"] + d["flags"][:3]}
+            for c, d in sorted(by_col.items())]
 
 
 # --------------------------------------------------------------- dictionaries

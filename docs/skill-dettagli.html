@@ -192,7 +192,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">In questa pagina</h2>
    
   <ul>
-  <li><a href="#passo-0.-inventario" id="toc-passo-0.-inventario" class="nav-link active" data-scroll-target="#passo-0.-inventario">Passo 0. Inventario</a>
+  <li><a href="#prima-di-tutto-i-dati-personali" id="toc-prima-di-tutto-i-dati-personali" class="nav-link active" data-scroll-target="#prima-di-tutto-i-dati-personali">Prima di tutto: i dati personali</a></li>
+  <li><a href="#passo-0.-inventario" id="toc-passo-0.-inventario" class="nav-link" data-scroll-target="#passo-0.-inventario">Passo 0. Inventario</a>
   <ul class="collapse">
   <li><a href="#che-cosa-legge-lo-script" id="toc-che-cosa-legge-lo-script" class="nav-link" data-scroll-target="#che-cosa-legge-lo-script">Che cosa legge lo script</a></li>
   <li><a href="#programmi-per-esperimenti-e-questionari" id="toc-programmi-per-esperimenti-e-questionari" class="nav-link" data-scroll-target="#programmi-per-esperimenti-e-questionari">Programmi per esperimenti e questionari</a></li>
@@ -253,6 +254,17 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Questa pagina descrive per intero il lavoro della skill <a href="./skill.html">fair-check</a>: ogni passo, ogni controllo, ogni file che scrive. Per installarla e usarla basta la <a href="./skill.html">pagina principale</a>.</p>
 <p>La skill è fatta di due parti. Le <strong>istruzioni</strong> (<code>SKILL.md</code> e i file in <code>references/</code>) dicono all’assistente che cosa fare e come giudicare. Gli <strong>script</strong> in Python (in <code>scripts/</code>) fanno il lavoro meccanico: leggono i file, ricalcolano, eseguono il codice, costruiscono la cartella del deposito. Gli script danno fatti; l’assistente decide che cosa è un problema per chi riuserà i dati, quanto è grave e che cosa fare.</p>
+<section id="prima-di-tutto-i-dati-personali" class="level2">
+<h2 class="anchored" data-anchor-id="prima-di-tutto-i-dati-personali">Prima di tutto: i dati personali</h2>
+<p>Il primo comando, prima di aprire o elencare qualsiasi file, è <code>privacy_check.py</code>. Legge tutta la cartella sul vostro computer e mostra all’assistente soltanto nomi di file e di colonne, il tipo di problema e i conteggi, mai un valore: quello che l’assistente legge passa dai server del servizio, e a questo punto passa solo questo. Cerca nomi, e-mail, numeri di telefono, codici fiscali, indirizzi, indirizzi IP, coordinate, date di nascita (anche in una colonna chiamata età), ID delle piattaforme di reclutamento, ID fatti di sole lettere, percorsi del computer con il nome dell’utente, testo libero, e conta quanti partecipanti sono gli unici con la loro combinazione di età, genere, scuola e simili. I file Excel e SPSS che Python non sa leggere li converte con R, sempre sul vostro computer.</p>
+<p>L’ultima riga è un verdetto:</p>
+<ul>
+<li><strong>si ferma</strong> se trova possibili dati personali o file che non è riuscito a leggere: l’assistente non apre i dati e vi chiede se togliere quelle colonne (lo script può scrivere una copia della cartella senza, e poi controllare la copia), se confermate che potete condividerle con il servizio AI, o se fermarvi. Senza risposta, si ferma lì;</li>
+<li><strong>chiede</strong> se trova solo combinazioni di caratteristiche che rendono riconoscibile qualcuno;</li>
+<li><strong>prosegue</strong> se non trova niente, che non è una prova: le regole possono non riconoscere tutto.</li>
+</ul>
+<p>Il controllo protegge solo quando l’assistente lavora sul vostro computer (Claude Code, Codex, l’app per computer con una cartella locale). Nel browser lo zip allegato è già stato caricato prima del controllo.</p>
+</section>
 <section id="passo-0.-inventario" class="level2">
 <h2 class="anchored" data-anchor-id="passo-0.-inventario">Passo 0. Inventario</h2>
 <p>Se l’assistente non sa quale cartella controllare, lo chiede. Gli archivi zip (allegati o dentro il progetto) vengono estratti in una cartella temporanea. Poi lo script <code>fair_scan.py</code> legge tutta la cartella, senza modificarla, e scrive due file:</p>
@@ -689,50 +701,54 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>scripts/privacy_check.py</code></td>
+<td style="text-align: left;">il primo controllo: dati personali, sul vostro computer, mostrando solo nomi di colonne e conteggi; può scrivere una copia senza le colonne personali</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/fair_scan.py</code></td>
 <td style="text-align: left;">l’inventario e i controlli su file, dati e codice</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/summary.py</code></td>
 <td style="text-align: left;">il riassunto dell’inventario: il controllo dell’ambiente, i link alle pagine della dispensa, le domande iniziali e i file di istruzioni da leggere</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/software.py</code></td>
 <td style="text-align: left;">che cosa scrive ciascun programma per esperimenti, e i controlli sui suoi file</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/run_code.py</code></td>
 <td style="text-align: left;">l’esecuzione del codice in una copia</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/check_all.py</code></td>
 <td style="text-align: left;">esecuzione del codice e controlli sul manoscritto in un solo comando</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/manuscript_numbers.py</code></td>
 <td style="text-align: left;">il testo del manoscritto e il confronto dei numeri</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/recompute.py</code></td>
 <td style="text-align: left;">ricalcola una statistica dai dati nei modi che più spesso spiegano una differenza</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/compare_runs.py</code></td>
 <td style="text-align: left;">confronta i risultati di due esecuzioni del codice, prima e dopo una correzione</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/draft_dictionary.py</code></td>
 <td style="text-align: left;">le bozze dei data dictionary</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>scripts/build_deposit.py</code></td>
 <td style="text-align: left;">la versione da depositare, il LICENSE, lo zip</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>scripts/make_psychds.py</code></td>
 <td style="text-align: left;"><code>dataset_description.json</code> (solo con Psych-DS)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>assets/licenses/</code></td>
 <td style="text-align: left;">i testi ufficiali delle licenze</td>
 </tr>

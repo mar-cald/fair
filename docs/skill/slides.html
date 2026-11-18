@@ -1097,8 +1097,20 @@ margin-right: 0; }
 </section>
 <section id="che-cosa-viene-inviato" class="slide level2">
 <h2>Che cosa viene inviato</h2>
-<p>Se lavorate sul computer, vengono inviati <strong>i file che l’assistente apre e i risultati dei programmi</strong> che esegue. <strong>Gli altri file restano sul computer.</strong></p>
-<p>Se lavorate nel browser, viene inviato <strong>l’intero zip</strong> che allegate.</p>
+<p>Nel browser viene inviato <strong>l’intero zip</strong> che allegate.</p>
+<p>Sul computer, dare accesso a una cartella <strong>non vuol dire inviarla tutta</strong>. L’assistente vede l’elenco dei file e ne apre uno <strong>solo quando gli serve</strong> per quello che avete chiesto.</p>
+<p>Ai server arrivano <strong>i file che apre e quello che stampano i programmi</strong> che esegue. Gli altri file restano sul computer.</p>
+</section>
+<section id="quindi-dipende-da-che-cosa-chiedete" class="slide level2">
+<h2>Quindi dipende da che cosa chiedete</h2>
+<div class="richiesta">
+<p>Perché <code>analisi.R</code> si ferma con un errore?</p>
+</div>
+<p>Di solito l’assistente apre <code>analisi.R</code> e lo esegue. I dati li legge R, sul computer: ai server arriva <strong>il codice e il messaggio di errore</strong>.</p>
+<div class="richiesta">
+<p>Ci sono valori anomali nei dati?</p>
+</div>
+<p>Qui deve guardare i dati: apre il file, o esegue un programma che ne stampa delle righe. <strong>Quelle righe vengono inviate.</strong></p>
 </section>
 <section id="i-dati-inviati-possono-servire-ad-addestrare-i-modelli" class="slide level2">
 <h2>I dati inviati possono servire ad addestrare i modelli</h2>
@@ -1131,17 +1143,27 @@ margin-right: 0; }
 <p>Fonti: informative privacy di <a href="https://www.anthropic.com/legal/privacy">Anthropic</a> e <a href="https://openai.com/policies/eu-privacy-policy/">OpenAI per l’UE</a>; <a href="https://privacy.claude.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller">Anthropic come responsabile del trattamento</a>; <a href="https://openai.com/enterprise-privacy/">OpenAI per le organizzazioni</a>.</p>
 </div>
 </section>
-<section id="che-cosa-chiedono-le-linee-guida-di-padova" class="slide level2 medio">
+<section id="che-cosa-chiedono-le-linee-guida-di-padova" class="slide level2">
 <h2>Che cosa chiedono le linee guida di Padova</h2>
 <p>Prima di usare l’AI generativa su dati personali di ricerca:</p>
 <ul>
-<li>verificate che <strong>il consenso informato preveda l’uso di servizi di terze parti</strong> e il trasferimento dei dati fuori dall’ateneo;</li>
-<li><strong>togliete o pseudonimizzate gli identificativi</strong>, e riducete le variabili che permettono di riconoscere qualcuno;</li>
-<li><strong>non usate servizi senza aver valutato</strong> se addestrano i modelli sui vostri dati, o se li conservano fuori dall’UE senza adeguate garanzie.</li>
+<li><p>verificate che <strong>il consenso informato preveda l’uso di servizi di terze parti</strong> e il <strong>trasferimento</strong> dei dati fuori dall’ateneo;</p></li>
+<li><p><strong>togliete o pseudonimizzate gli identificativi</strong>, e riducete le variabili che permettono di riconoscere qualcuno;</p></li>
 </ul>
 <div class="fonte">
 <p><a href="https://doi.org/10.25430/unipd.genai.2026.v1"><em>Linee guida per l’utilizzo dell’Intelligenza Artificiale Generativa nella Ricerca</em></a>, Università di Padova, valide da maggio 2026.</p>
 </div>
+</section>
+<section id="molti-di-questi-dati-li-pubblicherete-comunque" class="slide level2">
+<h2>Molti di questi dati li pubblicherete comunque</h2>
+<p>I dati che depositate su OSF o Zenodo con licenza CC0 o CC BY 4.0 <strong>chiunque può scaricarli e usarli</strong>, anche un’azienda che addestra modelli.</p>
+<p>Per quei file, inviarli a un assistente <strong>non cambia molto</strong>. E i dati davvero anonimi non sono dati personali.</p>
+<p>L’attenzione serve per quello che <strong>non pubblichereste</strong>: nomi, e-mail, indirizzi IP, date di nascita, i dati grezzi prima di pulirli.</p>
+</section>
+<section id="che-cosa-centra-con-le-skill" class="slide level2">
+<h2>Che cosa c’entra con le skill</h2>
+<p>L’assistente decide da solo che cosa aprire, in base alla richiesta e alle istruzioni che ha.</p>
+<p>Una <strong>skill</strong> è un insieme di <strong>istruzioni scritte</strong> che l’assistente segue. Possono dire che cosa fare, e anche <strong>quali file aprire e quali no</strong>.</p>
 </section></section>
 <section>
 <section id="che-cosè-una-skill" class="title-slide slide level1 sezione center">
@@ -1333,14 +1355,16 @@ margin-right: 0; }
 <section id="i-programmi-leggono-i-file-al-posto-dellassistente" class="slide level2">
 <h2>I programmi leggono i file al posto dell’assistente</h2>
 <p><code>fair_scan.py</code> apre tutti i file della cartella e scrive un riassunto: quali colonne ci sono, che valori contengono, che cosa non torna.</p>
-<p>Per quello che lo script controlla, <strong>l’assistente legge il riassunto invece di aprire i dati file per file</strong>.</p>
-<p>Altri programmi eseguono il codice in una copia della cartella, cercano nei risultati i numeri del manoscritto e ricalcolano quelli che non tornano.</p>
+<p>Per quello che lo script controlla, <strong>l’assistente legge il riassunto invece di aprire i dati file per file</strong>. E ai server arriva quello che l’assistente legge: il riassunto, non i file.</p>
 </section>
-<section id="il-riassunto-riduce-quello-che-viene-inviato-ma-non-lo-azzera" class="slide level2">
-<h2>Il riassunto riduce quello che viene inviato, ma non lo azzera</h2>
-<p>Il riassunto di <code>fair_scan.py</code> riporta conteggi e intervalli invece delle righe, e <strong>nasconde i valori delle colonne che sembrano dati personali</strong>.</p>
-<p>Contiene però alcuni valori come esempio: gli ID di qualche partecipante, un valore fuori scala.</p>
-<p>E per controllare una <strong>segnalazione l’assistente</strong> apre comunque il README, il codice e, a volte, alcune <strong>righe dei dati</strong>.</p>
+<section id="per-prima-cosa-i-dati-personali" class="slide level2">
+<h2>Per prima cosa, i dati personali</h2>
+<p>Prima di aprire qualsiasi file, uno script controlla i dati personali <strong>solo sul vostro computer</strong>. All’assistente mostra nomi di colonne e conteggi, <strong>mai i valori</strong>.</p>
+<div class="segnalazione">
+<p><code>questionario.csv</code>, colonna <code>IPAddress</code>: indirizzi IP. Verdetto: mi fermo.</p>
+</div>
+<p>Se trova possibili dati personali, <strong>si ferma</strong> e vi chiede che cosa fare: togliere quelle colonne (vi fa una copia senza), confermare che potete condividerle, o fermarvi.</p>
+<p><strong>Riduce il rischio, non lo azzera</strong>: le regole possono non riconoscere tutto. E funziona solo sul computer: nel browser lo zip è già stato caricato.</p>
 </section></section>
 <section>
 <section id="proviamola" class="title-slide slide level1 sezione center">
@@ -1426,15 +1450,6 @@ margin-right: 0; }
 <p>Una correlazione diversa da quella della Tabella 2 può essere un errore. Ma può anche essere una correlazione di Spearman invece che di Pearson, o un calcolo fatto dopo le esclusioni. Un programma della skill prova da solo queste varianti e dice quale dà il valore dell’articolo.</p>
 <p>Se nessuna spiegazione regge, la differenza va tra i risultati che potrebbero cambiare. Se non ha potuto verificarle tutte, ve la presenta come una domanda.</p>
 </section>
-<section id="passo-6-verificate-una-segnalazione" class="slide level2">
-<h2><span class="passo">Passo 6</span> Verificate una segnalazione</h2>
-<p>Scegliete una segnalazione del vostro rapporto. Per esempio:</p>
-<div class="segnalazione">
-<p>Nella colonna <code>eta</code> c’è un valore 999.</p>
-</div>
-<p>Aprite il file e guardate: il valore c’è davvero?</p>
-<p>Se una segnalazione non vi convince, chiedete all’assistente da quale file e da quale riga l’ha ricavata.</p>
-</section>
 <section id="che-cosa-fare-di-un-errore-lo-decidete-voi" class="slide level2">
 <h2>Che cosa fare di un errore lo decidete voi</h2>
 <p>Un 999 nell’età può essere un codice per il dato mancante oppure un errore di battitura. La skill lo segnala, ma non sa quale dei due.</p>
@@ -1449,8 +1464,8 @@ margin-right: 0; }
 </div>
 <p>La vostra cartella resta com’è.</p>
 </section>
-<section id="passo-7-se-avete-tempo-la-versione-da-depositare" class="slide level2">
-<h2><span class="passo">Passo 7</span> Se avete tempo: la versione da depositare</h2>
+<section id="passo-6-la-versione-da-depositare" class="slide level2">
+<h2><span class="passo">Passo 6</span> La versione da depositare</h2>
 <div class="richiesta">
 <p>Prepara la versione da depositare.</p>
 </div>

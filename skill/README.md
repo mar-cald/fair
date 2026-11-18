@@ -27,6 +27,7 @@ descrive la cartella, per chi lavora sulla skill.
 | `fair-check/scripts/software.py` | Come riconoscere i file dei sei programmi e che cosa significano le loro colonne |
 | `fair-check/scripts/run_code.py` | Esegue gli script in una copia temporanea e ne salva l'output |
 | `fair-check/scripts/manuscript_numbers.py` | Estrae il testo del manoscritto e confronta i numeri con l'output del codice |
+| `fair-check/scripts/privacy_check.py` | Il primo controllo: dati personali, sul computer, stampando solo nomi di colonne e conteggi; può fare una copia senza le colonne personali |
 | `fair-check/scripts/check_all.py` | Esecuzione del codice e controlli sul manoscritto in un solo comando |
 | `fair-check/scripts/recompute.py` | Ricalcola una correlazione, una media, una SD o un N dai dati, nelle varianti che spiegano più spesso una differenza |
 | `fair-check/scripts/compare_runs.py` | Confronta i risultati di due esecuzioni del codice (prima e dopo una correzione) |

@@ -59,7 +59,19 @@ L'assistente capisce dalla richiesta che serve la skill; potete anche
 richiamarla per nome (`/fair-check` in Claude Code, `$fair-check` in Codex).
 Nelle versioni web (claude.ai, ChatGPT) allegate la cartella come zip.
 
-Prima di cominciare vi fa alcune domande, tutte insieme (che cosa controllare,
+**Per prima cosa controlla i dati personali, solo sul vostro computer.** Uno
+script legge i file e mostra all'assistente soltanto nomi di file e di colonne,
+il tipo di problema e i conteggi, mai i valori. Se trova possibili dati
+personali (nomi, e-mail, indirizzi IP, date di nascita, ID di Prolific, testo
+libero, ID fatti di iniziali) o file che non riesce a leggere, si ferma e vi
+chiede che cosa fare: togliere quelle colonne (può farvi una copia della
+cartella senza), confermare che potete condividerle con il servizio AI, oppure
+fermarvi. Se trova solo combinazioni di età, genere, classe che rendono
+riconoscibile qualcuno, ve lo chiede prima di andare avanti. Senza risposta non
+apre i dati. Funziona solo quando l'assistente lavora sul vostro computer: nel
+browser lo zip allegato è già stato caricato.
+
+Poi vi fa alcune domande, tutte insieme (che cosa controllare,
 dove depositare…). Se rispondete "fai tutto", usa le risposte predefinite,
 elencate [più sotto](#le-domande-iniziali). Prima di eseguire comandi chiede il
 vostro permesso.
@@ -180,6 +192,10 @@ per verificare che funzionino e prepara lo zip da caricare.
 
 ### Le regole che segue
 
+- **Prima i dati personali, senza inviarli.** Il primo controllo gira solo sul
+  vostro computer e mostra all'assistente nomi di colonne e conteggi, non i
+  valori; se trova dati personali, si ferma finché non decidete voi. Riduce il
+  rischio, non lo azzera: le regole possono non riconoscere tutto.
 - **La vostra cartella non viene mai modificata.** Tutto quello che la skill
   scrive va in una cartella temporanea o nella versione da depositare.
 - **Cambia il meno possibile.** Nei vostri script corregge solo quello che
@@ -273,6 +289,14 @@ usa i dati per l'addestramento o li conserva fuori dall'UE senza garanzie, e
 di coinvolgere il DPO e il Comitato etico (con la valutazione d'impatto,
 quando è richiesta). Per un progetto concreto la risposta la dà il DPO
 dell'ateneo.
+
+Va detto anche che molti di questi dati finiscono comunque in pubblico. Quelli
+che depositate su OSF o Zenodo con licenza CC0 o CC BY 4.0 chiunque può
+scaricarli e usarli, anche un'azienda che addestra modelli, e i dati davvero
+anonimi non sono dati personali: per quei file, inviarli a un assistente non
+cambia molto. L'attenzione serve per quello che non pubblichereste: nomi,
+e-mail, indirizzi IP, date di nascita, i dati grezzi prima di pulirli. È lì che
+lavora il primo controllo di fair-check.
 
 Fonti: Anthropic, [conservazione dei dati](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data),
 [Anthropic come responsabile del trattamento](https://privacy.claude.com/en/articles/9267385-does-anthropic-act-as-a-data-processor-or-controller);

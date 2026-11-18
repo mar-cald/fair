@@ -15,6 +15,36 @@ ricalcolano, eseguono il codice, costruiscono la cartella del deposito. Gli
 script danno fatti; l'assistente decide che cosa è un problema per chi
 riuserà i dati, quanto è grave e che cosa fare.
 
+## Prima di tutto: i dati personali
+
+Il primo comando, prima di aprire o elencare qualsiasi file, è
+`privacy_check.py`. Legge tutta la cartella sul vostro computer e mostra
+all'assistente soltanto nomi di file e di colonne, il tipo di problema e i
+conteggi, mai un valore: quello che l'assistente legge passa dai server del
+servizio, e a questo punto passa solo questo. Cerca nomi, e-mail, numeri di
+telefono, codici fiscali, indirizzi, indirizzi IP, coordinate, date di nascita
+(anche in una colonna chiamata età), ID delle piattaforme di reclutamento, ID
+fatti di sole lettere, percorsi del computer con il nome dell'utente, testo
+libero, e conta quanti partecipanti sono gli unici con la loro combinazione di
+età, genere, scuola e simili. I file Excel e SPSS che Python non sa leggere li
+converte con R, sempre sul vostro computer.
+
+L'ultima riga è un verdetto:
+
+- **si ferma** se trova possibili dati personali o file che non è riuscito a
+  leggere: l'assistente non apre i dati e vi chiede se togliere quelle colonne
+  (lo script può scrivere una copia della cartella senza, e poi controllare la
+  copia), se confermate che potete condividerle con il servizio AI, o se
+  fermarvi. Senza risposta, si ferma lì;
+- **chiede** se trova solo combinazioni di caratteristiche che rendono
+  riconoscibile qualcuno;
+- **prosegue** se non trova niente, che non è una prova: le regole possono non
+  riconoscere tutto.
+
+Il controllo protegge solo quando l'assistente lavora sul vostro computer
+(Claude Code, Codex, l'app per computer con una cartella locale). Nel browser lo
+zip allegato è già stato caricato prima del controllo.
+
 ## Passo 0. Inventario
 
 Se l'assistente non sa quale cartella controllare, lo chiede. Gli archivi zip
@@ -763,6 +793,7 @@ Alla fine l'assistente vi dice:
 | `references/deposit.md` | la versione da depositare |
 | `references/fair-rules.md` | le regole della dispensa, riassunte, per i casi in cui serve la regola |
 | `references/software-exports.md` | i file di Qualtrics, PsychoPy, jsPsych, Gorilla, OpenSesame, E-Prime |
+| `scripts/privacy_check.py` | il primo controllo: dati personali, sul vostro computer, mostrando solo nomi di colonne e conteggi; può scrivere una copia senza le colonne personali |
 | `scripts/fair_scan.py` | l'inventario e i controlli su file, dati e codice |
 | `scripts/summary.py` | il riassunto dell'inventario: il controllo dell'ambiente, i link alle pagine della dispensa, le domande iniziali e i file di istruzioni da leggere |
 | `scripts/software.py` | che cosa scrive ciascun programma per esperimenti, e i controlli sui suoi file |

@@ -43,17 +43,42 @@ one point (each summary gives the file and the key).
    most damaging thing this skill can produce. The aim is not fewer findings,
    but findings that hold.
 
-## Step 0 — Inventory
+## Before anything else — personal data
 
-If the folder is not given, ask. Extract attached zips, and archives inside the
-project, into a temporary directory. Then:
+Everything you read goes to the AI service's servers. So the very first
+command, before listing, opening or summarising anything in the folder, is a
+check that runs only on this computer and prints only names of files and
+columns, kinds of problem and counts, never a value:
 
 ```bash
-python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.json
+python3 <skill-dir>/scripts/privacy_check.py <project-folder> --tmp <tmp>
 ```
 
-It prints a short summary (also saved as `<tmp>/fair_scan_summary.md`): work
-from it. It opens with what this environment can do: a missing R, `pdftotext`,
+If the folder is not given, ask. Extract attached zips, and archives inside the
+project, into a temporary directory first (with a command that does not print
+their content). Then follow the verdict on its last line:
+
+- **STOP** (possible personal data, or data files that could not be checked)
+  or **ASK** (only combinations of indirect identifiers): do not open, list or
+  summarise any data file and do not run any other check. Tell the researcher,
+  in their language, what was found (file, column, why), and ask what to do:
+  remove those columns (`privacy_check.py --copy-without <new folder>` writes a
+  copy without the direct identifiers, on this computer; then check the copy),
+  confirm that sharing these data with the AI service is allowed (consent,
+  university rules, an institutional account), or stop. If nobody answers,
+  stop here: the report is this result.
+- **CONTINUE**: go on with step 0.
+
+This only works when the assistant runs on the researcher's computer (Claude
+Code, Codex, the desktop app with a local folder). On claude.ai or ChatGPT in
+the browser the attached zip has already been uploaded: say so.
+
+## Step 0 — Inventory
+
+The privacy check has already scanned the folder: read its summary with
+`cat <tmp>/fair_scan_summary.md` (no need to scan again; if you did not run it,
+`python3 <skill-dir>/scripts/fair_scan.py <project-folder> --out <tmp>/fair_scan.json`
+prints the same summary). Work from it. It opens with what this environment can do: a missing R, `pdftotext`,
 `openpyxl` or `pyreadstat` is a limit of this environment, not a problem of the
 folder ("not checked here, because R is not available", never "the code does
 not run"). Findings are grouped by report section, each with the booklet page
